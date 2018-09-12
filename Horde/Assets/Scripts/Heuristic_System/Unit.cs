@@ -33,10 +33,4 @@ public class Unit : MonoBehaviour
     {
         currentHeuristic.Execute();
     }
-
-    void OnTriggerEnter(Collider obj)
-    {
-        if(obj.tag == "Enemy")
-            currentHeuristic.Resolve();
-    }
 }

@@ -29,6 +29,18 @@ public class H_Seek : Heuristic
 
     public override void Resolve() // Exiting the behavior.
     {
-        speed = 0;
+        // Set speed to zero here?
+
+        // Maybe pass in the found target here?
+    }
+
+    void OnTriggerEnter(Collider obj)
+    {
+        if (obj.tag == "Enemy")
+        {
+            Debug.Log("Enemy Found!");
+
+            speed = 0;
+        }
     }
 }
