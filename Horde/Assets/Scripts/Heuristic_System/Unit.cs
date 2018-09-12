@@ -13,7 +13,30 @@ public class Unit : MonoBehaviour
 
     private List<Heuristic> behaviors = new List<Heuristic>();
 
+    private Heuristic currentHeuristic;
+
     public int CurrentHealth;
 
-    public Unit CurrentTarget;
+    public Unit CurrentTarget; // The enemy that the player finds while 'Seeking'
+
+    public void Start()
+    {
+        // TEMPORARY way of adding a heuristic to the unit(Should be added via the UI)
+        Heuristic seekBehavior = gameObject.AddComponent<H_Seek>();
+        seekBehavior.Init();
+        currentHeuristic = seekBehavior;
+        
+        behaviors.Add(seekBehavior); 
+    }
+
+    public void Update()
+    {
+        currentHeuristic.Execute();
+    }
+
+    void OnTriggerEnter(Collider obj)
+    {
+        if(obj.tag == "Enemy")
+            currentHeuristic.Resolve();
+    }
 }
