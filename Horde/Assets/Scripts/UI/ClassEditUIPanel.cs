@@ -15,6 +15,8 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     [SerializeField]
     private ClassAreaUIPanel classAreaUIPanel;
 
+    private List<HeuristicUIPanel> panels = new List<HeuristicUIPanel>();
+
     private bool currentDropValid;
 
     /// <summary>
@@ -29,6 +31,7 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
         if (currentDropValid)
         {
             heuristicPanel.transform.SetParent(transform);
+            panels.Add(heuristicPanel.GetComponent<HeuristicUIPanel>());
             return true;
         }
         else
@@ -52,6 +55,19 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
         ClassUIPanel p = GameObject.Instantiate(classUIPanelPrefab);
         p.Init(name);
         classAreaUIPanel.AddClassToView(p.gameObject);
+
+        for (int i = 0; i < panels.Count; i++)
+        {
+            if (panels[i] == null)
+            {
+                panels.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                p.Heuristics.Add(panels[i].heuristic);
+            }
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

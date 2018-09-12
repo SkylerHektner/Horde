@@ -8,6 +8,8 @@ public class ClassUIPanel : MonoBehaviour {
     [SerializeField]
     private Text classNameText;
 
+    public List<Heuristic> Heuristics = new List<Heuristic>();
+
     public void Init(string className)
     {
         classNameText.text = className;
