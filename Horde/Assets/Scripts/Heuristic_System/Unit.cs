@@ -11,7 +11,8 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private bool useHeuristicSwapping = true;
 
-    private List<Heuristic> behaviors = new List<Heuristic>();
+    [SerializeField]
+    private List<HInterface.HType> behaviors;
 
     private Heuristic currentHeuristic;
 
@@ -21,12 +22,12 @@ public class Unit : MonoBehaviour
 
     public void Start()
     {
-        // TEMPORARY way of adding a heuristic to the unit(Should be added via the UI)
-        Heuristic seekBehavior = gameObject.AddComponent<H_Seek>();
-        seekBehavior.Init();
-        currentHeuristic = seekBehavior;
-        
-        behaviors.Add(seekBehavior); 
+        if (behaviors.Count > 0)
+        {
+            gameObject.AddComponent(HInterface.GetHeuristic(behaviors[0]));
+            currentHeuristic = GetComponent<Heuristic>();
+            currentHeuristic.Init();
+        } 
     }
 
     public void Update()
