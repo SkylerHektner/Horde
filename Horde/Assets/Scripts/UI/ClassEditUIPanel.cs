@@ -41,8 +41,7 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     }
 
     /// <summary>
-    /// This method will take the current heuristic chain and save
-    /// it as a new class
+    /// This method will raise a prompt asking for a name for the new class
     /// </summary>
     public void SaveCurrentClass()
     {
@@ -50,11 +49,15 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
         d.Init(saveCurrentClass, null, "What would you like to name your class?", "Class Name");
     }
 
+    /// <summary>
+    /// This method will actually save the current class and add a ClassUIPanel to the ClassAreaUIPanel
+    /// </summary>
+    /// <param name="name"></param>
     private void saveCurrentClass(string name)
     {
         ClassUIPanel p = GameObject.Instantiate(classUIPanelPrefab);
-        p.Init(name);
-        classAreaUIPanel.AddClassToView(p.gameObject);
+        p.Init(name, classAreaUIPanel);
+        classAreaUIPanel.AddClassToView(p);
 
         for (int i = 0; i < panels.Count; i++)
         {
@@ -70,6 +73,11 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
         }
     }
 
+    /// <summary>
+    /// If the pointer enters the edit area and it's currently dragging a heuristic, it 
+    /// will be a valid drop if the user drops that heuristic
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (DraggablesController.Instance.CurrentDraggable != null)
@@ -78,6 +86,10 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
         }
     }
 
+    /// <summary>
+    /// if the pointer has left the area for any reason then a drop would not be valid
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerExit(PointerEventData eventData)
     {
         currentDropValid = false;
