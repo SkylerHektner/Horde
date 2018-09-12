@@ -6,13 +6,24 @@ using UnityEngine;
 /// I am the base class for all Heuristics. Inheret from me when making a heuristic. Make
 /// sure you override Init, Update, and Resolve.
 /// </summary>
-abstract public class Heuristic : MonoBehaviour
+[RequireComponent(typeof(Unit))]
+public class Heuristic : MonoBehaviour
 {
+    protected Unit unit;
 
-    abstract public void Init();
+    virtual public void Init()
+    {
+        unit = GetComponent<Unit>();
+    }
 
-    abstract public void Execute();
+    virtual public void Execute()
+    {
 
-    abstract public void Resolve();
+    }
+
+    virtual public void Resolve()
+    {
+        unit.HResolved();
+    }
 	
 }

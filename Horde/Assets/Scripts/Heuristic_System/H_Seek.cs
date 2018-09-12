@@ -18,6 +18,7 @@ public class H_Seek : Heuristic
 
     public override void Init() // Initializing the behavior.
     {
+        base.Init();
         SphereCollider sc = GetComponent<SphereCollider>();
         sc.radius = visionRadius;
     }
@@ -30,8 +31,8 @@ public class H_Seek : Heuristic
     public override void Resolve() // Exiting the behavior.
     {
         // Set speed to zero here?
-
         // Maybe pass in the found target here?
+        base.Resolve();
     }
 
     void OnTriggerEnter(Collider obj)
