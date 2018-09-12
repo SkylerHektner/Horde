@@ -11,7 +11,7 @@ public class HeuristicUIPanel : MonoBehaviour, IDragHandler, IBeginDragHandler, 
     private Transform rootCanvas;
     [SerializeField]
     private ClassEditUIPanel classEditPanel;
-    public Heuristic heuristic;
+    public HInterface.HType heuristic;
 
     private bool CopyOnDrag = true;
 
