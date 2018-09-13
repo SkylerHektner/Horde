@@ -11,8 +11,7 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private bool useHeuristicSwapping = true;
 
-    [SerializeField]
-    private List<HInterface.HType> behaviors;
+    public List<HInterface.HType> behaviors;
     private int curHIndex = 0;
 
     private Heuristic currentHeuristic;

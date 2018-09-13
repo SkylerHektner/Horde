@@ -8,6 +8,13 @@ public class GameManager : MonoBehaviour
 
     private StateMachine stateMachine;
 
+    [SerializeField]
+    private Unit baseUnitPrefab;
+    [SerializeField]
+    private ClassAreaUIPanel classUIAreaPanel;
+    [SerializeField]
+    private ClassEditorUI classEditorUI;
+
     void Awake()
     {
         // Make sure only one instance of this class exists. (Singleton)
@@ -20,7 +27,7 @@ public class GameManager : MonoBehaviour
 	void Start ()
     {
         // Initialize a state machine.
-        stateMachine = new StateMachine(new InitializePhase());
+        //stateMachine = new StateMachine(new InitializePhase());
 
         // To switch to the simulation phase, call ChangeState(Istate), like this:
         //
@@ -33,6 +40,17 @@ public class GameManager : MonoBehaviour
 	void Update ()
     {
         // Execute whichever state we are in on every tick.
-        stateMachine.ExecuteStateUpdate();
+        //stateMachine.ExecuteStateUpdate();
+        if (Input.GetMouseButtonDown(0) && !classEditorUI.InEditMode)
+        {
+            RaycastHit hitInfo;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+            {
+                Debug.Log("ASDASD");
+                Unit u = Instantiate(baseUnitPrefab);
+                u.transform.position = hitInfo.point + new Vector3(0, 0.5f);
+                u.behaviors = classUIAreaPanel.CurrentSelectedPanel.Heuristics;
+            }
+        }
 	}
 }

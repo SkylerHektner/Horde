@@ -11,7 +11,7 @@ public class ClassEditorUI : MonoBehaviour {
     [SerializeField]
     private GameObject classPanel;
 
-    private bool InEditMode = true;
+    public bool InEditMode = true;
 
     [SerializeField]
     private Vector2 classAnchorMinEdit;
