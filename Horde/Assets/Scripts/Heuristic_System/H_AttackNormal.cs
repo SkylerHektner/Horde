@@ -19,7 +19,7 @@ public class H_AttackNormal : Heuristic
     private Unit enemy;
 
     [SerializeField]
-    private float attackTime;
+    private float attackTime = 1.0f;
 
     private bool attackInProgress;
 

@@ -37,9 +37,6 @@ public class H_Seek : Heuristic
 
         speed = 0;
 
-        if (unit == null)
-            Debug.Log("It's null");
-
         unit.CurrentTarget = foundTarget.GetComponent<Unit>();
 
         base.Resolve(); // Switch to the next heuristic
@@ -53,7 +50,10 @@ public class H_Seek : Heuristic
 
             foundTarget = obj.gameObject;
 
-            Resolve();
+            if (unit != null)
+            {
+                Resolve();
+            }
         }
     }
 }

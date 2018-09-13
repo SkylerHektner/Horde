@@ -24,16 +24,17 @@ public class Unit : MonoBehaviour
     {
         if (behaviors.Count > 0)
         {
-            gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
-            currentHeuristic = GetComponent<Heuristic>();
+            currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
             currentHeuristic.Init();
         } 
     }
 
     public void Update()
     {
-        if(currentHeuristic != null)
+        if (currentHeuristic != null)
+        {
             currentHeuristic.Execute();
+        }
     }
 
     /// <summary>
@@ -50,8 +51,7 @@ public class Unit : MonoBehaviour
         {
             curHIndex = 0;
         }
-        gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
-        currentHeuristic = GetComponent<Heuristic>();
+        currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
         currentHeuristic.Init();
     }
 }
