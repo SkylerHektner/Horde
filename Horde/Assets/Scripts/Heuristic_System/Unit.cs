@@ -12,12 +12,14 @@ public class Unit : MonoBehaviour
     private bool useHeuristicSwapping = true;
     [SerializeField]
     private int currentHealth;
+    [SerializeField]
+    private int maxHealth;
 
+    public Unit currentTarget; // The enemy that the player finds while 'Seeking'
+
+    public List<HInterface.HType> behaviors;
     private int curHIndex = 0;
     private Heuristic currentHeuristic;
-    
-    public Unit currentTarget; // The enemy that the player finds while 'Seeking'
-    public List<HInterface.HType> behaviors;
 
     public void Start()
     {
@@ -56,12 +58,18 @@ public class Unit : MonoBehaviour
 
     /// <summary>
     /// Subtracts health from the unit. Calls destroy is health drops to
-    /// zero or below.
+    /// zero or below. Returns true if this instance of damage killed the unit
     /// </summary>
-    public void TakeDamage(int dmgAmount)
+    public bool TakeDamage(int dmgAmount)
     {
         currentHealth -= dmgAmount;
 
         // TODO: Call a destroy function if health drops below 0.
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+        return currentHealth <= 0;
     }
 }

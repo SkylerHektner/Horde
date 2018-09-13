@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -145,7 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useHeuristicSwapping: 1
-  currentHealth: 0
+  currentHealth: 20
+  maxHealth: 20
   currentTarget: {fileID: 0}
   behaviors: 
 --- !u!54 &205417192
@@ -262,7 +263,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useHeuristicSwapping: 1
-  currentHealth: 0
+  currentHealth: 20
+  maxHealth: 20
   currentTarget: {fileID: 0}
   behaviors: 
 --- !u!54 &273743678
@@ -432,7 +434,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &292051621
 Rigidbody:
@@ -461,7 +463,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useHeuristicSwapping: 1
-  currentHealth: 0
+  currentHealth: 20
+  maxHealth: 20
   currentTarget: {fileID: 0}
   behaviors: 
 --- !u!1 &722016503
@@ -601,7 +604,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &759453174
 GameObject:
@@ -635,7 +638,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useHeuristicSwapping: 1
-  currentHealth: 0
+  currentHealth: 20
+  maxHealth: 20
   currentTarget: {fileID: 0}
   behaviors: 
 --- !u!54 &759453176
@@ -762,7 +766,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093939987
 GameObject:
@@ -938,11 +942,6 @@ Prefab:
     m_Modifications:
     - target: {fileID: 224417416786234554, guid: 53932b48e9aae1443b605f4efac6f2bc,
         type: 2}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224417416786234554, guid: 53932b48e9aae1443b605f4efac6f2bc,
-        type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -979,7 +978,7 @@ Prefab:
     - target: {fileID: 224417416786234554, guid: 53932b48e9aae1443b605f4efac6f2bc,
         type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224417416786234554, guid: 53932b48e9aae1443b605f4efac6f2bc,
         type: 2}
@@ -1031,46 +1030,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224327097735575964, guid: 53932b48e9aae1443b605f4efac6f2bc,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.0000432916
-      objectReference: {fileID: 0}
-    - target: {fileID: 224662743222613398, guid: 53932b48e9aae1443b605f4efac6f2bc,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290501994964902, guid: 53932b48e9aae1443b605f4efac6f2bc,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224854938920341078, guid: 53932b48e9aae1443b605f4efac6f2bc,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 183.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224854938920341078, guid: 53932b48e9aae1443b605f4efac6f2bc,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 327
-      objectReference: {fileID: 0}
-    - target: {fileID: 224694728160850718, guid: 53932b48e9aae1443b605f4efac6f2bc,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 183.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224694728160850718, guid: 53932b48e9aae1443b605f4efac6f2bc,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 327
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290501994964902, guid: 53932b48e9aae1443b605f4efac6f2bc,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53932b48e9aae1443b605f4efac6f2bc, type: 2}
   m_IsPrefabAsset: 0
@@ -1113,11 +1072,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114861220198445166, guid: 6d6f6b122d6c43241931842f157f3b34,
-        type: 2}
-      propertyPath: behaviors.Array.data[1]
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d6f6b122d6c43241931842f157f3b34, type: 2}
   m_IsPrefabAsset: 0
@@ -1153,7 +1107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useHeuristicSwapping: 1
-  currentHealth: 0
+  currentHealth: 20
+  maxHealth: 20
   currentTarget: {fileID: 0}
   behaviors: 
 --- !u!54 &2136209163

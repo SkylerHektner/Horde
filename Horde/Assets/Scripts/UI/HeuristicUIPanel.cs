@@ -25,11 +25,13 @@ public class HeuristicUIPanel : MonoBehaviour, IDragHandler, IBeginDragHandler, 
     public void OnBeginDrag(PointerEventData eventData)
     {
         lastParent = transform.parent;
+        int index = transform.GetSiblingIndex();
         transform.SetParent(rootCanvas);
         if (CopyOnDrag)
         {
             GameObject replacementPanel = GameObject.Instantiate(gameObject);
             replacementPanel.transform.SetParent(lastParent);
+            replacementPanel.transform.SetSiblingIndex(index);
             replacementPanel.gameObject.name = gameObject.name;
             CopyOnDrag = false;
         }
