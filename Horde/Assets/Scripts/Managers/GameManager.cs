@@ -46,10 +46,12 @@ public class GameManager : MonoBehaviour
             RaycastHit hitInfo;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
-                Debug.Log("ASDASD");
-                Unit u = Instantiate(baseUnitPrefab);
-                u.transform.position = hitInfo.point + new Vector3(0, 0.5f);
-                u.behaviors = classUIAreaPanel.CurrentSelectedPanel.Heuristics;
+                if (classUIAreaPanel.CurrentSelectedPanel != null)
+                {
+                    Unit u = Instantiate(baseUnitPrefab);
+                    u.transform.position = hitInfo.point + new Vector3(0, 0.5f);
+                    u.behaviors = classUIAreaPanel.CurrentSelectedPanel.Heuristics;
+                }
             }
         }
 	}
