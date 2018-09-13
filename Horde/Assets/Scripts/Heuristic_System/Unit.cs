@@ -32,7 +32,8 @@ public class Unit : MonoBehaviour
 
     public void Update()
     {
-        currentHeuristic.Execute();
+        if(currentHeuristic != null)
+            currentHeuristic.Execute();
     }
 
     /// <summary>

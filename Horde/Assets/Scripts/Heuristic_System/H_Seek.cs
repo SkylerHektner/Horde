@@ -16,6 +16,8 @@ public class H_Seek : Heuristic
     [SerializeField, Tooltip("How far away the enemy is before the unit can see it.")]
     private float visionRadius = 3f;
 
+    private GameObject foundTarget;
+
     public override void Init() // Initializing the behavior.
     {
         base.Init();
@@ -32,7 +34,15 @@ public class H_Seek : Heuristic
     {
         // Set speed to zero here?
         // Maybe pass in the found target here?
-        base.Resolve();
+
+        speed = 0;
+
+        if (unit == null)
+            Debug.Log("It's null");
+
+        unit.CurrentTarget = foundTarget.GetComponent<Unit>();
+
+        base.Resolve(); // Switch to the next heuristic
     }
 
     void OnTriggerEnter(Collider obj)
@@ -41,7 +51,9 @@ public class H_Seek : Heuristic
         {
             Debug.Log("Enemy Found!");
 
-            speed = 0;
+            foundTarget = obj.gameObject;
+
+            Resolve();
         }
     }
 }
