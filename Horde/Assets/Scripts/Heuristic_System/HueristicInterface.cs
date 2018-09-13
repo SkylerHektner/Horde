@@ -8,7 +8,8 @@ public class HInterface : MonoBehaviour
     public enum HType
     {
         Seek,
-        NormalAttack
+        NormalAttack,
+        Explode
     }
 
     public static System.Type GetHeuristic(HType heuristic)
@@ -19,6 +20,8 @@ public class HInterface : MonoBehaviour
                 return typeof(H_Seek);
             case (HType.NormalAttack):
                 return typeof(H_AttackNormal);
+            case (HType.Explode):
+                return typeof(H_Explode);
         }
 
 

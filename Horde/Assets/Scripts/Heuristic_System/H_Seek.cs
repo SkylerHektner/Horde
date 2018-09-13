@@ -37,7 +37,7 @@ public class H_Seek : Heuristic
 
         speed = 0;
 
-        unit.CurrentTarget = foundTarget.GetComponent<Unit>();
+        unit.currentTarget = foundTarget.GetComponent<Unit>();
 
         base.Resolve(); // Switch to the next heuristic
     }

@@ -26,7 +26,7 @@ public class H_AttackNormal : Heuristic
     public override void Init() // Initializing the behavior.
     {
         base.Init();
-        enemy = unit.CurrentTarget;
+        enemy = unit.currentTarget;
     }
 
     public override void Execute() // Logic that should be called every tick.
@@ -34,7 +34,7 @@ public class H_AttackNormal : Heuristic
         if (!attackInProgress)
         {
             StartCoroutine(AttackAnim());
-            enemy.CurrentHealth -= 1;
+            enemy.TakeDamage(1);
         }
     }
 

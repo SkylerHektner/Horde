@@ -10,15 +10,14 @@ public class Unit : MonoBehaviour
 {
     [SerializeField]
     private bool useHeuristicSwapping = true;
+    [SerializeField]
+    private int currentHealth;
 
-    public List<HInterface.HType> behaviors;
     private int curHIndex = 0;
-
     private Heuristic currentHeuristic;
-
-    public int CurrentHealth;
-
-    public Unit CurrentTarget; // The enemy that the player finds while 'Seeking'
+    
+    public Unit currentTarget; // The enemy that the player finds while 'Seeking'
+    public List<HInterface.HType> behaviors;
 
     public void Start()
     {
@@ -53,5 +52,16 @@ public class Unit : MonoBehaviour
         }
         currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
         currentHeuristic.Init();
+    }
+
+    /// <summary>
+    /// Subtracts health from the unit. Calls destroy is health drops to
+    /// zero or below.
+    /// </summary>
+    public void TakeDamage(int dmgAmount)
+    {
+        currentHealth -= dmgAmount;
+
+        // TODO: Call a destroy function if health drops below 0.
     }
 }
