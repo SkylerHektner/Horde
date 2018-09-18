@@ -74,6 +74,18 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     }
 
     /// <summary>
+    /// removes all current heuristics from the area
+    /// </summary>
+    public void ClearArea()
+    {
+        foreach(HeuristicUIPanel p in panels)
+        {
+            Destroy(p.gameObject);
+        }
+        panels.Clear();
+    }
+
+    /// <summary>
     /// If the pointer enters the edit area and it's currently dragging a heuristic, it 
     /// will be a valid drop if the user drops that heuristic
     /// </summary>

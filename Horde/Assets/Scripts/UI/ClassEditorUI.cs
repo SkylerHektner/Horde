@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ClassEditorUI : MonoBehaviour {
 
@@ -10,6 +11,11 @@ public class ClassEditorUI : MonoBehaviour {
     private GameObject editArea;
     [SerializeField]
     private GameObject classPanel;
+    [SerializeField]
+    private Button toggleButton;
+
+    private string placeUnitsText = "Place Units";
+    private string editClassesText = "Edit Classes";
 
     public bool InEditMode = true;
 
@@ -21,6 +27,11 @@ public class ClassEditorUI : MonoBehaviour {
     private Vector2 classAnchorMinPlay;
     [SerializeField]
     private Vector2 classAnchorMaxPlay;
+
+    private void Start()
+    {
+        swapButtonText();
+    }
 
     public void ToggleMode()
     {
@@ -41,5 +52,18 @@ public class ClassEditorUI : MonoBehaviour {
         }
         rt.sizeDelta = Vector2.zero;
         InEditMode = !InEditMode;
+        swapButtonText();
+    }
+
+    private void swapButtonText()
+    {
+        if (InEditMode)
+        {
+            toggleButton.GetComponentInChildren<Text>().text = placeUnitsText;
+        }
+        else
+        {
+            toggleButton.GetComponentInChildren<Text>().text = editClassesText;
+        }
     }
 }
