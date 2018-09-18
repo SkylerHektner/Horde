@@ -72,4 +72,13 @@ public class Unit : MonoBehaviour
 
         return currentHealth <= 0;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Projectile")
+        {
+            Destroy(collision.gameObject);
+            TakeDamage(1);
+        }
+    }
 }

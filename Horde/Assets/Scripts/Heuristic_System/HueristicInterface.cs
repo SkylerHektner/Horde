@@ -9,7 +9,8 @@ public class HInterface : MonoBehaviour
     {
         Seek,
         NormalAttack,
-        Explode
+        Explode,
+        RangedAttack
     }
 
     public static System.Type GetHeuristic(HType heuristic)
@@ -22,6 +23,8 @@ public class HInterface : MonoBehaviour
                 return typeof(H_AttackNormal);
             case (HType.Explode):
                 return typeof(H_Explode);
+            case (HType.RangedAttack):
+                return typeof(H_AttackRanged);
         }
 
 

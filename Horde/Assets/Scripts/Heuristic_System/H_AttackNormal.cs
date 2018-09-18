@@ -35,6 +35,10 @@ public class H_AttackNormal : Heuristic
         {
             StartCoroutine(AttackAnim());
             enemy.TakeDamage(1);
+
+            // If you kill the current target
+            if(enemy == null)
+                attackInProgress = false;
         }
     }
 

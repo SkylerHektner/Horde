@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// --Seek Heuristic--
@@ -17,17 +18,26 @@ public class H_Seek : Heuristic
     private float visionRadius = 3f;
 
     private GameObject foundTarget;
+    private Unit[] enemies;
+    private NavMeshAgent agent;
 
     public override void Init() // Initializing the behavior.
     {
         base.Init();
+
+        GameObject enemyContainer = GameObject.Find("Enemies");
+        enemies = enemyContainer.GetComponentsInChildren<Unit>();
+
         SphereCollider sc = GetComponent<SphereCollider>();
         sc.radius = visionRadius;
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.SetDestination(CalculateClosestEnemy().transform.position);
     }
 
     public override void Execute() // Logic that should be called every tick.
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * speed); // Move the unit forward.
+        //transform.Translate(Vector3.forward * Time.deltaTime * speed); // Move the unit forward.
     }
 
     public override void Resolve() // Exiting the behavior.
@@ -55,5 +65,23 @@ public class H_Seek : Heuristic
                 Resolve();
             }
         }
+    }
+
+    private Unit CalculateClosestEnemy()
+    {
+        float closestDistance = Vector3.Distance(enemies[0].transform.position, transform.position);
+        Unit closestEnemy = enemies[0];
+
+        foreach(Unit enemy in enemies)
+        {
+            float distance = Vector3.Distance(enemy.transform.position, transform.position);
+            if(distance <= closestDistance)
+            {
+                closestDistance = distance;
+                closestEnemy = enemy;
+            }
+        }
+
+        return closestEnemy;
     }
 }
