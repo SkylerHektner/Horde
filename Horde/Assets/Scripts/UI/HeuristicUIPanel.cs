@@ -13,7 +13,7 @@ public class HeuristicUIPanel : MonoBehaviour, IDragHandler, IBeginDragHandler, 
     private ClassEditUIPanel classEditPanel;
     public HInterface.HType heuristic;
 
-    private bool CopyOnDrag = true;
+    public bool CopyOnDrag = true;
 
     private Transform lastParent;
 

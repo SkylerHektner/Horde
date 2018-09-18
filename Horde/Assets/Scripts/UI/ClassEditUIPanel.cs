@@ -14,6 +14,8 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     private ClassUIPanel classUIPanelPrefab;
     [SerializeField]
     private ClassAreaUIPanel classAreaUIPanel;
+    [SerializeField]
+    private HeuristicUIAccessor heuristicPanelAccessor;
 
     private List<HeuristicUIPanel> panels = new List<HeuristicUIPanel>();
 
@@ -56,7 +58,7 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     private void saveCurrentClass(string name)
     {
         ClassUIPanel p = GameObject.Instantiate(classUIPanelPrefab);
-        p.Init(name, classAreaUIPanel);
+        p.Init(name, classAreaUIPanel, this);
         classAreaUIPanel.AddClassToView(p);
 
         for (int i = 0; i < panels.Count; i++)
@@ -80,9 +82,23 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     {
         foreach(HeuristicUIPanel p in panels)
         {
-            Destroy(p.gameObject);
+            if (p != null)
+            {
+                Destroy(p.gameObject);
+            }
         }
         panels.Clear();
+    }
+
+    public void LoadHeuristicsFromList(List<HInterface.HType> Heuristics)
+    {
+        ClearArea();
+        foreach(HInterface.HType h in Heuristics)
+        {
+            HeuristicUIPanel p = heuristicPanelAccessor.GetHeuristicPanel(h);
+            p.transform.SetParent(transform);
+            panels.Add(p);
+        }
     }
 
     /// <summary>

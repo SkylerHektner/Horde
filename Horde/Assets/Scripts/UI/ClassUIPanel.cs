@@ -8,7 +8,8 @@ public class ClassUIPanel : MonoBehaviour, IPointerClickHandler {
 
     [SerializeField]
     private Text classNameText;
-    
+
+    private ClassEditUIPanel classEditUIPanel;
 
     public bool Selected = false;
 
@@ -18,12 +19,15 @@ public class ClassUIPanel : MonoBehaviour, IPointerClickHandler {
     public List<HInterface.HType> Heuristics = new List<HInterface.HType>();
     private ClassAreaUIPanel classPanelContainer;
 
-    public void Init(string className, ClassAreaUIPanel container)
+    private float lastClickTime = 0f;
+
+    public void Init(string className, ClassAreaUIPanel container, ClassEditUIPanel classEditUIPanel)
     {
         classNameText.text = className;
         panel = GetComponent<Image>();
         normalPanelColor = panel.color;
         classPanelContainer = container;
+        this.classEditUIPanel = classEditUIPanel;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -31,6 +35,13 @@ public class ClassUIPanel : MonoBehaviour, IPointerClickHandler {
         Selected = true;
         panel.color = normalPanelColor * 2;
         classPanelContainer.OnPanelSelected(this);
+
+        if (Time.time - lastClickTime <= 0.5f)
+        {
+            classEditUIPanel.LoadHeuristicsFromList(Heuristics);
+        }
+
+        lastClickTime = Time.time;
     }
 
     public void DeSelect()
