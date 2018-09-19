@@ -16,8 +16,8 @@ public class Unit : MonoBehaviour
     private int maxHealth;
 
     public Unit currentTarget; // The enemy that the player finds while 'Seeking'
-
     public List<HInterface.HType> behaviors;
+
     private int curHIndex = 0;
     private Heuristic currentHeuristic;
 
@@ -77,8 +77,11 @@ public class Unit : MonoBehaviour
     {
         if(collision.gameObject.tag == "Projectile")
         {
-            Destroy(collision.gameObject);
-            TakeDamage(1);
+            if(gameObject.tag == "Enemy") // We only want projectiles to effect enemies.
+            {
+                Destroy(collision.gameObject);
+                TakeDamage(1);
+            }
         }
     }
 }

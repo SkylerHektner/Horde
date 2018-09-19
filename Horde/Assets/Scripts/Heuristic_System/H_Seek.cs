@@ -16,38 +16,50 @@ public class H_Seek : Heuristic
 
     [SerializeField, Tooltip("How far away the enemy is before the unit can see it.")]
     private float visionRadius = 3f;
-
-    private GameObject foundTarget;
+    
     private Unit[] enemies;
     private NavMeshAgent agent;
+    private Unit closestEnemy;
 
-    public override void Init() // Initializing the behavior.
+    public override void Init() // --Initializing the behavior.-- //
     {
-        base.Init();
+        base.Init(); // Sets unit var to current unit the heuristic is on
 
+        // Store the enemies for distance calculations
         GameObject enemyContainer = GameObject.Find("Enemies");
         enemies = enemyContainer.GetComponentsInChildren<Unit>();
 
-        SphereCollider sc = GetComponent<SphereCollider>();
-        sc.radius = visionRadius;
-
         agent = GetComponent<NavMeshAgent>();
-        agent.SetDestination(CalculateClosestEnemy().transform.position);
+
+        if (enemies.Length == 0)
+        {
+            Resolve();
+            return;
+        }
+        
+        closestEnemy = CalculateClosestEnemy();
+        
+        agent.SetDestination(closestEnemy.transform.position);
     }
 
-    public override void Execute() // Logic that should be called every tick.
+    public override void Execute() // --Logic that should be called every tick.-- //
     {
-        //transform.Translate(Vector3.forward * Time.deltaTime * speed); // Move the unit forward.
+        // Seting the destination of the navmesh in the init takes care of
+        // the movement for us, so I can't think of anything to put in here
+        // for now.
+        if (enemies.Length == 0)
+            Resolve();
+
+        if (Vector3.Distance(transform.position, closestEnemy.transform.position) < visionRadius)
+            Resolve();
     }
 
-    public override void Resolve() // Exiting the behavior.
+    public override void Resolve() // --Exiting the behavior.-- //
     {
-        // Set speed to zero here?
-        // Maybe pass in the found target here?
+        agent.velocity = Vector3.zero; // Stop the unit's movement.
+        agent.SetDestination(transform.position);
 
-        speed = 0;
-
-        unit.currentTarget = foundTarget.GetComponent<Unit>();
+        unit.currentTarget = closestEnemy;
 
         base.Resolve(); // Switch to the next heuristic
     }
@@ -56,9 +68,9 @@ public class H_Seek : Heuristic
     {
         if (obj.tag == "Enemy")
         {
-            Debug.Log("Enemy Found!");
+            //Debug.Log("Enemy Found!");
 
-            foundTarget = obj.gameObject;
+            unit.currentTarget = obj.gameObject.GetComponent<Unit>(); // Set the current target to the enemy it ran into
 
             if (unit != null)
             {
