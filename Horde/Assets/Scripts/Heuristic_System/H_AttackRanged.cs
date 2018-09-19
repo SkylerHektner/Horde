@@ -7,31 +7,54 @@ using UnityEngine;
 /// 
 /// Shoot projectiles towards the current target.
 /// 
-/// (TODO)
-/// If the current target is null when this heuristic is initialized,   
+/// If the current target is null when this heuristic is initialized,
 /// it will stand idle until an enemy walks near it, and will start
 /// attacking it upon entering it's range.
+/// 
+/// WARNING: This code is hacky and messy and was written at 3AM.
 /// </summary>
 public class H_AttackRanged : Heuristic
 {
     [SerializeField] private float attackVelocity = 15;
     [SerializeField] private float attackRange = 3;
+
+    private bool idle;
+    private bool attackFlag; // A flag so InvokeRepeating only gets called once in Execute
     
     public override void Init() // --Initializing the behavior.-- //
     {
         base.Init();
 
-        if(unit.currentTarget != null)
+        // If there is no current target, the unit will idle.
+        if (unit.currentTarget == null)
+            idle = true;
+        else
+            idle = false;
+
+        if(!idle)
             InvokeRepeating("Shoot", 0f, 1f);
     }
 
     public override void Execute() // --Logic that should be called every tick.-- //
     {
-        if (unit.currentTarget == null) // This should mean the unit died.
+        if (!idle && unit.currentTarget == null) // This should mean the unit died.
         {
             Debug.Log("REACHED");
             EnemyManager.instance.UpdateEnemies(); // Notify the enemy manager to update it's enemy list because an enemy died.
             Resolve();
+        }
+
+        if (EnemyInRangeCheck() && idle)
+        {
+            unit.currentTarget = EnemyManager.instance.CalculateClosestEnemy(transform.position);
+            attackFlag = true;
+            idle = false;
+        }
+            
+        if(attackFlag)
+        {
+            InvokeRepeating("Shoot", 0f, 1f);
+            attackFlag = false;
         }
     }
 
@@ -53,5 +76,18 @@ public class H_AttackRanged : Heuristic
         instance.velocity = normalizedAttackDirection * attackVelocity;
 
         Destroy(instance.gameObject, 2);
+    }
+
+    private bool EnemyInRangeCheck()
+    {
+        if (EnemyManager.instance.GetEnemyCount() == 0)
+            return false;
+
+        float distanceToClosestEnemy = Vector3.Distance(transform.position, EnemyManager.instance.CalculateClosestEnemy(transform.position).transform.position);
+
+        if (distanceToClosestEnemy <= attackRange)
+            return true;
+
+        return false;
     }
 }

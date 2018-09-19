@@ -36,11 +36,16 @@ public class EnemyManager : MonoBehaviour
     /// <returns></returns>
     public Unit CalculateClosestEnemy(Vector3 unitPosition)
     {
+        if (enemies.Length == 0)
+            return null;
+
         float closestDistance = 10000f;
         Unit closestEnemy = enemies[0];
 
         foreach (Unit enemy in enemies)
         {
+            if (enemy == null) // Hacky patch to remove error.
+                continue;
             float distance = Vector3.Distance(enemy.transform.position, unitPosition);
             if (distance <= closestDistance)
             {
