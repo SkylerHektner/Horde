@@ -16,8 +16,7 @@ public class H_Seek : Heuristic
 
     [SerializeField, Tooltip("How far away the enemy is before the unit can see it.")]
     private float visionRadius = 3f;
-    
-    private Unit[] enemies;
+
     private NavMeshAgent agent;
     private Unit closestEnemy;
 
@@ -25,19 +24,15 @@ public class H_Seek : Heuristic
     {
         base.Init(); // Sets unit var to current unit the heuristic is on
 
-        // Store the enemies for distance calculations
-        GameObject enemyContainer = GameObject.Find("Enemies");
-        enemies = enemyContainer.GetComponentsInChildren<Unit>();
-
         agent = GetComponent<NavMeshAgent>();
 
-        if (enemies.Length == 0)
+        if (EnemyManager.instance.GetEnemyCount() == 0) // Prevents errors when no enemies are left.
         {
             Resolve();
             return;
         }
         
-        closestEnemy = CalculateClosestEnemy();
+        closestEnemy = EnemyManager.instance.CalculateClosestEnemy(transform.position);
         
         agent.SetDestination(closestEnemy.transform.position);
     }
@@ -45,9 +40,9 @@ public class H_Seek : Heuristic
     public override void Execute() // --Logic that should be called every tick.-- //
     {
         // Seting the destination of the navmesh in the init takes care of
-        // the movement for us, so I can't think of anything to put in here
-        // for now.
-        if (enemies.Length == 0)
+        // the movement for us.
+
+        if (EnemyManager.instance.GetEnemyCount() == 0) // Prevents errors when no enemies are left.
             Resolve();
 
         if (Vector3.Distance(transform.position, closestEnemy.transform.position) < visionRadius)
@@ -56,7 +51,8 @@ public class H_Seek : Heuristic
 
     public override void Resolve() // --Exiting the behavior.-- //
     {
-        agent.velocity = Vector3.zero; // Stop the unit's movement.
+        // Stop the unit's movement.
+        agent.velocity = Vector3.zero; 
         agent.SetDestination(transform.position);
 
         unit.currentTarget = closestEnemy;
@@ -77,23 +73,5 @@ public class H_Seek : Heuristic
                 Resolve();
             }
         }
-    }
-
-    private Unit CalculateClosestEnemy()
-    {
-        float closestDistance = Vector3.Distance(enemies[0].transform.position, transform.position);
-        Unit closestEnemy = enemies[0];
-
-        foreach(Unit enemy in enemies)
-        {
-            float distance = Vector3.Distance(enemy.transform.position, transform.position);
-            if(distance <= closestDistance)
-            {
-                closestDistance = distance;
-                closestEnemy = enemy;
-            }
-        }
-
-        return closestEnemy;
     }
 }

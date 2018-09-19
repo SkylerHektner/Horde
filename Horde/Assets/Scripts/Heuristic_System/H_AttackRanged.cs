@@ -2,9 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Heuristic - Ranged Attack
+/// 
+/// Shoot projectiles towards the current target.
+/// 
+/// (TODO)
+/// If the current target is null when this heuristic is initialized,   
+/// it will stand idle until an enemy walks near it, and will start
+/// attacking it upon entering it's range.
+/// </summary>
 public class H_AttackRanged : Heuristic
 {
-    [SerializeField] private float attackSpeed = 15;
+    [SerializeField] private float attackVelocity = 15;
+    [SerializeField] private float attackRange = 3;
     
     public override void Init() // --Initializing the behavior.-- //
     {
@@ -16,8 +27,10 @@ public class H_AttackRanged : Heuristic
 
     public override void Execute() // --Logic that should be called every tick.-- //
     {
-        if (unit.currentTarget == null)
+        if (unit.currentTarget == null) // This should mean the unit died.
         {
+            Debug.Log("REACHED");
+            EnemyManager.instance.UpdateEnemies(); // Notify the enemy manager to update it's enemy list because an enemy died.
             Resolve();
         }
     }
@@ -37,7 +50,7 @@ public class H_AttackRanged : Heuristic
 
         Vector3 normalizedAttackDirection = (unit.currentTarget.transform.position - transform.position).normalized;
 
-        instance.velocity = normalizedAttackDirection * attackSpeed;
+        instance.velocity = normalizedAttackDirection * attackVelocity;
 
         Destroy(instance.gameObject, 2);
     }
