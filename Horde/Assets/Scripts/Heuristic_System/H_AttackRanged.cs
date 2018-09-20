@@ -40,13 +40,13 @@ public class H_AttackRanged : Heuristic
         if (!idle && unit.currentTarget == null) // This should mean the unit died.
         {
             Debug.Log("REACHED");
-            EnemyManager.instance.UpdateEnemies(); // Notify the enemy manager to update it's enemy list because an enemy died.
+            UnitManager.instance.UpdateUnits(); // Notify the enemy manager to update it's enemy list because an enemy died.
             Resolve();
         }
 
         if (EnemyInRangeCheck() && idle)
         {
-            unit.currentTarget = EnemyManager.instance.CalculateClosestEnemy(transform.position);
+            unit.currentTarget = UnitManager.instance.CalculateClosestEnemy(transform.position);
             attackFlag = true;
             idle = false;
         }
@@ -80,10 +80,10 @@ public class H_AttackRanged : Heuristic
 
     private bool EnemyInRangeCheck()
     {
-        if (EnemyManager.instance.GetEnemyCount() == 0)
+        if (UnitManager.instance.EnemyCount == 0)
             return false;
 
-        float distanceToClosestEnemy = Vector3.Distance(transform.position, EnemyManager.instance.CalculateClosestEnemy(transform.position).transform.position);
+        float distanceToClosestEnemy = Vector3.Distance(transform.position, UnitManager.instance.CalculateClosestEnemy(transform.position).transform.position);
 
         if (distanceToClosestEnemy <= attackRange)
             return true;

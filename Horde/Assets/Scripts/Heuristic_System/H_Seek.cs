@@ -26,13 +26,13 @@ public class H_Seek : Heuristic
 
         agent = GetComponent<NavMeshAgent>();
 
-        if (EnemyManager.instance.GetEnemyCount() == 0) // Prevents errors when no enemies are left.
+        if (UnitManager.instance.EnemyCount == 0) // Prevents errors when no enemies are left.
         {
             Resolve();
             return;
         }
         
-        closestEnemy = EnemyManager.instance.CalculateClosestEnemy(transform.position);
+        closestEnemy = UnitManager.instance.CalculateClosestEnemy(transform.position);
         
         agent.SetDestination(closestEnemy.transform.position);
     }
@@ -41,8 +41,13 @@ public class H_Seek : Heuristic
     {
         // Seting the destination of the navmesh in the init takes care of
         // the movement for us.
+        if (closestEnemy == null)
+        {
+            closestEnemy = UnitManager.instance.CalculateClosestEnemy(transform.position);
+            agent.SetDestination(closestEnemy.transform.position);
+        }
 
-        if (EnemyManager.instance.GetEnemyCount() == 0) // Prevents errors when no enemies are left.
+        if (UnitManager.instance.EnemyCount == 0) // Prevents errors when no enemies are left.
             Resolve();
 
         if (Vector3.Distance(transform.position, closestEnemy.transform.position) < visionRadius)

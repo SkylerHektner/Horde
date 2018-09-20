@@ -44,8 +44,6 @@ public class H_AttackNormal : Heuristic
 
     public override void Resolve() // Exiting the behavior.
     {
-        //Set code for after target dies
-
         base.Resolve();
     }
 
@@ -58,6 +56,5 @@ public class H_AttackNormal : Heuristic
         transform.position = initialPosition;
         yield return new WaitForSeconds(attackSpeed);
         attackInProgress = false;
-
     }
 }

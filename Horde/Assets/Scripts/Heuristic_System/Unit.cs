@@ -14,6 +14,8 @@ public class Unit : MonoBehaviour
     private int currentHealth;
     [SerializeField]
     private int maxHealth;
+    [SerializeField]
+    private bool StartAIImmediate = false; // if true, starts AI on simulation start
 
     public Unit currentTarget; // The enemy that the player finds while 'Seeking'
     public List<HInterface.HType> behaviors;
@@ -23,14 +25,14 @@ public class Unit : MonoBehaviour
 
     public void Start()
     {
-        if (behaviors.Count > 0)
+        if (behaviors.Count > 0 && StartAIImmediate)
         {
             currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
             currentHeuristic.Init();
         } 
     }
 
-    public void Update()
+    private void Update()
     {
         if (currentHeuristic != null)
         {
@@ -71,6 +73,13 @@ public class Unit : MonoBehaviour
         }
 
         return currentHealth <= 0;
+    }
+
+    [ContextMenu("Start AI")]
+    public void StartAI()
+    {
+        currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
+        currentHeuristic.Init();
     }
 
     private void OnCollisionEnter(Collision collision)
