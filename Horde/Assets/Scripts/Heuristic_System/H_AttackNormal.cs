@@ -73,16 +73,27 @@ public class H_AttackNormal : Heuristic
         {
             while (Vector3.Distance(transform.position, enemyPosition) > 1f)
             {
+                if (unit.currentTarget == null)
+                {
+                    break;
+                }
                 Vector3 currentPosition = transform.position;
                 transform.position = Vector3.MoveTowards(transform.position, unit.currentTarget.transform.position, Time.deltaTime * attackVelocity);
 
                 yield return null;
             }
 
-            unit.currentTarget.TakeDamage(1);
+            if (unit.currentTarget != null)
+            {
+                unit.currentTarget.TakeDamage(1);
+            }
 
             while (Vector3.Distance(transform.position, enemyPosition) < 1.75f)
             {
+                if (unit.currentTarget == null)
+                {
+                    break;
+                }
                 Vector3 currentPosition = transform.position;
                 transform.position = Vector3.MoveTowards(transform.position, startingPosition, Time.deltaTime * attackVelocity);
                 yield return null;

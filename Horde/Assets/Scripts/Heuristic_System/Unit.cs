@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// This is the base class for all units in the game. It is responsible for managing Heuristics.
@@ -16,6 +17,8 @@ public class Unit : MonoBehaviour
     private int maxHealth;
     [SerializeField]
     private bool StartAIImmediate = false; // if true, starts AI on simulation start
+    [SerializeField]
+    private Image healthBarMask;
 
     public Unit currentTarget; // The enemy that the player finds while 'Seeking'
     public List<HInterface.HType> behaviors;
@@ -65,7 +68,10 @@ public class Unit : MonoBehaviour
     public bool TakeDamage(int dmgAmount)
     {
         currentHealth -= dmgAmount;
-
+        if (healthBarMask != null)
+        {
+            healthBarMask.fillAmount = (float)currentHealth / (float)maxHealth;
+        }
         // TODO: Call a destroy function if health drops below 0.
         if (currentHealth <= 0)
         {

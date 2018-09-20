@@ -65,8 +65,7 @@ public class GameManager : MonoBehaviour
             {
                 if (classUIAreaPanel.CurrentSelectedPanel != null)
                 {
-                    Unit u = Instantiate(baseUnitPrefab);
-                    u.transform.position = hitInfo.point + new Vector3(0, 0.5f);
+                    Unit u = Instantiate(baseUnitPrefab, hitInfo.point + new Vector3(0, 0.5f), Quaternion.identity);
                     u.behaviors = classUIAreaPanel.CurrentSelectedPanel.Heuristics;
                     u.transform.parent = allyContainer.transform;
                     UnitManager.instance.UpdateUnits();
