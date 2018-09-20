@@ -56,18 +56,18 @@ public class UnitManager : MonoBehaviour
     /// Returns an enemy closest to the given position.
     /// </summary>
     /// <returns></returns>
-    public Unit CalculateClosestEnemy(Vector3 unitPosition)
+    public Unit GetClosestEnemy(Vector3 unitPosition)
     {
-        return findClosestUnit(enemies, unitPosition);
+        return FindClosestUnit(enemies, unitPosition);
     }
 
     /// <summary>
     /// Returns an ally closest to the given position.
     /// </summary>
     /// <returns></returns>
-    public Unit CalculateClosestAlly(Vector3 unitPosition)
+    public Unit GetClosestAlly(Vector3 unitPosition)
     {
-        return findClosestUnit(allies, unitPosition);
+        return FindClosestUnit(allies, unitPosition);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class UnitManager : MonoBehaviour
     /// <param name="units"></param>
     /// <param name="unitPosition"></param>
     /// <returns></returns>
-    private Unit findClosestUnit(Unit[] units, Vector3 unitPosition)
+    private Unit FindClosestUnit(Unit[] units, Vector3 unitPosition)
     {
         if (units.Length == 0)
             return null;
@@ -89,6 +89,7 @@ public class UnitManager : MonoBehaviour
         {
             if (unit == null) // Hacky patch to remove error.
                 continue;
+
             float distance = Vector3.Distance(unit.transform.position, unitPosition);
             if (distance <= closestDistance)
             {

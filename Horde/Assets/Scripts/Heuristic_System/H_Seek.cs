@@ -32,7 +32,7 @@ public class H_Seek : Heuristic
             return;
         }
         
-        closestEnemy = UnitManager.instance.CalculateClosestEnemy(transform.position);
+        closestEnemy = UnitManager.instance.GetClosestEnemy(transform.position);
         
         agent.SetDestination(closestEnemy.transform.position);
     }
@@ -43,7 +43,7 @@ public class H_Seek : Heuristic
         // the movement for us.
         if (closestEnemy == null)
         {
-            closestEnemy = UnitManager.instance.CalculateClosestEnemy(transform.position);
+            closestEnemy = UnitManager.instance.GetClosestEnemy(transform.position);
             agent.SetDestination(closestEnemy.transform.position);
         }
 
@@ -57,8 +57,9 @@ public class H_Seek : Heuristic
     public override void Resolve() // --Exiting the behavior.-- //
     {
         // Stop the unit's movement.
-        agent.velocity = Vector3.zero; 
-        agent.SetDestination(transform.position);
+        agent.velocity = Vector3.zero;
+        agent.isStopped = true;
+        agent.ResetPath();
 
         unit.currentTarget = closestEnemy;
 

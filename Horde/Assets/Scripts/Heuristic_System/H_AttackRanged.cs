@@ -11,7 +11,7 @@ using UnityEngine;
 /// it will stand idle until an enemy walks near it, and will start
 /// attacking it upon entering it's range.
 /// 
-/// WARNING: This code is hacky and messy and was written at 3AM.
+/// WARNING: This code was written at 3AM. Proceed at your own risk.
 /// </summary>
 public class H_AttackRanged : Heuristic
 {
@@ -37,16 +37,15 @@ public class H_AttackRanged : Heuristic
 
     public override void Execute() // --Logic that should be called every tick.-- //
     {
-        if (!idle && unit.currentTarget == null) // This should mean the unit died.
+        if (!idle && unit.currentTarget == null) // This should mean the enemy died.
         {
-            Debug.Log("REACHED");
             UnitManager.instance.UpdateUnits(); // Notify the enemy manager to update it's enemy list because an enemy died.
             Resolve();
         }
 
         if (EnemyInRangeCheck() && idle)
         {
-            unit.currentTarget = UnitManager.instance.CalculateClosestEnemy(transform.position);
+            unit.currentTarget = UnitManager.instance.GetClosestEnemy(transform.position);
             attackFlag = true;
             idle = false;
         }
@@ -78,12 +77,16 @@ public class H_AttackRanged : Heuristic
         Destroy(instance.gameObject, 2);
     }
 
+    /// <summary>
+    /// Returns true if there is an enemy within the range of the unit.
+    /// </summary>
+    /// <returns></returns>
     private bool EnemyInRangeCheck()
     {
         if (UnitManager.instance.EnemyCount == 0)
             return false;
 
-        float distanceToClosestEnemy = Vector3.Distance(transform.position, UnitManager.instance.CalculateClosestEnemy(transform.position).transform.position);
+        float distanceToClosestEnemy = Vector3.Distance(transform.position, UnitManager.instance.GetClosestEnemy(transform.position).transform.position);
 
         if (distanceToClosestEnemy <= attackRange)
             return true;

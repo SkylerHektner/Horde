@@ -10,51 +10,102 @@ using UnityEngine;
 /// </summary>
 public class H_AttackNormal : Heuristic
 {
-    [SerializeField]
-    private float attackSpeed = 1.0f;
+    [SerializeField] private float attackVelocity = 10;
+    [SerializeField] private float attackRange = 3;
 
-    [SerializeField]
-    private float attackRange = 3f;
+    private bool idle;
+    private bool attackFlag; // A flag so InvokeRepeating only gets called once in Execute
 
-    private Unit enemy;
-
-    [SerializeField]
-    private float attackTime = 1.0f;
-
-    private bool attackInProgress;
-
-    public override void Init() // Initializing the behavior.
+    public override void Init() // --Initializing the behavior.-- //
     {
         base.Init();
-        enemy = unit.currentTarget;
-    }
 
-    public override void Execute() // Logic that should be called every tick.
-    {
-        if (!attackInProgress)
+        // If there is no current target, the unit will idle.
+        if (unit.currentTarget == null)
+            idle = true;
+        else
+            idle = false;
+
+        if (!idle)
         {
-            StartCoroutine(AttackAnim());
-            enemy.TakeDamage(1);
-
-            // If you kill the current target
-            if(enemy == null)
-                attackInProgress = false;
+            StartCoroutine("Attack");
         }
     }
 
-    public override void Resolve() // Exiting the behavior.
+    public override void Execute() // --Logic that should be called every tick.-- //
+    {
+        if (!idle && unit.currentTarget == null) // This should mean the enemy died.
+        {
+            UnitManager.instance.UpdateUnits(); // Notify the enemy manager to update it's enemy list because an enemy died.
+            Resolve();
+        }
+
+        if (EnemyInRangeCheck() && idle)
+        {
+            unit.currentTarget = UnitManager.instance.GetClosestEnemy(transform.position);
+            attackFlag = true;
+            idle = false;
+        }
+
+        if (attackFlag)
+        {
+            Debug.Log("Enemy In Range");
+
+            StartCoroutine("Attack");
+            attackFlag = false;
+        }
+    }
+
+    public override void Resolve() // --Exiting the behavior.-- //
     {
         base.Resolve();
     }
 
-    IEnumerator AttackAnim()
+    /// <summary>
+    /// Fires a projectile towards the current target.
+    /// </summary>
+    private IEnumerator Attack()
     {
-        attackInProgress = true;
-        var initialPosition = transform.position;
-        transform.position = enemy.transform.position;
-        yield return new WaitForSeconds(attackTime);
-        transform.position = initialPosition;
-        yield return new WaitForSeconds(attackSpeed);
-        attackInProgress = false;
+        Vector3 startingPosition = transform.position;
+        Vector3 enemyPosition = unit.currentTarget.transform.position;
+
+        while(unit.currentTarget != null) // Attack until the target is dead.
+        {
+            while (Vector3.Distance(transform.position, enemyPosition) > 1f)
+            {
+                Vector3 currentPosition = transform.position;
+                transform.position = Vector3.MoveTowards(transform.position, unit.currentTarget.transform.position, Time.deltaTime * attackVelocity);
+
+                yield return null;
+            }
+
+            unit.currentTarget.TakeDamage(1);
+
+            while (Vector3.Distance(transform.position, enemyPosition) < 1.75f)
+            {
+                Vector3 currentPosition = transform.position;
+                transform.position = Vector3.MoveTowards(transform.position, startingPosition, Time.deltaTime * attackVelocity);
+                yield return null;
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
+        Resolve();
+    }
+
+    /// <summary>
+    /// Returns true if there is an enemy within the range of the unit.
+    /// </summary>
+    /// <returns></returns>
+    private bool EnemyInRangeCheck()
+    {
+        if (UnitManager.instance.EnemyCount == 0)
+            return false;
+
+        float distanceToClosestEnemy = Vector3.Distance(transform.position, UnitManager.instance.GetClosestEnemy(transform.position).transform.position);
+
+        if (distanceToClosestEnemy <= attackRange)
+            return true;
+
+        return false;
     }
 }
