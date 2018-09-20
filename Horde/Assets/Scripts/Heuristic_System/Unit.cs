@@ -92,5 +92,14 @@ public class Unit : MonoBehaviour
                 TakeDamage(1);
             }
         }
+
+        if(collision.gameObject.tag == "EnemyProjectile")
+        {
+            if(gameObject.layer == 11) // If it's the ally layer
+            {
+                Destroy(collision.gameObject);
+                TakeDamage(1);
+            }
+        }
     }
 }
