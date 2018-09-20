@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,11 +11,15 @@ public class GameManager : MonoBehaviour
     private GameObject allyContainer;
 
     [SerializeField]
+    private int MaxUnitsForLevel = 10;
+    [SerializeField]
     private Unit baseUnitPrefab;
     [SerializeField]
     private ClassAreaUIPanel classUIAreaPanel;
     [SerializeField]
     private ClassEditorUI classEditorUI;
+    [SerializeField]
+    private Text unitCapText;
 
     public GameState CurGameState { get; private set; }
 
@@ -33,7 +38,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Awake()
+    private void Start()
     {
         // Make sure only one instance of this class exists. (Singleton)
         if (instance == null)
@@ -43,6 +48,7 @@ public class GameManager : MonoBehaviour
 
         CurGameState = GameState.Setup;
         allyContainer = GameObject.Find("Allies");
+        UpdateUnitCaptionText();
     }
 	
 	private void Update ()
@@ -51,6 +57,7 @@ public class GameManager : MonoBehaviour
         if (CurGameState == GameState.Setup && 
             Input.GetMouseButtonDown(0) && 
             !classEditorUI.InEditMode && 
+            UnitManager.instance.AllyCount < MaxUnitsForLevel &&
             !EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hitInfo;
@@ -63,8 +70,14 @@ public class GameManager : MonoBehaviour
                     u.behaviors = classUIAreaPanel.CurrentSelectedPanel.Heuristics;
                     u.transform.parent = allyContainer.transform;
                     UnitManager.instance.UpdateUnits();
+                    UpdateUnitCaptionText();
                 }
             }
         }
 	}
+
+    private void UpdateUnitCaptionText()
+    {
+        unitCapText.text = UnitManager.instance.AllyCount.ToString() + "/" + MaxUnitsForLevel.ToString();
+    }
 }
