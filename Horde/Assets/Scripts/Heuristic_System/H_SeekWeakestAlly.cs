@@ -36,6 +36,9 @@ public class H_SeekWeakestAlly : Heuristic {
 
         weakestAlly = UnitManager.instance.GetWeakestAlly(transform.position);
 
+        if (weakestAlly == null)
+            return;
+
         agent.SetDestination(weakestAlly.transform.position);
     }
 
