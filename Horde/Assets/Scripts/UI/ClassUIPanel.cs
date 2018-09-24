@@ -15,6 +15,7 @@ public class ClassUIPanel : MonoBehaviour, IPointerClickHandler {
 
     private Image panel;
     private Color normalPanelColor;
+    private Color selectedPanelColor = new Color(.5f, 1f, .5f);
 
     public List<HInterface.HType> Heuristics = new List<HInterface.HType>();
     private ClassAreaUIPanel classPanelContainer;
@@ -33,7 +34,7 @@ public class ClassUIPanel : MonoBehaviour, IPointerClickHandler {
     public void OnPointerClick(PointerEventData eventData)
     {
         Selected = true;
-        panel.color = normalPanelColor * 2;
+        panel.color = selectedPanelColor;
         classPanelContainer.OnPanelSelected(this);
 
         if (Time.time - lastClickTime <= 0.5f)
