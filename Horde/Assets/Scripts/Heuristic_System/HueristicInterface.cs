@@ -10,7 +10,13 @@ public class HInterface : MonoBehaviour
         Seek,
         NormalAttack,
         Explode,
-        RangedAttack
+        RangedAttack,
+        SeekRangedEnemy,
+        SeekMeleeEnemy,
+        SeekWeakestEnemy,
+        SeekNearestAlly,
+        SeekWeakestAlly,
+        Heal
     }
 
     public static System.Type GetHeuristic(HType heuristic)
@@ -25,6 +31,14 @@ public class HInterface : MonoBehaviour
                 return typeof(H_Explode);
             case (HType.RangedAttack):
                 return typeof(H_AttackRanged);
+            case (HType.SeekNearestAlly):
+                return typeof(H_SeekAlly);
+            case (HType.SeekWeakestEnemy):
+                return typeof(H_SeekWeakEnemy);
+            case (HType.Heal):
+                return typeof(H_Heal);
+            case (HType.SeekWeakestAlly):
+                return typeof(H_SeekWeakAlly);
         }
 
 

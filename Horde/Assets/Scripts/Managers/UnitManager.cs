@@ -60,24 +60,84 @@ public class UnitManager : MonoBehaviour
     {
         return FindClosestUnit(enemies, unitPosition);
     }
-
-    /// <summary>
-    /// Returns an ally closest to the given position.
-    /// </summary>
-    /// <returns></returns>
     public Unit GetClosestAlly(Vector3 unitPosition)
     {
         return FindClosestUnit(allies, unitPosition);
     }
 
-    /// <summary>
-    /// given a set of units and a position, finds the closest unit from the set
-    /// to that position
-    /// </summary>
-    /// <param name="units"></param>
-    /// <param name="unitPosition"></param>
-    /// <returns></returns>
-    private Unit FindClosestUnit(Unit[] units, Vector3 unitPosition)
+
+
+    public Unit GetClosestRangedEnemy(Vector3 unitPosition)
+    {
+        List<Unit> rangedEnemies = new List<Unit>();
+        foreach(Unit x in enemies)
+        {
+            if(x.unitType == "ranged")
+            {
+                rangedEnemies.Add(x);
+            }
+        }
+        if (rangedEnemies.Count > 0)
+        {
+            return FindClosestUnit(rangedEnemies.ToArray(), unitPosition);
+        }
+        else
+        {
+            return FindClosestUnit(enemies, unitPosition);
+        }
+    }
+    public Unit GetClosestMeleeEnemy(Vector3 unitPosition)
+    {
+        List<Unit> meleeEnemies = new List<Unit>();
+        foreach (Unit x in enemies)
+        {
+            if (x.unitType == "melee")
+            {
+                meleeEnemies.Add(x);
+            }
+        }
+        if (meleeEnemies.Count > 0)
+        {
+            return FindClosestUnit(meleeEnemies.ToArray(), unitPosition);
+        }
+        else
+        {
+            return FindClosestUnit(enemies, unitPosition);
+        }
+    }
+    public Unit GetWeakestEnemy(Vector3 unitPosition)
+    {
+        Unit lowHPUnit = enemies[0];
+        for(int x = 1; x < enemies.Length; x++)
+        {
+            if(lowHPUnit.currentHealth > enemies[x].currentHealth)
+            {
+                lowHPUnit = enemies[x];
+            }
+        }
+        return lowHPUnit;
+    }
+    public Unit GetWeakestAlly(Vector3 unitPosition)
+    {
+        Unit lowHPUnit = allies[0];
+        for (int x = 1; x < allies.Length; x++)
+        {
+            if (lowHPUnit.currentHealth > allies[x].currentHealth)
+            {
+                lowHPUnit = allies[x];
+            }
+        }
+        return lowHPUnit;
+    }
+
+        /// <summary>
+        /// given a set of units and a position, finds the closest unit from the set
+        /// to that position
+        /// </summary>
+        /// <param name="units"></param>
+        /// <param name="unitPosition"></param>
+        /// <returns></returns>
+        private Unit FindClosestUnit(Unit[] units, Vector3 unitPosition)
     {
         if (units.Length == 0)
             return null;
@@ -93,8 +153,15 @@ public class UnitManager : MonoBehaviour
             float distance = Vector3.Distance(unit.transform.position, unitPosition);
             if (distance <= closestDistance)
             {
-                closestDistance = distance;
-                closestUnit = unit;
+                if (distance == 0)
+                {
+                    //if the unit targets itself it doesn't count
+                }
+                else
+                {
+                    closestDistance = distance;
+                    closestUnit = unit;
+                }
             }
         }
 

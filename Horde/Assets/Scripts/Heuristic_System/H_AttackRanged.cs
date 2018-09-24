@@ -75,6 +75,7 @@ public class H_AttackRanged : Heuristic
         instance.velocity = normalizedAttackDirection * attackVelocity;
 
         Destroy(instance.gameObject, 2);
+        
     }
 
     /// <summary>

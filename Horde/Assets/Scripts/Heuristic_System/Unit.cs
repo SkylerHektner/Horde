@@ -12,13 +12,15 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private bool useHeuristicSwapping = true;
     [SerializeField]
-    private int currentHealth;
+    public int currentHealth;
     [SerializeField]
-    private int maxHealth;
+    public int maxHealth;
     [SerializeField]
     private bool StartAIImmediate = false; // if true, starts AI on simulation start
     [SerializeField]
     private Image healthBarMask;
+    [SerializeField]
+    public string unitType;
 
     public Unit currentTarget; // The enemy that the player finds while 'Seeking'
     public List<HInterface.HType> behaviors;
@@ -79,6 +81,19 @@ public class Unit : MonoBehaviour
         }
 
         return currentHealth <= 0;
+    }
+    public bool HealDamage(int dmgAmount)
+    {
+        if (currentHealth <= maxHealth)
+        {
+            currentHealth += dmgAmount;
+        }       
+        if (healthBarMask != null)
+        {
+            healthBarMask.fillAmount = (float)currentHealth / (float)maxHealth;
+        }
+ 
+        return currentHealth == maxHealth;
     }
 
     [ContextMenu("Start AI")]

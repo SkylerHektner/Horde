@@ -13,7 +13,7 @@ public class TempAttack : MonoBehaviour
 
 	void Start ()
     {
-        InvokeRepeating("CheckForAlliesInRange", 0f, 1f);
+        InvokeRepeating("CheckForPlayersInRange", 0f, 1f);
 	}
 	
 	void Update ()
@@ -21,7 +21,7 @@ public class TempAttack : MonoBehaviour
         
 	}
 
-    private void CheckForAlliesInRange()
+    private void CheckForPlayersInRange()
     {
         if (UnitManager.instance.AllyCount == 0)
             return;
@@ -33,6 +33,7 @@ public class TempAttack : MonoBehaviour
 
         if(Vector3.Distance(ally.transform.position, transform.position) <= attackRange)
         {
+          
             GameObject projectileGO = Instantiate(Resources.Load("EnemyProjectile"), transform.position, transform.rotation) as GameObject;
             Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
 
@@ -41,6 +42,9 @@ public class TempAttack : MonoBehaviour
             instance.velocity = normalizedAttackDirection * attackVelocity;
 
             Destroy(instance.gameObject, 2);
+            Debug.Log(ally.currentHealth);
+            ally.TakeDamage(1);
         }
+
     }
 }
