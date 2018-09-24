@@ -8,7 +8,7 @@ public class HInterface : MonoBehaviour
     public enum HType
     {
         SeekNearestEnemy,
-        NormalAttack, // Edit to 'Attack'
+        Attack,
         Explode,
         RangedAttack, // Remove
         SeekRangedEnemy,
@@ -25,8 +25,8 @@ public class HInterface : MonoBehaviour
         {
             case (HType.SeekNearestEnemy):
                 return typeof(H_SeekNearestEnemy);
-            case (HType.NormalAttack):
-                return typeof(H_AttackNormal);
+            case (HType.Attack):
+                return typeof(H_Attack);
             case (HType.Explode):
                 return typeof(H_Explode);
             case (HType.RangedAttack):
@@ -34,11 +34,11 @@ public class HInterface : MonoBehaviour
             case (HType.SeekNearestAlly):
                 return typeof(H_SeekNearestAlly);
             case (HType.SeekWeakestEnemy):
-                return typeof(H_SeekWeakEnemy);
+                return typeof(H_SeekWeakestEnemy);
             case (HType.Heal):
                 return typeof(H_Heal);
             case (HType.SeekWeakestAlly):
-                return typeof(H_SeekWeakAlly);
+                return typeof(H_SeekWeakestAlly);
         }
 
 

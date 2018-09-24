@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// --Seek Heuristic--
+/// -- Heuristic: Seek Nearest Enemy --
 /// 
-/// Walks straight forward until it see's an enemy.
-/// Movement stops upon seeing enemy.
+/// Uses a nav mesh to navigate to the nearest enemy
+/// and marks that enemy as the current target.
+/// 
+/// Resolves upon reaching target.
 /// </summary>
 public class H_SeekNearestEnemy : Heuristic
 {
@@ -51,7 +53,7 @@ public class H_SeekNearestEnemy : Heuristic
         if (UnitManager.instance.EnemyCount == 0) // Prevents errors when no enemies are left.
             Resolve();
 
-        // When the enemy is within the seek readius.
+        // When the enemy is within the seek radius.
         if (Vector3.Distance(transform.position, closestEnemy.transform.position) < visionRadius)
             Resolve();
     }

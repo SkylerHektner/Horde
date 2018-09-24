@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// -- Heuristic: Seek Nearest Ally --
+/// 
+/// Uses a nav mesh to navigate to the nearest ally
+/// and marks that ally as the current target.
+/// 
+/// Resolves upon reaching target.
+/// </summary>
 public class H_SeekNearestAlly : Heuristic
 {
 

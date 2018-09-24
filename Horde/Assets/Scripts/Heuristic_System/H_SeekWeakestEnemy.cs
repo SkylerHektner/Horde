@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class H_SeekWeakEnemy : Heuristic {
+/// <summary>
+/// -- Heuristic: Seek Weakest Enemy --
+/// 
+/// Uses a nav mesh to navigate to the weakest enemy
+/// and marks that enemy as the current target.
+/// 
+/// Resolves upon reaching target.
+/// </summary>
+public class H_SeekWeakestEnemy : Heuristic {
 
     [SerializeField, Tooltip("How fast the unit can move.")]
     private float speed = 3;

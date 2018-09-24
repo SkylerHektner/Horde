@@ -2,6 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// -- Heuristic: Heal --
+/// 
+/// Performs a heal on the current target.
+/// 
+/// If there isn't a current target, it will resolve.
+/// 
+/// In the future, the heal should probably act differently
+/// depending on the base class.
+/// </summary>
 public class H_Heal : Heuristic
 {
     [SerializeField] private float healVelocity = 10;
@@ -88,7 +98,7 @@ public class H_Heal : Heuristic
     private IEnumerator HealAlly()
     {
         Vector3 healSpawnLocation = unit.currentTarget.transform.position;
-        healSpawnLocation.y += 1f;
+        healSpawnLocation.y += 2f;
 
         GameObject projectileGO = Instantiate(Resources.Load("HealingProjectile"), healSpawnLocation, transform.rotation) as GameObject;
         Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
