@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     [SerializeField]
     public int maxHealth;
     [SerializeField]
-    private bool StartAIImmediate = false; // if true, starts AI on simulation start
+    private bool startAIImmediate = false; // if true, starts AI on simulation start
     [SerializeField]
     private Image healthBarMask;
     [SerializeField]
@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour
 
     public void Start()
     {
-        if (behaviors.Count > 0 && StartAIImmediate)
+        if (behaviors.Count > 0 && startAIImmediate)
         {
             currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
             currentHeuristic.Init();
@@ -120,6 +120,15 @@ public class Unit : MonoBehaviour
             {
                 Destroy(collision.gameObject);
                 TakeDamage(1);
+            }
+        }
+
+        if(collision.gameObject.tag == "HealProjectile")
+        {
+            if(gameObject.layer == 11) // If it's the ally layer
+            {
+                Destroy(collision.gameObject);
+                HealDamage(1);
             }
         }
     }

@@ -9,7 +9,7 @@ using UnityEngine.AI;
 /// Walks straight forward until it see's an enemy.
 /// Movement stops upon seeing enemy.
 /// </summary>
-public class H_Seek : Heuristic
+public class H_SeekNearestEnemy : Heuristic
 {
     [SerializeField, Tooltip("How fast the unit can move.")]
     private float speed = 3;
@@ -41,6 +41,7 @@ public class H_Seek : Heuristic
     {
         // Seting the destination of the navmesh in the init takes care of
         // the movement for us.
+
         if (closestEnemy == null)
         {
             closestEnemy = UnitManager.instance.GetClosestEnemy(transform.position);
@@ -50,6 +51,7 @@ public class H_Seek : Heuristic
         if (UnitManager.instance.EnemyCount == 0) // Prevents errors when no enemies are left.
             Resolve();
 
+        // When the enemy is within the seek readius.
         if (Vector3.Distance(transform.position, closestEnemy.transform.position) < visionRadius)
             Resolve();
     }

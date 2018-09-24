@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class H_SeekAlly : Heuristic
+public class H_SeekNearestAlly : Heuristic
 {
 
     [SerializeField, Tooltip("How fast the unit can move.")]
@@ -34,19 +34,20 @@ public class H_SeekAlly : Heuristic
 
     public override void Execute() // --Logic that should be called every tick.-- //
     {
-        // Seting the destination of the navmesh in the init takes care of
+        // Setting the destination of the navmesh in the init takes care of
         // the movement for us.
-        if (closestAlly == null)
+
+        if (closestAlly == null) // The unit must have died before we could get a heal off
         {
-            closestAlly = UnitManager.instance.GetClosestAlly(transform.position);
-            agent.SetDestination(closestAlly.transform.position);
+            Resolve();
+            return;
         }
 
-        if (UnitManager.instance.AllyCount == 0) // Prevents errors when no allies are left.
+        // When the ally is within the seek radius
+        if (Vector3.Distance(transform.position, closestAlly.transform.position) <= visionRadius)
             Resolve();
-
-        if (Vector3.Distance(transform.position, closestAlly.transform.position) < visionRadius)
-            Resolve();
+        else
+            agent.SetDestination(closestAlly.transform.position);
     }
 
     public override void Resolve() // --Exiting the behavior.-- //

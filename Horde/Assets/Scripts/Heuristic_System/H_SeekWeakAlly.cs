@@ -18,8 +18,13 @@ public class H_SeekWeakAlly : Heuristic {
     {
         base.Init(); // Sets unit var to current unit the heuristic is on
 
-        unit.currentTarget = null;
         agent = GetComponent<NavMeshAgent>();
+
+        if (UnitManager.instance.AllyCount == 0) // Prevents errors when no allies are left.
+        {
+            Resolve();
+            return;
+        }
 
         weakestAlly = UnitManager.instance.GetWeakestAlly(transform.position);
 
@@ -28,17 +33,20 @@ public class H_SeekWeakAlly : Heuristic {
 
     public override void Execute() // --Logic that should be called every tick.-- //
     {
-        // Seting the destination of the navmesh in the init takes care of
+        // Setting the destination of the navmesh in the init takes care of
         // the movement for us.
-        if (weakestAlly == null)
-        {
-            weakestAlly = UnitManager.instance.GetWeakestAlly(transform.position);
-            
-        }
-        agent.SetDestination(weakestAlly.transform.position);
 
-        if (Vector3.Distance(transform.position, weakestAlly.transform.position) < visionRadius)
+        if (weakestAlly == null) // The unit must have died before we could get a heal off
+        {
             Resolve();
+            return;
+        }
+
+        // When the ally is within the seek radius
+        if (Vector3.Distance(transform.position, weakestAlly.transform.position) <= visionRadius)
+            Resolve();
+        else
+            agent.SetDestination(weakestAlly.transform.position);
     }
 
     public override void Resolve() // --Exiting the behavior.-- //

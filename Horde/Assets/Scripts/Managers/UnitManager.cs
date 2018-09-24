@@ -60,6 +60,11 @@ public class UnitManager : MonoBehaviour
     {
         return FindClosestUnit(enemies, unitPosition);
     }
+
+    /// <summary>
+    /// Returns an ally closest to the given position.
+    /// </summary>
+    /// <returns></returns>
     public Unit GetClosestAlly(Vector3 unitPosition)
     {
         return FindClosestUnit(allies, unitPosition);
@@ -86,6 +91,7 @@ public class UnitManager : MonoBehaviour
             return FindClosestUnit(enemies, unitPosition);
         }
     }
+
     public Unit GetClosestMeleeEnemy(Vector3 unitPosition)
     {
         List<Unit> meleeEnemies = new List<Unit>();
@@ -105,6 +111,7 @@ public class UnitManager : MonoBehaviour
             return FindClosestUnit(enemies, unitPosition);
         }
     }
+
     public Unit GetWeakestEnemy(Vector3 unitPosition)
     {
         Unit lowHPUnit = enemies[0];
@@ -117,6 +124,7 @@ public class UnitManager : MonoBehaviour
         }
         return lowHPUnit;
     }
+
     public Unit GetWeakestAlly(Vector3 unitPosition)
     {
         Unit lowHPUnit = allies[0];
@@ -169,7 +177,7 @@ public class UnitManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the internal data structure that hold the enemies or allies.
+    /// Updates the internal data structure that holds the enemies or allies.
     /// We might need to do this because an enemy or ally may have been destroyed.
     /// </summary>
     public void UpdateUnits()
