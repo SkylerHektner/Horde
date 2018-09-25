@@ -19,6 +19,14 @@ public class CameraController : MonoBehaviour
     private float camZoomMin = 6f;
 
     private Vector3 targetRot = Vector3.zero;
+    private Vector3 targetPos;
+    private float targetZoom;
+
+    private void Start()
+    {
+        targetPos = transform.position;
+        targetZoom = cam.orthographicSize;
+    }
 
     private void Update()
     {
@@ -31,38 +39,38 @@ public class CameraController : MonoBehaviour
         // Camera Pan Controls
         if (Input.mousePosition.x < 0 || Input.GetKey(KeyCode.A))
         {
-            transform.position += -transform.right * camMoveSpeed * Time.deltaTime;
+            targetPos += -transform.right * camMoveSpeed * Time.deltaTime;
         }
         else if (Input.mousePosition.x > Screen.width || Input.GetKey(KeyCode.D))
         {
-            transform.position += transform.right * camMoveSpeed * Time.deltaTime;
+            targetPos += transform.right * camMoveSpeed * Time.deltaTime;
         }
         if (Input.mousePosition.y < 0 || Input.GetKey(KeyCode.S))
         {
             Vector3 delta = -transform.forward;
             delta.y = 0;
-            transform.position += delta * camMoveSpeed * Time.deltaTime;
+            targetPos += delta * camMoveSpeed * Time.deltaTime;
         }
         else if (Input.mousePosition.y > Screen.height || Input.GetKey(KeyCode.W))
         {
             Vector3 delta = transform.forward;
             delta.y = 0;
-            transform.position += delta * camMoveSpeed * Time.deltaTime; ;
+            targetPos += delta * camMoveSpeed * Time.deltaTime; ;
         }
 
         // Camera Zoom Controls
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            if (cam.orthographicSize < camZoomMax)
+            if (targetZoom < camZoomMax)
             {
-                cam.orthographicSize += camZoomSensitivity;
+                targetZoom += camZoomSensitivity;
             }
         }
         else if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
-            if (cam.orthographicSize > camZoomMin)
+            if (targetZoom > camZoomMin)
             {
-                cam.orthographicSize -= camZoomSensitivity;
+                targetZoom -= camZoomSensitivity;
             }
         }
 
@@ -75,10 +83,22 @@ public class CameraController : MonoBehaviour
         {
             targetRot.y -= 90;
         }
+
+        //LERPING TO MAKE TRANSITIONS SMOOTH
         if (transform.rotation.eulerAngles != targetRot)
         {
             transform.rotation = Quaternion.Lerp(
                 transform.rotation, Quaternion.Euler(targetRot), Time.deltaTime * 5f);
+        }
+        if(targetPos != transform.position)
+        {
+            transform.position = Vector3.Lerp(
+                transform.position, targetPos, Time.deltaTime * 5f);
+        }
+        if (targetZoom != cam.orthographicSize)
+        {
+            cam.orthographicSize = Mathf.Lerp(
+                cam.orthographicSize, targetZoom, Time.deltaTime * 5f);
         }
     }
 }
