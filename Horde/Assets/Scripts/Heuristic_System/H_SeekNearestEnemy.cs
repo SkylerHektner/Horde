@@ -17,7 +17,7 @@ public class H_SeekNearestEnemy : Heuristic
     private float speed = 3;
 
     [SerializeField, Tooltip("How far away the enemy is before the unit can see it.")]
-    private float visionRadius = 3f;
+    private float visionRadius = 10f;
 
     private NavMeshAgent agent;
     private Unit closestEnemy;

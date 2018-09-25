@@ -98,7 +98,7 @@ public class H_Heal : Heuristic
     private IEnumerator HealAlly()
     {
         Vector3 healSpawnLocation = unit.currentTarget.transform.position;
-        healSpawnLocation.y += 2f;
+        healSpawnLocation.y += 1f;
 
         GameObject projectileGO = Instantiate(Resources.Load("HealingProjectile"), healSpawnLocation, transform.rotation) as GameObject;
         Rigidbody instance = projectileGO.GetComponent<Rigidbody>();

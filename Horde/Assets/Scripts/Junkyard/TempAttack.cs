@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public class TempAttack : MonoBehaviour
 {
-    private float attackRange = 3;
-    private float attackVelocity = 15;
+    private float attackRange = 10f;
+    private float attackVelocity = 15f;
 
     private Unit currentTarget;
     private bool currentlyAttacking = false;

@@ -25,16 +25,20 @@ public class H_Attack : Heuristic
         //       (Attack or Ranged Attack)
         base.Init();
 
-        if(unit.currentTarget != null)
-            StartCoroutine("RangedAttack");
-
-        if(EnemyInRangeCheck() == true)
+        if (unit.currentTarget != null)
         {
-            unit.currentTarget = UnitManager.instance.GetClosestEnemy(transform.position);
+            StartCoroutine(RangedAttack());
         }
         else
         {
-            Resolve();
+            if (EnemyInRangeCheck() == true)
+            {
+                unit.currentTarget = UnitManager.instance.GetClosestEnemy(transform.position);
+            }
+            else
+            {
+                Resolve();
+            }
         }
     }
 

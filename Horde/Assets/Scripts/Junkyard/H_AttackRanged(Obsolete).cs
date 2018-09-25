@@ -20,7 +20,7 @@ public class H_AttackRanged : Heuristic
 
     private bool idle;
     private bool attackFlag; // A flag so InvokeRepeating only gets called once in Execute
-    
+
     public override void Init() // --Initializing the behavior.-- //
     {
         base.Init();
@@ -31,7 +31,7 @@ public class H_AttackRanged : Heuristic
         else
             idle = false;
 
-        if(!idle)
+        if (!idle)
             InvokeRepeating("Shoot", 0f, 1f);
     }
 
@@ -49,8 +49,8 @@ public class H_AttackRanged : Heuristic
             attackFlag = true;
             idle = false;
         }
-            
-        if(attackFlag)
+
+        if (attackFlag)
         {
             InvokeRepeating("Shoot", 0f, 1f);
             attackFlag = false;
@@ -75,7 +75,7 @@ public class H_AttackRanged : Heuristic
         instance.velocity = normalizedAttackDirection * attackVelocity;
 
         Destroy(instance.gameObject, 2);
-        
+
     }
 
     /// <summary>

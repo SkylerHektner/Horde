@@ -26,6 +26,7 @@ public class CameraController : MonoBehaviour
     {
         targetPos = transform.position;
         targetZoom = cam.orthographicSize;
+        targetRot = transform.rotation.eulerAngles;
     }
 
     private void Update()
@@ -99,6 +100,7 @@ public class CameraController : MonoBehaviour
         {
             cam.orthographicSize = Mathf.Lerp(
                 cam.orthographicSize, targetZoom, Time.deltaTime * 5f);
+            cam.fieldOfView = cam.orthographicSize;
         }
     }
 }
