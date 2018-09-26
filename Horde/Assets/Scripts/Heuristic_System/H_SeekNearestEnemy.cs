@@ -35,14 +35,20 @@ public class H_SeekNearestEnemy : Heuristic
         }
         
         closestEnemy = UnitManager.instance.GetClosestEnemy(transform.position);
-        
-        agent.SetDestination(closestEnemy.transform.position);
+        if (closestEnemy != null)
+        {
+            agent.SetDestination(closestEnemy.transform.position);
+        }
     }
 
     public override void Execute() // --Logic that should be called every tick.-- //
     {
         // Seting the destination of the navmesh in the init takes care of
         // the movement for us.
+        if (UnitManager.instance.EnemyCount == 0)
+        {
+            return;
+        }
 
         if (closestEnemy == null)
         {

@@ -29,17 +29,17 @@ public class H_Attack : Heuristic
         {
             StartCoroutine(RangedAttack());
         }
-        else
-        {
-            if (EnemyInRangeCheck() == true)
-            {
-                unit.currentTarget = UnitManager.instance.GetClosestEnemy(transform.position);
-            }
-            else
-            {
-                Resolve();
-            }
-        }
+        //else
+        //{
+        //    if (EnemyInRangeCheck() == true)
+        //    {
+        //        unit.currentTarget = UnitManager.instance.GetClosestEnemy(transform.position);
+        //    }
+        //    else
+        //    {
+        //        Resolve();
+        //    }
+        //}
     }
 
     public override void Execute() // --Logic that should be called every tick.-- //

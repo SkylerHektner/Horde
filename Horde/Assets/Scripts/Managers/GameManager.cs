@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -78,5 +79,10 @@ public class GameManager : MonoBehaviour
     private void UpdateUnitCaptionText()
     {
         unitCapText.text = UnitManager.instance.AllyCount.ToString() + "/" + MaxUnitsForLevel.ToString();
+    }
+
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

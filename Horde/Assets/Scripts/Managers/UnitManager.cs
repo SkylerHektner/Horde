@@ -180,7 +180,7 @@ public class UnitManager : MonoBehaviour
     /// Updates the internal data structure that holds the enemies or allies.
     /// We might need to do this because an enemy or ally may have been destroyed.
     /// </summary>
-    public void UpdateUnits()
+    public void UpdateUnits(Unit unitToRemove = null)
     {
         enemies = enemyContainer.GetComponentsInChildren<Unit>();
         allies = allyContainer.GetComponentsInChildren<Unit>();

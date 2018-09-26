@@ -77,7 +77,9 @@ public class Unit : MonoBehaviour
         // TODO: Call a destroy function if health drops below 0.
         if (currentHealth <= 0)
         {
+            gameObject.transform.SetParent(null); // this is important for UnitManager.UpdateUnits();
             Destroy(gameObject);
+            UnitManager.instance.UpdateUnits();
         }
 
         return currentHealth <= 0;
