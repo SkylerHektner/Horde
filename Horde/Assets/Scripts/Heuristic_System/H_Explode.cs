@@ -12,9 +12,12 @@ public class H_Explode : Heuristic
 
     private float chargeSpeed = 25;
 
+    public GameObject explosionPrefab;
+
     public override void Init()
     {
         base.Init();
+        explosionPrefab = Resources.Load<GameObject>("ExplosionParticleSystem");
     }
 
     public override void Execute()
@@ -37,6 +40,7 @@ public class H_Explode : Heuristic
                     c.gameObject.GetComponent<Unit>().TakeDamage(explosionDamage); // Subtract their health
                 }
             }
+            GameObject.Instantiate(explosionPrefab).transform.position = transform.position;
             Destroy(gameObject); // The unit sploded.
             Resolve();
         }
