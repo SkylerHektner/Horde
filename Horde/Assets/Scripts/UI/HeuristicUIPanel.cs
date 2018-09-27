@@ -12,6 +12,14 @@ public class HeuristicUIPanel : MonoBehaviour, IDragHandler, IBeginDragHandler, 
     [SerializeField]
     private ClassEditUIPanel classEditPanel;
     public HInterface.HType heuristic;
+    [SerializeField]
+    private Sprite largeCircuitImage;
+    [SerializeField]
+    private Vector2 largeCircuitAnchorMin;
+    [SerializeField]
+    private Vector2 largeCircuitAnchorMax;
+    [SerializeField]
+    private RectTransform textRectTransform;
 
     public bool CopyOnDrag = true;
 
@@ -36,6 +44,9 @@ public class HeuristicUIPanel : MonoBehaviour, IDragHandler, IBeginDragHandler, 
             CopyOnDrag = false;
         }
         gameObject.GetComponent<Image>().raycastTarget = false;
+        gameObject.GetComponent<Image>().sprite = largeCircuitImage;
+        textRectTransform.anchorMax = largeCircuitAnchorMax;
+        textRectTransform.anchorMin = largeCircuitAnchorMin;
 
         DraggablesController.Instance.CurrentDraggable = gameObject;
     }
