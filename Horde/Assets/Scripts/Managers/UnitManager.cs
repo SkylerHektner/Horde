@@ -130,7 +130,7 @@ public class UnitManager : MonoBehaviour
         return lowHPUnit;
     }
 
-    public Unit GetWeakestAlly(Vector3 unitPosition)
+    public Unit GetWeakestAlly(Vector3 unitPosition, Unit exludeUnit = null)
     {
         UpdateUnits();
         Unit lowHPUnit = allies[0];
@@ -138,7 +138,14 @@ public class UnitManager : MonoBehaviour
         {
             if (lowHPUnit.currentHealth > allies[x].currentHealth)
             {
-                lowHPUnit = allies[x];
+                if (exludeUnit != null && allies[x] != exludeUnit)
+                {
+                    lowHPUnit = allies[x];
+                }
+                else
+                {
+                    lowHPUnit = allies[x];
+                }
             }
         }
         return lowHPUnit;
