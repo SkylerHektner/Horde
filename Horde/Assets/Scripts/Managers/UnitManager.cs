@@ -58,6 +58,7 @@ public class UnitManager : MonoBehaviour
     /// <returns></returns>
     public Unit GetClosestEnemy(Vector3 unitPosition)
     {
+        UpdateUnits();
         return FindClosestUnit(enemies, unitPosition);
     }
 
@@ -67,6 +68,7 @@ public class UnitManager : MonoBehaviour
     /// <returns></returns>
     public Unit GetClosestAlly(Vector3 unitPosition)
     {
+        UpdateUnits();
         return FindClosestUnit(allies, unitPosition);
     }
 
@@ -74,6 +76,7 @@ public class UnitManager : MonoBehaviour
 
     public Unit GetClosestRangedEnemy(Vector3 unitPosition)
     {
+        UpdateUnits();
         List<Unit> rangedEnemies = new List<Unit>();
         foreach(Unit x in enemies)
         {
@@ -94,6 +97,7 @@ public class UnitManager : MonoBehaviour
 
     public Unit GetClosestMeleeEnemy(Vector3 unitPosition)
     {
+        UpdateUnits();
         List<Unit> meleeEnemies = new List<Unit>();
         foreach (Unit x in enemies)
         {
@@ -114,6 +118,7 @@ public class UnitManager : MonoBehaviour
 
     public Unit GetWeakestEnemy(Vector3 unitPosition)
     {
+        UpdateUnits();
         Unit lowHPUnit = enemies[0];
         for(int x = 1; x < enemies.Length; x++)
         {
@@ -127,6 +132,7 @@ public class UnitManager : MonoBehaviour
 
     public Unit GetWeakestAlly(Vector3 unitPosition)
     {
+        UpdateUnits();
         Unit lowHPUnit = allies[0];
         for (int x = 1; x < allies.Length; x++)
         {

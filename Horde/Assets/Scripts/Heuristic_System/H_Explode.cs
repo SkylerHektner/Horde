@@ -10,6 +10,8 @@ public class H_Explode : Heuristic
     [SerializeField, Tooltip("How much damage the explosion deals.")]
     private int explosionDamage = 5;
 
+    private float chargeSpeed = 25;
+
     public override void Init()
     {
         base.Init();
@@ -17,24 +19,31 @@ public class H_Explode : Heuristic
 
     public override void Execute()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionSize);
+        if (unit.currentTarget == null)
+            Resolve();
 
-        // Get the Unit components from the object in range and subtract their health
-        foreach(Collider c in hitColliders)
+        // Charge towards the current target 
+        transform.position = Vector3.MoveTowards(transform.position, unit.currentTarget.transform.position, chargeSpeed * Time.deltaTime);
+
+        if(Vector3.Distance(transform.position, unit.currentTarget.transform.position) < 1)
         {
-            if(c.gameObject.tag == "Enemy")
-            {
-                c.gameObject.GetComponent<Unit>().TakeDamage(explosionDamage); // Subtract their health
-            }
-        }
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionSize);
 
-        Resolve();
+            // Get the Unit components from the object in range and subtract their health
+            foreach (Collider c in hitColliders)
+            {
+                if (c.gameObject.tag == "Enemy")
+                {
+                    c.gameObject.GetComponent<Unit>().TakeDamage(explosionDamage); // Subtract their health
+                }
+            }
+            Destroy(gameObject); // The unit sploded.
+            Resolve();
+        }
     }
 
     public override void Resolve()
     {
-        Destroy(gameObject); // The unit sploded.
-
         base.Resolve();
     }
 }
