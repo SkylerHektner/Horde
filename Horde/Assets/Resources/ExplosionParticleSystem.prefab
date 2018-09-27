@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4149254605371156}
   - component: {fileID: 198130930327393626}
   - component: {fileID: 199280597458039766}
+  - component: {fileID: 114833092051224654}
   m_Layer: 0
   m_Name: ExplosionParticleSystem
   m_TagString: Untagged
@@ -36,11 +37,23 @@ Transform:
   m_GameObject: {fileID: 1366794925651706}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -3.051876, y: 5.211899, z: -0.59651756}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &114833092051224654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1366794925651706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 626cbb678adbb81499961bb65ba21b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 1
 --- !u!198 &198130930327393626
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -48,10 +61,10 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366794925651706}
   serializedVersion: 5
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
