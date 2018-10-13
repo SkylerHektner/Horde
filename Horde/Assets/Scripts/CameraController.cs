@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance;
 
     [SerializeField]
     private Camera cam;
@@ -18,6 +19,10 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float camZoomMin = 6f;
 
+    public bool lockZoomControls = false;
+    public bool lockPanControls = false;
+    public bool lockRotationControls = false;
+
     private Vector3 targetRot = Vector3.zero;
     private Vector3 targetPos;
     private float targetZoom;
@@ -25,64 +30,75 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         targetPos = transform.position;
-        targetZoom = cam.orthographicSize;
+        targetZoom = cam.fieldOfView;
         targetRot = transform.rotation.eulerAngles;
+        Instance = this;
     }
 
     private void Update()
     {
         // If the user is editing classes just return
-        if (classEditorUI.InEditMode)
+        if (classEditorUI != null && classEditorUI.InEditMode)
         {
             return;
         }
 
         // Camera Pan Controls
-        if (Input.mousePosition.x < 0 || Input.GetKey(KeyCode.A))
+        if (!lockPanControls)
         {
-            targetPos += -transform.right * camMoveSpeed * Time.deltaTime;
+            if (Input.mousePosition.x < 0 || Input.GetKey(KeyCode.A))
+            {
+                targetPos += -transform.right * camMoveSpeed * Time.deltaTime;
+            }
+            else if (Input.mousePosition.x > Screen.width || Input.GetKey(KeyCode.D))
+            {
+                targetPos += transform.right * camMoveSpeed * Time.deltaTime;
+            }
+            if (Input.mousePosition.y < 0 || Input.GetKey(KeyCode.S))
+            {
+                Vector3 delta = -transform.forward;
+                delta.y = 0;
+                targetPos += delta * camMoveSpeed * Time.deltaTime;
+            }
+            else if (Input.mousePosition.y > Screen.height || Input.GetKey(KeyCode.W))
+            {
+                Vector3 delta = transform.forward;
+                delta.y = 0;
+                targetPos += delta * camMoveSpeed * Time.deltaTime; ;
+            }
         }
-        else if (Input.mousePosition.x > Screen.width || Input.GetKey(KeyCode.D))
-        {
-            targetPos += transform.right * camMoveSpeed * Time.deltaTime;
-        }
-        if (Input.mousePosition.y < 0 || Input.GetKey(KeyCode.S))
-        {
-            Vector3 delta = -transform.forward;
-            delta.y = 0;
-            targetPos += delta * camMoveSpeed * Time.deltaTime;
-        }
-        else if (Input.mousePosition.y > Screen.height || Input.GetKey(KeyCode.W))
-        {
-            Vector3 delta = transform.forward;
-            delta.y = 0;
-            targetPos += delta * camMoveSpeed * Time.deltaTime; ;
-        }
+        
 
         // Camera Zoom Controls
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        if (!lockZoomControls)
         {
-            if (targetZoom < camZoomMax)
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
-                targetZoom += camZoomSensitivity;
+                if (targetZoom < camZoomMax)
+                {
+                    targetZoom += camZoomSensitivity;
+                }
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                if (targetZoom > camZoomMin)
+                {
+                    targetZoom -= camZoomSensitivity;
+                }
             }
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        
+        if (!lockRotationControls)
         {
-            if (targetZoom > camZoomMin)
+            // Camera Rotate Controls
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                targetZoom -= camZoomSensitivity;
+                targetRot.y += 90;
             }
-        }
-
-        // Camera Rotate Controls
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            targetRot.y += 90;
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            targetRot.y -= 90;
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                targetRot.y -= 90;
+            }
         }
 
         //LERPING TO MAKE TRANSITIONS SMOOTH
@@ -101,6 +117,37 @@ public class CameraController : MonoBehaviour
             cam.orthographicSize = Mathf.Lerp(
                 cam.orthographicSize, targetZoom, Time.deltaTime * 5f);
             cam.fieldOfView = cam.orthographicSize;
+        }
+    }
+
+    /// <summary>
+    /// Use me to set the target position of the camera! I'll be staring right at the x,z you give me
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    public void SetTargetPos(float x, float z)
+    {
+        targetPos.x = x;
+        targetPos.z = z;
+    }
+
+    /// <summary>
+    /// Use me to set the target zoom level (3 = crazy zoom, 30 = very zoomed out)
+    /// </summary>
+    /// <param name="zoom"></param>
+    public void setTargetZoom(int zoom)
+    {
+        if (zoom < camZoomMin)
+        {
+            targetZoom = camZoomMin;
+        }
+        else if (zoom > camZoomMax)
+        {
+            targetZoom = camZoomMax;
+        }
+        else
+        {
+            targetZoom = zoom;
         }
     }
 }
