@@ -11,17 +11,17 @@ public class Heuristic : MonoBehaviour
 {
     protected Unit unit;
 
-    virtual public void Init()
+    virtual public void Init() // --Initializes the behavior-- //
     {
         unit = GetComponent<Unit>();
     }
 
-    virtual public void Execute()
+    virtual public void Execute() // --Logic that's called every tick-- //
     {
 
     }
 
-    virtual public void Resolve()
+    virtual public void Resolve() // --Exiting the behavior-- //
     {
         unit.HResolved();
     }

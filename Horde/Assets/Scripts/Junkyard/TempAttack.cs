@@ -29,10 +29,10 @@ public class TempAttack : MonoBehaviour
         if (currentlyAttacking == true)
             return;
 
-        if (UnitManager.instance.AllyCount == 0)
+        if (UnitManager.instance.TeamOneUnitCount == 0)
             return;
 
-        Unit ally = UnitManager.instance.GetClosestAlly(transform.position);
+        Unit ally = UnitManager.instance.GetClosestEnemy(GetComponent<Unit>());
 
         if (ally == null)
             return;

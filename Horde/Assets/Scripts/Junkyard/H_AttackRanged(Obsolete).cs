@@ -45,7 +45,7 @@ public class H_AttackRanged : Heuristic
 
         if (EnemyInRangeCheck() && idle)
         {
-            unit.currentTarget = UnitManager.instance.GetClosestEnemy(transform.position);
+            unit.currentTarget = UnitManager.instance.GetClosestEnemy(GetComponent<Unit>());
             attackFlag = true;
             idle = false;
         }
@@ -84,10 +84,10 @@ public class H_AttackRanged : Heuristic
     /// <returns></returns>
     private bool EnemyInRangeCheck()
     {
-        if (UnitManager.instance.EnemyCount == 0)
+        if (UnitManager.instance.TeamTwoUnitCount == 0)
             return false;
 
-        float distanceToClosestEnemy = Vector3.Distance(transform.position, UnitManager.instance.GetClosestEnemy(transform.position).transform.position);
+        float distanceToClosestEnemy = Vector3.Distance(transform.position, UnitManager.instance.GetClosestEnemy(GetComponent<Unit>()).transform.position);
 
         if (distanceToClosestEnemy <= attackRange)
             return true;

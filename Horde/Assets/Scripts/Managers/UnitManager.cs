@@ -6,25 +6,28 @@ using UnityEngine;
 /// This class serves as a hub for other classes to get information
 /// about other units in the game, ally or enemy
 /// all unit classes are responsible for registering with it on awake
+/// 
+/// EVERY UNIT IS RESPONSIBLE FOR HAVING A TEAM ONE OR TEAM TWO TAG
 /// </summary>
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager instance; // Singleton instance
 
-    private Unit[] enemies;
-    private Unit[] allies;
-    private GameObject enemyContainer;
-    private GameObject allyContainer;
+    private Unit[] teamOneUnits; // The units that the player creates.
+    private Unit[] teamTwoUnits; // The units that are built into each level. Enemies of the player units.
+
+    private GameObject teamOneUnitContainer;
+    private GameObject teamTwoUnitContainer;
 
     /// <summary>
-    /// returns the number of living enemies
+    /// Returns the number of living units from Team One
     /// </summary>
-    public int EnemyCount { get { return enemies.Length; } }
+    public int TeamOneUnitCount { get { return teamOneUnits.Length; } }
 
     /// <summary>
-    /// returns the number of living allies
+    /// Returns the number of living units from Team Two
     /// </summary>
-    public int AllyCount { get { return allies.Length; } }
+    public int TeamTwoUnitCount { get { return teamTwoUnits.Length; } }
 
     private void Awake()
     {
@@ -38,129 +41,162 @@ public class UnitManager : MonoBehaviour
     private void Start ()
     {
         // Store the enemies for distance calculations
-        enemyContainer = GameObject.Find("Enemies");
-        enemies = enemyContainer.GetComponentsInChildren<Unit>();
-        allyContainer = GameObject.Find("Allies");
-        allies = allyContainer.GetComponentsInChildren<Unit>();
+        teamOneUnitContainer = GameObject.Find("TeamOne");
+        teamOneUnits = teamOneUnitContainer.GetComponentsInChildren<Unit>();
+        teamTwoUnitContainer = GameObject.Find("TeamTwo");
+        teamTwoUnits = teamTwoUnitContainer.GetComponentsInChildren<Unit>();
     }
 
-    public void StartAllyAI()
+    public void StartTeamOneAI()
     {
-        foreach(Unit u in allies)
+        foreach(Unit u in teamOneUnits)
         {
             u.StartAI();
         }
     }
 
     /// <summary>
-    /// Returns an enemy closest to the given position.
+    /// Returns the closest enemy to the given unit.
     /// </summary>
     /// <returns></returns>
-    public Unit GetClosestEnemy(Vector3 unitPosition)
+    public Unit GetClosestEnemy(Unit u)
     {
         UpdateUnits();
-        return FindClosestUnit(enemies, unitPosition);
+
+        Unit[] units = GetEnemyUnits(u);
+        return FindClosestUnit(units, u.transform.position);
     }
 
     /// <summary>
-    /// Returns an ally closest to the given position.
+    /// Returns the enemy with the lowest amount of health.
     /// </summary>
     /// <returns></returns>
-    public Unit GetClosestAlly(Vector3 unitPosition)
+    public Unit GetWeakestEnemy(Unit u)
     {
         UpdateUnits();
-        return FindClosestUnit(allies, unitPosition);
+
+        Unit[] units = GetEnemyUnits(u);
+
+        Unit lowHPUnit = units[0];
+        for (int x = 1; x < units.Length; x++)
+        {
+            if (lowHPUnit.currentHealth > units[x].currentHealth)
+            {
+                lowHPUnit = units[x];
+            }
+        }
+        return lowHPUnit;
     }
 
-
-
-    public Unit GetClosestRangedEnemy(Vector3 unitPosition)
+    /// <summary>
+    /// Returns the closest ranged enemy to the given unit.
+    /// </summary>
+    /// <returns></returns>
+    public Unit GetClosestRangedEnemy(Unit u)
     {
         UpdateUnits();
+
+        Unit[] units = GetEnemyUnits(u);
+
         List<Unit> rangedEnemies = new List<Unit>();
-        foreach(Unit x in enemies)
+        foreach(Unit x in units)
         {
-            if(x.unitType == "ranged")
+            if(x.unitType == "Ranged")
             {
                 rangedEnemies.Add(x);
             }
         }
+
         if (rangedEnemies.Count > 0)
         {
-            return FindClosestUnit(rangedEnemies.ToArray(), unitPosition);
+            return FindClosestUnit(rangedEnemies.ToArray(), u.transform.position);
         }
         else
         {
-            return FindClosestUnit(enemies, unitPosition);
+            return FindClosestUnit(units, u.transform.position); // If there aren't any ranged enemies, find any closest enemy.
         }
     }
 
-    public Unit GetClosestMeleeEnemy(Vector3 unitPosition)
+    /// <summary>
+    /// Returns the closest ranged enemy to the given unit.
+    /// </summary>
+    /// <returns></returns>
+    public Unit GetClosestMeleeEnemy(Unit u)
     {
         UpdateUnits();
-        List<Unit> meleeEnemies = new List<Unit>();
-        foreach (Unit x in enemies)
+
+        Unit[] units = GetEnemyUnits(u);
+
+        List<Unit> rangedEnemies = new List<Unit>();
+        foreach (Unit x in units)
         {
-            if (x.unitType == "melee")
+            if (x.unitType == "Ranged")
             {
-                meleeEnemies.Add(x);
+                rangedEnemies.Add(x);
             }
         }
-        if (meleeEnemies.Count > 0)
+
+        if (rangedEnemies.Count > 0)
         {
-            return FindClosestUnit(meleeEnemies.ToArray(), unitPosition);
+            return FindClosestUnit(rangedEnemies.ToArray(), u.transform.position);
         }
         else
         {
-            return FindClosestUnit(enemies, unitPosition);
+            return FindClosestUnit(units, u.transform.position); // If there aren't any melee enemies, find any closest enemy.
         }
     }
 
-    public Unit GetWeakestEnemy(Vector3 unitPosition)
+    /// <summary>
+    /// Returns the closest ally to the given unit.
+    /// </summary>
+    /// <returns></returns>
+    public Unit GetClosestAlly(Unit u)
     {
         UpdateUnits();
-        Unit lowHPUnit = enemies[0];
-        for(int x = 1; x < enemies.Length; x++)
-        {
-            if(lowHPUnit.currentHealth > enemies[x].currentHealth)
-            {
-                lowHPUnit = enemies[x];
-            }
-        }
-        return lowHPUnit;
+
+        Unit[] units = GetAlliedUnits(u);
+        return FindClosestUnit(units, u.transform.position);
     }
 
-    public Unit GetWeakestAlly(Vector3 unitPosition, Unit exludeUnit = null)
+    /// <summary>
+    /// Returns the ally with the lowest amount of health.
+    /// </summary>
+    /// <returns></returns>
+    public Unit GetWeakestAlly(Unit u, Unit exludeUnit = null)
     {
         UpdateUnits();
-        Unit lowHPUnit = allies[0];
-        for (int x = 1; x < allies.Length; x++)
+
+        Unit[] units = GetAlliedUnits(u);
+
+        Unit lowHPUnit = units[0];
+        for (int x = 1; x < units.Length; x++)
         {
-            if (lowHPUnit.currentHealth > allies[x].currentHealth)
+            if (lowHPUnit.currentHealth > units[x].currentHealth)
             {
-                if (exludeUnit != null && allies[x] != exludeUnit)
+                if (exludeUnit != null && units[x] != exludeUnit)
                 {
-                    lowHPUnit = allies[x];
+                    lowHPUnit = units[x];
                 }
                 else
                 {
-                    lowHPUnit = allies[x];
+                    lowHPUnit = units[x];
                 }
             }
         }
         return lowHPUnit;
     }
 
-        /// <summary>
-        /// given a set of units and a position, finds the closest unit from the set
-        /// to that position
-        /// </summary>
-        /// <param name="units"></param>
-        /// <param name="unitPosition"></param>
-        /// <returns></returns>
-        private Unit FindClosestUnit(Unit[] units, Vector3 unitPosition)
+    /// <summary>
+    /// Given a set of units and a position, finds the closest unit from the set
+    /// to that position
+    /// </summary>
+    /// <returns></returns>
+    private Unit FindClosestUnit(Unit[] units, Vector3 unitPosition)
     {
-        if (units.Length == 0)
+        // TODO: This function needs to calculate the distance of the travel distance through the nav mesh.
+        //       Right now it calculates the raw Vector3 distance between two units.
+
+        if (units.Length == 0) // Don't bother if there aren't any units to search through.
             return null;
 
         float closestDistance = 10000f;
@@ -168,15 +204,13 @@ public class UnitManager : MonoBehaviour
 
         foreach (Unit unit in units)
         {
-            if (unit == null) // Hacky patch to remove error.
-                continue;
-
             float distance = Vector3.Distance(unit.transform.position, unitPosition);
             if (distance <= closestDistance)
             {
                 if (distance == 0)
                 {
                     //if the unit targets itself it doesn't count
+                    continue;
                 }
                 else
                 {
@@ -190,12 +224,46 @@ public class UnitManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the array of units that are the allies of the passed in unit.
+    /// </summary>
+    /// <param name="u"></param>
+    private Unit[] GetAlliedUnits(Unit u)
+    {
+        if (u.gameObject.tag == "TeamOneUnit")
+            return teamOneUnits;
+        else if (u.gameObject.tag == "TeamTwoUnit")
+            return teamTwoUnits;
+        else
+        {
+            Debug.LogError("Unit is not tagged with a team.");
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Returns the array of units that are the enemies of the passed in unit.
+    /// </summary>
+    /// <param name="u"></param>
+    private Unit[] GetEnemyUnits(Unit u)
+    {
+        if (u.gameObject.tag == "TeamOneUnit")
+            return teamTwoUnits;
+        else if (u.gameObject.tag == "TeamTwoUnit")
+            return teamOneUnits;
+        else
+        {
+            Debug.LogError("Unit is not tagged with a team.");
+            return null;
+        }
+    }
+
+    /// <summary>
     /// Updates the internal data structure that holds the enemies or allies.
-    /// We might need to do this because an enemy or ally may have been destroyed.
+    /// We need to do this because an enemy or ally may have been destroyed.
     /// </summary>
     public void UpdateUnits(Unit unitToRemove = null)
     {
-        enemies = enemyContainer.GetComponentsInChildren<Unit>();
-        allies = allyContainer.GetComponentsInChildren<Unit>();
+        teamTwoUnits = teamTwoUnitContainer.GetComponentsInChildren<Unit>();
+        teamOneUnits = teamOneUnitContainer.GetComponentsInChildren<Unit>();
     }
 }

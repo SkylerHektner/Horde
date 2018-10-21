@@ -16,7 +16,9 @@ public class HInterface : MonoBehaviour
         SeekWeakestEnemy,
         SeekNearestAlly,
         SeekWeakestAlly,
-        Heal
+        Heal,
+        Mutilate,
+        TargetNearestEnemy
     }
 
     public static System.Type GetHeuristic(HType heuristic)
@@ -39,6 +41,10 @@ public class HInterface : MonoBehaviour
                 return typeof(H_Heal);
             case (HType.SeekWeakestAlly):
                 return typeof(H_SeekWeakestAlly);
+            case (HType.Mutilate):
+                return typeof(H_Mutilate);
+            case (HType.TargetNearestEnemy):
+                return typeof(H_TargetNearestEnemy);
         }
 
 

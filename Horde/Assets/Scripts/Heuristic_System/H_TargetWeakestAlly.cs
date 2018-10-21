@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class H_SeekMeleeEnemy : MonoBehaviour {
+public class H_TargetWeakestAlly : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

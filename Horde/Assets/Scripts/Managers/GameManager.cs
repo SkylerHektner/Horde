@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         if (CurGameState == GameState.Setup)
         {
             CurGameState = GameState.Simulate;
-            UnitManager.instance.StartAllyAI();
+            UnitManager.instance.StartTeamOneAI();
         }
     }
 
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         if (CurGameState == GameState.Setup && 
             Input.GetMouseButtonDown(0) && 
             !classEditorUI.InEditMode && 
-            UnitManager.instance.AllyCount < MaxUnitsForLevel &&
+            UnitManager.instance.TeamOneUnitCount < MaxUnitsForLevel &&
             !EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hitInfo;
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateUnitCaptionText()
     {
-        unitCapText.text = UnitManager.instance.AllyCount.ToString() + "/" + MaxUnitsForLevel.ToString();
+        unitCapText.text = UnitManager.instance.TeamOneUnitCount.ToString() + "/" + MaxUnitsForLevel.ToString();
     }
 
     public void ReloadLevel()

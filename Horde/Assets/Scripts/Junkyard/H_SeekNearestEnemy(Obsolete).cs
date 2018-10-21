@@ -17,24 +17,24 @@ public class H_SeekNearestEnemy : Heuristic
     private float speed = 3;
 
     [SerializeField, Tooltip("How far away the enemy is before the unit can see it.")]
-    private float visionRadius = 10f;
+    private float visionRadius = 2f;
 
     private NavMeshAgent agent;
     private Unit closestEnemy;
 
     public override void Init() // --Initializing the behavior.-- //
     {
-        base.Init(); // Sets unit var to current unit the heuristic is on
+        base.Init(); // Sets 'unit' to the current unit that this heuristic is on.
 
         agent = GetComponent<NavMeshAgent>();
 
-        if (UnitManager.instance.EnemyCount == 0) // Prevents errors when no enemies are left.
+        if (UnitManager.instance.TeamTwoUnitCount == 0) // Prevents errors when no enemies are left.
         {
             Resolve();
             return;
         }
         
-        closestEnemy = UnitManager.instance.GetClosestEnemy(transform.position);
+        closestEnemy = UnitManager.instance.GetClosestEnemy(GetComponent<Unit>());
         if (closestEnemy != null)
         {
             agent.SetDestination(closestEnemy.transform.position);
@@ -43,20 +43,20 @@ public class H_SeekNearestEnemy : Heuristic
 
     public override void Execute() // --Logic that should be called every tick.-- //
     {
-        // Seting the destination of the navmesh in the init takes care of
+        // Setting the destination of the navmesh in the init takes care of
         // the movement for us.
-        if (UnitManager.instance.EnemyCount == 0)
+        if (UnitManager.instance.TeamTwoUnitCount == 0)
         {
             return;
         }
 
         if (closestEnemy == null)
         {
-            closestEnemy = UnitManager.instance.GetClosestEnemy(transform.position);
+            closestEnemy = UnitManager.instance.GetClosestEnemy(GetComponent<Unit>());
             agent.SetDestination(closestEnemy.transform.position);
         }
 
-        if (UnitManager.instance.EnemyCount == 0) // Prevents errors when no enemies are left.
+        if (UnitManager.instance.TeamTwoUnitCount == 0) // Prevents errors when no enemies are left.
             Resolve();
 
         // When the enemy is within the seek radius.

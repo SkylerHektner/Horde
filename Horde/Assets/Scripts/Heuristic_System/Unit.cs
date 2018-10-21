@@ -107,9 +107,41 @@ public class Unit : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Check which team this unit is on.
+        if(gameObject.tag == "TeamOneUnit") // Unit is on team one.
+        {
+            if(collision.gameObject.tag == "TeamTwoProjectile")
+            {
+                Destroy(collision.gameObject);
+                TakeDamage(1);
+            }
+
+            if(collision.gameObject.tag == "TeamOneHeal")
+            {
+                Destroy(collision.gameObject);
+                HealDamage(1);
+            }
+        }
+        else if(gameObject.tag == "TeamTwoUnit") // Unit is on team two.
+        {
+            if (collision.gameObject.tag == "TeamOneProjectile")
+            {
+                Destroy(collision.gameObject);
+                TakeDamage(1);
+            }
+
+            if (collision.gameObject.tag == "TeamOneHeal")
+            {
+                Destroy(collision.gameObject);
+                HealDamage(1);
+            }
+        }
+
+
+        /*
         if(collision.gameObject.tag == "Projectile")
         {
-            if(gameObject.tag == "Enemy") // We only want projectiles to effect enemies.
+            if(gameObject.tag == "TeamTwoUnit") // We only want projectiles to effect enemies.
             {
                 Destroy(collision.gameObject);
                 TakeDamage(1);
@@ -133,5 +165,6 @@ public class Unit : MonoBehaviour
                 HealDamage(1);
             }
         }
+        */
     }
 }

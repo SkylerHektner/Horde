@@ -28,13 +28,13 @@ public class H_SeekWeakestAlly : Heuristic {
 
         agent = GetComponent<NavMeshAgent>();
 
-        if (UnitManager.instance.AllyCount == 0) // Prevents errors when no allies are left.
+        if (UnitManager.instance.TeamOneUnitCount == 0) // Prevents errors when no allies are left.
         {
             Resolve();
             return;
         }
 
-        weakestAlly = UnitManager.instance.GetWeakestAlly(transform.position, unit);
+        weakestAlly = UnitManager.instance.GetWeakestAlly(GetComponent<Unit>(), unit);
 
         if (weakestAlly == null)
         {

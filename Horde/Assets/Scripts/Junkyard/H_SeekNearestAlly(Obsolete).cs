@@ -4,23 +4,24 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// -- Heuristic: Seek Weakest Enemy --
+/// -- Heuristic: Seek Nearest Ally --
 /// 
-/// Uses a nav mesh to navigate to the weakest enemy
-/// and marks that enemy as the current target.
+/// Uses a nav mesh to navigate to the nearest ally
+/// and marks that ally as the current target.
 /// 
 /// Resolves upon reaching target.
 /// </summary>
-public class H_SeekWeakestEnemy : Heuristic {
+public class H_SeekNearestAlly : Heuristic
+{
 
     [SerializeField, Tooltip("How fast the unit can move.")]
     private float speed = 3;
 
-    [SerializeField, Tooltip("How far away the enemy is before the unit can see it.")]
+    [SerializeField, Tooltip("How far away the ally is before the unit can see it.")]
     private float visionRadius = 3f;
 
     private NavMeshAgent agent;
-    private Unit weakestEnemy;
+    private Unit closestAlly;
 
     public override void Init() // --Initializing the behavior.-- //
     {
@@ -28,32 +29,33 @@ public class H_SeekWeakestEnemy : Heuristic {
 
         agent = GetComponent<NavMeshAgent>();
 
-        if (UnitManager.instance.EnemyCount == 0) // Prevents errors when no enemies are left.
+        if (UnitManager.instance.TeamOneUnitCount == 0) // Prevents errors when no allies are left.
         {
             Resolve();
             return;
         }
 
-        weakestEnemy = UnitManager.instance.GetWeakestEnemy(transform.position);
+        closestAlly = UnitManager.instance.GetClosestEnemy(GetComponent<Unit>());
 
-        agent.SetDestination(weakestEnemy.transform.position);
+        agent.SetDestination(closestAlly.transform.position);
     }
 
     public override void Execute() // --Logic that should be called every tick.-- //
     {
-        // Seting the destination of the navmesh in the init takes care of
+        // Setting the destination of the navmesh in the init takes care of
         // the movement for us.
-        if (weakestEnemy == null)
+
+        if (closestAlly == null) // The unit must have died before we could get a heal off
         {
-            weakestEnemy = UnitManager.instance.GetWeakestEnemy(transform.position);
-            agent.SetDestination(weakestEnemy.transform.position);
+            Resolve();
+            return;
         }
 
-        if (UnitManager.instance.EnemyCount == 0) // Prevents errors when no enemies are left.
+        // When the ally is within the seek radius
+        if (Vector3.Distance(transform.position, closestAlly.transform.position) <= visionRadius)
             Resolve();
-
-        if (Vector3.Distance(transform.position, weakestEnemy.transform.position) < visionRadius)
-            Resolve();
+        else
+            agent.SetDestination(closestAlly.transform.position);
     }
 
     public override void Resolve() // --Exiting the behavior.-- //
@@ -63,7 +65,7 @@ public class H_SeekWeakestEnemy : Heuristic {
         agent.isStopped = true;
         agent.ResetPath();
 
-        unit.currentTarget = weakestEnemy;
+        unit.currentTarget = closestAlly;
 
         base.Resolve(); // Switch to the next heuristic
     }
