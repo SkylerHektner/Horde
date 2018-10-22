@@ -8,16 +8,13 @@ public class HInterface : MonoBehaviour
     public enum HType
     {
         TargetNearestEnemy,
-        Attack,
-        Explode,
-        RangedAttack, // Remove
-        TargetRangedEnemy,
-        TargetMeleeEnemy,
         TargetWeakestEnemy,
         TargetNearestAlly,
         TargetWeakestAlly,
-        Heal,
+        Attack,
         Mutilate,
+        Explode,
+        Heal
 
     }
 
@@ -27,22 +24,20 @@ public class HInterface : MonoBehaviour
         {
             case (HType.TargetNearestEnemy):
                 return typeof(H_TargetNearestEnemy);
-            case (HType.Attack):
-                return typeof(H_Attack);
-            case (HType.Explode):
-                return typeof(H_Explode);
-            case (HType.RangedAttack):
-                return typeof(H_AttackRanged);
-            case (HType.TargetNearestAlly):
-                return typeof(H_TargetNearestAlly);
             case (HType.TargetWeakestEnemy):
                 return typeof(H_TargetWeakestEnemy);
-            case (HType.Heal):
-                return typeof(H_Heal);
+            case (HType.TargetNearestAlly):
+                return typeof(H_TargetNearestAlly);
             case (HType.TargetWeakestAlly):
                 return typeof(H_TargetWeakestAlly);
+            case (HType.Attack):
+                return typeof(H_Attack);
             case (HType.Mutilate):
                 return typeof(H_Mutilate);
+            case (HType.Explode):
+                return typeof(H_Explode);
+            case (HType.Heal):
+                return typeof(H_Heal);
         }
 
 
