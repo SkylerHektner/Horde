@@ -48,6 +48,8 @@ public class H_Attack : Heuristic
 
     public override void Execute()
     {
+        Debug.Log("Attacking");
+
         if (unit.currentTarget == null)
             return;
 

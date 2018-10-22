@@ -139,7 +139,7 @@ public class Unit : MonoBehaviour
                 TakeDamage(1);
             }
 
-            if(collision.gameObject.tag == "TeamOneHeal")
+            if(collision.gameObject.tag == "Heal")
             {
                 Destroy(collision.gameObject);
                 HealDamage(1);
@@ -153,13 +153,12 @@ public class Unit : MonoBehaviour
                 TakeDamage(1);
             }
 
-            if (collision.gameObject.tag == "TeamTwoHeal")
+            if (collision.gameObject.tag == "Heal")
             {
                 Destroy(collision.gameObject);
                 HealDamage(1);
             }
         }
-
 
         /*
         if(collision.gameObject.tag == "Projectile")
