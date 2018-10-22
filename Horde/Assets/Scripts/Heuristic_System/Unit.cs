@@ -9,18 +9,41 @@ using UnityEngine.UI;
 /// </summary>
 public class Unit : MonoBehaviour
 {
+    [Header("Unit Stats:")]
+    [SerializeField]
+    private int currentHealth;
+    public int CurrentHealth { get { return currentHealth; } }
+
+    [SerializeField]
+    private int maxHealth;
+    public int MaxHealth { get { return maxHealth; } }
+
+    [SerializeField]
+    private float attackVelocity;
+    public float AttackVelocity { get { return attackVelocity; } }
+
+    [SerializeField]
+    private float attackRange;
+    public float AttackRange { get { return attackRange; } }
+
+    [SerializeField]
+    private float attackCooldown;
+    public float AttackCooldown { get { return attackCooldown; } }
+
+    [SerializeField]
+    private string unitType;
+    public string UnitType { get { return unitType; } }
+    
+    
+    [Header("UI Stuff:")]
+    [SerializeField]
+    private Image healthBarMask;
+
+    [Header("AI Stuff:")]
     [SerializeField]
     private bool useHeuristicSwapping = true;
     [SerializeField]
-    public int currentHealth;
-    [SerializeField]
-    public int maxHealth;
-    [SerializeField]
     private bool startAIImmediate = false; // if true, starts AI on simulation start
-    [SerializeField]
-    private Image healthBarMask;
-    [SerializeField]
-    public string unitType;
 
     public Unit currentTarget; // The enemy that the player finds while 'Seeking'
     public List<HInterface.HType> behaviors;

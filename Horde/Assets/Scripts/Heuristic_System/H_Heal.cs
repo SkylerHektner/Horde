@@ -54,7 +54,7 @@ public class H_Heal : Heuristic
         Vector3 startingPosition = transform.position;
         Vector3 allyPosition = unit.currentTarget.transform.position;
 
-        while (unit.currentTarget.currentHealth < unit.currentTarget.maxHealth) // Heal until full health
+        while (unit.currentTarget.CurrentHealth < unit.currentTarget.MaxHealth) // Heal until full health
         {
             while (Vector3.Distance(transform.position, allyPosition) > 1f)
             {

@@ -12,10 +12,16 @@ using UnityEngine.AI;
 /// </summary>
 public class H_Attack : Heuristic
 {
+<<<<<<< HEAD
     private float attackCooldown = 1f;
     private float attackVelocity = 10f;
     private float attackRange = 2f;
     private bool inRange = false;
+=======
+    private bool inRange = false;
+    private UnityEngine.AI.NavMeshAgent agent;
+    private bool attackExecuted = false;
+>>>>>>> 97a7a39c8aec5df176d144260e0862f312501356
 
     private NavMeshAgent agent;
 
@@ -23,6 +29,7 @@ public class H_Attack : Heuristic
     {
         base.Init();
 
+<<<<<<< HEAD
         agent = GetComponent<NavMeshAgent>();
 
         if (unit.currentTarget != null) // If the unit is still alive.
@@ -31,6 +38,11 @@ public class H_Attack : Heuristic
             StartCoroutine(StartAttacking());
         }
         else
+=======
+        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+
+        if (unit.currentTarget == null) // If the target is already dead.
+>>>>>>> 97a7a39c8aec5df176d144260e0862f312501356
         {
             // Check if there are any enemies remaining.
             // Returning if the enemy count is zero prevents the game from hanging.
@@ -53,6 +65,7 @@ public class H_Attack : Heuristic
     {
         if (unit.currentTarget == null)
             return;
+<<<<<<< HEAD
 
 
         //  Follow the enemy if it is moving.
@@ -87,8 +100,34 @@ public class H_Attack : Heuristic
                 Attack();
 
             yield return new WaitForSeconds(attackCooldown);
-        }
+=======
 
+
+        //  Follow the enemy if it is moving.
+        if (Vector3.Distance(transform.position, unit.currentTarget.transform.position) > unit.AttackRange)
+        {
+            inRange = false;
+            agent.SetDestination(unit.currentTarget.transform.position);
+        }
+        else
+        {
+            inRange = true;
+
+            if(attackExecuted == false)
+            {
+                StartCoroutine(Attack());
+                attackExecuted = true;
+            }
+            
+            // Stop the unit's movement.
+            agent.velocity = Vector3.zero;
+            agent.isStopped = true;
+            agent.ResetPath();
+>>>>>>> 97a7a39c8aec5df176d144260e0862f312501356
+        }
+    }
+
+<<<<<<< HEAD
         Resolve(); // Switch to the next heuristic when the target is dead.
     }
 
@@ -110,5 +149,37 @@ public class H_Attack : Heuristic
         instance.velocity = normalizedAttackDirection * attackVelocity;
 
         Destroy(instance.gameObject, 2);
+=======
+    public override void Resolve() 
+    {
+        base.Resolve();
+    }
+
+    /// <summary>
+    /// Fires a projectile towards the current target.
+    /// </summary>
+    private IEnumerator Attack()
+    {
+        GameObject projectileGO;
+
+        // Check if this unit is team one or two so we know which type of projectile to instantiate.
+        if (gameObject.tag == "TeamOneUnit")
+            projectileGO = Instantiate(Resources.Load("TeamOneProjectile"), transform.position, transform.rotation) as GameObject;
+        else
+            projectileGO = Instantiate(Resources.Load("TeamTwoProjectile"), transform.position, transform.rotation) as GameObject;
+
+        Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
+
+        Vector3 normalizedAttackDirection = (unit.currentTarget.transform.position - transform.position).normalized;
+
+        instance.velocity = normalizedAttackDirection * unit.AttackVelocity;
+
+        Destroy(instance.gameObject, 2);
+
+        // Attack needs a cooldown or else it will resolve way too fast, creating an insane attack speed.
+        yield return new WaitForSeconds(unit.AttackCooldown);
+
+        Resolve();
+>>>>>>> 97a7a39c8aec5df176d144260e0862f312501356
     }
 }
