@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         CurGameState = GameState.Setup;
-        allyContainer = GameObject.Find("Allies");
+        allyContainer = GameObject.Find("TeamOne");
         UpdateUnitCaptionText();
     }
 	

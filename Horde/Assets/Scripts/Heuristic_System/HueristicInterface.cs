@@ -7,44 +7,42 @@ public class HInterface : MonoBehaviour
 
     public enum HType
     {
-        SeekNearestEnemy,
+        TargetNearestEnemy,
         Attack,
         Explode,
         RangedAttack, // Remove
-        SeekRangedEnemy,
-        SeekMeleeEnemy,
-        SeekWeakestEnemy,
-        SeekNearestAlly,
-        SeekWeakestAlly,
+        TargetRangedEnemy,
+        TargetMeleeEnemy,
+        TargetWeakestEnemy,
+        TargetNearestAlly,
+        TargetWeakestAlly,
         Heal,
         Mutilate,
-        TargetNearestEnemy
+
     }
 
     public static System.Type GetHeuristic(HType heuristic)
     {
         switch (heuristic)
         {
-            case (HType.SeekNearestEnemy):
-                return typeof(H_SeekNearestEnemy);
+            case (HType.TargetNearestEnemy):
+                return typeof(H_TargetNearestEnemy);
             case (HType.Attack):
                 return typeof(H_Attack);
             case (HType.Explode):
                 return typeof(H_Explode);
             case (HType.RangedAttack):
                 return typeof(H_AttackRanged);
-            case (HType.SeekNearestAlly):
-                return typeof(H_SeekNearestAlly);
-            case (HType.SeekWeakestEnemy):
-                return typeof(H_SeekWeakestEnemy);
+            case (HType.TargetNearestAlly):
+                return typeof(H_TargetNearestAlly);
+            case (HType.TargetWeakestEnemy):
+                return typeof(H_TargetWeakestEnemy);
             case (HType.Heal):
                 return typeof(H_Heal);
-            case (HType.SeekWeakestAlly):
-                return typeof(H_SeekWeakestAlly);
+            case (HType.TargetWeakestAlly):
+                return typeof(H_TargetWeakestAlly);
             case (HType.Mutilate):
                 return typeof(H_Mutilate);
-            case (HType.TargetNearestEnemy):
-                return typeof(H_TargetNearestEnemy);
         }
 
 

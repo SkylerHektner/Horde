@@ -216,10 +216,10 @@ public class SerializationManager : MonoBehaviour {
         Debug.Log(GetLevelCompletionStatus("Test2")); // should print true
 
         ChangeHeuristicUnlockStatus(HInterface.HType.Attack, true);
-        ChangeHeuristicUnlockStatus(HInterface.HType.SeekNearestEnemy, true);
+        ChangeHeuristicUnlockStatus(HInterface.HType.TargetNearestEnemy, true);
 
         Debug.Log(GetHeuristicUnlockStatus(HInterface.HType.Attack)); // should print false
-        Debug.Log(GetHeuristicUnlockStatus(HInterface.HType.SeekNearestEnemy)); // should print true
+        Debug.Log(GetHeuristicUnlockStatus(HInterface.HType.TargetNearestEnemy)); // should print true
 
         ChangeUnitUnlockStatus("TestUnit1", true);
         ChangeUnitUnlockStatus("TestUnit2", false);

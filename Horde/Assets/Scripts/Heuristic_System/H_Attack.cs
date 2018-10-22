@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// -- Heuristic: Attack --
@@ -11,115 +12,103 @@ using UnityEngine;
 /// </summary>
 public class H_Attack : Heuristic
 {
-    [SerializeField] private float attackVelocity = 10;
-    [SerializeField] private float attackRange = 3;
-    [SerializeField] private float attackSpeed = 2;
+    private float attackCooldown = 1f;
+    private float attackVelocity = 10f;
+    private float attackRange = 2f;
+    private bool inRange = false;
 
-    public override void Init() 
+    private NavMeshAgent agent;
+
+    public override void Init()
     {
-        // TODO: Check which base class it is so we know which attack
-        //       function to exectue.
-        //
-        //       (Attack or Ranged Attack)
-
         base.Init();
 
-        if (unit.currentTarget != null) // Check if the target is alive.
-            StartCoroutine(RangedAttack());
+        agent = GetComponent<NavMeshAgent>();
+
+        if (unit.currentTarget != null) // If the unit is still alive.
+        {
+            //InvokeRepeating("UpdateTargetPosition", 1f, 0.05f);
+            StartCoroutine(StartAttacking());
+        }
         else
+        {
+            // Check if there are any enemies remaining.
+            // Returning if the enemy count is zero prevents the game from hanging.
+            if (gameObject.tag == "TeamOneUnit")
+            {
+                if (UnitManager.instance.TeamTwoUnitCount == 0)
+                    return;
+            }
+            if (gameObject.tag == "TeamTwoUnit")
+            {
+                if (UnitManager.instance.TeamOneUnitCount == 0)
+                    return;
+            }
+
             Resolve();
+        }
     }
 
-    public override void Execute() 
+    public override void Execute()
     {
-        // Move to the current target until the unit is in attack range.
-        // Attack once then resolve.
+        if (unit.currentTarget == null)
+            return;
+
+
+        //  Follow the enemy if it is moving.
+        if (Vector3.Distance(transform.position, unit.currentTarget.transform.position) > attackRange)
+        {
+            inRange = false;
+            agent.SetDestination(unit.currentTarget.transform.position);
+        }
+        else
+        {
+            inRange = true;
+
+            // Stop the unit's movement.
+            agent.velocity = Vector3.zero;
+            agent.isStopped = true;
+            agent.ResetPath();
+        }
     }
 
-    public override void Resolve() 
+    public override void Resolve()
     {
         base.Resolve();
     }
 
-    /// <summary>
-    /// Fires a projectile towards the current target.
-    /// </summary>
-    private IEnumerator Attack()
+    private IEnumerator StartAttacking()
     {
-        Vector3 startingPosition = transform.position;
-        Vector3 enemyPosition = unit.currentTarget.transform.position;
+        // TODO: Call the correct attack corresponding to the base unit.
 
-        while(unit.currentTarget != null) // Attack until the target is dead.
-        {
-            while (Vector3.Distance(transform.position, enemyPosition) > 1f)
-            {
-                if (unit.currentTarget == null)
-                {
-                    break;
-                }
-                Vector3 currentPosition = transform.position;
-                transform.position = Vector3.MoveTowards(transform.position, unit.currentTarget.transform.position, Time.deltaTime * attackVelocity);
-
-                yield return null;
-            }
-
-            if (unit.currentTarget != null)
-            {
-                unit.currentTarget.TakeDamage(1);
-            }
-
-            while (Vector3.Distance(transform.position, enemyPosition) < 1.75f)
-            {
-                if (unit.currentTarget == null)
-                {
-                    break;
-                }
-                Vector3 currentPosition = transform.position;
-                transform.position = Vector3.MoveTowards(transform.position, startingPosition, Time.deltaTime * attackVelocity);
-                yield return null;
-            }
-            yield return new WaitForSeconds(0.2f); // Time before next attack.
-        }
-
-        Resolve();
-    }
-
-    /// <summary>
-    /// Fires a projectile towards the current target.
-    /// </summary>
-    private IEnumerator RangedAttack()
-    {
         while (unit.currentTarget != null) // Attack until the target is dead.
         {
-            GameObject projectileGO = Instantiate(Resources.Load("Projectile"), transform.position, transform.rotation) as GameObject;
-            Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
+            if (inRange == true)
+                Attack();
 
-            Vector3 normalizedAttackDirection = (unit.currentTarget.transform.position - transform.position).normalized;
-
-            instance.velocity = normalizedAttackDirection * attackVelocity;
-
-            Destroy(instance.gameObject, 2);
-
-            yield return new WaitForSeconds(1f); // How long between shooting each projectile.
+            yield return new WaitForSeconds(attackCooldown);
         }
 
-        Resolve();
+        Resolve(); // Switch to the next heuristic when the target is dead.
     }
 
-    /// <summary>
-    /// Returns true if there is an enemy within the range of the unit.
-    /// </summary>
-    /// <returns></returns>
-    private bool EnemyInRangeCheck()
+    private void Attack()
     {
-        if (UnitManager.instance.TeamTwoUnitCount == 0)
-            return false;
+        GameObject projectileGO;
 
-        float distanceToClosestEnemy = Vector3.Distance(transform.position, UnitManager.instance.GetClosestEnemy(GetComponent<Unit>()).transform.position);
+        // Check if this unit is team one or two so we know which type of projectile to instantiate.
+        if (gameObject.tag == "TeamOneUnit")
+            projectileGO = Instantiate(Resources.Load("TeamOneProjectile"), transform.position, transform.rotation) as GameObject;
+        else
+            projectileGO = Instantiate(Resources.Load("TeamTwoProjectile"), transform.position, transform.rotation) as GameObject;
 
-        if (distanceToClosestEnemy <= attackRange)
-            return true;
 
-        return false;
+        Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
+
+        Vector3 normalizedAttackDirection = (unit.currentTarget.transform.position - transform.position).normalized;
+
+        instance.velocity = normalizedAttackDirection * attackVelocity;
+
+        Destroy(instance.gameObject, 2);
     }
 }
