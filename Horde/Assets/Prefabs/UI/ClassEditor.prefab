@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 114397646814060844}
   - component: {fileID: 114527887416902524}
   m_Layer: 5
-  m_Name: Seek
+  m_Name: Target Nearest Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 114934842609540058}
   - component: {fileID: 114045222216083080}
   m_Layer: 5
-  m_Name: Seek Weakest Enemy
+  m_Name: Target Weakest Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 114030731047506718}
   - component: {fileID: 114103670567383006}
   m_Layer: 5
-  m_Name: Seek Ally
+  m_Name: Target Nearest Ally
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -555,7 +555,7 @@ GameObject:
   - component: {fileID: 114791864523985392}
   - component: {fileID: 114143781638811514}
   m_Layer: 5
-  m_Name: RangedAttack
+  m_Name: Mutilate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 114570982955024038}
   - component: {fileID: 114183750743638822}
   m_Layer: 5
-  m_Name: Seek Weakest Ally
+  m_Name: Target Weakest Ally
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -727,7 +727,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Seek Nearest Ally
+  m_Text: Target Nearest Ally
 --- !u!114 &114030731047506718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -760,7 +760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootCanvas: {fileID: 224417416786234554}
   classEditPanel: {fileID: 114376767261843170}
-  heuristic: 6
+  heuristic: 1
   largeCircuitImage: {fileID: 21300000, guid: ba0e5fa354d096643a529cb13303f5e1, type: 3}
   largeCircuitAnchorMin: {x: 0.2968571, y: 0.5853696}
   largeCircuitAnchorMax: {x: 0.8517144, y: 0.7947393}
@@ -779,7 +779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootCanvas: {fileID: 224417416786234554}
   classEditPanel: {fileID: 114376767261843170}
-  heuristic: 1
+  heuristic: 5
   largeCircuitImage: {fileID: 21300000, guid: ba0e5fa354d096643a529cb13303f5e1, type: 3}
   largeCircuitAnchorMin: {x: 0.2968571, y: 0.5853696}
   largeCircuitAnchorMax: {x: 0.8517144, y: 0.7947393}
@@ -876,7 +876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootCanvas: {fileID: 224417416786234554}
   classEditPanel: {fileID: 114376767261843170}
-  heuristic: 7
+  heuristic: 2
   largeCircuitImage: {fileID: 21300000, guid: ba0e5fa354d096643a529cb13303f5e1, type: 3}
   largeCircuitAnchorMin: {x: 0.2968571, y: 0.5853696}
   largeCircuitAnchorMax: {x: 0.8517144, y: 0.7947393}
@@ -947,7 +947,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Seek Weakest Ally
+  m_Text: Target Weakest Ally
 --- !u!114 &114143781638811514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -961,7 +961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootCanvas: {fileID: 224417416786234554}
   classEditPanel: {fileID: 114376767261843170}
-  heuristic: 3
+  heuristic: 6
   largeCircuitImage: {fileID: 21300000, guid: ba0e5fa354d096643a529cb13303f5e1, type: 3}
   largeCircuitAnchorMin: {x: 0.2968571, y: 0.5853696}
   largeCircuitAnchorMax: {x: 0.8517144, y: 0.7947393}
@@ -1037,7 +1037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootCanvas: {fileID: 224417416786234554}
   classEditPanel: {fileID: 114376767261843170}
-  heuristic: 8
+  heuristic: 3
   largeCircuitImage: {fileID: 21300000, guid: ba0e5fa354d096643a529cb13303f5e1, type: 3}
   largeCircuitAnchorMin: {x: 0.2968571, y: 0.5853696}
   largeCircuitAnchorMax: {x: 0.8517144, y: 0.7947393}
@@ -1133,7 +1133,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ranged Attack
+  m_Text: Mutilate
 --- !u!114 &114258910457935930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1278,7 +1278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootCanvas: {fileID: 224417416786234554}
   classEditPanel: {fileID: 114376767261843170}
-  heuristic: 2
+  heuristic: 7
   largeCircuitImage: {fileID: 21300000, guid: ba0e5fa354d096643a529cb13303f5e1, type: 3}
   largeCircuitAnchorMin: {x: 0.2968571, y: 0.5853696}
   largeCircuitAnchorMax: {x: 0.8517144, y: 0.7947393}
@@ -1370,7 +1370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootCanvas: {fileID: 224417416786234554}
   classEditPanel: {fileID: 114376767261843170}
-  heuristic: 9
+  heuristic: 8
   largeCircuitImage: {fileID: 21300000, guid: ba0e5fa354d096643a529cb13303f5e1, type: 3}
   largeCircuitAnchorMin: {x: 0.2968571, y: 0.5853696}
   largeCircuitAnchorMax: {x: 0.8517144, y: 0.7947393}
@@ -1843,7 +1843,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Seek Weakest Enemy
+  m_Text: Target Weakest Enemy
 --- !u!114 &114600362712260998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1947,8 +1947,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 9c20937d05e21b746b8a4aaa5a998371, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2072,7 +2072,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Seek Nearest Enemy
+  m_Text: Target Nearest Enemy
 --- !u!114 &114731999555332848
 MonoBehaviour:
   m_ObjectHideFlags: 1

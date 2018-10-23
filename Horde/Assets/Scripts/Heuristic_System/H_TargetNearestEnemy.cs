@@ -18,7 +18,12 @@ public class H_TargetNearestEnemy : Heuristic
     {
         base.Init(); // Sets 'unit' to the current unit that this heuristic is on.
 
-        if (UnitManager.instance.TeamTwoUnitCount == 0) // Check if there are no enemies remaining.
+        // if there are no enemies left to seek, just return
+        if (gameObject.tag == "TeamOneUnit" && UnitManager.instance.TeamTwoUnitCount == 0)
+        {
+            return;
+        }
+        else if (gameObject.tag == "TeamTwoUnit" && UnitManager.instance.TeamOneUnitCount == 0)
         {
             return;
         }

@@ -51,9 +51,11 @@ public class H_Attack : Heuristic
         Debug.Log("Attacking");
 
         if (unit.currentTarget == null)
+        {
+            Resolve();
             return;
-
-
+        }
+            
         //  Follow the enemy if it is moving.
         if (Vector3.Distance(transform.position, unit.currentTarget.transform.position) > unit.AttackRange)
         {

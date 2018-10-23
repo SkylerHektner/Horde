@@ -51,9 +51,13 @@ public class UnitManager : MonoBehaviour
         teamTwoUnits = teamTwoUnitContainer.GetComponentsInChildren<Unit>();
     }
 
-    public void StartTeamOneAI()
+    public void StartAI()
     {
         foreach(Unit u in teamOneUnits)
+        {
+            u.StartAI();
+        }
+        foreach(Unit u in teamTwoUnits)
         {
             u.StartAI();
         }

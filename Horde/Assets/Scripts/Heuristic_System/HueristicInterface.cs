@@ -11,11 +11,11 @@ public class HInterface : MonoBehaviour
         TargetWeakestEnemy,
         TargetNearestAlly,
         TargetWeakestAlly,
+        WatchForEnemy,
         Attack,
         Mutilate,
         Explode,
         Heal
-
     }
 
     public static System.Type GetHeuristic(HType heuristic)
@@ -38,6 +38,8 @@ public class HInterface : MonoBehaviour
                 return typeof(H_Explode);
             case (HType.Heal):
                 return typeof(H_Heal);
+            case (HType.WatchForEnemy):
+                return typeof(H_WatchForEnemy);
         }
 
 

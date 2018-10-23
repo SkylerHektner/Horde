@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         if (CurGameState == GameState.Setup)
         {
             CurGameState = GameState.Simulate;
-            UnitManager.instance.StartTeamOneAI();
+            UnitManager.instance.StartAI();
         }
     }
 
