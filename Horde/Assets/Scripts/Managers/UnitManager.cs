@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// This class serves as a hub for other classes to get information
@@ -18,6 +19,9 @@ public class UnitManager : MonoBehaviour
 
     private GameObject teamOneUnitContainer;
     private GameObject teamTwoUnitContainer;
+
+    public class LevelEndEvent : UnityEvent<bool> { }
+    public LevelEndEvent LevelEnd;
 
     /// <summary>
     /// Returns the number of living units from Team One
@@ -260,10 +264,23 @@ public class UnitManager : MonoBehaviour
     /// <summary>
     /// Updates the internal data structure that holds the enemies or allies.
     /// We need to do this because an enemy or ally may have been destroyed.
+    /// 
+    /// If either teams count is below 0 then it invokes the LevelEndEvent
+    /// a true value means team one units are all dead
+    /// a false value means team two units are all dead
     /// </summary>
     public void UpdateUnits(Unit unitToRemove = null)
     {
         teamTwoUnits = teamTwoUnitContainer.GetComponentsInChildren<Unit>();
         teamOneUnits = teamOneUnitContainer.GetComponentsInChildren<Unit>();
+
+        if(TeamOneUnitCount <= 0)
+        {
+            LevelEnd.Invoke(true);
+        }
+        else if (TeamTwoUnitCount <= 0)
+        {
+            LevelEnd.Invoke(false);
+        }
     }
 }
