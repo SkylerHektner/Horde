@@ -13,11 +13,7 @@ using UnityEngine.AI;
 /// </summary>
 public class H_Mutilate : Heuristic
 {
-    private float attackCooldown = 1f;
-    private float attackVelocity = 10f;
-    private float attackRange = 2f;
     private bool inRange = false;
-
     private NavMeshAgent agent;
 
     public override void Init()
@@ -28,7 +24,6 @@ public class H_Mutilate : Heuristic
         
         if (unit.currentTarget != null) // If the unit is still alive.
         {
-            //InvokeRepeating("UpdateTargetPosition", 1f, 0.05f);
             StartCoroutine(StartAttacking());
         } 
         else
@@ -57,7 +52,7 @@ public class H_Mutilate : Heuristic
 
 
         //  Follow the enemy if it is moving.
-        if(Vector3.Distance(transform.position, unit.currentTarget.transform.position) > attackRange)
+        if(Vector3.Distance(transform.position, unit.currentTarget.transform.position) > unit.AttackRange)
         {
             inRange = false;
             agent.SetDestination(unit.currentTarget.transform.position);
@@ -87,7 +82,7 @@ public class H_Mutilate : Heuristic
             if(inRange == true)
                 Attack();
 
-            yield return new WaitForSeconds(attackCooldown);
+            yield return new WaitForSeconds(unit.AttackCooldown);
         }
 
         Resolve(); // Switch to the next heuristic when the target is dead.
@@ -108,7 +103,7 @@ public class H_Mutilate : Heuristic
 
         Vector3 normalizedAttackDirection = (unit.currentTarget.transform.position - transform.position).normalized;
 
-        instance.velocity = normalizedAttackDirection * attackVelocity;
+        instance.velocity = normalizedAttackDirection * unit.AttackVelocity;
 
         Destroy(instance.gameObject, 2);
     }

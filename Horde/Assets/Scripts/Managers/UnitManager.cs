@@ -84,7 +84,7 @@ public class UnitManager : MonoBehaviour
         Unit lowHPUnit = units[0];
         for (int x = 1; x < units.Length; x++)
         {
-            if (lowHPUnit.currentHealth > units[x].currentHealth)
+            if (lowHPUnit.CurrentHealth > units[x].CurrentHealth)
             {
                 lowHPUnit = units[x];
             }
@@ -105,7 +105,7 @@ public class UnitManager : MonoBehaviour
         List<Unit> rangedEnemies = new List<Unit>();
         foreach(Unit x in units)
         {
-            if(x.unitType == "Ranged")
+            if(x.UnitType == "Ranged")
             {
                 rangedEnemies.Add(x);
             }
@@ -134,7 +134,7 @@ public class UnitManager : MonoBehaviour
         List<Unit> rangedEnemies = new List<Unit>();
         foreach (Unit x in units)
         {
-            if (x.unitType == "Ranged")
+            if (x.UnitType == "Ranged")
             {
                 rangedEnemies.Add(x);
             }
@@ -175,7 +175,7 @@ public class UnitManager : MonoBehaviour
         Unit lowHPUnit = units[0];
         for (int x = 1; x < units.Length; x++)
         {
-            if (lowHPUnit.currentHealth > units[x].currentHealth)
+            if (lowHPUnit.CurrentHealth > units[x].CurrentHealth)
             {
                 if (exludeUnit != null && units[x] != exludeUnit)
                 {

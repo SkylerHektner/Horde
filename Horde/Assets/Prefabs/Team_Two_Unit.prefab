@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 195430009144589202}
   - component: {fileID: 135539978968723766}
   - component: {fileID: 54653110650809470}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Team_Two_Unit
   m_TagString: TeamTwoUnit
   m_Icon: {fileID: 0}
@@ -142,12 +142,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f6145bd25ca5b448c645bbcad81e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useHeuristicSwapping: 1
   currentHealth: 5
   maxHealth: 5
-  startAIImmediate: 0
-  healthBarMask: {fileID: 0}
+  attackVelocity: 10
+  attackRange: 2
+  attackCooldown: 1
   unitType: 
+  healthBarMask: {fileID: 0}
+  useHeuristicSwapping: 1
+  startAIImmediate: 0
   currentTarget: {fileID: 0}
   behaviors: 
 --- !u!135 &135539978968723766
