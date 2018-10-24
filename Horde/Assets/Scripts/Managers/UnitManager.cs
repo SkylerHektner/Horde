@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 /// <summary>
 /// This class serves as a hub for other classes to get information
@@ -72,7 +73,7 @@ public class UnitManager : MonoBehaviour
         UpdateUnits();
 
         Unit[] units = GetEnemyUnits(u);
-        return FindClosestUnit(units, u.transform.position);
+        return FindClosestUnit(units, u);
     }
 
     /// <summary>
@@ -117,11 +118,11 @@ public class UnitManager : MonoBehaviour
 
         if (rangedEnemies.Count > 0)
         {
-            return FindClosestUnit(rangedEnemies.ToArray(), u.transform.position);
+            return FindClosestUnit(rangedEnemies.ToArray(), u);
         }
         else
         {
-            return FindClosestUnit(units, u.transform.position); // If there aren't any ranged enemies, find any closest enemy.
+            return FindClosestUnit(units, u); // If there aren't any ranged enemies, find any closest enemy.
         }
     }
 
@@ -146,11 +147,11 @@ public class UnitManager : MonoBehaviour
 
         if (rangedEnemies.Count > 0)
         {
-            return FindClosestUnit(rangedEnemies.ToArray(), u.transform.position);
+            return FindClosestUnit(rangedEnemies.ToArray(), u);
         }
         else
         {
-            return FindClosestUnit(units, u.transform.position); // If there aren't any melee enemies, find any closest enemy.
+            return FindClosestUnit(units, u); // If there aren't any melee enemies, find any closest enemy.
         }
     }
 
@@ -163,7 +164,7 @@ public class UnitManager : MonoBehaviour
         UpdateUnits();
 
         Unit[] units = GetAlliedUnits(u);
-        return FindClosestUnit(units, u.transform.position);
+        return FindClosestUnit(units, u);
     }
 
     /// <summary>
@@ -199,10 +200,9 @@ public class UnitManager : MonoBehaviour
     /// to that position
     /// </summary>
     /// <returns></returns>
-    private Unit FindClosestUnit(Unit[] units, Vector3 unitPosition)
+    private Unit FindClosestUnit(Unit[] units, Unit u)
     {
-        // TODO: This function needs to calculate the distance of the travel distance through the nav mesh.
-        //       Right now it calculates the raw Vector3 distance between two units.
+        NavMeshPath path = new NavMeshPath();
 
         if (units.Length == 0) // Don't bother if there aren't any units to search through.
             return null;
@@ -212,23 +212,40 @@ public class UnitManager : MonoBehaviour
 
         foreach (Unit unit in units)
         {
-            float distance = Vector3.Distance(unit.transform.position, unitPosition);
-            if (distance <= closestDistance)
+            //float distance = Vector3.Distance(unit.transform.position, u.transform.position);
+            NavMesh.CalculatePath(u.transform.position, unit.transform.position, NavMesh.AllAreas, path);
+
+            if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
             {
-                if (distance == 0)
-                {
-                    //if the unit targets itself it doesn't count
-                    continue;
-                }
-                else
+                float distance = GetPathDistance(path.corners);
+
+                if (distance <= closestDistance)
                 {
                     closestDistance = distance;
                     closestUnit = unit;
                 }
             }
         }
-
+        //Destroy(closestUnit.gameObject);
         return closestUnit;
+    }
+
+    /// <summary>
+    /// Given an array of Vector3's (the corners of the path),
+    /// This function will return the total distance of the path.
+    /// </summary>
+    /// <param name="corners"></param>
+    /// <returns></returns>
+    private float GetPathDistance(Vector3[] corners)
+    {
+        float totalDistance = 0;
+
+        for(int i = 0; i < corners.Length - 1; i++)
+        {
+            totalDistance += Vector3.Distance(corners[i], corners[i + 1]);
+        }
+
+        return totalDistance;
     }
 
     /// <summary>

@@ -48,8 +48,6 @@ public class H_Attack : Heuristic
 
     public override void Execute()
     {
-        Debug.Log("Attacking");
-
         if (unit.currentTarget == null)
         {
             Resolve();
@@ -81,6 +79,7 @@ public class H_Attack : Heuristic
 
     public override void Resolve()
     {
+        Debug.Log("Resolving");
         base.Resolve();
     }
 
