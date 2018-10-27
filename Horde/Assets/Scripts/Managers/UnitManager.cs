@@ -212,7 +212,6 @@ public class UnitManager : MonoBehaviour
 
         foreach (Unit unit in units)
         {
-            //float distance = Vector3.Distance(unit.transform.position, u.transform.position);
             NavMesh.CalculatePath(u.transform.position, unit.transform.position, NavMesh.AllAreas, path);
 
             if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
@@ -226,7 +225,7 @@ public class UnitManager : MonoBehaviour
                 }
             }
         }
-        //Destroy(closestUnit.gameObject);
+
         return closestUnit;
     }
 

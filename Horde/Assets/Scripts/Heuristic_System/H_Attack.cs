@@ -44,6 +44,8 @@ public class H_Attack : Heuristic
 
             Resolve();
         }
+
+        agent.SetDestination(unit.currentTarget.transform.position);
     }
 
     public override void Execute()
@@ -58,6 +60,7 @@ public class H_Attack : Heuristic
         if (Vector3.Distance(transform.position, unit.currentTarget.transform.position) > unit.AttackRange)
         {
             inRange = false;
+            agent.isStopped = false;
             agent.SetDestination(unit.currentTarget.transform.position);
         }
         else
@@ -73,13 +76,11 @@ public class H_Attack : Heuristic
             // Stop the unit's movement.
             agent.velocity = Vector3.zero;
             agent.isStopped = true;
-            agent.ResetPath();
         }
     }
 
     public override void Resolve()
     {
-        Debug.Log("Resolving");
         base.Resolve();
     }
 
