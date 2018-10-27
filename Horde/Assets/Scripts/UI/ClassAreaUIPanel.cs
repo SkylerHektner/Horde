@@ -7,6 +7,9 @@ public class ClassAreaUIPanel : MonoBehaviour
 {
     private List<ClassUIPanel> classUIPanels = new List<ClassUIPanel>();
 
+    [SerializeField]
+    private ClassUIPanel openEditorButton;
+
     /// <summary>
     /// Returns the currently selected ClassUIPanel. 
     /// If there is no selected panel, returns null.
@@ -16,7 +19,7 @@ public class ClassAreaUIPanel : MonoBehaviour
         get
         {
             ClassUIPanel returnVal = null;
-            foreach(ClassUIPanel p in classUIPanels)
+            foreach (ClassUIPanel p in classUIPanels)
             {
                 if (p.Selected)
                 {
@@ -35,7 +38,24 @@ public class ClassAreaUIPanel : MonoBehaviour
     {
         ClassUIPanel.transform.SetParent(transform);
         classUIPanels.Add(ClassUIPanel);
+        openEditorButton.transform.SetAsLastSibling();
         recalculateBounds();
+    }
+
+    /// <summary>
+    /// This method is called by the ClassEditorUI when we change modes
+    /// </summary>
+    public void EnteringPlayView()
+    {
+        openEditorButton.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// This method is called by the ClassEditorUI when we change modes
+    /// </summary>
+    public void EnteringEditView()
+    {
+        openEditorButton.gameObject.SetActive(false);
     }
 
     /// <summary>

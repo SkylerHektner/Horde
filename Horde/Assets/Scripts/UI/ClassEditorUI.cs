@@ -42,6 +42,7 @@ public class ClassEditorUI : MonoBehaviour {
             editArea.SetActive(true);
             rt.anchorMin = classAnchorMinEdit;
             rt.anchorMax = classAnchorMaxEdit;
+            classPanel.GetComponentInChildren<ClassAreaUIPanel>().EnteringEditView();
         }
         else
         {
@@ -49,6 +50,7 @@ public class ClassEditorUI : MonoBehaviour {
             editArea.SetActive(false);
             rt.anchorMin = classAnchorMinPlay;
             rt.anchorMax = classAnchorMaxPlay;
+            classPanel.GetComponentInChildren<ClassAreaUIPanel>().EnteringPlayView();
         }
         rt.sizeDelta = Vector2.zero;
         InEditMode = !InEditMode;

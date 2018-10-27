@@ -13,6 +13,11 @@ public class ClassUIPanel : MonoBehaviour, IPointerClickHandler {
 
     public bool Selected = false;
 
+    // if this is true this class panel opens up the class editor when clicked
+    public bool CreateNewHButton = false;
+    [SerializeField]
+    private ClassEditorUI classEditorUI;
+
     private Image panel;
     private Color normalPanelColor;
     private Color selectedPanelColor = new Color(.5f, 1f, .5f);
@@ -33,6 +38,13 @@ public class ClassUIPanel : MonoBehaviour, IPointerClickHandler {
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        // check if we are the class UI panel that is supposed to be opening the edit menu
+        if(CreateNewHButton)
+        {
+            classEditorUI.ToggleMode();
+            return;
+        }
+
         Selected = true;
         panel.color = selectedPanelColor;
         classPanelContainer.OnPanelSelected(this);
