@@ -43,22 +43,6 @@ public class ClassAreaUIPanel : MonoBehaviour
     }
 
     /// <summary>
-    /// This method is called by the ClassEditorUI when we change modes
-    /// </summary>
-    public void EnteringPlayView()
-    {
-        openEditorButton.gameObject.SetActive(true);
-    }
-
-    /// <summary>
-    /// This method is called by the ClassEditorUI when we change modes
-    /// </summary>
-    public void EnteringEditView()
-    {
-        openEditorButton.gameObject.SetActive(false);
-    }
-
-    /// <summary>
     /// This is used to re calculate the bounds of the scroll container so that our
     /// scroll area works correctly.
     /// </summary>

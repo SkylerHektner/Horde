@@ -40,17 +40,13 @@ public class ClassEditorUI : MonoBehaviour {
         {
             heuristicsPanel.SetActive(true);
             editArea.SetActive(true);
-            rt.anchorMin = classAnchorMinEdit;
-            rt.anchorMax = classAnchorMaxEdit;
-            classPanel.GetComponentInChildren<ClassAreaUIPanel>().EnteringEditView();
+            classPanel.SetActive(false);
         }
         else
         {
             heuristicsPanel.SetActive(false);
             editArea.SetActive(false);
-            rt.anchorMin = classAnchorMinPlay;
-            rt.anchorMax = classAnchorMaxPlay;
-            classPanel.GetComponentInChildren<ClassAreaUIPanel>().EnteringPlayView();
+            classPanel.SetActive(true);
         }
         rt.sizeDelta = Vector2.zero;
         InEditMode = !InEditMode;
