@@ -9,13 +9,17 @@ using UnityEngine.UI;
 public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler {
 
     [SerializeField]
-    private TextInputDialogue textInputDialoguePrefab;
+    private InfoDialogue infoDialoguePrefab;
+    [SerializeField]
+    private InputField nameInputField;
     [SerializeField]
     private ClassUIPanel classUIPanelPrefab;
     [SerializeField]
     private ClassAreaUIPanel classAreaUIPanel;
     [SerializeField]
     private HeuristicUIAccessor heuristicPanelAccessor;
+    [SerializeField]
+    private GameObject[] heuristicContainers;
 
     private List<HeuristicUIPanel> panels = new List<HeuristicUIPanel>();
 
@@ -32,8 +36,11 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     {
         if (currentDropValid)
         {
-            heuristicPanel.transform.SetParent(transform);
-            panels.Add(heuristicPanel.GetComponent<HeuristicUIPanel>());
+            if (panels.Count == heuristicContainers.Length)
+            {
+                return false;
+            }
+            addHeuristic(heuristicPanel);
             return true;
         }
         else
@@ -47,8 +54,24 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     /// </summary>
     public void SaveCurrentClass()
     {
-        TextInputDialogue d = GameObject.Instantiate(textInputDialoguePrefab);
-        d.Init(saveCurrentClass, null, "What would you like to name your class?", "Class Name");
+        // make sure they have a name entered
+        if (nameInputField.text == "")
+        {
+            InfoDialogue d = GameObject.Instantiate(infoDialoguePrefab);
+            d.Init(null, "Please enter a name for your new class");
+        }
+        // make sure they have at least one behavior
+        else if (panels.Count == 0)
+        {
+            InfoDialogue d = GameObject.Instantiate(infoDialoguePrefab);
+            d.Init(null, "Please add behaviors before saving your class");
+        }
+        else
+        {
+            saveCurrentClass(nameInputField.text);
+            InfoDialogue d = GameObject.Instantiate(infoDialoguePrefab);
+            d.Init(null, "Class Saved!");
+        }
     }
 
     /// <summary>
@@ -88,6 +111,7 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
             }
         }
         panels.Clear();
+        nameInputField.text = "";
     }
 
     public void LoadHeuristicsFromList(List<HInterface.HType> Heuristics)
@@ -96,8 +120,7 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
         foreach(HInterface.HType h in Heuristics)
         {
             HeuristicUIPanel p = heuristicPanelAccessor.GetHeuristicPanel(h);
-            p.transform.SetParent(transform);
-            panels.Add(p);
+            addHeuristic(p.gameObject);
         }
     }
 
@@ -121,5 +144,16 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     public void OnPointerExit(PointerEventData eventData)
     {
         currentDropValid = false;
+    }
+
+    private void addHeuristic(GameObject heuristicPanel)
+    {
+        heuristicPanel.transform.SetParent(heuristicContainers[panels.Count].transform, false);
+        panels.Add(heuristicPanel.GetComponent<HeuristicUIPanel>());
+        RectTransform rt = heuristicPanel.GetComponent<RectTransform>();
+        rt.anchorMax = new Vector2(1, 1);
+        rt.anchorMin = Vector2.zero;
+        rt.sizeDelta = Vector2.zero;
+        rt.localPosition = Vector3.zero;
     }
 }
