@@ -11,6 +11,9 @@ public class Unit : MonoBehaviour
 {
     [Header("Unit Stats:")]
     [SerializeField]
+    private StatBlock statBlock;
+
+    [SerializeField]
     private int currentHealth;
     public int CurrentHealth { get { return currentHealth; } }
 
@@ -29,10 +32,12 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private float attackCooldown;
     public float AttackCooldown { get { return attackCooldown; } }
-
-    [SerializeField]
+ 
     private string unitType;
     public string UnitType { get { return unitType; } }
+
+    private float movementSpeed;
+    public float MovementSpeed { get { return movementSpeed;} }
     
     
     [Header("UI Stuff:")]
@@ -53,6 +58,12 @@ public class Unit : MonoBehaviour
 
     public void Start()
     {
+        maxHealth = statBlock.MaxHealth;
+        movementSpeed = statBlock.MovementSpeed;
+        unitType = statBlock.UnitType;
+
+        currentHealth = maxHealth; // Start the unit with max health.
+
         if (behaviors.Count > 0 && startAIImmediate)
         {
             currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
