@@ -69,7 +69,7 @@ public class H_Attack : Heuristic
 
             if (attackExecuted == false)
             {
-                StartCoroutine(Attack());
+                StartCoroutine(RangedAttack());
                 attackExecuted = true;
             }
 
@@ -87,7 +87,7 @@ public class H_Attack : Heuristic
     /// <summary>
     /// Fires a projectile towards the current target.
     /// </summary>
-    private IEnumerator Attack()
+    private IEnumerator RangedAttack()
     {
         GameObject projectileGO;
 
@@ -101,9 +101,9 @@ public class H_Attack : Heuristic
 
         Vector3 normalizedAttackDirection = (unit.CurrentTarget.transform.position - transform.position).normalized;
 
-        instance.velocity = normalizedAttackDirection * 3.5f;
+        instance.velocity = normalizedAttackDirection * 8f;
 
-        Destroy(instance.gameObject, 2);
+        Destroy(instance.gameObject, 3);
 
         // Attack needs a cooldown or else it will resolve way too fast, creating an insane attack speed.
         yield return new WaitForSeconds(unit.AttackCooldown);

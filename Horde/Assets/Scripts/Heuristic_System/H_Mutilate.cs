@@ -103,8 +103,8 @@ public class H_Mutilate : Heuristic
 
         Vector3 normalizedAttackDirection = (unit.CurrentTarget.transform.position - transform.position).normalized;
 
-        instance.velocity = normalizedAttackDirection * 3.5f;
+        instance.velocity = normalizedAttackDirection * 8f;
 
-        Destroy(instance.gameObject, 2);
+        Destroy(instance.gameObject, 3);
     }
 }

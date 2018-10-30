@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 33311983983700746}
   - component: {fileID: 23216913398028810}
   m_Layer: 10
-  m_Name: SM_Melee_WB
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,16 +142,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
-  currentHealth: 8
-  maxHealth: 8
-  attackVelocity: 10
-  attackRange: 5
-  attackCooldown: 1
+  attack: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058, type: 2}
   healthBarMask: {fileID: 0}
   useHeuristicSwapping: 1
   startAIImmediate: 0
-  currentTarget: {fileID: 0}
   behaviors: 0000000005000000
+  currentHealth: 8
+  currentTarget: {fileID: 0}
 --- !u!114 &114795652543283740
 MonoBehaviour:
   m_ObjectHideFlags: 1
