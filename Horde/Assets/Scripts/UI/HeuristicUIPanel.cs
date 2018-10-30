@@ -32,7 +32,7 @@ public class HeuristicUIPanel : MonoBehaviour, IDragHandler, IBeginDragHandler, 
         if (CopyOnDrag)
         {
             GameObject replacementPanel = GameObject.Instantiate(gameObject);
-            replacementPanel.transform.SetParent(lastParent);
+            replacementPanel.transform.SetParent(lastParent, false);
             replacementPanel.transform.SetSiblingIndex(index);
             replacementPanel.gameObject.name = gameObject.name;
             CopyOnDrag = false;
