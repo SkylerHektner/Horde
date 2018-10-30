@@ -32,6 +32,7 @@ public class MapNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     private void Start()
     {
+        sphereMat = GetComponent<Renderer>().material;
         currentRimValue = sphereMat.GetFloat("_RimValue");
         currentLightIntensity = pointLight.intensity;
         targetRimValue = defaultRimIntensity;
