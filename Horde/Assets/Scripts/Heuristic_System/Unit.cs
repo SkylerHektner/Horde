@@ -56,12 +56,12 @@ public class Unit : MonoBehaviour
     private int curHIndex = 0;
     private Heuristic currentHeuristic;
 
+    private Attack attack;
+
     public void Start()
     {
-        maxHealth = statBlock.MaxHealth;
-        movementSpeed = statBlock.MovementSpeed;
-        unitType = statBlock.UnitType;
-
+        InitializeStats();
+        
         currentHealth = maxHealth; // Start the unit with max health.
 
         if (behaviors.Count > 0 && startAIImmediate)
@@ -137,6 +137,30 @@ public class Unit : MonoBehaviour
     {
         currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
         currentHeuristic.Init();
+    }
+
+    /// <summary>
+    ///
+    /// Reads from a scriptable object reference
+    /// to set the stats of the unit.
+    ///
+    /// </summary>
+    private void InitializeStats()
+    {
+        maxHealth = statBlock.MaxHealth;
+        movementSpeed = statBlock.MovementSpeed;
+        unitType = statBlock.UnitType;
+    }
+
+    /// <summary>
+    ///
+    /// Reads from a scriptable object reference
+    /// to set the values of the attack.
+    ///
+    /// </summary>
+    public void InitializeAttackValues()
+    {
+
     }
 
     private void OnCollisionEnter(Collision collision)
