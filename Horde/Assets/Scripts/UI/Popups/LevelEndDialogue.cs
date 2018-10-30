@@ -8,48 +8,21 @@ public class LevelEndDialogue : MonoBehaviour {
 
 
     [SerializeField]
-    private Button playAgainButton;
+    private Button continueButton;
 
-    [SerializeField]
-    private Button exitLevelButton;
+    private UnityEngine.Events.UnityAction continueAction;
 
-    [SerializeField]
-    private Text promptText;
-
-    private UnityEngine.Events.UnityAction playAgainAction;
-    private UnityEngine.Events.UnityAction exitLevelAction;
-
-    public void init(UnityEngine.Events.UnityAction onPlayAgain,
-        UnityEngine.Events.UnityAction onExitLevel, string promptText,
-        string playAgainText = "Play Again", string exitLevelText = "Exit Level")
+    public void init(UnityEngine.Events.UnityAction onContinue)
     {
-        playAgainButton.onClick.AddListener(internalPlayAgain);
-        if (onExitLevel != null)
-        {
-            exitLevelAction = onExitLevel;
-        }
-        exitLevelButton.onClick.AddListener(internalExitLevel);
-        playAgainButton.GetComponentInChildren<Text>().text = playAgainText;
-        exitLevelButton.GetComponentInChildren<Text>().text = exitLevelText;
-        this.promptText.text = promptText;
-
-        playAgainAction = onPlayAgain;
+        continueButton.onClick.AddListener(internalContinue);
+        continueAction = onContinue;
     }
 
-    private void internalExitLevel()
+    private void internalContinue()
     {
-        if(exitLevelAction != null)
+       if(continueAction != null)
         {
-            exitLevelAction();
-        }
-        Destroy(gameObject);
-    }
-
-    private void internalPlayAgain()
-    {
-       if(playAgainAction != null)
-        {
-            playAgainAction();
+            continueAction();
         }
         Destroy(gameObject);
     }
