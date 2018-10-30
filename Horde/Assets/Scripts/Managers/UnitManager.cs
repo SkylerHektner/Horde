@@ -21,8 +21,7 @@ public class UnitManager : MonoBehaviour
     private GameObject teamOneUnitContainer;
     private GameObject teamTwoUnitContainer;
 
-    public class LevelEndEvent : UnityEvent<bool> { }
-    public LevelEndEvent LevelEnd;
+    public UnityEvent LevelEnd;
 
     /// <summary>
     /// Returns the number of living units from Team One
@@ -294,13 +293,9 @@ public class UnitManager : MonoBehaviour
         teamTwoUnits = teamTwoUnitContainer.GetComponentsInChildren<Unit>();
         teamOneUnits = teamOneUnitContainer.GetComponentsInChildren<Unit>();
 
-        if(TeamOneUnitCount <= 0)
+        if(teamTwoUnits.Length <= 0)
         {
-            LevelEnd.Invoke(true);
-        }
-        else if (TeamTwoUnitCount <= 0)
-        {
-            LevelEnd.Invoke(false);
+            LevelEnd.Invoke();
         }
     }
 }

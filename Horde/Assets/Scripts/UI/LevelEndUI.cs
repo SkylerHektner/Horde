@@ -8,8 +8,6 @@ public class LevelEndUI : MonoBehaviour {
     public UnitManager UnitManager;
     public LevelEndDialogue levelEndDialoguePrefab;
 
-    private string winningTeam = "NO WINNER YET";
-
 	// Use this for initialization
 	void Start () {
         UnitManager.LevelEnd.AddListener(displayEndLevel);
@@ -19,27 +17,15 @@ public class LevelEndUI : MonoBehaviour {
     /// displays the end level text showing Victory if the TeamOneLose == true else showing failure
     /// </summary>
     /// <param name="TeamOneLose"></param>
-    public void displayEndLevel(bool TeamOneLose)
+    public void displayEndLevel()
     {
-        if(TeamOneLose)
-        {
-            winningTeam = "Team 2";
-        }
-        else
-        {
-            winningTeam = "Team 1";
-        }
         LevelEndDialogue LED = GameObject.Instantiate(levelEndDialoguePrefab);
-        LED.init(ResetLevel, ExitLevel, winningTeam + " wins! Would you like to play again?");
-    }
-
-    private void ResetLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        LED.init(ExitLevel);
     }
 
     private void ExitLevel()
     {
+        SerializationManager.Instance.ChangeLevelCompletionStatus(SceneManager.GetActiveScene().name, true);
         SceneManager.LoadScene("LevelSelect");
     }
 }
