@@ -27,7 +27,7 @@ public class H_WatchForEnemy : Heuristic
         {
             if (c.tag == lookingForTag)
             {
-                unit.currentTarget = c.GetComponent<Unit>();
+                unit.CurrentTarget = c.GetComponent<Unit>();
                 Resolve();
             }
         }

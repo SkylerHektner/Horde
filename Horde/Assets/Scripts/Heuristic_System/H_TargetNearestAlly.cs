@@ -37,7 +37,7 @@ public class H_TargetNearestAlly : Heuristic
 
     public override void Resolve()
     {
-        unit.currentTarget = closestAlly; // Set the unit's current target to it's closest ally.
+        unit.CurrentTarget = closestAlly; // Set the unit's current target to it's closest ally.
 
         base.Resolve(); // Switch to the next heuristic.
     }

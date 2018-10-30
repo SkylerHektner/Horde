@@ -39,7 +39,7 @@ public class H_TargetNearestEnemy : Heuristic
 
     public override void Resolve()
     {
-        unit.currentTarget = closestEnemy; // Set the unit's current target to it's closest enemy.
+        unit.CurrentTarget = closestEnemy; // Set the unit's current target to it's closest enemy.
 
         base.Resolve(); // Switch to the next heuristic.
     }

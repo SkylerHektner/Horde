@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 
 /// The container for all of the shared data for a base unit.
-///
 /// </summary>
 [CreateAssetMenu(fileName = "StatBlock", menuName = "StatBlock")]
 public class StatBlock : ScriptableObject
@@ -21,4 +19,14 @@ public class StatBlock : ScriptableObject
 	[SerializeField]
 	private string unitType;
 	public string UnitType { get { return unitType ; } }
+
+	private Unit u;
+
+	public void Initialize(GameObject obj)
+	{
+		u = obj.GetComponent<Unit>();
+
+		u.MaxHealth = MaxHealth;
+		u.MovementSpeed = MovementSpeed;
+	}
 }

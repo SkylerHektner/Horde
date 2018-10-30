@@ -37,7 +37,7 @@ public class H_TargetWeakestAlly : Heuristic
 
     public override void Resolve()
     {
-        unit.currentTarget = weakestAlly; // Set the unit's current target to it's weakest ally.
+        unit.CurrentTarget = weakestAlly; // Set the unit's current target to it's weakest ally.
 
         base.Resolve(); // Switch to the next heuristic.
     }

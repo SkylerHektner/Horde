@@ -71,7 +71,7 @@ public class H_SeekNearestEnemy : Heuristic
         agent.isStopped = true;
         agent.ResetPath();
 
-        unit.currentTarget = closestEnemy;
+        unit.CurrentTarget = closestEnemy;
 
         base.Resolve(); // Switch to the next heuristic
     }
@@ -82,7 +82,7 @@ public class H_SeekNearestEnemy : Heuristic
         {
             //Debug.Log("Enemy Found!");
 
-            unit.currentTarget = obj.gameObject.GetComponent<Unit>(); // Set the current target to the enemy it ran into
+            unit.CurrentTarget = obj.gameObject.GetComponent<Unit>(); // Set the current target to the enemy it ran into
 
             if (unit != null)
             {

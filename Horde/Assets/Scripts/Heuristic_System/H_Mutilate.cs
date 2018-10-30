@@ -22,7 +22,7 @@ public class H_Mutilate : Heuristic
         
         agent = GetComponent<NavMeshAgent>();
         
-        if (unit.currentTarget != null) // If the unit is still alive.
+        if (unit.CurrentTarget != null) // If the unit is still alive.
         {
             StartCoroutine(StartAttacking());
         } 
@@ -47,15 +47,15 @@ public class H_Mutilate : Heuristic
 
     public override void Execute()
     {
-        if (unit.currentTarget == null)
+        if (unit.CurrentTarget == null)
             return;
 
 
         //  Follow the enemy if it is moving.
-        if(Vector3.Distance(transform.position, unit.currentTarget.transform.position) > unit.AttackRange)
+        if(Vector3.Distance(transform.position, unit.CurrentTarget.transform.position) > unit.AttackRange)
         {
             inRange = false;
-            agent.SetDestination(unit.currentTarget.transform.position);
+            agent.SetDestination(unit.CurrentTarget.transform.position);
         }
         else
         {
@@ -77,7 +77,7 @@ public class H_Mutilate : Heuristic
     {
         // TODO: Call the correct attack corresponding to the base unit.
 
-        while (unit.currentTarget != null) // Attack until the target is dead.
+        while (unit.CurrentTarget != null) // Attack until the target is dead.
         {
             if(inRange == true)
                 Attack();
@@ -101,9 +101,9 @@ public class H_Mutilate : Heuristic
 
         Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
 
-        Vector3 normalizedAttackDirection = (unit.currentTarget.transform.position - transform.position).normalized;
+        Vector3 normalizedAttackDirection = (unit.CurrentTarget.transform.position - transform.position).normalized;
 
-        instance.velocity = normalizedAttackDirection * unit.AttackVelocity;
+        instance.velocity = normalizedAttackDirection * 3.5f;
 
         Destroy(instance.gameObject, 2);
     }

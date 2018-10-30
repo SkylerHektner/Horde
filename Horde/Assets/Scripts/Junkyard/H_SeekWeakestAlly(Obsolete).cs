@@ -72,7 +72,7 @@ public class H_SeekWeakestAlly : Heuristic {
         agent.isStopped = true;
         agent.ResetPath();
 
-        unit.currentTarget = weakestAlly;
+        unit.CurrentTarget = weakestAlly;
 
         base.Resolve(); // Switch to the next heuristic
     }

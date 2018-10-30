@@ -26,7 +26,7 @@ public class H_AttackRanged : Heuristic
         base.Init();
 
         // If there is no current target, the unit will idle.
-        if (unit.currentTarget == null)
+        if (unit.CurrentTarget == null)
             idle = true;
         else
             idle = false;
@@ -37,7 +37,7 @@ public class H_AttackRanged : Heuristic
 
     public override void Execute() // --Logic that should be called every tick.-- //
     {
-        if (!idle && unit.currentTarget == null) // This should mean the enemy died.
+        if (!idle && unit.CurrentTarget == null) // This should mean the enemy died.
         {
             UnitManager.instance.UpdateUnits(); // Notify the enemy manager to update it's enemy list because an enemy died.
             Resolve();
@@ -45,7 +45,7 @@ public class H_AttackRanged : Heuristic
 
         if (EnemyInRangeCheck() && idle)
         {
-            unit.currentTarget = UnitManager.instance.GetClosestEnemy(GetComponent<Unit>());
+            unit.CurrentTarget = UnitManager.instance.GetClosestEnemy(GetComponent<Unit>());
             attackFlag = true;
             idle = false;
         }
@@ -70,7 +70,7 @@ public class H_AttackRanged : Heuristic
         GameObject projectileGO = Instantiate(Resources.Load("Projectile"), transform.position, transform.rotation) as GameObject;
         Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
 
-        Vector3 normalizedAttackDirection = (unit.currentTarget.transform.position - transform.position).normalized;
+        Vector3 normalizedAttackDirection = (unit.CurrentTarget.transform.position - transform.position).normalized;
 
         instance.velocity = normalizedAttackDirection * attackVelocity;
 

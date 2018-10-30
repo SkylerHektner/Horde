@@ -27,7 +27,7 @@ public class H_Attack : Heuristic
 
         agent = GetComponent<NavMeshAgent>();
 
-        if (unit.currentTarget == null) // If the target is already dead.
+        if (unit.CurrentTarget == null) // If the target is already dead.
         {
             // Check if there are any enemies remaining.
             // Returning if the enemy count is zero prevents the game from hanging.
@@ -45,23 +45,23 @@ public class H_Attack : Heuristic
             Resolve();
         }
 
-        agent.SetDestination(unit.currentTarget.transform.position);
+        agent.SetDestination(unit.CurrentTarget.transform.position);
     }
 
     public override void Execute()
     {
-        if (unit.currentTarget == null)
+        if (unit.CurrentTarget == null)
         {
             Resolve();
             return;
         }
             
         //  Follow the enemy if it is moving.
-        if (Vector3.Distance(transform.position, unit.currentTarget.transform.position) > unit.AttackRange)
+        if (Vector3.Distance(transform.position, unit.CurrentTarget.transform.position) > unit.AttackRange)
         {
             inRange = false;
             agent.isStopped = false;
-            agent.SetDestination(unit.currentTarget.transform.position);
+            agent.SetDestination(unit.CurrentTarget.transform.position);
         }
         else
         {
@@ -99,9 +99,9 @@ public class H_Attack : Heuristic
 
         Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
 
-        Vector3 normalizedAttackDirection = (unit.currentTarget.transform.position - transform.position).normalized;
+        Vector3 normalizedAttackDirection = (unit.CurrentTarget.transform.position - transform.position).normalized;
 
-        instance.velocity = normalizedAttackDirection * unit.AttackVelocity;
+        instance.velocity = normalizedAttackDirection * 3.5f;
 
         Destroy(instance.gameObject, 2);
 

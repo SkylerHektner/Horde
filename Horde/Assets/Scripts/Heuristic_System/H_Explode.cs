@@ -31,13 +31,13 @@ public class H_Explode : Heuristic
 
     public override void Execute()
     {
-        if (unit.currentTarget == null)
+        if (unit.CurrentTarget == null)
             Resolve();
 
         // Charge towards the current target 
-        transform.position = Vector3.MoveTowards(transform.position, unit.currentTarget.transform.position, chargeSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, unit.CurrentTarget.transform.position, chargeSpeed * Time.deltaTime);
 
-        if(Vector3.Distance(transform.position, unit.currentTarget.transform.position) < 1)
+        if(Vector3.Distance(transform.position, unit.CurrentTarget.transform.position) < 1)
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionSize);
 

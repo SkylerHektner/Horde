@@ -63,7 +63,7 @@ public class H_SeekWeakestEnemy : Heuristic {
         agent.isStopped = true;
         agent.ResetPath();
 
-        unit.currentTarget = weakestEnemy;
+        unit.CurrentTarget = weakestEnemy;
 
         base.Resolve(); // Switch to the next heuristic
     }

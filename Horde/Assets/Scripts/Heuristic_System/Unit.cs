@@ -4,65 +4,51 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// This is the base class for all units in the game. It is responsible for managing Heuristics.
-/// It also exposes information that Heuristics might be interested in like health, current target, etc...
+/// This is the base class for all units in the game. It is responsible for managing Heuristics,
+/// and reading / storing data from data containers.
 /// </summary>
 public class Unit : MonoBehaviour
 {
     [Header("Unit Stats:")]
-    [SerializeField]
-    private StatBlock statBlock;
-
-    [SerializeField]
-    private int currentHealth;
-    public int CurrentHealth { get { return currentHealth; } }
-
-    [SerializeField]
-    private int maxHealth;
-    public int MaxHealth { get { return maxHealth; } }
-
-    [SerializeField]
-    private float attackVelocity;
-    public float AttackVelocity { get { return attackVelocity; } }
-
-    [SerializeField]
-    private float attackRange;
-    public float AttackRange { get { return attackRange; } }
-
-    [SerializeField]
-    private float attackCooldown;
-    public float AttackCooldown { get { return attackCooldown; } }
- 
-    private string unitType;
-    public string UnitType { get { return unitType; } }
-
-    private float movementSpeed;
-    public float MovementSpeed { get { return movementSpeed;} }
-    
+    [SerializeField] private StatBlock statBlock;
+    [SerializeField] private Attack attack;
     
     [Header("UI Stuff:")]
-    [SerializeField]
-    private Image healthBarMask;
+    [SerializeField] private Image healthBarMask;
 
     [Header("AI Stuff:")]
-    [SerializeField]
-    private bool useHeuristicSwapping = true;
-    [SerializeField]
-    private bool startAIImmediate = false; // if true, starts AI on simulation start
+    [SerializeField] private bool useHeuristicSwapping = true;
+    [SerializeField] private bool startAIImmediate = false; // if true, starts AI on simulation start
 
-    public Unit currentTarget; // The enemy that the player finds while 'Seeking'
-    public List<HInterface.HType> behaviors;
+    [SerializeField] public List<HInterface.HType> behaviors;
+    public List<HInterface.HType> Behaviors { get { return behaviors; } }
+
+    // --Shared Variables-- //
+    public int MaxHealth { get; set; }
+    public float AttackDamage { get; set; }
+    public float AttackRange { get; set; }
+    public float AttackCooldown { get; set; }
+    public string UnitType { get; set; }
+    public float MovementSpeed { get; set; }
+    public float TrajectoryAngle { get; set; }
+    public Transform ProjectilePrefab { get; set; }
+
+    // --Non-Shared Variables-- //
+    [Header("For debugging. Don't change these in the editor")]
+    [SerializeField] private int currentHealth;
+    public int CurrentHealth { get; set; }
+    [SerializeField] private Unit currentTarget; // The enemy that the unit targets from a Target heuristic.
+    public Unit CurrentTarget { get { return currentTarget; } set { currentTarget = value; } }
 
     private int curHIndex = 0;
     private Heuristic currentHeuristic;
 
-    private Attack attack;
-
     public void Start()
     {
-        InitializeStats();
+        statBlock.Initialize(gameObject); // Initialize all of the unit stats.
+        attack.Initialize(gameObject); // Initialize all of the attack values.
         
-        currentHealth = maxHealth; // Start the unit with max health.
+        CurrentHealth = MaxHealth; // Start the unit with max health.
 
         if (behaviors.Count > 0 && startAIImmediate)
         {
@@ -103,33 +89,33 @@ public class Unit : MonoBehaviour
     /// </summary>
     public bool TakeDamage(int dmgAmount)
     {
-        currentHealth -= dmgAmount;
+        CurrentHealth -= dmgAmount;
         if (healthBarMask != null)
         {
-            healthBarMask.fillAmount = (float)currentHealth / (float)maxHealth;
+            healthBarMask.fillAmount = (float)CurrentHealth / (float)MaxHealth;
         }
         // TODO: Call a destroy function if health drops below 0.
-        if (currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             gameObject.transform.SetParent(null); // this is important for UnitManager.UpdateUnits();
             Destroy(gameObject);
             UnitManager.instance.UpdateUnits();
         }
 
-        return currentHealth <= 0;
+        return CurrentHealth <= 0;
     }
     public bool HealDamage(int dmgAmount)
     {
-        if (currentHealth <= maxHealth)
+        if (CurrentHealth <= MaxHealth)
         {
-            currentHealth += dmgAmount;
+            CurrentHealth += dmgAmount;
         }       
         if (healthBarMask != null)
         {
-            healthBarMask.fillAmount = (float)currentHealth / (float)maxHealth;
+            healthBarMask.fillAmount = (float)CurrentHealth / (float)MaxHealth;
         }
  
-        return currentHealth == maxHealth;
+        return CurrentHealth == MaxHealth;
     }
 
     [ContextMenu("Start AI")]
@@ -137,30 +123,6 @@ public class Unit : MonoBehaviour
     {
         currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
         currentHeuristic.Init();
-    }
-
-    /// <summary>
-    ///
-    /// Reads from a scriptable object reference
-    /// to set the stats of the unit.
-    ///
-    /// </summary>
-    private void InitializeStats()
-    {
-        maxHealth = statBlock.MaxHealth;
-        movementSpeed = statBlock.MovementSpeed;
-        unitType = statBlock.UnitType;
-    }
-
-    /// <summary>
-    ///
-    /// Reads from a scriptable object reference
-    /// to set the values of the attack.
-    ///
-    /// </summary>
-    public void InitializeAttackValues()
-    {
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -194,34 +156,5 @@ public class Unit : MonoBehaviour
                 HealDamage(1);
             }
         }
-
-        /*
-        if(collision.gameObject.tag == "Projectile")
-        {
-            if(gameObject.tag == "TeamTwoUnit") // We only want projectiles to effect enemies.
-            {
-                Destroy(collision.gameObject);
-                TakeDamage(1);
-            }
-        }
-
-        if(collision.gameObject.tag == "EnemyProjectile")
-        {
-            if(gameObject.layer == 11) // If it's the ally layer
-            {
-                Destroy(collision.gameObject);
-                TakeDamage(1);
-            }
-        }
-
-        if(collision.gameObject.tag == "HealProjectile")
-        {
-            if(gameObject.layer == 11) // If it's the ally layer
-            {
-                Destroy(collision.gameObject);
-                HealDamage(1);
-            }
-        }
-        */
     }
 }
