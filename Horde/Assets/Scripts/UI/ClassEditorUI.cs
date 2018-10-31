@@ -13,29 +13,42 @@ public class ClassEditorUI : MonoBehaviour {
     private GameObject classPanel;
     [SerializeField]
     private Button toggleButton;
+    [SerializeField]
+    private GameObject BaseUnitSelectPanel;
+    [SerializeField]
+    private GameObject BaseUnitInfoPanel;
+
+    public ClassAreaUIPanel classAreaUIPanel { get { return classPanel.GetComponentInChildren<ClassAreaUIPanel>(); } }
 
     private string placeUnitsText = "Place Units";
     private string editClassesText = "Edit Classes";
 
     public bool InEditMode = true;
 
-    [SerializeField]
-    private Vector2 classAnchorMinEdit;
-    [SerializeField]
-    private Vector2 classAnchorMaxEdit;
-    [SerializeField]
-    private Vector2 classAnchorMinPlay;
-    [SerializeField]
-    private Vector2 classAnchorMaxPlay;
-
     private void Start()
     {
         swapButtonText();
     }
 
+    public void ShowBaseUnitPanel()
+    {
+        BaseUnitSelectPanel.SetActive(true);
+        heuristicsPanel.SetActive(false);
+        editArea.SetActive(false);
+    }
+
+    public void HideBaseUnitPanel()
+    {
+        BaseUnitSelectPanel.SetActive(false);
+        heuristicsPanel.SetActive(true);
+        editArea.SetActive(true);
+    }
+
+    /// <summary>
+    /// Switches between edit mode and play mode
+    /// </summary>
     public void ToggleMode()
     {
-        RectTransform rt = classPanel.GetComponent<RectTransform>();
         if (!InEditMode)
         {
             heuristicsPanel.SetActive(true);
@@ -47,8 +60,9 @@ public class ClassEditorUI : MonoBehaviour {
             heuristicsPanel.SetActive(false);
             editArea.SetActive(false);
             classPanel.SetActive(true);
+            BaseUnitSelectPanel.SetActive(false);
+            BaseUnitInfoPanel.SetActive(false);
         }
-        rt.sizeDelta = Vector2.zero;
         InEditMode = !InEditMode;
         swapButtonText();
     }

@@ -16,9 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Unit baseUnitPrefab;
     [SerializeField]
-    private ClassAreaUIPanel classUIAreaPanel;
-    [SerializeField]
     private ClassEditorUI classEditorUI;
+    private ClassAreaUIPanel classUIAreaPanel;
     [SerializeField]
     private Text unitCapText;
 
@@ -46,7 +45,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         else if (instance != null)
             Destroy(gameObject);
-
+        classUIAreaPanel = classEditorUI.classAreaUIPanel;
         CurGameState = GameState.Setup;
         allyContainer = GameObject.Find("TeamOne");
         UpdateUnitCaptionText();
@@ -64,6 +63,10 @@ public class GameManager : MonoBehaviour
             RaycastHit hitInfo;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
+                if(classUIAreaPanel == null)
+                {
+                    classUIAreaPanel = classEditorUI.classAreaUIPanel;
+                }
                 if (classUIAreaPanel.CurrentSelectedPanel != null)
                 {
                     Unit u = Instantiate(baseUnitPrefab, hitInfo.point + new Vector3(0, 0.5f), Quaternion.identity);

@@ -144,8 +144,9 @@ GameObject:
   - component: {fileID: 114380265378066138}
   - component: {fileID: 114221061225399788}
   - component: {fileID: 114545953616015272}
+  - component: {fileID: 114519423123396208}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f220c7424c4a32f4fb921fcd833b6114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitManager: {fileID: 0}
+  UnitManager: {fileID: 114519423123396208}
   levelEndDialoguePrefab: {fileID: 114104022868948220, guid: 796793edeb79e734ab5af1f8c87de33a,
     type: 2}
 --- !u!114 &114239093262444416
@@ -353,7 +354,6 @@ MonoBehaviour:
   MaxUnitsForLevel: 5
   baseUnitPrefab: {fileID: 114582693977273408, guid: 0edb1055780099b4ea5e3d52d237414f,
     type: 2}
-  classUIAreaPanel: {fileID: 0}
   classEditorUI: {fileID: 0}
   unitCapText: {fileID: 114449683411485654}
 --- !u!114 &114441884733098382
@@ -422,6 +422,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0/10
+--- !u!114 &114519423123396208
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1832549557439656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80f384c082e30749a3b8cb5ae1bd219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelEnd:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114545953616015272
 MonoBehaviour:
   m_ObjectHideFlags: 1
