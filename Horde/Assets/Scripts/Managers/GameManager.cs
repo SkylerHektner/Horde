@@ -88,4 +88,9 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void ReturnToMap()
+    {
+        SceneManager.LoadScene("LevelSelect");
+    }
 }
