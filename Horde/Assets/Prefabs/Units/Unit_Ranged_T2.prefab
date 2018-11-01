@@ -47,6 +47,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1944052836946218
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4761769049123366}
+  m_Layer: 11
+  m_Name: ProjectileSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4203403948940846
 Transform:
   m_ObjectHideFlags: 1
@@ -54,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1431080323345036}
   m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 35.70325, y: 52.95653, z: 57.58673}
+  m_LocalPosition: {x: 1.5738714, y: -0.07897949, z: 7.7160244}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4702213059030740}
@@ -70,8 +85,22 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.0000004768371, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.07897949, z: -0.03713417}
   m_LocalScale: {x: 2.1781, y: 2.1781, z: 2.1781}
-  m_Children: []
+  m_Children:
+  - {fileID: 4761769049123366}
   m_Father: {fileID: 4203403948940846}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4761769049123366
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1944052836946218}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.412, z: 0.5219}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4702213059030740}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23458282462233102
@@ -142,16 +171,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
-  currentHealth: 8
-  maxHealth: 8
-  attackVelocity: 10
-  attackRange: 5
-  attackCooldown: 1
+  attack: {fileID: 0}
   healthBarMask: {fileID: 0}
   useHeuristicSwapping: 1
   startAIImmediate: 0
-  currentTarget: {fileID: 0}
   behaviors: 0000000005000000
+  currentHealth: 8
+  currentTarget: {fileID: 0}
+  projectileSpawn: {fileID: 4761769049123366}
 --- !u!114 &114688598482538584
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -25,7 +25,7 @@ public class Unit : MonoBehaviour
 
     // --Shared Variables-- //
     public int MaxHealth { get; set; }
-    public float AttackDamage { get; set; }
+    public int AttackDamage { get; set; }
     public float AttackRange { get; set; }
     public float AttackCooldown { get; set; }
     public string UnitType { get; set; }
@@ -42,6 +42,8 @@ public class Unit : MonoBehaviour
 
     private int curHIndex = 0;
     private Heuristic currentHeuristic;
+
+    public Transform projectileSpawn;
 
     public void Start()
     {
@@ -132,8 +134,10 @@ public class Unit : MonoBehaviour
         {
             if(collision.gameObject.tag == "TeamTwoProjectile")
             {
+                Projectile p = collision.gameObject.GetComponent<Projectile>();
+
                 Destroy(collision.gameObject);
-                TakeDamage(1);
+                TakeDamage(p.damage);
             }
 
             if(collision.gameObject.tag == "Heal")
@@ -146,8 +150,10 @@ public class Unit : MonoBehaviour
         {
             if (collision.gameObject.tag == "TeamOneProjectile")
             {
+                Projectile p = collision.gameObject.GetComponent<Projectile>();
+
                 Destroy(collision.gameObject);
-                TakeDamage(1);
+                TakeDamage(p.damage);
             }
 
             if (collision.gameObject.tag == "Heal")

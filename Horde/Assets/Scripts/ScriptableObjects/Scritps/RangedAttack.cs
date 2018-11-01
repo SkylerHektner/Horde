@@ -14,7 +14,7 @@ public class RangedAttack : Attack
     private float attackRange;
     public float AttackRange { get { return attackRange; } }
 
-    [SerializeField]
+    [SerializeField, Range(10.0f, 80.0f)]
     private float trajectoryAngle;
     public float TrajectoryAngle { get { return trajectoryAngle; } }
 
