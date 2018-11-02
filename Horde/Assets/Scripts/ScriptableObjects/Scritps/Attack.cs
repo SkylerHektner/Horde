@@ -8,16 +8,14 @@ using UnityEngine;
 public abstract class Attack : ScriptableObject
 {
 	[SerializeField]
-	private AudioClip soundEffect; // Not used yet.
-	public AudioClip SoundEffect { get { return soundEffect; } } 
+	protected AudioClip soundEffect; // Not used yet.
 
 	[SerializeField]
-	private int attackDamage;
-	public int AttackDamage { get { return attackDamage; } }
+	protected int attackDamage;
 
 	[SerializeField]
-	private float attackCooldown;
-	public float AttackCooldown { get { return attackCooldown; } }
+	protected float attackCooldown;
 
 	public abstract void Initialize(GameObject obj);
+	public abstract void ExecuteAttack(Unit u);
 }

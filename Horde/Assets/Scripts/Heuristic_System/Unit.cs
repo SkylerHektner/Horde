@@ -10,15 +10,27 @@ using UnityEngine.UI;
 public class Unit : MonoBehaviour
 {
     [Header("Unit Stats:")]
-    [SerializeField] private StatBlock statBlock;
-    [SerializeField] private Attack attack;
+    [SerializeField]
+    private StatBlock statBlock;
+
+    [SerializeField] 
+    private Attack attack;
+    public Attack Attack { get { return attack; } }
+
+    // ---- //
     
     [Header("UI Stuff:")]
-    [SerializeField] private Image healthBarMask;
+    [SerializeField]
+    private Image healthBarMask;
+
+    // ---- //
 
     [Header("AI Stuff:")]
-    [SerializeField] private bool useHeuristicSwapping = true;
-    [SerializeField] private bool startAIImmediate = false; // if true, starts AI on simulation start
+    [SerializeField]
+    private bool useHeuristicSwapping = true;
+
+    [SerializeField] 
+    private bool startAIImmediate = false; // if true, starts AI on simulation start
 
     [SerializeField] public List<HInterface.HType> behaviors;
     public List<HInterface.HType> Behaviors { get { return behaviors; } }
@@ -32,6 +44,7 @@ public class Unit : MonoBehaviour
     public float MovementSpeed { get; set; }
     public float TrajectoryAngle { get; set; }
     public Transform ProjectilePrefab { get; set; }
+    public Transform ParticleEffectPrefab { get; set; }
 
     // --Non-Shared Variables-- //
     [Header("For debugging. Don't change these in the editor")]
@@ -39,9 +52,11 @@ public class Unit : MonoBehaviour
     public int CurrentHealth { get; set; }
     [SerializeField] private Unit currentTarget; // The enemy that the unit targets from a Target heuristic.
     public Unit CurrentTarget { get { return currentTarget; } set { currentTarget = value; } }
+    [SerializeField] private Heuristic currentHeuristic;
+    public Heuristic CurrentHeuristic { get { return currentHeuristic; } }
 
     private int curHIndex = 0;
-    private Heuristic currentHeuristic;
+    
 
     public Transform projectileSpawn;
 
@@ -132,10 +147,10 @@ public class Unit : MonoBehaviour
         // Check which team this unit is on.
         if(gameObject.tag == "TeamOneUnit") // Unit is on team one.
         {
-            if(collision.gameObject.tag == "TeamTwoProjectile")
-            {
-                Projectile p = collision.gameObject.GetComponent<Projectile>();
+            Projectile p = collision.gameObject.GetComponent<Projectile>();
 
+            if(p.team == Team.TeamTwo)
+            {
                 Destroy(collision.gameObject);
                 TakeDamage(p.damage);
             }
@@ -148,10 +163,10 @@ public class Unit : MonoBehaviour
         }
         else if(gameObject.tag == "TeamTwoUnit") // Unit is on team two.
         {
-            if (collision.gameObject.tag == "TeamOneProjectile")
-            {
-                Projectile p = collision.gameObject.GetComponent<Projectile>();
+            Projectile p = collision.gameObject.GetComponent<Projectile>();
 
+            if (p.team == Team.TeamOne)
+            {
                 Destroy(collision.gameObject);
                 TakeDamage(p.damage);
             }
