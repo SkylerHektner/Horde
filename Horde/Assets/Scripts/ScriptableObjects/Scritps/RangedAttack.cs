@@ -41,7 +41,7 @@ public class RangedAttack : Attack
     {
         Debug.Log("Hit");
 
-        Vector3 projectileSpawnPoint = u.projectileSpawn.transform.position;
+        Vector3 projectileSpawnPoint = u.ProjectileSpawn.transform.position;
         Vector3 targetPosition = u.CurrentTarget.transform.position;
 
         Vector3 projectileSpawnXZPos = new Vector3(projectileSpawnPoint.x, 0, projectileSpawnPoint.z);
@@ -65,7 +65,7 @@ public class RangedAttack : Attack
 
         GameObject projectileGO;
 
-        projectileGO = Instantiate(projectilePrefab.gameObject, u.projectileSpawn.transform.position, Quaternion.identity) as GameObject;
+        projectileGO = Instantiate(projectilePrefab.gameObject, projectileSpawnPoint, Quaternion.identity) as GameObject;
 
         Projectile p = projectileGO.GetComponent<Projectile>();
         p.damage = u.AttackDamage; // Set the damage of the projectile.

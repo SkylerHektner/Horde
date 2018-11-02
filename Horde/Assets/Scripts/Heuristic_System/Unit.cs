@@ -32,6 +32,10 @@ public class Unit : MonoBehaviour
     [SerializeField] 
     private bool startAIImmediate = false; // if true, starts AI on simulation start
 
+    [SerializeField]
+    private Transform projectileSpawn;
+    public Transform ProjectileSpawn { get { return projectileSpawn; } }
+
     [SerializeField] public List<HInterface.HType> behaviors;
     public List<HInterface.HType> Behaviors { get { return behaviors; } }
 
@@ -56,9 +60,6 @@ public class Unit : MonoBehaviour
     public Heuristic CurrentHeuristic { get { return currentHeuristic; } }
 
     private int curHIndex = 0;
-    
-
-    public Transform projectileSpawn;
 
     public void Start()
     {
