@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4238656885629326}
   - component: {fileID: 114524213654114642}
+  - component: {fileID: 114577865546378216}
   - component: {fileID: 195046129127322510}
   - component: {fileID: 65232619752422254}
   - component: {fileID: 114249735068803508}
@@ -152,8 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f6145bd25ca5b448c645bbcad81e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
-  attack: {fileID: 11400000, guid: bbe431d5286032742b2934fe2793d53a, type: 2}
   healthBarMask: {fileID: 0}
   useHeuristicSwapping: 1
   startAIImmediate: 0
@@ -162,6 +161,19 @@ MonoBehaviour:
   currentHealth: 8
   currentTarget: {fileID: 0}
   currentHeuristic: {fileID: 0}
+--- !u!114 &114577865546378216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1422744317995440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf3ad17973e0d14bb8f996acf01c0fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
+  attack: {fileID: 11400000, guid: bbe431d5286032742b2934fe2793d53a, type: 2}
 --- !u!195 &195046129127322510
 NavMeshAgent:
   m_ObjectHideFlags: 1

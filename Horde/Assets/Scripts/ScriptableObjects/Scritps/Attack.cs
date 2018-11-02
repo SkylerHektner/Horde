@@ -16,6 +16,6 @@ public abstract class Attack : ScriptableObject
 	[SerializeField]
 	protected float attackCooldown;
 
-	public abstract void Initialize(GameObject obj);
+	public abstract void Initialize(Unit u);
 	public abstract void ExecuteAttack(Unit u);
 }

@@ -19,17 +19,13 @@ public class RangedAttack : Attack
     [SerializeField, Range(10.0f, 80.0f)]
     private float trajectoryAngle;
 
-    private Unit unit;
-
-    public override void Initialize(GameObject obj)
+    public override void Initialize(Unit u)
     {
-        unit = obj.GetComponent<Unit>();
-
-        unit.AttackDamage = attackDamage;
-        unit.AttackCooldown = attackCooldown;
-        unit.AttackRange = attackRange;
-        unit.TrajectoryAngle = trajectoryAngle;
-        unit.ProjectilePrefab = projectilePrefab;
+        u.AttackDamage = attackDamage;
+        u.AttackCooldown = attackCooldown;
+        u.AttackRange = attackRange;
+        u.TrajectoryAngle = trajectoryAngle;
+        u.ProjectilePrefab = projectilePrefab;
     }
 
     /// <summary>
@@ -39,8 +35,6 @@ public class RangedAttack : Attack
     /// </summary>
     public override void ExecuteAttack(Unit u)
     {
-        Debug.Log("Hit");
-
         Vector3 projectileSpawnPoint = u.ProjectileSpawn.transform.position;
         Vector3 targetPosition = u.CurrentTarget.transform.position;
 
@@ -68,8 +62,13 @@ public class RangedAttack : Attack
         projectileGO = Instantiate(projectilePrefab.gameObject, projectileSpawnPoint, Quaternion.identity) as GameObject;
 
         Projectile p = projectileGO.GetComponent<Projectile>();
-        p.damage = u.AttackDamage; // Set the damage of the projectile.
-        p.team = Team.TeamOne; // Set which team fired the projectile.
+        // Set the damage of the projectile.
+        p.damage = u.AttackDamage; 
+        // Set which team fires the projectile.
+        if(u.gameObject.tag == "TeamOneUnit")
+            p.team = Team.TeamOne;
+        else if(u.gameObject.tag == "TeamTwoUnit")
+            p.team = Team.TeamTwo;
 
         Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
 

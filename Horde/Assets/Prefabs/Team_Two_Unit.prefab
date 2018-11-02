@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4563578998753164}
   - component: {fileID: 114473698583448162}
+  - component: {fileID: 114788055443574276}
   - component: {fileID: 195430009144589202}
   - component: {fileID: 135539978968723766}
   - component: {fileID: 54653110650809470}
@@ -83,7 +84,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1147260055776320}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.391142, y: 54.20653, z: 56.93598}
+  m_LocalPosition: {x: 28.391142, y: 54.20653, z: 59.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4155468398807774}
@@ -97,7 +98,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1197967069350556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4155468398807774}
@@ -171,15 +172,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f6145bd25ca5b448c645bbcad81e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
-  attack: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058, type: 2}
   healthBarMask: {fileID: 0}
   useHeuristicSwapping: 1
   startAIImmediate: 1
+  projectileSpawn: {fileID: 4816595310896526}
   behaviors: 
   currentHealth: 0
   currentTarget: {fileID: 0}
-  projectileSpawn: {fileID: 4816595310896526}
+  currentHeuristic: {fileID: 0}
+--- !u!114 &114788055443574276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1147260055776320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf3ad17973e0d14bb8f996acf01c0fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
+  attack: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058, type: 2}
 --- !u!135 &135539978968723766
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -94,8 +94,7 @@ public class H_Mutilate : Heuristic
     {
         while(unit.CurrentTarget != null) // Attack until the target is dead.
         {
-            Attack a = unit.Attack;
-            a.ExecuteAttack(unit);
+            unit.UnitController.Attack();
 
             // Attack needs a cooldown or else it will resolve way too fast, creating an insane attack speed.
             yield return new WaitForSeconds(unit.AttackCooldown);

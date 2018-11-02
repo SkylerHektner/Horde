@@ -13,16 +13,12 @@ public class MeleeAttack : Attack
 	[SerializeField]
 	private Transform particleEffect;
 
-	private Unit unit;
-
-	public override void Initialize(GameObject obj)
+	public override void Initialize(Unit u)
 	{
-		unit = obj.GetComponent<Unit>();
-
-		unit.AttackDamage = attackDamage;
-		unit.AttackCooldown = attackCooldown;
-		unit.AttackRange = 2; // Melee attacks can only have a range of 2.
-		unit.ParticleEffectPrefab = particleEffect;
+		u.AttackDamage = attackDamage;
+		u.AttackCooldown = attackCooldown;
+		u.AttackRange = 2; // Melee attacks can only have a range of 2.
+		u.ParticleEffectPrefab = particleEffect;
 	}
 
 	/// <summary>
@@ -35,6 +31,6 @@ public class MeleeAttack : Attack
 		Destroy(meleeEffectGO, 0.5f);
 
 		// Apply damage
-		u.CurrentTarget.TakeDamage(u.AttackDamage);
+		u.CurrentTarget.UnitController.TakeDamage(u.AttackDamage);
     }
 }

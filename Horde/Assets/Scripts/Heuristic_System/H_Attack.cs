@@ -90,11 +90,9 @@ public class H_Attack : Heuristic
     /// </summary>
     private IEnumerator Attack()
     {
-        Attack a = unit.Attack;
-        a.ExecuteAttack(unit);
+        unit.UnitController.Attack();
 
-        // Attack needs a cooldown or else it will resolve way too fast, creating an insane attack speed.
-        yield return new WaitForSeconds(unit.AttackCooldown);
+        yield return new WaitForSeconds(unit.AttackCooldown); // Attack cooldown.
 
         Resolve();
     }

@@ -30,10 +30,8 @@ public class StatBlock : ScriptableObject
 
 	private Unit u;
 
-	public void Initialize(GameObject obj)
+	public void Initialize(Unit u)
 	{
-		u = obj.GetComponent<Unit>();
-
 		u.MaxHealth = MaxHealth;
 		u.MovementSpeed = MovementSpeed;
 

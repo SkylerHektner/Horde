@@ -88,6 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4680744946461420}
   - component: {fileID: 114582693977273408}
+  - component: {fileID: 114411762416422028}
   - component: {fileID: 195775679752140644}
   - component: {fileID: 65924784597169750}
   - component: {fileID: 114572489104089346}
@@ -140,7 +141,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1457713892099684}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.2885947, y: 0.71, z: 6.6328373}
+  m_LocalPosition: {x: -0.4189053, y: 0, z: 7.8765297}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4965522594565552}
@@ -169,7 +170,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1202649896280890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4965522594565552}
@@ -273,6 +274,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &114411762416422028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1457713892099684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf3ad17973e0d14bb8f996acf01c0fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
+  attack: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058, type: 2}
 --- !u!114 &114436417570251946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -338,15 +352,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f6145bd25ca5b448c645bbcad81e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
-  attack: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058, type: 2}
   healthBarMask: {fileID: 114758245576237430}
   useHeuristicSwapping: 1
   startAIImmediate: 0
+  projectileSpawn: {fileID: 4967719610400464}
   behaviors: 0000000001000000
   currentHealth: 0
   currentTarget: {fileID: 0}
-  projectileSpawn: {fileID: 4967719610400464}
+  currentHeuristic: {fileID: 0}
 --- !u!114 &114758245576237430
 MonoBehaviour:
   m_ObjectHideFlags: 1
