@@ -46,6 +46,7 @@ public class H_Attack : Heuristic
         }
 
         agent.SetDestination(unit.CurrentTarget.transform.position);
+        agent.speed = unit.MovementSpeed;
     }
 
     public override void Execute()
@@ -63,6 +64,7 @@ public class H_Attack : Heuristic
         {
             agent.isStopped = false;
             agent.SetDestination(unit.CurrentTarget.transform.position);
+            agent.speed = unit.MovementSpeed;
         }
         else // Target is in range.
         {

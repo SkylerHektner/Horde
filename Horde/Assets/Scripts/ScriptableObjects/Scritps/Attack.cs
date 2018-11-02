@@ -8,6 +8,10 @@ using UnityEngine;
 public abstract class Attack : ScriptableObject
 {
 	[SerializeField]
+	private AudioClip soundEffect; // Not used yet.
+	public AudioClip SoundEffect { get { return soundEffect; } } 
+
+	[SerializeField]
 	private int attackDamage;
 	public int AttackDamage { get { return attackDamage; } }
 

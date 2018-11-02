@@ -9,6 +9,10 @@ using UnityEngine;
 public class StatBlock : ScriptableObject
 {
 	[SerializeField]
+	private string description;
+	public string Description { get { return description; } }
+
+	[SerializeField]
 	private int maxHealth;
 	public int MaxHealth { get { return maxHealth; } }
 
@@ -16,9 +20,13 @@ public class StatBlock : ScriptableObject
 	private float movementSpeed;
 	public float MovementSpeed { get { return movementSpeed; } }
 
-	[SerializeField]
-	private string unitType;
-	public string UnitType { get { return unitType ; } }
+	public enum UnitType
+	{
+		Melee,
+		Ranged
+	}
+
+	public UnitType unitType;
 
 	private Unit u;
 
@@ -28,5 +36,7 @@ public class StatBlock : ScriptableObject
 
 		u.MaxHealth = MaxHealth;
 		u.MovementSpeed = MovementSpeed;
+
+		// TODO: Hookup enum types
 	}
 }

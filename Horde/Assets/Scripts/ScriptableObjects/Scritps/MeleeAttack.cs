@@ -13,11 +13,7 @@ public class MeleeAttack : Attack
 	[SerializeField]
 	private Transform particleEffect;
 	public Transform ParticleEffect { get { return particleEffect; } }
-
-	[SerializeField]
-	private AudioClip soundEffect; // Not used yet.
-	public AudioClip SoundEffect {get { return soundEffect; } } 
-
+	
 	private Unit unit;
 
 	public override void Initialize(GameObject obj)
