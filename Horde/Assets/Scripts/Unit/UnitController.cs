@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// This class is responsible of executing that main commands of the unit.
@@ -15,10 +16,12 @@ public class UnitController : MonoBehaviour
     private Attack attack;
 
     private Unit u;
+    private NavMeshAgent agent;
 
     private void Start()
     {
         u = GetComponent<Unit>();
+        agent = GetComponent<NavMeshAgent>();
 
         if(statBlock == null)
             Debug.LogError("Set the stat block in the Unit Controller!");
@@ -38,11 +41,28 @@ public class UnitController : MonoBehaviour
         attack.ExecuteAttack(u);
     }
 
-    public void Move()
+    /// <summary>
+    /// Commands the NavMesh agent to move to the given target.
+    /// </summary>
+    public void MoveTo(Vector3 target)
     {
-
+        agent.isStopped = false;
+        agent.SetDestination(target);
+        agent.speed = u.MovementSpeed;
     }
 
+    /// <summary>
+    /// Removes the unit's current path and stops it's movement.
+    /// <summary>
+    public void StopMoving()
+    {
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+    }
+
+    /// <summary>
+    /// Invokes the special ability of the unit.
+    /// </summary>
     public void Special()
     {
 

@@ -40,8 +40,7 @@ public class H_Attack : Heuristic
             Resolve();
         }
 
-        agent.SetDestination(unit.CurrentTarget.transform.position);
-        agent.speed = unit.MovementSpeed;
+        unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
     }
 
     public override void Execute()
@@ -57,15 +56,12 @@ public class H_Attack : Heuristic
         //  Follow the enemy if it is moving.
         if (distanceFromTarget > unit.AttackRange) // Target is out of range.
         {
-            agent.isStopped = false;
-            agent.SetDestination(unit.CurrentTarget.transform.position);
-            agent.speed = unit.MovementSpeed;
+            unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
         }
         else // Target is in range.
         {
             // Stop the unit's movement.
-            agent.velocity = Vector3.zero;
-            agent.isStopped = true;
+            unit.UnitController.StopMoving();
 
             if(!facingTarget)
                 TurnToTarget(unit.CurrentTarget.transform.position);

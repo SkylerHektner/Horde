@@ -219,6 +219,9 @@ public class UnitManager : MonoBehaviour
 
                 if (distance <= closestDistance)
                 {
+                    if(u == unit) // Skip itself.
+                        continue; 
+
                     closestDistance = distance;
                     closestUnit = unit;
                 }

@@ -24,6 +24,9 @@ public class Heuristic : MonoBehaviour
     virtual public void Resolve() // --Exiting the behavior-- //
     {
         unit.HResolved();
+
+        // Maybe put something here to wait a few frames
+        // to prevent heuristics from resolving too quickly
+        // and crashing Unity.
     }
-	
 }
