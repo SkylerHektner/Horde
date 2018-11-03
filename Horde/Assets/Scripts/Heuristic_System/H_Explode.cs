@@ -45,7 +45,7 @@ public class H_Explode : Heuristic
             foreach (Collider c in hitColliders)
             {
                 if(c.gameObject.tag == "TeamOneUnit" || c.gameObject.tag == "TeamTwoUnit")
-                    c.gameObject.GetComponent<Unit>().TakeDamage(explosionDamage); // Subtract their health
+                    c.gameObject.GetComponent<Unit>().UnitController.TakeDamage(explosionDamage); // Subtract their health
             }
             Instantiate(explosionPrefab).transform.position = transform.position;
             Destroy(gameObject); // The unit sploded.

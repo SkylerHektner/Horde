@@ -13,58 +13,68 @@ using UnityEngine.AI;
 /// </summary>
 public class H_Mutilate : Heuristic
 {
-    private bool inRange = false;
     private NavMeshAgent agent;
+    private bool attackExecuted = false;
+    private bool facingTarget = false;
 
     public override void Init()
     {
         base.Init();
-        
+
         agent = GetComponent<NavMeshAgent>();
-        
-        if (unit.CurrentTarget != null) // If the unit is still alive.
-        {
-            StartCoroutine(StartAttacking());
-        } 
-        else
+
+        if (unit.CurrentTarget == null) // If the target is already dead.
         {
             // Check if there are any enemies remaining.
             // Returning if the enemy count is zero prevents the game from hanging.
-            if(gameObject.tag == "TeamOneUnit")
+            if (gameObject.tag == "TeamOneUnit")
             {
                 if (UnitManager.instance.TeamTwoUnitCount == 0)
                     return;
             }
-            if(gameObject.tag == "TeamTwoUnit")
+            if (gameObject.tag == "TeamTwoUnit")
             {
                 if (UnitManager.instance.TeamOneUnitCount == 0)
                     return;
             }
 
             Resolve();
-        } 
+        }
+
+        unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
     }
 
     public override void Execute()
     {
         if (unit.CurrentTarget == null)
+        {
+            Resolve();
             return;
-
-
-        //  Follow the enemy if it is moving.
-        if(Vector3.Distance(transform.position, unit.CurrentTarget.transform.position) > unit.AttackRange)
-        {
-            inRange = false;
-            agent.SetDestination(unit.CurrentTarget.transform.position);
         }
-        else
-        {
-            inRange = true;
 
+        float distanceFromTarget = Vector3.Distance(transform.position, unit.CurrentTarget.transform.position);
+            
+        //  Follow the enemy if it is moving.
+        if (distanceFromTarget > unit.AttackRange) // Target is out of range.
+        {
+            StopCoroutine(Attack()); // Stop attacking if out of range.
+            unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
+        }
+        else // Target is in range.
+        {
             // Stop the unit's movement.
-            agent.velocity = Vector3.zero;
-            agent.isStopped = true;
-            agent.ResetPath();
+            unit.UnitController.StopMoving();
+
+            if(!facingTarget)
+                TurnToTarget(unit.CurrentTarget.transform.position);
+            else
+            {
+                if (attackExecuted == false)
+                {
+                    StartCoroutine(Attack());
+                    attackExecuted = true;
+                }   
+            }
         }
     }
 
@@ -73,38 +83,34 @@ public class H_Mutilate : Heuristic
         base.Resolve();
     }
 
-    private IEnumerator StartAttacking()
+    /// <summary>
+    /// Executes one attack and then resolves.
+    /// </summary>
+    private IEnumerator Attack()
     {
-        // TODO: Call the correct attack corresponding to the base unit.
-
-        while (unit.CurrentTarget != null) // Attack until the target is dead.
+        while(unit.CurrentTarget != null) // Attack until the target is dead.
         {
-            if(inRange == true)
-                Attack();
+            unit.UnitController.Attack();
 
+            // Attack needs a cooldown or else it will resolve way too fast, creating an insane attack speed.
             yield return new WaitForSeconds(unit.AttackCooldown);
         }
 
-        Resolve(); // Switch to the next heuristic when the target is dead.
+        Resolve();
     }
 
-    private void Attack()
+    private void TurnToTarget(Vector3 targetPosition)
     {
-        GameObject projectileGO;
+        targetPosition.y = transform.position.y; // Lock the y to the unit's y so it only rotates around the y axis.
+        transform.LookAt(targetPosition);
 
-        // Check if this unit is team one or two so we know which type of projectile to instantiate.
-        if (gameObject.tag == "TeamOneUnit")
-            projectileGO = Instantiate(Resources.Load("TeamOneProjectile"), transform.position, transform.rotation) as GameObject;
-        else
-            projectileGO = Instantiate(Resources.Load("TeamTwoProjectile"), transform.position, transform.rotation) as GameObject;
+        // Calculations to check if the unit is looking in the direction of the target.
+        Vector3 directionOfTarget = (unit.CurrentTarget.transform.position - transform.position).normalized;
+        float dotProduct = Vector3.Dot(directionOfTarget, transform.forward);
 
+        //Debug.Log(dotProduct);
 
-        Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
-
-        Vector3 normalizedAttackDirection = (unit.CurrentTarget.transform.position - transform.position).normalized;
-
-        instance.velocity = normalizedAttackDirection * 8f;
-
-        Destroy(instance.gameObject, 3);
+        if(dotProduct <= 1)
+            facingTarget = true;
     }
 }

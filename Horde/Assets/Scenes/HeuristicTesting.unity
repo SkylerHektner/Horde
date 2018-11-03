@@ -693,7 +693,7 @@ Prefab:
     - target: {fileID: 114473698583448162, guid: 749eabb6ac022b34ea5f7391a5a3e744,
         type: 2}
       propertyPath: behaviors.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4563578998753164, guid: 749eabb6ac022b34ea5f7391a5a3e744, type: 2}
       propertyPath: m_LocalPosition.x
@@ -734,7 +734,7 @@ Prefab:
     - target: {fileID: 114473698583448162, guid: 749eabb6ac022b34ea5f7391a5a3e744,
         type: 2}
       propertyPath: startAIImmediate
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114473698583448162, guid: 749eabb6ac022b34ea5f7391a5a3e744,
         type: 2}
@@ -744,7 +744,7 @@ Prefab:
     - target: {fileID: 114473698583448162, guid: 749eabb6ac022b34ea5f7391a5a3e744,
         type: 2}
       propertyPath: behaviors.Array.data[1]
-      value: 5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 114473698583448162, guid: 749eabb6ac022b34ea5f7391a5a3e744,
         type: 2}
@@ -774,7 +774,16 @@ Prefab:
     - target: {fileID: 114473698583448162, guid: 749eabb6ac022b34ea5f7391a5a3e744,
         type: 2}
       propertyPath: behaviors.Array.data[2]
-      value: 0
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816595310896526, guid: 749eabb6ac022b34ea5f7391a5a3e744, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 114473698583448162, guid: 749eabb6ac022b34ea5f7391a5a3e744,
+        type: 2}
+      propertyPath: behaviors.Array.data[3]
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 749eabb6ac022b34ea5f7391a5a3e744, type: 2}
@@ -1121,7 +1130,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh48972
+  m_Name: pb_Mesh75092
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -1309,6 +1318,11 @@ Prefab:
     - target: {fileID: 4651900856568338, guid: d5502402c9899f643b13bd414c197b93, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114788559211241508, guid: d5502402c9899f643b13bd414c197b93,
+        type: 2}
+      propertyPath: behaviors.Array.data[1]
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5502402c9899f643b13bd414c197b93, type: 2}
@@ -4028,7 +4042,7 @@ Prefab:
     - target: {fileID: 224417416786234554, guid: 53932b48e9aae1443b605f4efac6f2bc,
         type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224417416786234554, guid: 53932b48e9aae1443b605f4efac6f2bc,
         type: 2}
@@ -4068,7 +4082,7 @@ Prefab:
     - target: {fileID: 224417416786234554, guid: 53932b48e9aae1443b605f4efac6f2bc,
         type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224417416786234554, guid: 53932b48e9aae1443b605f4efac6f2bc,
         type: 2}
@@ -4379,7 +4393,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh48916
+  m_Name: pb_Mesh75036
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -6362,7 +6376,7 @@ Transform:
   - {fileID: 1597985310}
   - {fileID: 745937311}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1579582628
 GameObject:
@@ -7058,7 +7072,7 @@ Prefab:
         type: 2}
       propertyPath: attack
       value: 
-      objectReference: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058,
+      objectReference: {fileID: 11400000, guid: bbe431d5286032742b2934fe2793d53a,
         type: 2}
     - target: {fileID: 114318090518094368, guid: ab9a66218b4b2344fbe02415f5b0599e,
         type: 2}
@@ -7070,6 +7084,15 @@ Prefab:
       propertyPath: projectileSpawn
       value: 
       objectReference: {fileID: 726895999}
+    - target: {fileID: 114318090518094368, guid: ab9a66218b4b2344fbe02415f5b0599e,
+        type: 2}
+      propertyPath: behaviors.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523909728205908, guid: ab9a66218b4b2344fbe02415f5b0599e, type: 2}
+      propertyPath: m_TagString
+      value: TeamOneUnit
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9a66218b4b2344fbe02415f5b0599e, type: 2}
   m_IsPrefabAsset: 0

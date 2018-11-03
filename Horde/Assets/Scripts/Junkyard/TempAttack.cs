@@ -50,7 +50,7 @@ public class TempAttack : MonoBehaviour
 
             Destroy(instance.gameObject, 2);
             //Debug.Log(ally.currentHealth);
-            ally.TakeDamage(1);
+            //ally.TakeDamage(1);
 
             if (currentTarget == null) // This should mean it killed the ally.
                 currentlyAttacking = false;

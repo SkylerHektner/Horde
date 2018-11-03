@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4203403948940846}
   - component: {fileID: 114335680575133062}
+  - component: {fileID: 114264132087927190}
   - component: {fileID: 195817276072782800}
   - component: {fileID: 65704066789184220}
   - component: {fileID: 114688598482538584}
@@ -159,6 +160,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0848861, y: 0.82489824, z: 1.9513282}
   m_Center: {x: -0.0051733255, y: 0.4917953, z: 0.0000086426735}
+--- !u!114 &114264132087927190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1431080323345036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf3ad17973e0d14bb8f996acf01c0fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
+  attack: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058, type: 2}
 --- !u!114 &114335680575133062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,15 +184,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f6145bd25ca5b448c645bbcad81e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
-  attack: {fileID: 0}
   healthBarMask: {fileID: 0}
   useHeuristicSwapping: 1
   startAIImmediate: 0
+  projectileSpawn: {fileID: 4761769049123366}
   behaviors: 0000000005000000
   currentHealth: 8
   currentTarget: {fileID: 0}
-  projectileSpawn: {fileID: 4761769049123366}
+  currentHeuristic: {fileID: 0}
 --- !u!114 &114688598482538584
 MonoBehaviour:
   m_ObjectHideFlags: 1
