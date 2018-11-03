@@ -29,12 +29,12 @@ public class H_TargetNearestEnemy : Heuristic
         }
 
         closestEnemy = UnitManager.instance.GetClosestEnemy(GetComponent<Unit>());
-        Resolve();
+        Execute();
     }
 
     public override void Execute()
     {
-        // Can't think of anything that needs to be updated every tick.
+        Resolve();
     }
 
     public override void Resolve()

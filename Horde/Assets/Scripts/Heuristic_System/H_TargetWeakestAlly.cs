@@ -27,12 +27,12 @@ public class H_TargetWeakestAlly : Heuristic
         }
 
         weakestAlly = UnitManager.instance.GetWeakestAlly(GetComponent<Unit>());
-        Resolve();
+        Execute();
     }
 
     public override void Execute()
     {
-
+        Resolve();
     }
 
     public override void Resolve()

@@ -28,18 +28,22 @@ public class H_TargetWeakestEnemy : Heuristic
         
 
         weakestEnemy = UnitManager.instance.GetWeakestEnemy(GetComponent<Unit>());
-        Resolve();
+        Execute();
     }
 
     public override void Execute()
     {
-
+        Resolve();
     }
 
     public override void Resolve()
     {
         unit.CurrentTarget = weakestEnemy; // Set the unit's current target to it's weakest enemy.
-
+        waitToTarget();
         base.Resolve(); // Switch to the next heuristic.
+    }
+    IEnumerator waitToTarget()
+    {
+        yield return new WaitForEndOfFrame();
     }
 }
