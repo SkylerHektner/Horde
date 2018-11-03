@@ -85,7 +85,8 @@ public class UnitManager : MonoBehaviour
 
         Unit[] units = GetEnemyUnits(u);
 
-        Unit lowHPUnit = units[0];
+        Unit lowHPUnit = GetClosestEnemy(u); // Set the default enemy to the nearest one.
+
         for (int x = 1; x < units.Length; x++)
         {
             if (lowHPUnit.CurrentHealth > units[x].CurrentHealth)
@@ -176,7 +177,8 @@ public class UnitManager : MonoBehaviour
 
         Unit[] units = GetAlliedUnits(u);
 
-        Unit lowHPUnit = units[0];
+        Unit lowHPUnit = GetClosestAlly(u); // Set the default ally to the nearest one.
+
         for (int x = 1; x < units.Length; x++)
         {
             if (lowHPUnit.CurrentHealth > units[x].CurrentHealth)
