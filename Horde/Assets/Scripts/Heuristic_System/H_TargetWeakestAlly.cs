@@ -27,18 +27,24 @@ public class H_TargetWeakestAlly : Heuristic
         }
 
         weakestAlly = UnitManager.instance.GetWeakestAlly(GetComponent<Unit>());
-        Execute();
+        StartCoroutine(waitToTarget());
     }
 
     public override void Execute()
     {
-        Resolve();
+       
     }
 
     public override void Resolve()
     {
-        unit.CurrentTarget = weakestAlly; // Set the unit's current target to it's weakest ally.
-
+        
+        
         base.Resolve(); // Switch to the next heuristic.
+    }
+    IEnumerator waitToTarget()
+    {
+        unit.CurrentTarget = weakestAlly; // Set the unit's current target to it's weakest ally.
+        yield return new WaitForSeconds(0.1f);
+        Resolve();
     }
 }

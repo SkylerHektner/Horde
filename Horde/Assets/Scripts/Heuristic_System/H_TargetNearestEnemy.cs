@@ -29,18 +29,22 @@ public class H_TargetNearestEnemy : Heuristic
         }
 
         closestEnemy = UnitManager.instance.GetClosestEnemy(GetComponent<Unit>());
-        Execute();
+        StartCoroutine(waitToTarget());
     }
 
     public override void Execute()
     {
-        Resolve();
+        
     }
 
     public override void Resolve()
+    {              
+        base.Resolve(); // Switch to the next heuristic.
+    }
+    IEnumerator waitToTarget()
     {
         unit.CurrentTarget = closestEnemy; // Set the unit's current target to it's closest enemy.
-
-        base.Resolve(); // Switch to the next heuristic.
+        yield return new WaitForSeconds(0.1f);
+        Resolve();
     }
 }

@@ -27,7 +27,7 @@ public class H_TargetNearestAlly : Heuristic
         }
 
         closestAlly = UnitManager.instance.GetClosestAlly(unit);
-        Resolve();
+        StartCoroutine(waitToTarget());
     }
 
     public override void Execute()
@@ -37,8 +37,14 @@ public class H_TargetNearestAlly : Heuristic
 
     public override void Resolve()
     {
-        unit.CurrentTarget = closestAlly; // Set the unit's current target to it's closest ally.
-
+        
+        
         base.Resolve(); // Switch to the next heuristic.
+    }
+    IEnumerator waitToTarget()
+    {
+        yield return new WaitForSeconds(0.1f);
+        unit.CurrentTarget = closestAlly; // Set the unit's current target to it's closest ally.
+        Resolve();
     }
 }
