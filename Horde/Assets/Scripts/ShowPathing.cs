@@ -7,17 +7,18 @@ public class ShowPathing : MonoBehaviour
 {
     private NavMeshAgent agent;
     private LineRenderer lr;
+    private Unit u;
     
     void Start ()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
-
         lr = gameObject.AddComponent<LineRenderer>();
+        u = GetComponent<Unit>();
 	}
 	
 	void Update ()
     {
-        DrawPath(GetComponent<Unit>());
+        DrawPath(u);
 	}
 
     /// <summary>
@@ -36,7 +37,12 @@ public class ShowPathing : MonoBehaviour
         lr.positionCount = path.corners.Length;
         for (int i = 0; i < path.corners.Length; i++)
         {
-            lr.SetPosition(i, path.corners[i]);
+            // We need to manually update the last corner 
+            // because the path doesn't update while attacking.
+            if(i == path.corners.Length - 1) // If it's the last corner
+                lr.SetPosition(i, u.CurrentTarget.transform.position);
+            else
+                lr.SetPosition(i, path.corners[i]);
         }
     }
 }
