@@ -12,6 +12,13 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     private InfoDialogue infoDialoguePrefab;
     [SerializeField]
     private InputField nameInputField;
+
+    [SerializeField]
+    private Text baseUnitNameText;
+    [SerializeField]
+    private Image baseUnitImage;
+    private Unit baseUnitPrefab;
+
     [SerializeField]
     private ClassUIPanel classUIPanelPrefab;
     [SerializeField]
@@ -50,6 +57,22 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     }
 
     /// <summary>
+    /// This method is used to assign the base unit for the current class
+    /// </summary>
+    /// <param name="unitPrefab"></param>
+    /// <param name="unitName"></param>
+    /// <param name="unitPortrait"></param>
+    public void AssignBaseUnit(Unit unitPrefab, string unitName, Sprite unitPortrait)
+    {
+        baseUnitPrefab = unitPrefab;
+        baseUnitNameText.text = unitName;
+        if (unitPortrait != null)
+        {
+            baseUnitImage.sprite = unitPortrait;
+        }
+    }
+
+    /// <summary>
     /// This method will raise a prompt asking for a name for the new class
     /// </summary>
     public void SaveCurrentClass()
@@ -66,6 +89,11 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
             InfoDialogue d = GameObject.Instantiate(infoDialoguePrefab);
             d.Init(null, "Please add behaviors before saving your class");
         }
+        else if (baseUnitPrefab == null)
+        {
+            InfoDialogue d = GameObject.Instantiate(infoDialoguePrefab);
+            d.Init(null, "Please select a base unit for your new class");
+        }
         else
         {
             saveCurrentClass(nameInputField.text);
@@ -81,7 +109,7 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     private void saveCurrentClass(string name)
     {
         ClassUIPanel p = GameObject.Instantiate(classUIPanelPrefab);
-        p.Init(name, classAreaUIPanel, this);
+        p.Init(name, classAreaUIPanel, this, baseUnitPrefab);
         classAreaUIPanel.AddClassToView(p);
 
         for (int i = 0; i < panels.Count; i++)

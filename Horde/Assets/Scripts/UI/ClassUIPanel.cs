@@ -23,17 +23,19 @@ public class ClassUIPanel : MonoBehaviour, IPointerClickHandler {
     private Color selectedPanelColor = new Color(.5f, 1f, .5f);
 
     public List<HInterface.HType> Heuristics = new List<HInterface.HType>();
+    public Unit baseUnitPrefab;
     private ClassAreaUIPanel classPanelContainer;
 
     private float lastClickTime = 0f;
 
-    public void Init(string className, ClassAreaUIPanel container, ClassEditUIPanel classEditUIPanel)
+    public void Init(string className, ClassAreaUIPanel container, ClassEditUIPanel classEditUIPanel, Unit baseUnitPrefab)
     {
         classNameText.text = className;
         panel = GetComponent<Image>();
         normalPanelColor = panel.color;
         classPanelContainer = container;
         this.classEditUIPanel = classEditUIPanel;
+        this.baseUnitPrefab = baseUnitPrefab;
     }
 
     public void OnPointerClick(PointerEventData eventData)

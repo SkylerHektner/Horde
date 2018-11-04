@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int MaxUnitsForLevel = 10;
     [SerializeField]
-    private Unit baseUnitPrefab;
-    [SerializeField]
     private ClassEditorUI classEditorUI;
     private ClassAreaUIPanel classUIAreaPanel;
     [SerializeField]
@@ -69,7 +67,7 @@ public class GameManager : MonoBehaviour
                 }
                 if (classUIAreaPanel.CurrentSelectedPanel != null)
                 {
-                    Unit u = Instantiate(baseUnitPrefab, hitInfo.point + new Vector3(0, 0.5f), Quaternion.identity);
+                    Unit u = Instantiate(classUIAreaPanel.CurrentSelectedPanel.baseUnitPrefab, hitInfo.point + new Vector3(0, 0.5f), Quaternion.identity);
                     u.behaviors = classUIAreaPanel.CurrentSelectedPanel.Heuristics;
                     u.transform.parent = allyContainer.transform;
                     UnitManager.instance.UpdateUnits();
