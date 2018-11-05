@@ -38,6 +38,9 @@ public class ShowPathing : MonoBehaviour
         lr.positionCount = path.corners.Length;
         for (int i = 0; i < path.corners.Length; i++)
         {
+            if(u.CurrentTarget == null)
+                return;
+                
             // We need to manually update the last corner 
             // because the path doesn't update while attacking.
             if(i == path.corners.Length - 1) // If it's the last corner

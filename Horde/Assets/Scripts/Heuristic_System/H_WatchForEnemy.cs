@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class H_WatchForEnemy : Heuristic
 {
-    private string lookingForTag;
-
     public override void Init()
     {
         base.Init();
@@ -15,7 +13,7 @@ public class H_WatchForEnemy : Heuristic
     {
         List<Unit> unitsInRange = UnitManager.instance.GetUnitsInRange(unit);
 
-        if(unitsInRange.Count > 1)
+        if(unitsInRange.Count >= 1)
         {
             unit.CurrentTarget = unitsInRange[0];
             Resolve();
