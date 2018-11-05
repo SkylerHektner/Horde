@@ -17,7 +17,7 @@ public class UnitManager : MonoBehaviour
 
     private Unit[] teamOneUnits; // The units that the player creates.
     private Unit[] teamTwoUnits; // The units that are built into each level. Enemies of the player units.
-
+    private Unit objective;
     private GameObject teamOneUnitContainer;
     private GameObject teamTwoUnitContainer;
 
@@ -49,6 +49,8 @@ public class UnitManager : MonoBehaviour
         teamOneUnits = teamOneUnitContainer.GetComponentsInChildren<Unit>();
         teamTwoUnitContainer = GameObject.Find("TeamTwo");
         teamTwoUnits = teamTwoUnitContainer.GetComponentsInChildren<Unit>();
+        GameObject[] objectiveContainer = GameObject.FindGameObjectsWithTag("Objective");
+        objective = objectiveContainer[0].GetComponent<Unit>();
     }
 
     public void StartAI()
@@ -93,6 +95,10 @@ public class UnitManager : MonoBehaviour
 
         Unit[] units = GetEnemyUnits(u);
         return FindClosestUnit(units, u);
+    }
+    public Unit GetObjective()
+    {
+        return objective;
     }
 
     /// <summary>
