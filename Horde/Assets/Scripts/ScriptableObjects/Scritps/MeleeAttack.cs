@@ -18,7 +18,6 @@ public class MeleeAttack : Attack
 		u.AttackDamage = attackDamage;
 		u.AttackCooldown = attackCooldown;
 		u.AttackRange = 2; // Melee attacks can only have a range of 2.
-		u.ParticleEffectPrefab = particleEffect;
 	}
 
 	/// <summary>
@@ -29,6 +28,8 @@ public class MeleeAttack : Attack
 		// Play particle effect
 		GameObject meleeEffectGO = Instantiate(particleEffect.gameObject, u.CurrentTarget.transform.position, Quaternion.identity);
 		Destroy(meleeEffectGO, 0.5f);
+
+		// TODO: Play audio clip
 
 		// Apply damage
 		u.CurrentTarget.UnitController.TakeDamage(u.AttackDamage);

@@ -18,7 +18,8 @@ public class ShowPathing : MonoBehaviour
 	
 	void Update ()
     {
-        DrawPath(u);
+        if(agent.path.corners.Length >= 2)
+            DrawPath(u);
 	}
 
     /// <summary>

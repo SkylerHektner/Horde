@@ -24,8 +24,6 @@ public class RangedAttack : Attack
         u.AttackDamage = attackDamage;
         u.AttackCooldown = attackCooldown;
         u.AttackRange = attackRange;
-        u.TrajectoryAngle = trajectoryAngle;
-        u.ProjectilePrefab = projectilePrefab;
     }
 
     /// <summary>

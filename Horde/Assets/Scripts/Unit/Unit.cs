@@ -36,9 +36,6 @@ public class Unit : MonoBehaviour
     public float AttackCooldown { get; set; }
     public string UnitType { get; set; }
     public float MovementSpeed { get; set; }
-    public float TrajectoryAngle { get; set; }
-    public Transform ProjectilePrefab { get; set; }
-    public Transform ParticleEffectPrefab { get; set; }
 
     // --Non-Shared Variables-- //
     [Header("For debugging. Don't change these in the editor")]
