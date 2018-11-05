@@ -39,8 +39,10 @@ public class H_Attack : Heuristic
 
             Resolve();
         }
-
-        unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
+        else
+        {
+            unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
+        }
     }
 
     public override void Execute()

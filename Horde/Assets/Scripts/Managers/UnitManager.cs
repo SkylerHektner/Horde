@@ -63,6 +63,26 @@ public class UnitManager : MonoBehaviour
         }
     }
 
+    public List<Unit> GetUnitsInRange(Unit u)
+    {
+        int layerMask = 0;
+
+        if(u.gameObject.tag == "TeamOneUnit")
+            layerMask = ~(1 << 10); // Team One Unit is on layer 10.
+        else if(u.gameObject.tag == "TeamTwoUnit")
+            layerMask = ~(1 << 11); // Team Two Unit is on layer 11
+            
+        Collider[] collidersInRange = Physics.OverlapSphere(u.transform.position, u.AttackRange, layerMask);
+        List<Unit> unitsToReturn = new List<Unit>();
+
+        foreach(Collider c in collidersInRange)
+        {
+            unitsToReturn.Add(c.GetComponent<Unit>());
+        }
+
+        return unitsToReturn;
+    }
+
     /// <summary>
     /// Returns the closest enemy to the given unit.
     /// </summary>

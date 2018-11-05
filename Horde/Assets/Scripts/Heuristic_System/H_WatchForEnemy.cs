@@ -9,27 +9,16 @@ public class H_WatchForEnemy : Heuristic
     public override void Init()
     {
         base.Init();
-        if (gameObject.tag == "TeamOneUnit")
-        {
-            lookingForTag = "TeamTwoUnit";
-        }
-        else
-        {
-            lookingForTag = "TeamOneUnit";
-        }
     }
 
     public override void Execute()
     {
-        base.Execute();
-        Collider[] inRange = Physics.OverlapSphere(transform.position, unit.AttackRange);
-        foreach(Collider c in inRange)
+        List<Unit> unitsInRange = UnitManager.instance.GetUnitsInRange(unit);
+
+        if(unitsInRange.Count > 1)
         {
-            if (c.tag == lookingForTag)
-            {
-                unit.CurrentTarget = c.GetComponent<Unit>();
-                Resolve();
-            }
+            unit.CurrentTarget = unitsInRange[0];
+            Resolve();
         }
     }
 

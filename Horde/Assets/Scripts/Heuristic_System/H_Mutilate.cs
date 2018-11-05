@@ -40,8 +40,10 @@ public class H_Mutilate : Heuristic
 
             Resolve();
         }
-
-        unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
+        else
+        {
+            unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
+        }
     }
 
     public override void Execute()
