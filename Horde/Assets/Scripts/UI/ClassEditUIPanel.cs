@@ -12,12 +12,8 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     private InfoDialogue infoDialoguePrefab;
     [SerializeField]
     private InputField nameInputField;
-
     [SerializeField]
-    private Text baseUnitNameText;
-    [SerializeField]
-    private Image baseUnitImage;
-    private Unit baseUnitPrefab;
+    private ClassEditorUI classEditorUI;
 
     [SerializeField]
     private ClassUIPanel classUIPanelPrefab;
@@ -31,6 +27,9 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     private List<HeuristicUIPanel> panels = new List<HeuristicUIPanel>();
 
     private bool currentDropValid;
+
+    // the class currently being edited (0-8)
+    public int currentClassSlot = 0;
 
     /// <summary>
     /// Heuristic Panels call this when they get dropped.
@@ -57,22 +56,6 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     }
 
     /// <summary>
-    /// This method is used to assign the base unit for the current class
-    /// </summary>
-    /// <param name="unitPrefab"></param>
-    /// <param name="unitName"></param>
-    /// <param name="unitPortrait"></param>
-    public void AssignBaseUnit(Unit unitPrefab, string unitName, Sprite unitPortrait)
-    {
-        baseUnitPrefab = unitPrefab;
-        baseUnitNameText.text = unitName;
-        if (unitPortrait != null)
-        {
-            baseUnitImage.sprite = unitPortrait;
-        }
-    }
-
-    /// <summary>
     /// This method will raise a prompt asking for a name for the new class
     /// </summary>
     public void SaveCurrentClass()
@@ -89,16 +72,11 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
             InfoDialogue d = GameObject.Instantiate(infoDialoguePrefab);
             d.Init(null, "Please add behaviors before saving your class");
         }
-        else if (baseUnitPrefab == null)
-        {
-            InfoDialogue d = GameObject.Instantiate(infoDialoguePrefab);
-            d.Init(null, "Please select a base unit for your new class");
-        }
         else
         {
             saveCurrentClass(nameInputField.text);
-            InfoDialogue d = GameObject.Instantiate(infoDialoguePrefab);
-            d.Init(null, "Class Saved!");
+            classEditorUI.ToggleMode();
+            ClearArea();
         }
     }
 
@@ -109,8 +87,8 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
     private void saveCurrentClass(string name)
     {
         ClassUIPanel p = GameObject.Instantiate(classUIPanelPrefab);
-        p.Init(name, classAreaUIPanel, this, baseUnitPrefab);
-        classAreaUIPanel.AddClassToView(p);
+        p.Init(name, classAreaUIPanel, this, currentClassSlot + 1);
+        classAreaUIPanel.AddClassToView(p, currentClassSlot);
 
         for (int i = 0; i < panels.Count; i++)
         {
@@ -142,7 +120,7 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
         nameInputField.text = "";
     }
 
-    public void LoadHeuristicsFromList(List<HInterface.HType> Heuristics)
+    public void LoadHeuristicsFromList(List<HInterface.HType> Heuristics, string name)
     {
         ClearArea();
         foreach(HInterface.HType h in Heuristics)
@@ -150,6 +128,16 @@ public class ClassEditUIPanel : MonoBehaviour, IPointerExitHandler, IPointerEnte
             HeuristicUIPanel p = heuristicPanelAccessor.GetHeuristicPanel(h);
             addHeuristic(p.gameObject);
         }
+        nameInputField.text = name;
+    }
+
+    /// <summary>
+    /// Exit and clear the class editor UI 
+    /// </summary>
+    public void Exit()
+    {
+        ClearArea();
+        classEditorUI.ToggleMode();
     }
 
     /// <summary>

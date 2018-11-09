@@ -23,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
 	
 	void Update ()
     {
+        if (ClassEditorUI.Instance.InEditMode)
+        {
+            return;
+        }
         if (Input.GetKey(KeyCode.W))
         {
             agent.Move(forward * Time.deltaTime);

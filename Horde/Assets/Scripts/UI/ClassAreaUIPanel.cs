@@ -10,10 +10,52 @@ public class ClassAreaUIPanel : MonoBehaviour
     [SerializeField]
     private ClassUIPanel openEditorButton;
 
+    
+    private void Update()
+    {
+        // I am ashamed of myself for doing this this way
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            transform.GetChild(0).GetComponent<ClassUIPanel>().Select();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            transform.GetChild(1).GetComponent<ClassUIPanel>().Select();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            transform.GetChild(2).GetComponent<ClassUIPanel>().Select();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            transform.GetChild(3).GetComponent<ClassUIPanel>().Select();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            transform.GetChild(4).GetComponent<ClassUIPanel>().Select();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            transform.GetChild(5).GetComponent<ClassUIPanel>().Select();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            transform.GetChild(6).GetComponent<ClassUIPanel>().Select();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            transform.GetChild(7).GetComponent<ClassUIPanel>().Select();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            transform.GetChild(8).GetComponent<ClassUIPanel>().Select();
+        }
+    }
     /// <summary>
     /// Returns the currently selected ClassUIPanel. 
     /// If there is no selected panel, returns null.
     /// </summary>
+    /// 
     public ClassUIPanel CurrentSelectedPanel
     {
         get
@@ -34,31 +76,13 @@ public class ClassAreaUIPanel : MonoBehaviour
     /// This is called by the UI edit area when adding a new ClassUIPanel to the class view
     /// </summary>
     /// <param name="ClassUIPanel"></param>
-    public void AddClassToView(ClassUIPanel ClassUIPanel)
+    public void AddClassToView(ClassUIPanel ClassUIPanel, int index)
     {
+        Destroy(transform.GetChild(index).gameObject);
+
         ClassUIPanel.transform.SetParent(transform);
         classUIPanels.Add(ClassUIPanel);
-        openEditorButton.transform.SetAsLastSibling();
-        recalculateBounds();
-    }
-
-    /// <summary>
-    /// This is used to re calculate the bounds of the scroll container so that our
-    /// scroll area works correctly.
-    /// </summary>
-    [ContextMenu("Re-Calculate Bounds")]
-    private void recalculateBounds()
-    {
-        float width = 0f;
-        foreach (ClassUIPanel p in classUIPanels)
-        {
-            width += p.GetComponent<RectTransform>().rect.width;
-        }
-        HorizontalLayoutGroup l = GetComponent<HorizontalLayoutGroup>();
-        width += l.spacing * (classUIPanels.Count - 1);
-        width += l.padding.horizontal;
-        RectTransform rt = GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(width, rt.sizeDelta.y);
+        ClassUIPanel.transform.SetSiblingIndex(index);
     }
 
     /// <summary>

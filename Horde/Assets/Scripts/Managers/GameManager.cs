@@ -67,11 +67,11 @@ public class GameManager : MonoBehaviour
                 }
                 if (classUIAreaPanel.CurrentSelectedPanel != null)
                 {
-                    Unit u = Instantiate(classUIAreaPanel.CurrentSelectedPanel.baseUnitPrefab, hitInfo.point + new Vector3(0, 0.5f), Quaternion.identity);
-                    u.behaviors = classUIAreaPanel.CurrentSelectedPanel.Heuristics;
-                    u.transform.parent = allyContainer.transform;
-                    UnitManager.instance.UpdateUnits();
-                    UpdateUnitCaptionText();
+                    //Unit u = Instantiate(classUIAreaPanel.CurrentSelectedPanel.baseUnitPrefab, hitInfo.point + new Vector3(0, 0.5f), Quaternion.identity);
+                    //u.behaviors = classUIAreaPanel.CurrentSelectedPanel.Heuristics;
+                    //u.transform.parent = allyContainer.transform;
+                    //UnitManager.instance.UpdateUnits();
+                    //UpdateUnitCaptionText();
                 }
             }
         }
