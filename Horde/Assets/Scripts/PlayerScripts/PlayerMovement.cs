@@ -14,11 +14,16 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 right;
 
     private NavMeshAgent agent;
+    private Animator anim;
+
+    private Vector3 lastPos;
 	void Start ()
     {
         agent = GetComponent<NavMeshAgent>();
         forward = new Vector3(0, 0, speed);
         right = new Vector3(speed, 0, 0);
+        anim = GetComponent<Animator>();
+        lastPos = transform.position;
     }
 	
 	void Update ()
@@ -27,21 +32,33 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
+        bool walking = false;
         if (Input.GetKey(KeyCode.W))
         {
             agent.Move(forward * Time.deltaTime);
+            walking = true;
         }
         else if (Input.GetKey(KeyCode.S))
         {
             agent.Move(forward * -Time.deltaTime);
+            walking = true;
         }
         if (Input.GetKey(KeyCode.A))
         {
             agent.Move(right * -Time.deltaTime);
+            walking = true;
         }
         else if (Input.GetKey(KeyCode.D))
         {
             agent.Move(right * Time.deltaTime);
+            walking = true;
+        }
+        anim.SetBool("Walking", walking);
+
+        if (lastPos != transform.position)
+        {
+            transform.forward = transform.position - lastPos;
+            lastPos = transform.position;
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
