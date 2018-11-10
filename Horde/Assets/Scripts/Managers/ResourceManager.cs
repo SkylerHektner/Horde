@@ -28,6 +28,9 @@ public class ResourceManager : MonoBehaviour {
     [SerializeField]
     private Slider tranquilitySlider;
 
+    [SerializeField]
+    private Material greyscalePostMat;
+
     public enum ResourceType
     {
         Rage,
@@ -42,7 +45,10 @@ public class ResourceManager : MonoBehaviour {
         Devotion = maxDevotion;
         Tranquility = maxTranquility;
         updateSliders();
-	}
+        greyscalePostMat.SetFloat("_GreyAmountRed", 1 - Rage / maxRage);
+        greyscalePostMat.SetFloat("_GreyAmountGreen", 1 - Devotion / maxDevotion);
+        greyscalePostMat.SetFloat("_GreyAmountBlue", 1 - Tranquility / maxTranquility);
+    }
 
     private void updateSliders()
     {
@@ -59,6 +65,7 @@ public class ResourceManager : MonoBehaviour {
         {
             ResourceEmptyEvent(ResourceType.Rage);
         }
+        greyscalePostMat.SetFloat("_GreyAmountRed", 1 - Rage / maxRage);
     }
 
     public void SpendDevotion(float value)
@@ -69,6 +76,7 @@ public class ResourceManager : MonoBehaviour {
         {
             ResourceEmptyEvent(ResourceType.Devotion);
         }
+        greyscalePostMat.SetFloat("_GreyAmountGreen", 1 - Devotion / maxDevotion);
     }
 
     public void SpendTranquility(float value)
@@ -79,13 +87,14 @@ public class ResourceManager : MonoBehaviour {
         {
             ResourceEmptyEvent(ResourceType.Tranquility);
         }
+        greyscalePostMat.SetFloat("_GreyAmountBlue", 1 - Tranquility / maxTranquility);
     }
 
     [ContextMenu("Test Spending Resources")]
     private void spendResourcesTest()
     {
-        SpendRage(10f);
-        SpendDevotion(7f);
-        SpendTranquility(5f);
+        SpendRage(25f);
+        SpendDevotion(25f);
+        SpendTranquility(25f);
     }
 }
