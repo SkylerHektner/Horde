@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private CameraController cam;
 
+    public bool lockCamToPlayer = true;
+    public bool lockWASDControls = false;
+
     private Vector3 forward;
     private Vector3 right;
 
@@ -32,26 +35,30 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
+
         bool walking = false;
-        if (Input.GetKey(KeyCode.W))
+        if (!lockWASDControls)
         {
-            agent.Move(forward * Time.deltaTime);
-            walking = true;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            agent.Move(forward * -Time.deltaTime);
-            walking = true;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            agent.Move(right * -Time.deltaTime);
-            walking = true;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            agent.Move(right * Time.deltaTime);
-            walking = true;
+            if (Input.GetKey(KeyCode.W))
+            {
+                agent.Move(forward * Time.deltaTime);
+                walking = true;
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                agent.Move(forward * -Time.deltaTime);
+                walking = true;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                agent.Move(right * -Time.deltaTime);
+                walking = true;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                agent.Move(right * Time.deltaTime);
+                walking = true;
+            }
         }
         anim.SetBool("Walking", walking);
 
@@ -74,6 +81,9 @@ public class PlayerMovement : MonoBehaviour
             right = temp;
         }
 
-        cam.SetTargetPos(transform.position.x, transform.position.z);
+        if (lockCamToPlayer)
+        {
+            cam.SetTargetPos(transform.position.x, transform.position.z);
+        }
     }
 }
