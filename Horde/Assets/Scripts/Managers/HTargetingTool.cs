@@ -12,6 +12,8 @@ public class HTargetingTool : MonoBehaviour {
 
     public delegate void positionReadyCallback(Vector3 positon);
 
+    public delegate void intReadyCallback(int value);
+
     [SerializeField]
     private CameraController cam;
     [SerializeField]
@@ -22,6 +24,12 @@ public class HTargetingTool : MonoBehaviour {
     private Text instructionText;
     [SerializeField]
     private GameObject classEditor;
+    [SerializeField]
+    private GameObject intInputScrim;
+    [SerializeField]
+    private IncrementableText intInputText;
+
+    private bool intInputReady = false;
 
     /// <summary>
     /// 1. Tell player to unlock the camera, stop player WASD movement
@@ -40,6 +48,8 @@ public class HTargetingTool : MonoBehaviour {
         public Unit callingUnit;
         public unitReadyCallback unitCallback;
         public positionReadyCallback posCallback;
+        public intReadyCallback intCallback;
+        public string message;
     }
 
     private void Start()
@@ -53,12 +63,16 @@ public class HTargetingTool : MonoBehaviour {
         {
             currentRequest = pendingRequests.Dequeue();
             Executing = true;
-            Setup();
+            Setup(currentRequest.message);
+            if (currentRequest.intCallback != null)
+            {
+                intInputScrim.SetActive(true);
+            }
         }
         else if (Executing)
         {
             // if the current request is looking for a position
-            if (currentRequest.unitCallback == null)
+            if (currentRequest.posCallback != null)
             {
                 Vector3 pos = tryGetPos();
                 if (pos != Vector3.zero)
@@ -68,7 +82,17 @@ public class HTargetingTool : MonoBehaviour {
                     Executing = false;
                 }
             }
-            else
+            else if (currentRequest.intCallback != null)
+            {
+                int value = tryGetInt();
+                if (value != -1)
+                {
+                    ReturnToNormal();
+                    currentRequest.intCallback(value);
+                    Executing = false;
+                }
+            }
+            else if (currentRequest.unitCallback != null)
             {
                 Unit u = tryGetUnit();
                 if (u != null)
@@ -81,19 +105,30 @@ public class HTargetingTool : MonoBehaviour {
         }
     }
 
-	public void GetTarget(Unit callingUnit, unitReadyCallback unitReadyCallbackMethod)
+	public void GetTarget(Unit callingUnit, unitReadyCallback unitReadyCallbackMethod, string message)
     {
         pendingRequest r = new pendingRequest();
         r.callingUnit = callingUnit;
         r.unitCallback = unitReadyCallbackMethod;
+        r.message = message;
         pendingRequests.Enqueue(r);
     }
 
-    public void GetPositon(Unit callingUnit, positionReadyCallback positionReadyCallbackMethod)
+    public void GetPositon(Unit callingUnit, positionReadyCallback positionReadyCallbackMethod, string message)
     {
         pendingRequest r = new pendingRequest();
         r.callingUnit = callingUnit;
         r.posCallback = positionReadyCallbackMethod;
+        r.message = message;
+        pendingRequests.Enqueue(r);
+    }
+
+    public void GetInt(Unit callingUnit, intReadyCallback intReadyCallbackMethod, string message)
+    {
+        pendingRequest r = new pendingRequest();
+        r.callingUnit = callingUnit;
+        r.intCallback = intReadyCallbackMethod;
+        r.message = message;
         pendingRequests.Enqueue(r);
     }
 
@@ -101,21 +136,14 @@ public class HTargetingTool : MonoBehaviour {
     /// 2. Move the camera to the calling unit, Unlock camera WASD movement
     /// 3. Pause everything (stop all units from executing heurstics and moving. Also stop spell projectiles currently travelling)
     /// 4. Add rim effect + instructions text(a new canvas)
-    private void Setup()
+    private void Setup(string message)
     {
         pMovement.lockCamToPlayer = false;
         pMovement.lockWASDControls = true;
         cam.SetTargetPos(currentRequest.callingUnit.transform.position.x, currentRequest.callingUnit.transform.position.z);
         cam.lockWASDPanControls = false;
         rimCanvas.SetActive(true);
-        if (currentRequest.unitCallback == null)
-        {
-            instructionText.text = "Please click where you want this unit to move";
-        }
-        else
-        {
-            instructionText.text = "Please click the unit you want this unit to target";
-        }
+        instructionText.text = message;
         classEditor.SetActive(false);
         //TODO: This method still needs to pause time
     }
@@ -123,6 +151,7 @@ public class HTargetingTool : MonoBehaviour {
     /// 6. Return camera to player, remove rim and instruction text, enable player WASD and disable camera WASD and resume time
     private void ReturnToNormal()
     {
+        intInputScrim.SetActive(false);
         pMovement.lockCamToPlayer = true;
         pMovement.lockWASDControls = false;
         cam.lockWASDPanControls = true;
@@ -163,5 +192,20 @@ public class HTargetingTool : MonoBehaviour {
             }
         }
         return Vector3.zero;
+    }
+
+    private int tryGetInt()
+    {
+        if(intInputReady)
+        {
+            intInputReady = false;
+            return intInputText.Value;
+        }
+        return -1;
+    }
+
+    public void SetIntReadyFlag()
+    {
+        intInputReady = true;
     }
 }
