@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ClassEditorUI : MonoBehaviour {
 
+    public static ClassEditorUI Instance;
+
     [SerializeField]
     private GameObject heuristicsPanel;
     [SerializeField]
@@ -13,10 +15,6 @@ public class ClassEditorUI : MonoBehaviour {
     private GameObject classPanel;
     [SerializeField]
     private Button toggleButton;
-    [SerializeField]
-    private GameObject BaseUnitSelectPanel;
-    [SerializeField]
-    private GameObject BaseUnitInfoPanel;
 
     public ClassAreaUIPanel classAreaUIPanel { get { return classPanel.GetComponentInChildren<ClassAreaUIPanel>(); } }
 
@@ -27,19 +25,18 @@ public class ClassEditorUI : MonoBehaviour {
 
     private void Start()
     {
+        Instance = this;
         swapButtonText();
     }
 
     public void ShowBaseUnitPanel()
     {
-        BaseUnitSelectPanel.SetActive(true);
         heuristicsPanel.SetActive(false);
         editArea.SetActive(false);
     }
 
     public void HideBaseUnitPanel()
     {
-        BaseUnitSelectPanel.SetActive(false);
         heuristicsPanel.SetActive(true);
         editArea.SetActive(true);
     }
@@ -60,8 +57,6 @@ public class ClassEditorUI : MonoBehaviour {
             heuristicsPanel.SetActive(false);
             editArea.SetActive(false);
             classPanel.SetActive(true);
-            BaseUnitSelectPanel.SetActive(false);
-            BaseUnitInfoPanel.SetActive(false);
         }
         InEditMode = !InEditMode;
         swapButtonText();

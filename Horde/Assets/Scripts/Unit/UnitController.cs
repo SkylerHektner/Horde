@@ -15,8 +15,15 @@ public class UnitController : MonoBehaviour
     [SerializeField] 
     private Attack attack;
 
+    [SerializeField]
+	private bool isPatrolling; // Set to true if this enemy should be on a patrol path.
+
+	[SerializeField]
+	private Transform[] patrolPoints;
+
     private Unit u;
     private NavMeshAgent agent;
+    private int destPoint = 0;
 
     private void Start()
     {
@@ -33,7 +40,28 @@ public class UnitController : MonoBehaviour
         else
             attack.Initialize(u); // Initialize all of the attack values.
 
-            u.CurrentHealth = u.MaxHealth; // Start the unit with max health.
+        if(isPatrolling)
+            if(patrolPoints.Length == 0)
+                Debug.LogWarning("Unit set to patrol but no patrol points have been set.");
+
+        u.CurrentHealth = u.MaxHealth; // Start the unit with max health.
+    }
+
+    private void Update()
+    {
+        if(isPatrolling)
+            if(!agent.pathPending && agent.remainingDistance < 0.01f)
+                MoveToNextPatrolPoint();
+    }
+
+    private void MoveToNextPatrolPoint()
+    {
+        if(patrolPoints.Length == 0) // Return if there aren't any patrol points.
+            return;
+
+        MoveTo(patrolPoints[destPoint].position);
+
+        destPoint = (destPoint + 1) % patrolPoints.Length; // Increment the index
     }
 
     public void Attack()

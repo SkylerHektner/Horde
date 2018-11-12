@@ -23,8 +23,8 @@ public class BaseUnitUIPanel : MonoBehaviour, IPointerClickHandler
     {
         if (eventData.clickCount == 2)
         {
-            classEditUIPanel.AssignBaseUnit(baseUnitPrefab, baseUnitName.text, baseUnitPortrait.sprite);
-            classEditorUI.HideBaseUnitPanel();
+            //classEditUIPanel.AssignBaseUnit(baseUnitPrefab, baseUnitName.text, baseUnitPortrait.sprite);
+            //classEditorUI.HideBaseUnitPanel();
         }
     }
 }
