@@ -73,4 +73,10 @@ public class ClassEditorUI : MonoBehaviour {
             toggleButton.GetComponentInChildren<Text>().text = editClassesText;
         }
     }
+
+
+    public List<HInterface.HType> GetCurrentSpell()
+    {
+        return classAreaUIPanel.CurrentSelectedPanel.Heuristics;
+    }
 }
