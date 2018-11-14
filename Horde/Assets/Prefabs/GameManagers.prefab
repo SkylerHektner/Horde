@@ -658,12 +658,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4799509192382368}
-  - component: {fileID: 114380265378066138}
-  - component: {fileID: 114221061225399788}
   - component: {fileID: 114545953616015272}
-  - component: {fileID: 114519423123396208}
   - component: {fileID: 114014347560101064}
   - component: {fileID: 114597768303284522}
+  - component: {fileID: 114027714387535522}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -790,6 +788,18 @@ MonoBehaviour:
   devotionSlider: {fileID: 114711456934459538}
   tranquilitySlider: {fileID: 114283706394195988}
   greyscalePostMat: {fileID: 2100000, guid: 15023b97311d6684cb1bba59c4cc7d71, type: 2}
+  heuristicCosts: {fileID: 11400000, guid: 51e84e38d002d1548a6b74376849504d, type: 2}
+--- !u!114 &114027714387535522
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1832549557439656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116b49e7b804b8048ae2ce2d29287aee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114068355632738366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -956,20 +966,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114221061225399788
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1832549557439656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f220c7424c4a32f4fb921fcd833b6114, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UnitManager: {fileID: 114519423123396208}
-  levelEndDialoguePrefab: {fileID: 114104022868948220, guid: 796793edeb79e734ab5af1f8c87de33a,
-    type: 2}
 --- !u!114 &114239093262444416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1176,7 +1172,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114380265378066138}
+      - m_Target: {fileID: 0}
         m_MethodName: StartSimulation
         m_Mode: 1
         m_Arguments:
@@ -1301,20 +1297,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114380265378066138
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1832549557439656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cae9a66724a5e9548856015551729918, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxUnitsForLevel: 5
-  classEditorUI: {fileID: 0}
-  unitCapText: {fileID: 114449683411485654}
 --- !u!114 &114436459615292428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1447,7 +1429,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114380265378066138}
+      - m_Target: {fileID: 0}
         m_MethodName: ReloadLevel
         m_Mode: 1
         m_Arguments:
@@ -1547,22 +1529,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114519423123396208
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1832549557439656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a80f384c082e30749a3b8cb5ae1bd219, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LevelEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114545953616015272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2161,7 +2127,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114380265378066138}
+      - m_Target: {fileID: 0}
         m_MethodName: ReturnToMap
         m_Mode: 1
         m_Arguments:

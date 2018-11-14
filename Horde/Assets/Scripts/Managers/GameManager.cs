@@ -45,8 +45,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         classUIAreaPanel = classEditorUI.classAreaUIPanel;
         CurGameState = GameState.Setup;
-        allyContainer = GameObject.Find("TeamOne");
-        UpdateUnitCaptionText();
     }
 	
 	private void Update ()
@@ -76,11 +74,6 @@ public class GameManager : MonoBehaviour
             }
         }
 	}
-
-    private void UpdateUnitCaptionText()
-    {
-        unitCapText.text = UnitManager.instance.TeamOneUnitCount.ToString() + "/" + MaxUnitsForLevel.ToString();
-    }
 
     public void ReloadLevel()
     {
