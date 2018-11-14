@@ -20,6 +20,10 @@ public class StatBlock : ScriptableObject
 	private float movementSpeed;
 	public float MovementSpeed { get { return movementSpeed; } }
 
+	[SerializeField]
+	private float detectionRange;
+	public float DetectionRange { get { return detectionRange; }}
+
 	public enum UnitType
 	{
 		Melee,
@@ -32,8 +36,9 @@ public class StatBlock : ScriptableObject
 
 	public void Initialize(Unit u)
 	{
-		u.MaxHealth = MaxHealth;
-		u.MovementSpeed = MovementSpeed;
+		u.MaxHealth = maxHealth;
+		u.MovementSpeed = movementSpeed;
+		u.DetectionRange = detectionRange;
 
 		// TODO: Hookup enum types
 	}

@@ -36,6 +36,8 @@ public class Unit : MonoBehaviour
     public float AttackCooldown { get; set; }
     public string UnitType { get; set; }
     public float MovementSpeed { get; set; }
+    public float DetectionRange { get; set; }
+    private ResourceManager resourceManager;
 
     // --Non-Shared Variables-- //
     [Header("For debugging. Don't change these in the editor")]
@@ -64,9 +66,12 @@ public class Unit : MonoBehaviour
 
     private int curHIndex = 0;
     
-    public void Start()
+    public void Awake()
     {
+        GameObject managers = GameObject.Find("Game Managers");
+        resourceManager = managers.GetComponent<ResourceManager>();
         unitController = GetComponent<UnitController>();
+        unitController.InitializeController();
 
         if (behaviors.Count > 0 && startAIImmediate)
         {
@@ -100,7 +105,15 @@ public class Unit : MonoBehaviour
         currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
         currentHeuristic.Init();
     }
-
+    public void OnMouseDown()
+    {
+         //Add if statement to check if unit is already mind controlled
+         //Add if statement to check if a class is properly selected by the player
+         //Add if statement to check if there are enough resources to add the behaviors
+            //swap out the behaviors list with the player selected one.
+        //if not enough resouces
+            //warn the player
+    }
     [ContextMenu("Start AI")]
     public void StartAI()
     {

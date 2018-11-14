@@ -9,6 +9,8 @@ using UnityEngine.AI;
 /// </summary>
 public class UnitController : MonoBehaviour 
 {
+    public bool IsMindControlled {get; set; }
+
     [SerializeField]
     private StatBlock statBlock;
 
@@ -24,11 +26,16 @@ public class UnitController : MonoBehaviour
     private Unit u;
     private NavMeshAgent agent;
     private int destPoint = 0;
+    private GameObject player;
 
-    private void Start()
+    public void InitializeController()
     {
         u = GetComponent<Unit>();
         agent = GetComponent<NavMeshAgent>();
+        player = PlayerManager.instance.Player;
+
+        if(player == null)
+            Debug.Log("Playeris null");
 
         if(statBlock == null)
             Debug.LogError("Set the stat block in the Unit Controller!");
@@ -45,10 +52,25 @@ public class UnitController : MonoBehaviour
                 Debug.LogWarning("Unit set to patrol but no patrol points have been set.");
 
         u.CurrentHealth = u.MaxHealth; // Start the unit with max health.
+        IsMindControlled = false; // Start with default behavior.
     }
 
     private void Update()
     {
+        // We don't want normal behavior to execute if the player is being mind controlled.
+        if(IsMindControlled)
+            return;
+
+        // If the player isn't mind controlled, execute normal behavior:
+        //      * If it's a patrol unit, follow the patrol path.
+        //      * If the player enter's the unit's vision, chase it.
+        //      * If the unit runs outside of the unit's vision, go back to patrol path.
+        if(PlayerInDetectionRange()) // The player entered the detection radius of this unit.
+        {
+            MoveTo(player.transform.position);
+            return;
+        }
+
         if(isPatrolling)
             if(!agent.pathPending && agent.remainingDistance < 0.01f)
                 MoveToNextPatrolPoint();
@@ -119,6 +141,14 @@ public class UnitController : MonoBehaviour
             u.CurrentHealth += dmgAmount;
  
         return u.CurrentHealth == u.MaxHealth;
+    }
+
+    private bool PlayerInDetectionRange()
+    {
+        if(Vector3.Distance(transform.position, player.transform.position) <= u.DetectionRange)
+            return true;
+
+        return false;
     }
 
 	private void OnCollisionEnter(Collision collision)
