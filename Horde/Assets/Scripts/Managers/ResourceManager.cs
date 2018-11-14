@@ -41,7 +41,7 @@ public class ResourceManager : MonoBehaviour {
         Tranquility
     }
 
-    private void Start ()
+    private void Awake ()
     {
         Instance = this;
         Rage = maxRage;
