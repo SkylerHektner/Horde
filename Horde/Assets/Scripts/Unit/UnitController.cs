@@ -26,12 +26,14 @@ public class UnitController : MonoBehaviour
     private Unit u;
     private NavMeshAgent agent;
     private int destPoint = 0;
+    private Vector3 initialLocation; // So the static guards can go back to their initial location after chasing the player.
     private GameObject player;
 
     public void InitializeController()
     {
         u = GetComponent<Unit>();
         agent = GetComponent<NavMeshAgent>();
+        initialLocation = transform.position;
         player = PlayerManager.instance.Player;
 
         if(player == null)
@@ -65,6 +67,7 @@ public class UnitController : MonoBehaviour
         //      * If it's a patrol unit, follow the patrol path.
         //      * If the player enter's the unit's vision, chase it.
         //      * If the unit runs outside of the unit's vision, go back to patrol path.
+        //      * If it was a static unit, then go back to initial location.
         if(PlayerInDetectionRange()) // The player entered the detection radius of this unit.
         {
             MoveTo(player.transform.position);
@@ -72,8 +75,14 @@ public class UnitController : MonoBehaviour
         }
 
         if(isPatrolling)
+        {
             if(!agent.pathPending && agent.remainingDistance < 0.01f)
                 MoveToNextPatrolPoint();
+        } 
+        else
+        {
+            MoveTo(initialLocation); // Static unit should move back to it's initial location.
+        }   
     }
 
     private void MoveToNextPatrolPoint()
