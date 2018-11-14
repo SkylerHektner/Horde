@@ -27,7 +27,7 @@ public class PlayerManager : MonoBehaviour
     private void TestHeuristicCosts()
     {
         Debug.Log(ResourceManager.Instance.Rage);
-        ResourceManager.Instance.SpendEmotion(Behavior.Attack);
+        ResourceManager.Instance.SpendEmotion(HInterface.HType.Attack);
         Debug.Log(ResourceManager.Instance.Rage);
     }
 }

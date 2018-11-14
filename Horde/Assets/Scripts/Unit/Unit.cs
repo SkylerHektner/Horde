@@ -118,6 +118,10 @@ public class Unit : MonoBehaviour
             behaviors = newBehaviorSet;
             curHIndex = 0;
             GetComponent<UnitController>().IsMindControlled = true;
+            foreach(HInterface.HType h in behaviors)
+            {
+                ResourceManager.Instance.SpendEmotion(h);
+            }
             StartAI();
         }
          //Add if statement to check if there are enough resources to add the behaviors

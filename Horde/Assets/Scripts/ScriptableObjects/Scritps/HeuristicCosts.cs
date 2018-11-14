@@ -23,34 +23,25 @@ public class HeuristicCosts : ScriptableObject
 	[SerializeField]
 	private int waitCost;
 
-	public void SpendEmotion(Behavior h)
+	public void SpendEmotion(HInterface.HType h)
 	{
 		switch(h)
 		{
-			case Behavior.Attack:
+			case HInterface.HType.Attack:
 				ResourceManager.Instance.SpendRage(attackCost);
 				break;
-			case Behavior.Move:
+			case HInterface.HType.Move:
 				ResourceManager.Instance.SpendDevotion(moveCost);
 				break;
-			case Behavior.Taunt:
-				ResourceManager.Instance.SpendDevotion(tauntCost);
-				break;
-			case Behavior.Pickup:
-				ResourceManager.Instance.SpendDevotion(pickupCost);
-				break;
-			case Behavior.Wait:
+			//case HInterface.HType.Seduce:
+			//	ResourceManager.Instance.SpendDevotion(tauntCost);
+			//	break;
+			//case HInterface.HType.Pickup:
+			//	ResourceManager.Instance.SpendDevotion(pickupCost);
+			//	break;
+			case HInterface.HType.Wait:
 				ResourceManager.Instance.SpendTranquility(waitCost);
 				break;
 		}
 	}
-}
-
-public enum Behavior
-{
-	Attack,
-	Move,
-	Taunt,
-	Pickup,
-	Wait
 }

@@ -93,7 +93,7 @@ public class ResourceManager : MonoBehaviour {
         greyscalePostMat.SetFloat("_GreyAmountBlue", 1 - Tranquility / maxTranquility);
     }
 
-    public void SpendEmotion(Behavior b)
+    public void SpendEmotion(HInterface.HType b)
     {
         heuristicCosts.SpendEmotion(b);
     }
