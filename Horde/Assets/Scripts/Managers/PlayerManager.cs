@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 	public static PlayerManager instance; // Singleton instance
 
     public GameObject Player { get; private set; }
-	
+
 	private void Awake()
     {
         // Make sure only one instance of this class exists. (Singleton)
@@ -17,5 +17,17 @@ public class PlayerManager : MonoBehaviour
             Destroy(gameObject);
 
         Player = GameObject.Find("Player");
+    }
+
+    private void Start()
+    {
+        TestHeuristicCosts();
+    }
+
+    private void TestHeuristicCosts()
+    {
+        Debug.Log(ResourceManager.Instance.Rage);
+        ResourceManager.Instance.SpendEmotion(Behavior.Attack);
+        Debug.Log(ResourceManager.Instance.Rage);
     }
 }

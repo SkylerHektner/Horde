@@ -31,6 +31,9 @@ public class ResourceManager : MonoBehaviour {
     [SerializeField]
     private Material greyscalePostMat;
 
+    [SerializeField]
+    private HeuristicCosts heuristicCosts;
+
     public enum ResourceType
     {
         Rage,
@@ -88,6 +91,11 @@ public class ResourceManager : MonoBehaviour {
             ResourceEmptyEvent(ResourceType.Tranquility);
         }
         greyscalePostMat.SetFloat("_GreyAmountBlue", 1 - Tranquility / maxTranquility);
+    }
+
+    public void SpendEmotion(Behavior b)
+    {
+        heuristicCosts.SpendEmotion(b);
     }
 
     [ContextMenu("Test Spending Resources")]

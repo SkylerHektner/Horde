@@ -15,8 +15,6 @@ public class DrawDetectionRadius : MonoBehaviour
 		u = GetComponent<Unit>();
 
         radius = u.DetectionRange / 2;
-
-        Debug.Log(radius);
 		
         lr = gameObject.AddComponent<LineRenderer>();
 

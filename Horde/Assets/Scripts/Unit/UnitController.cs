@@ -61,7 +61,10 @@ public class UnitController : MonoBehaviour
         if(IsMindControlled)
             return;
 
-        // If the player isn't mind controlled, execute normal behavior.
+        // If the player isn't mind controlled, execute normal behavior:
+        //      * If it's a patrol unit, follow the patrol path.
+        //      * If the player enter's the unit's vision, chase it.
+        //      * If the unit runs outside of the unit's vision, go back to patrol path.
         if(PlayerInDetectionRange()) // The player entered the detection radius of this unit.
         {
             MoveTo(player.transform.position);
