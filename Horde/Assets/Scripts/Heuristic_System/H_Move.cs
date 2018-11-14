@@ -1,42 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-/// <summary>
-/// -- Heuristic: Move --
-/// 
-/// Moves to the current target. Simple as that.
-/// Resolves as soon as the unit reaches the target, or if the target dies before that.
-/// </summary>
+
 public class H_Move : Heuristic
 {
 	private Vector3 targetPosition;
+    private NavMeshAgent agent;
+    private bool moving = false;
 
 	public override void Init()
 	{
 		base.Init();
-
-		targetPosition = unit.CurrentTarget.transform.position;	
-		unit.UnitController.MoveTo(targetPosition);
+        agent = GetComponent<NavMeshAgent>();
+        agent.SetDestination(transform.position);
+        HTargetingTool.Instance.GetPositon(unit, positionReady, "Please click where you want this unit to move");
 	}
 
 	public override void Execute()
 	{
-		// Resolve if the unit reaches the target or if the target dies.
-		if(unit.CurrentTarget == null || DistanceFromTarget() <= 2)
-		{
-			unit.UnitController.StopMoving();
-			Resolve();
-		}
+        base.Execute();
+        if(moving)
+        {
+            if(agent.remainingDistance <= agent.stoppingDistance)
+            {
+                Resolve();
+            }
+        }
 	}
 
-	public override void Resolve()
-	{
-		base.Resolve();
-	}
-
-	private float DistanceFromTarget()
-	{
-		return Vector3.Distance(transform.position, targetPosition);
-	}
+    private void positionReady(Vector3 pos)
+    {
+        agent.SetDestination(pos);
+        moving = true;
+    }
 }
