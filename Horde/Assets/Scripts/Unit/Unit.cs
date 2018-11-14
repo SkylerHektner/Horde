@@ -36,6 +36,7 @@ public class Unit : MonoBehaviour
     public float AttackCooldown { get; set; }
     public string UnitType { get; set; }
     public float MovementSpeed { get; set; }
+    public float DetectionRange { get; set; }
 
     // --Non-Shared Variables-- //
     [Header("For debugging. Don't change these in the editor")]
@@ -64,9 +65,10 @@ public class Unit : MonoBehaviour
 
     private int curHIndex = 0;
     
-    public void Start()
+    public void Awake()
     {
         unitController = GetComponent<UnitController>();
+        unitController.InitializeController();
 
         if (behaviors.Count > 0 && startAIImmediate)
         {
