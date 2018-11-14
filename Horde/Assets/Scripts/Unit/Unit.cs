@@ -69,7 +69,7 @@ public class Unit : MonoBehaviour
 
     private int curHIndex = 0;
     
-    public void Awake()
+    public void Start()
     {
         GameObject managers = GameObject.Find("GameManagers");
         resourceManager = managers.GetComponent<ResourceManager>();
