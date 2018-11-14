@@ -28,11 +28,13 @@ public class UnitController : MonoBehaviour
     private int destPoint = 0;
     private Vector3 initialLocation; // So the static guards can go back to their initial location after chasing the player.
     private GameObject player;
+    private DrawDetectionRadius detectionRadius;
 
     public void InitializeController()
     {
         u = GetComponent<Unit>();
         agent = GetComponent<NavMeshAgent>();
+        detectionRadius = GetComponent<DrawDetectionRadius>();
         initialLocation = transform.position;
         player = PlayerManager.instance.Player;
 
@@ -70,9 +72,12 @@ public class UnitController : MonoBehaviour
         //      * If it was a static unit, then go back to initial location.
         if(PlayerInDetectionRange()) // The player entered the detection radius of this unit.
         {
+            detectionRadius.SetToDetectioncolor();
             MoveTo(player.transform.position);
             return;
         }
+
+        detectionRadius.SetToDefaultColor();
 
         if(isPatrolling)
         {

@@ -8,9 +8,15 @@ public class DrawDetectionRadius : MonoBehaviour
     private int segments = 50;
 	private float radius;
 
+    //[SerializeField, Tooltip("The default color of the detection range.")]
+    //private Color defaultColor;
+
+    //[SerializeField, Tooltip("The color when the player is in detection range.")]
+    //private Color detectionColor;
+
     private LineRenderer lr;
 
-    void Start ()
+    private void Start ()
     {
 		u = GetComponent<Unit>();
 
@@ -23,14 +29,14 @@ public class DrawDetectionRadius : MonoBehaviour
 
 		lr.startWidth = 0.2f;
         lr.endWidth = 0.2f;
-        lr.startColor = Color.red;
-        lr.endColor = Color.red;
+        lr.startColor = Color.yellow;
+        lr.endColor = Color.yellow;
         lr.material = new Material(Shader.Find("Particles/Additive"));
 
         CreatePoints ();
     }
 
-    void CreatePoints ()
+    private void CreatePoints ()
     {
         float x;
         //float y;
@@ -47,5 +53,21 @@ public class DrawDetectionRadius : MonoBehaviour
 
             angle += (360f / segments);
         }
+    }
+
+    public void SetToDefaultColor()
+    {
+        lr.startColor = Color.yellow;
+        lr.endColor = Color.yellow;
+
+        CreatePoints();
+    }
+
+    public void SetToDetectioncolor()
+    {
+        lr.startColor = Color.red;
+        lr.endColor = Color.red;
+
+        CreatePoints();
     }
 }
