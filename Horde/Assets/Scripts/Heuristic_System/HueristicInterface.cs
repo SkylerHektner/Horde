@@ -16,7 +16,8 @@ public class HInterface : MonoBehaviour
         Mutilate,
         Explode,
         Heal,
-        Move
+        Move,
+        Wait
     }
 
     public static System.Type GetHeuristic(HType heuristic)
@@ -43,6 +44,8 @@ public class HInterface : MonoBehaviour
                 return typeof(H_WatchForEnemy);
             case (HType.Move):
                 return typeof(H_Move);
+            case (HType.Wait):
+                return typeof(H_Wait);
         }
 
 

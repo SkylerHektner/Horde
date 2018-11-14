@@ -40,8 +40,6 @@ public class Unit : MonoBehaviour
 
     private ResourceManager resourceManager;
 
-    private ClassEditorUI spellRefrence;
-
     // --Non-Shared Variables-- //
     [Header("For debugging. Don't change these in the editor")]
     [SerializeField] 
@@ -74,7 +72,6 @@ public class Unit : MonoBehaviour
         GameObject managers = GameObject.Find("GameManagers");
         resourceManager = managers.GetComponent<ResourceManager>();
         GameObject classEditor = GameObject.Find("ClassEditor");
-        spellRefrence = classEditor.GetComponent<ClassEditorUI>();
         unitController = GetComponent<UnitController>();
         unitController.InitializeController();
 
@@ -105,7 +102,8 @@ public class Unit : MonoBehaviour
         curHIndex++;
         if (curHIndex >= behaviors.Count)
         {
-            curHIndex = 0;
+            GetComponent<UnitController>().IsMindControlled = false;
+            return;
         }
         currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
         currentHeuristic.Init();
@@ -114,11 +112,12 @@ public class Unit : MonoBehaviour
     {
         //Add if statement to check if unit is already mind controlled
         //Add if statement to check if a class is properly selected by the player
-        var newBehaviorSet = spellRefrence.GetCurrentSpell();
+        List<HInterface.HType> newBehaviorSet = ClassEditorUI.Instance.GetCurrentSpell();
         if (newBehaviorSet != null)
         {
             behaviors = newBehaviorSet;
             curHIndex = 0;
+            GetComponent<UnitController>().IsMindControlled = true;
             StartAI();
         }
          //Add if statement to check if there are enough resources to add the behaviors
@@ -129,6 +128,7 @@ public class Unit : MonoBehaviour
     [ContextMenu("Start AI")]
     public void StartAI()
     {
+        curHIndex = 0;
         currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
         currentHeuristic.Init();
     }
