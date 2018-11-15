@@ -20,7 +20,7 @@ public class H_Move : Heuristic
 	{
         if(moving)
         {
-            if(agent.remainingDistance <= agent.stoppingDistance)
+            if(agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
                 Resolve();
             }
