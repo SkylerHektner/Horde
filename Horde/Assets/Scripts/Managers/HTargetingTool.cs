@@ -40,6 +40,9 @@ public class HTargetingTool : MonoBehaviour {
     /// 6. Return camera to player, remove rim and instruction text, enable player WASD and disable camera WASD and resume time
     /// </summary>
     /// 
+
+    public bool GettingInput { get { return Executing; } }
+
     private bool Executing = false;
     private Queue<pendingRequest> pendingRequests = new Queue<pendingRequest>();
     private pendingRequest currentRequest;

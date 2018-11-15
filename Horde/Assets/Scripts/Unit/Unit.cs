@@ -130,6 +130,10 @@ public class Unit : MonoBehaviour
     }
     public void OnMouseDown()
     {
+        if(HTargetingTool.Instance.GettingInput)
+        {
+            return;
+        }
         //Add if statement to check if unit is already mind controlled
         //Add if statement to check if a class is properly selected by the player
         List<HInterface.HType> newBehaviorSet = ClassEditorUI.Instance.GetCurrentSpell();
