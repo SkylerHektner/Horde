@@ -168,37 +168,12 @@ public class UnitController : MonoBehaviour
 	private void OnCollisionEnter(Collision collision)
     {
         // Check which team this unit is on.
-        if(gameObject.tag == "TeamOneUnit") // Unit is on team one.
+        if(collision.gameObject.tag == "Projectile") // Got hit by a projectile.
         {
             Projectile p = collision.gameObject.GetComponent<Projectile>();
 
-            if(p.team == Team.TeamTwo)
-            {
-                Destroy(collision.gameObject);
-                TakeDamage(p.damage);
-            }
-
-            if(collision.gameObject.tag == "Heal")
-            {
-                Destroy(collision.gameObject);
-                HealDamage(1);
-            }
-        }
-        else if(gameObject.tag == "TeamTwoUnit") // Unit is on team two.
-        {
-            Projectile p = collision.gameObject.GetComponent<Projectile>();
-
-            if (p.team == Team.TeamOne)
-            {
-                Destroy(collision.gameObject);
-                TakeDamage(p.damage);
-            }
-
-            if (collision.gameObject.tag == "Heal")
-            {
-                Destroy(collision.gameObject);
-                HealDamage(1);
-            }
+            TakeDamage(p.damage);
+            Destroy(collision.gameObject);
         }
     }
 }

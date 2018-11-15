@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        TestHeuristicCosts();
+        //TestHeuristicCosts();
     }
 
     private void TestHeuristicCosts()

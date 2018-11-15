@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 54653110650809470}
   - component: {fileID: 95070399338679710}
   - component: {fileID: 136224580911278716}
+  - component: {fileID: 114358030601567702}
   m_Layer: 11
   m_Name: Team_Two_Unit
   m_TagString: TeamTwoUnit
@@ -373,6 +374,21 @@ GameObject:
   - component: {fileID: 4405119772055964}
   m_Layer: 0
   m_Name: mixamorig:LeftHandMiddle3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1253610203448412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4314852897687672}
+  m_Layer: 11
+  m_Name: ProjectileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1426,6 +1442,19 @@ Transform:
   m_Father: {fileID: 4045615041626280}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4314852897687672
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1253610203448412}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.72, z: 0.628}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4563578998753164}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4346227540116352
 Transform:
   m_ObjectHideFlags: 1
@@ -1635,16 +1664,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1147260055776320}
-  m_LocalRotation: {x: -0, y: -0.038799167, z: -0, w: 0.9992471}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 61.601173, y: 100.44, z: -67.943756}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4980861782175968}
   - {fileID: 4433589065544274}
   - {fileID: 4951674775128324}
+  - {fileID: 4314852897687672}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -4.447, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4581175865117018
 Transform:
   m_ObjectHideFlags: 1
@@ -2082,6 +2112,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114358030601567702
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1147260055776320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5972e3e084007da4c802b5aa2e8f015c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114473698583448162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2096,7 +2137,7 @@ MonoBehaviour:
   healthBarMask: {fileID: 0}
   useHeuristicSwapping: 1
   startAIImmediate: 1
-  projectileSpawn: {fileID: 0}
+  projectileSpawn: {fileID: 4314852897687672}
   behaviors: 
   currentHealth: 0
   currentTarget: {fileID: 0}
