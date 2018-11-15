@@ -134,6 +134,12 @@ public class Unit : MonoBehaviour
         {
             return;
         }
+
+        PlayerManager.instance.CastSpell(gameObject.transform);
+    }
+
+    public void OverrideHeuristics()
+    {
         //Add if statement to check if unit is already mind controlled
         //Add if statement to check if a class is properly selected by the player
         List<HInterface.HType> newBehaviorSet = ClassEditorUI.Instance.GetCurrentSpell();
@@ -142,17 +148,18 @@ public class Unit : MonoBehaviour
             behaviors = newBehaviorSet;
             curHIndex = 0;
             GetComponent<UnitController>().IsMindControlled = true;
-            foreach(HInterface.HType h in behaviors)
+            foreach (HInterface.HType h in behaviors)
             {
                 ResourceManager.Instance.SpendEmotion(h);
             }
             StartAI();
         }
-         //Add if statement to check if there are enough resources to add the behaviors
-            //swap out the behaviors list with the player selected one.
+        //Add if statement to check if there are enough resources to add the behaviors
+        //swap out the behaviors list with the player selected one.
         //if not enough resouces
-            //warn the player
+        //warn the player
     }
+
     [ContextMenu("Start AI")]
     public void StartAI()
     {

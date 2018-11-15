@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
 	public static PlayerManager instance; // Singleton instance
 
     public GameObject Player { get; private set; }
+    public GameObject SpellPrefab;
 
 	private void Awake()
     {
@@ -22,6 +23,12 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         //TestHeuristicCosts();
+    }
+
+    public void CastSpell(Transform t)
+    {
+        GameObject spell = Instantiate(SpellPrefab, Player.transform.position, Quaternion.identity);
+        spell.GetComponent<SpellMovement>().setTarget(t);
     }
 
     private void TestHeuristicCosts()
