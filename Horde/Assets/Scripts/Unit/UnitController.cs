@@ -9,7 +9,7 @@ using UnityEngine.AI;
 /// </summary>
 public class UnitController : MonoBehaviour 
 {
-    public bool IsMindControlled {get; set; }
+    public bool IsMindControlled { get; set; }
 
     [SerializeField]
     private StatBlock statBlock;
@@ -57,6 +57,9 @@ public class UnitController : MonoBehaviour
 
         u.CurrentHealth = u.MaxHealth; // Start the unit with max health.
         IsMindControlled = false; // Start with default behavior.
+
+        if(patrolPoints != null)
+            SetPatrolPoints(); 
     }
 
     private void Update()
@@ -180,6 +183,23 @@ public class UnitController : MonoBehaviour
             return true;
 
         return false;
+    }
+
+    /// <summary>
+    /// Puts the patrol points in the order that the unit should traverse them in.
+    /// e.g. given patrol points A, B, C, this function change the list to A, B, C, C, B, A
+    /// </summary>
+    private void SetPatrolPoints()
+    {
+        List<Transform> points = new List<Transform>(patrolPoints);
+        List<Transform> pointsReversed = new List<Transform>(patrolPoints);
+        pointsReversed.Reverse();
+
+        List<Transform> mergedList = new List<Transform>();
+        mergedList.AddRange(points);
+        mergedList.AddRange(pointsReversed);
+
+        patrolPoints = mergedList.ToArray();
     }
 
 	private void OnCollisionEnter(Collision collision)
