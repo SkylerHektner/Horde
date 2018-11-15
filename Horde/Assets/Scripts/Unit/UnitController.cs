@@ -9,7 +9,18 @@ using UnityEngine.AI;
 /// </summary>
 public class UnitController : MonoBehaviour 
 {
-    public bool IsMindControlled { get; set; }
+    private bool isMindControlled;
+    public bool IsMindControlled 
+    { 
+        get { return isMindControlled; }
+        set 
+        { 
+            isMindControlled = value;
+            if(!isMindControlled)
+                if(isPatrolling)
+                    MoveToNextPatrolPoint();
+        } 
+    }
 
     [SerializeField]
     private StatBlock statBlock;
@@ -164,7 +175,7 @@ public class UnitController : MonoBehaviour
         {
             gameObject.transform.SetParent(null); // this is important for UnitManager.UpdateUnits();
             Destroy(gameObject);
-            UnitManager.instance.UpdateUnits();
+            //UnitManager.instance.UpdateUnits();
         }
 
         return u.CurrentHealth <= 0;

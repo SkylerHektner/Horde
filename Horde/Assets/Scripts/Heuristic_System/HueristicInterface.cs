@@ -17,7 +17,8 @@ public class HInterface : MonoBehaviour
         Explode,
         Heal,
         Move,
-        Wait
+        Wait,
+        Beckon
     }
 
     public static System.Type GetHeuristic(HType heuristic)
@@ -46,6 +47,8 @@ public class HInterface : MonoBehaviour
                 return typeof(H_Move);
             case (HType.Wait):
                 return typeof(H_Wait);
+            case (HType.Beckon):
+                return typeof(H_Beckon);
         }
 
 
