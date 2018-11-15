@@ -102,7 +102,24 @@ public class UnitController : MonoBehaviour
 
     public void Attack()
     {
-        attack.ExecuteAttack(u);
+        //attack.ExecuteAttack(u);
+
+        // TEMP ATTACK FOR NOW
+        Vector3 dirVector = (u.CurrentTarget.transform.position - transform.position).normalized;
+
+        GameObject projectileGO;
+        projectileGO = Instantiate(Resources.Load("Arrow"), u.ProjectileSpawn.transform.position, Quaternion.identity) as GameObject;
+
+        Projectile p = projectileGO.GetComponent<Projectile>();
+        // Set the damage of the projectile.
+        p.damage = u.AttackDamage;
+
+        Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
+
+        //Debug.Log(globalVelocity);
+        instance.velocity = dirVector * 25;
+
+        Destroy(instance.gameObject, 3);
     }
 
     /// <summary>
