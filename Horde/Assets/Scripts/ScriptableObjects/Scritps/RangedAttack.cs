@@ -61,12 +61,7 @@ public class RangedAttack : Attack
 
         Projectile p = projectileGO.GetComponent<Projectile>();
         // Set the damage of the projectile.
-        p.damage = u.AttackDamage; 
-        // Set which team fires the projectile.
-        if(u.gameObject.tag == "TeamOneUnit")
-            p.team = Team.TeamOne;
-        else if(u.gameObject.tag == "TeamTwoUnit")
-            p.team = Team.TeamTwo;
+        p.damage = u.AttackDamage;
 
         Rigidbody instance = projectileGO.GetComponent<Rigidbody>();
 

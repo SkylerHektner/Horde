@@ -21,43 +21,20 @@ public class H_Attack : Heuristic
         base.Init();
 
         agent = GetComponent<NavMeshAgent>();
-
-        if (unit.CurrentTarget == null) // If the target is already dead.
-        {
-            // Check if there are any enemies remaining.
-            // Returning if the enemy count is zero prevents the game from hanging.
-            if (gameObject.tag == "TeamOneUnit")
-            {
-                if (UnitManager.instance.TeamTwoUnitCount == 0)
-                    return;
-            }
-            if (gameObject.tag == "TeamTwoUnit")
-            {
-                if (UnitManager.instance.TeamOneUnitCount == 0)
-                    return;
-            }
-
-            Resolve();
-        }
-        else
-        {
-            unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
-        }
+        HTargetingTool.Instance.GetTarget(unit, TargetReady, "Please select the target to attack.");
     }
 
     public override void Execute()
     {
-        if (unit.CurrentTarget == null)
-        {
-            Resolve();
+        if(unit.CurrentTarget == null)
             return;
-        }
 
         float distanceFromTarget = Vector3.Distance(transform.position, unit.CurrentTarget.transform.position);
             
         //  Follow the enemy if it is moving.
         if (distanceFromTarget > unit.AttackRange) // Target is out of range.
         {
+            StopCoroutine(Attack()); // Stop attacking if out of range.
             unit.UnitController.MoveTo(unit.CurrentTarget.transform.position);
         }
         else // Target is in range.
@@ -88,9 +65,13 @@ public class H_Attack : Heuristic
     /// </summary>
     private IEnumerator Attack()
     {
-        unit.UnitController.Attack();
+        while(unit.CurrentTarget != null) // Attack until the target is dead.
+        {
+            unit.UnitController.Attack();
 
-        yield return new WaitForSeconds(unit.AttackCooldown); // Attack cooldown.
+            // Attack needs a cooldown or else it will resolve way too fast, creating an insane attack speed.
+            yield return new WaitForSeconds(unit.AttackCooldown);
+        }
 
         Resolve();
     }
@@ -108,5 +89,12 @@ public class H_Attack : Heuristic
 
         if(dotProduct <= 1)
             facingTarget = true;
+    }
+
+    private void TargetReady(Unit u)
+    {
+        if(u == null)
+            Debug.Log("null!");
+        unit.CurrentTarget = u;
     }
 }
