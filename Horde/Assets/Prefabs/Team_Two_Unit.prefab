@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 54653110650809470}
   - component: {fileID: 95070399338679710}
   - component: {fileID: 136224580911278716}
+  - component: {fileID: 114329093749806904}
   m_Layer: 11
   m_Name: Team_Two_Unit
   m_TagString: TeamTwoUnit
@@ -1635,8 +1636,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1147260055776320}
-  m_LocalRotation: {x: -0, y: -0.038799167, z: -0, w: 0.9992471}
-  m_LocalPosition: {x: 61.601173, y: 100.44, z: -67.943756}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -9.45, y: 50.21, z: -30.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4980861782175968}
@@ -1644,7 +1645,7 @@ Transform:
   - {fileID: 4951674775128324}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -4.447, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4581175865117018
 Transform:
   m_ObjectHideFlags: 1
@@ -2082,6 +2083,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114329093749806904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1147260055776320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5972e3e084007da4c802b5aa2e8f015c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114473698583448162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2243,7 +2255,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100002, guid: 04392a55e5c6ae3429002bc9a5955936, type: 3}
+  - {fileID: 2100000, guid: d6e15c02e5d3f3a4fb335f1d42d7d1aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2336,8 +2348,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
-  m_Acceleration: 8
+  m_Speed: 10
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0

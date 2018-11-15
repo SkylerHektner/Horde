@@ -68,13 +68,13 @@ public class PlayerMovement : MonoBehaviour
             lastPos = transform.position;
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Vector3 temp = forward;
             forward = right;
             right = -temp;
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             Vector3 temp = forward;
             forward = -right;

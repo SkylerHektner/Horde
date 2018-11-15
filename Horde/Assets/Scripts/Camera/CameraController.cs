@@ -96,11 +96,11 @@ public class CameraController : MonoBehaviour
         if (!lockRotationControls)
         {
             // Camera Rotate Controls
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 targetRot.y += 90;
             }
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 targetRot.y -= 90;
             }
