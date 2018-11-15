@@ -66,6 +66,9 @@ public class Unit : MonoBehaviour
     public UnitController UnitController { get { return unitController; } }
 
     private int curHIndex = 0;
+
+    private Vector3 lastPos;
+    private Animator anim;
     
     public void Start()
     {
@@ -79,7 +82,12 @@ public class Unit : MonoBehaviour
         {
             currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
             currentHeuristic.Init();
-        } 
+        }
+
+        lastPos = transform.position;
+        anim = GetComponent<Animator>();
+
+        GetComponent<DrawDetectionRadius>().Initialize();
     }
 
     private void Update()
@@ -87,6 +95,18 @@ public class Unit : MonoBehaviour
         if (currentHeuristic != null)
         {
             currentHeuristic.Execute();
+        }
+
+        // make them face the way they are walking
+        if (lastPos.x != transform.position.x || lastPos.z != transform.position.z)
+        {
+            transform.forward = transform.position - lastPos;
+            lastPos = transform.position;
+            anim.SetBool("Walking", true);
+        }
+        else
+        {
+            anim.SetBool("Walking", false);
         }
     }
 

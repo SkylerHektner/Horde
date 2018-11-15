@@ -16,11 +16,11 @@ public class DrawDetectionRadius : MonoBehaviour
 
     private LineRenderer lr;
 
-    private void Start ()
+    public void Initialize ()
     {
 		u = GetComponent<Unit>();
 
-        radius = u.DetectionRange / 2;
+        radius = u.DetectionRange;
 		
         lr = gameObject.AddComponent<LineRenderer>();
 
@@ -49,7 +49,7 @@ public class DrawDetectionRadius : MonoBehaviour
             x = Mathf.Sin (Mathf.Deg2Rad * angle) * radius;
             z = Mathf.Cos (Mathf.Deg2Rad * angle) * radius;
 
-            lr.SetPosition (i,new Vector3(x,0,z) );
+            lr.SetPosition (i,new Vector3(x,-1,z) );
 
             angle += (360f / segments);
         }
