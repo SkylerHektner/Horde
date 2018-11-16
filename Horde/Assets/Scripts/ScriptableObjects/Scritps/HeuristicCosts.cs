@@ -23,6 +23,9 @@ public class HeuristicCosts : ScriptableObject
 	[SerializeField]
 	private int waitCost;
 
+	[SerializeField]
+	private int hugCost;
+
 	public void SpendEmotion(HInterface.HType h)
 	{
 		switch(h)
