@@ -18,6 +18,9 @@ public class HeuristicCosts : ScriptableObject
 
 	[SerializeField]
 	private int pickupCost;
+
+	[SerializeField]
+	private int beckonCost;
 	
 	[Header("Tranquility")]
 	[SerializeField]
@@ -36,14 +39,17 @@ public class HeuristicCosts : ScriptableObject
 			case HInterface.HType.Move:
 				ResourceManager.Instance.SpendDevotion(moveCost);
 				break;
-			//case HInterface.HType.Seduce:
-			//	ResourceManager.Instance.SpendDevotion(tauntCost);
-			//	break;
+			case HInterface.HType.Beckon:
+				ResourceManager.Instance.SpendDevotion(tauntCost);
+				break;
 			//case HInterface.HType.Pickup:
 			//	ResourceManager.Instance.SpendDevotion(pickupCost);
 			//	break;
 			case HInterface.HType.Wait:
 				ResourceManager.Instance.SpendTranquility(waitCost);
+				break;
+			case HInterface.HType.Hug:
+				ResourceManager.Instance.SpendTranquility(hugCost);
 				break;
 		}
 	}

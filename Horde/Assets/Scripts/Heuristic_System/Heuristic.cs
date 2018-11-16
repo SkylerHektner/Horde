@@ -23,6 +23,8 @@ public class Heuristic : MonoBehaviour
 
     virtual public void Resolve() // --Exiting the behavior-- //
     {
+        unit.CurrentTarget = null; // Make sure the current target is null before proceeding to the next heuristic.
+
         unit.HResolved();
 
         // Maybe put something here to wait a few frames

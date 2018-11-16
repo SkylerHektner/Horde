@@ -14,6 +14,12 @@ public class HTargetingTool : MonoBehaviour {
 
     public delegate void intReadyCallback(int value);
 
+    public delegate void TargetAction();
+    public static event TargetAction OnTargeting;
+
+    public delegate void FinishedTargetAction();
+    public static event FinishedTargetAction OnFinishedTargeting;
+
     [SerializeField]
     private CameraController cam;
     [SerializeField]
@@ -149,6 +155,9 @@ public class HTargetingTool : MonoBehaviour {
         instructionText.text = message;
         classEditor.SetActive(false);
         //TODO: This method still needs to pause time
+
+        // Fire an event that lets listeners know the player is in a targeting phase.
+        OnTargeting();
     }
 
     /// 6. Return camera to player, remove rim and instruction text, enable player WASD and disable camera WASD and resume time
@@ -161,6 +170,9 @@ public class HTargetingTool : MonoBehaviour {
         rimCanvas.SetActive(false);
         classEditor.SetActive(true);
         //TODO: This method still needs to resume time
+
+        // Fire an event that lets listeners know the player is done with the targeting action.
+        OnFinishedTargeting();
     }
 
     private Unit tryGetUnit()

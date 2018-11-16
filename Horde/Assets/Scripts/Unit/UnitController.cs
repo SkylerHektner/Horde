@@ -22,6 +22,8 @@ public class UnitController : MonoBehaviour
         } 
     }
 
+    private bool isPaused = false;
+
     [SerializeField]
     private StatBlock statBlock;
 
@@ -40,6 +42,18 @@ public class UnitController : MonoBehaviour
     private Vector3 initialLocation; // So the static guards can go back to their initial location after chasing the player.
     private GameObject player;
     private DrawDetectionRadius detectionRadius;
+
+    private void OnEnable()
+    {
+        HTargetingTool.OnTargeting += Pause;
+        HTargetingTool.OnFinishedTargeting += Resume;
+    }
+
+    private void OnDisable()
+    {
+        HTargetingTool.OnTargeting -= Pause;
+        HTargetingTool.OnFinishedTargeting -= Resume;
+    }
 
     public void InitializeController()
     {
@@ -75,8 +89,9 @@ public class UnitController : MonoBehaviour
 
     private void Update()
     {
-        // We don't want normal behavior to execute if the player is being mind controlled.
-        if(IsMindControlled)
+        //Debug.Log(IsMindControlled + " | " + isPaused);
+        // We don't want normal behavior to execute if the player is being mind controlled or if the unit is paused.
+        if(IsMindControlled || isPaused)
             return;
 
         // If the player isn't mind controlled, execute normal behavior:
@@ -84,6 +99,7 @@ public class UnitController : MonoBehaviour
         //      * If the player enter's the unit's vision, chase it.
         //      * If the unit runs outside of the unit's vision, go back to patrol path.
         //      * If it was a static unit, then go back to initial location.
+        //
         if(PlayerInDetectionRange()) // The player entered the detection radius of this unit.
         {
             detectionRadius.SetToDetectioncolor();
@@ -211,6 +227,20 @@ public class UnitController : MonoBehaviour
         mergedList.AddRange(pointsReversed);
 
         patrolPoints = mergedList.ToArray();
+    }
+
+    private void Pause()
+    {
+        isPaused = true;
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero; // So it's an instant stop rather than a slow stop.
+    }
+
+    private void Resume()
+    {
+        isPaused = false;
+        agent.isStopped = false;
+        agent.speed = u.MovementSpeed;
     }
 
 	private void OnCollisionEnter(Collision collision)
