@@ -9,79 +9,45 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance; // Singleton instance
 
-    private GameObject allyContainer;
+    public delegate void CaptureAction();
+    public static event CaptureAction OnCaptured; // When the enemy catches the player.
+
+    private Unit[] enemies;
 
     [SerializeField]
-    private int MaxUnitsForLevel = 10;
-    [SerializeField]
-    private ClassEditorUI classEditorUI;
-    private ClassAreaUIPanel classUIAreaPanel;
-    [SerializeField]
-    private Text unitCapText;
+    private Transform[] checkpoints;
+    private Transform currentCheckpoint;
 
-    public GameState CurGameState { get; private set; }
-
-    public enum GameState
-    {
-        Setup,
-        Simulate
-    }
-
-    public void StartSimulation()
-    {
-        if (CurGameState == GameState.Setup)
-        {
-            CurGameState = GameState.Simulate;
-            UnitManager.instance.StartAI();
-        }
-    }
-
-    private void Start()
+    private void Awake()
     {
         // Make sure only one instance of this class exists. (Singleton)
         if (instance == null)
             instance = this;
         else if (instance != null)
             Destroy(gameObject);
-        classUIAreaPanel = classEditorUI.classAreaUIPanel;
-        CurGameState = GameState.Setup;
+    }
+
+    private void Start()
+    {
+        // Populate the enemies array
+        enemies = GameObject.Find("Enemies").GetComponentsInChildren<Unit>();
     }
 	
 	private void Update ()
     {
-        // check if the player is trying to place units
-        if (CurGameState == GameState.Setup && 
-            Input.GetMouseButtonDown(0) && 
-            !classEditorUI.InEditMode && 
-            UnitManager.instance.TeamOneUnitCount < MaxUnitsForLevel &&
-            !EventSystem.current.IsPointerOverGameObject())
-        {
-            RaycastHit hitInfo;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
-            {
-                if(classUIAreaPanel == null)
-                {
-                    classUIAreaPanel = classEditorUI.classAreaUIPanel;
-                }
-                if (classUIAreaPanel.CurrentSelectedPanel != null)
-                {
-                    //Unit u = Instantiate(classUIAreaPanel.CurrentSelectedPanel.baseUnitPrefab, hitInfo.point + new Vector3(0, 0.5f), Quaternion.identity);
-                    //u.behaviors = classUIAreaPanel.CurrentSelectedPanel.Heuristics;
-                    //u.transform.parent = allyContainer.transform;
-                    //UnitManager.instance.UpdateUnits();
-                    //UpdateUnitCaptionText();
-                }
-            }
-        }
+
 	}
 
-    public void ReloadLevel()
+    public void ResetLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+        Debug.Log("Reached");
+        foreach(Unit enemy in enemies)
+        {
+            Destroy(enemy.GetComponent<Heuristic>()); // Remove whatever heuristic it's executing.
+            enemy.transform.position = enemy.GetComponent<Unit>().InitialPosition; // Set position to it's initial location.
+            enemy.GetComponent<Unit>().UnitController.ResetPatrolPathing(); // Make sure the unit starts at the beginning of his patrol.
 
-    public void ReturnToMap()
-    {
-        SceneManager.LoadScene("LevelSelect");
+            PlayerManager.instance.Player.transform.position = checkpoints[0].position;
+        }
     }
 }

@@ -39,7 +39,6 @@ public class UnitController : MonoBehaviour
     private Unit u;
     private NavMeshAgent agent;
     private int destPoint = 0;
-    private Vector3 initialLocation; // So the static guards can go back to their initial location after chasing the player.
     private GameObject player;
     private DrawDetectionRadius detectionRadius;
 
@@ -47,12 +46,14 @@ public class UnitController : MonoBehaviour
     {
         HTargetingTool.OnTargeting += Pause;
         HTargetingTool.OnFinishedTargeting += Resume;
+        GameManager.OnCaptured += Reset;
     }
 
     private void OnDisable()
     {
         HTargetingTool.OnTargeting -= Pause;
         HTargetingTool.OnFinishedTargeting -= Resume;
+        GameManager.OnCaptured -= Reset;
     }
 
     public void InitializeController()
@@ -60,7 +61,7 @@ public class UnitController : MonoBehaviour
         u = GetComponent<Unit>();
         agent = GetComponent<NavMeshAgent>();
         detectionRadius = GetComponent<DrawDetectionRadius>();
-        initialLocation = transform.position;
+        u.InitialPosition = transform.position;
         player = PlayerManager.instance.Player;
 
         agent.autoBraking = true;
@@ -91,7 +92,16 @@ public class UnitController : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(IsMindControlled + " | " + isPaused);
+        // If the unit is within capture range of the player, reset the level.
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.instance.Player.transform.position, transform.position);
+        Debug.Log(distanceFromPlayer);
+        if(distanceFromPlayer < 3.0f) // Random number for now.
+        {
+            agent.velocity = Vector3.zero; // Make sure the unit stops fully so it doesn't still have momentum when reset to it's initial location.
+            agent.ResetPath();
+            GameManager.instance.ResetLevel();
+        }
+            
         // We don't want normal behavior to execute if the player is being mind controlled or if the unit is paused.
         if(IsMindControlled || isPaused)
             return;
@@ -119,7 +129,7 @@ public class UnitController : MonoBehaviour
         } 
         else
         {
-            MoveTo(initialLocation); // Static unit should move back to it's initial location.
+            MoveTo(u.InitialPosition); // Static unit should move back to it's initial location.
         }   
     }
 
@@ -199,12 +209,18 @@ public class UnitController : MonoBehaviour
 
         return u.CurrentHealth <= 0;
     }
+
     public bool HealDamage(int dmgAmount)
     {
         if (u.CurrentHealth <= u.MaxHealth)
             u.CurrentHealth += dmgAmount;
  
         return u.CurrentHealth == u.MaxHealth;
+    }
+
+    public void ResetPatrolPathing()
+    {
+        destPoint = 0;
     }
 
     private bool PlayerInDetectionRange()
@@ -232,6 +248,10 @@ public class UnitController : MonoBehaviour
         patrolPoints = mergedList.ToArray();
     }
 
+    /// <summary>
+    /// Pauses the path of the unit and stops it's movement.
+    /// Use for when the player is selecting a target and all the enemies need to freeze.
+    /// </summary>
     private void Pause()
     {
         isPaused = true;
@@ -239,11 +259,25 @@ public class UnitController : MonoBehaviour
         agent.velocity = Vector3.zero; // So it's an instant stop rather than a slow stop.
     }
 
+    /// <summary>
+    /// Resumes the movement of the unit.
+    /// Used for when the player is done selecting a target.
+    /// </summary>
     private void Resume()
     {
         isPaused = false;
         agent.isStopped = false;
         agent.speed = u.MovementSpeed;
+    }
+
+    /// <summary>
+    /// Resets the position of the unit and removes any heuristics that were on it.
+    /// Used for when the unit gets caught by a guard and the level resets.
+    /// </summary>
+    private void Reset()
+    {
+        Destroy(GetComponent<Heuristic>()); // Remove whatever heuristic it's executing.
+        transform.position = u.InitialPosition; // Set position to it's initial location.
     }
 
 	private void OnCollisionEnter(Collision collision)

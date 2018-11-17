@@ -41,6 +41,7 @@ public class Unit : MonoBehaviour
     private ResourceManager resourceManager;
 
     // --Non-Shared Variables-- //
+    public Vector3 InitialPosition { get; set; } // So the static guards can go back to their initial location after chasing the player.
     [Header("For debugging. Don't change these in the editor")]
     [SerializeField] 
     private int currentHealth;
