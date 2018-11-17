@@ -20,7 +20,8 @@ public class HInterface : MonoBehaviour
         Wait,
         Beckon,
         Pickup,
-        Hug
+        Hug,
+        Scream
     }
 
     public static System.Type GetHeuristic(HType heuristic)
@@ -55,6 +56,8 @@ public class HInterface : MonoBehaviour
                 return typeof(H_Pickup);
             case (HType.Hug):
                 return typeof(H_Hug);
+            case (HType.Scream):
+                return typeof(H_Scream);
         }
         return null;
     }
