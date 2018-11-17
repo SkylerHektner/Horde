@@ -63,6 +63,8 @@ public class UnitController : MonoBehaviour
         initialLocation = transform.position;
         player = PlayerManager.instance.Player;
 
+        agent.autoBraking = true;
+
         if(player == null)
             Debug.Log("Playeris null");
 
@@ -102,8 +104,9 @@ public class UnitController : MonoBehaviour
         //
         if(PlayerInDetectionRange()) // The player entered the detection radius of this unit.
         {
+            // Change the color of the detection radius and move to the player.
             detectionRadius.SetToDetectioncolor();
-            MoveTo(player.transform.position);
+            MoveTo(player.transform.position, 2);
             return;
         }
 
@@ -155,11 +158,11 @@ public class UnitController : MonoBehaviour
     /// <summary>
     /// Commands the NavMesh agent to move to the given target.
     /// </summary>
-    public void MoveTo(Vector3 target)
+    public void MoveTo(Vector3 target, int speedMultiplier = 1)
     {
         agent.isStopped = false;
         agent.SetDestination(target);
-        agent.speed = u.MovementSpeed;
+        agent.speed = u.MovementSpeed * speedMultiplier;
     }
 
     /// <summary>
