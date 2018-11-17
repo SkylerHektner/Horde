@@ -13,6 +13,11 @@ public class PlayerMovement : MonoBehaviour
     public bool lockCamToPlayer = true;
     public bool lockWASDControls = false;
 
+    private bool beingCarried = false;
+    [SerializeField]
+    private YesNoDialogue yesNoDioPrefab;
+    private YesNoDialogue curDio;
+
     private Vector3 forward;
     private Vector3 right;
 
@@ -60,9 +65,20 @@ public class PlayerMovement : MonoBehaviour
                 walking = true;
             }
         }
+        else if (beingCarried)
+        {
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {
+                if (curDio == null)
+                {
+                    curDio = Instantiate(yesNoDioPrefab);
+                    curDio.Init(untoggleCarryMode, null, "Would you like to stop being carried?");
+                }
+            }
+        }
         anim.SetBool("Walking", walking);
 
-        if (lastPos != transform.position)
+        if (lastPos != transform.position && !beingCarried)
         {
             transform.forward = transform.position - lastPos;
             lastPos = transform.position;
@@ -85,5 +101,24 @@ public class PlayerMovement : MonoBehaviour
         {
             cam.SetTargetPos(transform.position.x, transform.position.z);
         }
+    }
+
+    /// <summary>
+    /// call this to set the player in carry mode.
+    /// Disabled movement and makes a prompt if they try to move
+    /// </summary>
+    public void toggleCarryMode()
+    {
+        lockWASDControls = true;
+        beingCarried = true;
+        GetComponent<NavMeshAgent>().enabled = false;
+    }
+
+    private void untoggleCarryMode()
+    {
+        transform.parent = null;
+        lockWASDControls = false;
+        beingCarried = false;
+        GetComponent<NavMeshAgent>().enabled = true;
     }
 }

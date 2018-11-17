@@ -69,6 +69,7 @@ public class Unit : MonoBehaviour
 
     private Vector3 lastPos;
     private Animator anim;
+    public bool beingCarried = false;
     
     public void Start()
     {
@@ -98,7 +99,7 @@ public class Unit : MonoBehaviour
         }
 
         // make them face the way they are walking
-        if (lastPos.x != transform.position.x || lastPos.z != transform.position.z)
+        if ((lastPos.x != transform.position.x || lastPos.z != transform.position.z) && !beingCarried)
         {
             transform.forward = transform.position - lastPos;
             lastPos = transform.position;

@@ -14,6 +14,8 @@ public class HTargetingTool : MonoBehaviour {
 
     public delegate void intReadyCallback(int value);
 
+    public delegate void unitOrPlayerReadyCallback(object unitOrPlayer, bool player);
+
     [SerializeField]
     private CameraController cam;
     [SerializeField]
@@ -52,6 +54,7 @@ public class HTargetingTool : MonoBehaviour {
         public unitReadyCallback unitCallback;
         public positionReadyCallback posCallback;
         public intReadyCallback intCallback;
+        public unitOrPlayerReadyCallback unitOrPlayerCallback;
         public string message;
     }
 
@@ -72,9 +75,10 @@ public class HTargetingTool : MonoBehaviour {
                 intInputScrim.SetActive(true);
             }
         }
+
         else if (Executing)
         {
-            // if the current request is looking for a position
+            // CHECK IF POSITION READY
             if (currentRequest.posCallback != null)
             {
                 Vector3 pos = tryGetPos();
@@ -85,6 +89,7 @@ public class HTargetingTool : MonoBehaviour {
                     Executing = false;
                 }
             }
+            // CHECK IF INT READY
             else if (currentRequest.intCallback != null)
             {
                 int value = tryGetInt();
@@ -95,6 +100,7 @@ public class HTargetingTool : MonoBehaviour {
                     Executing = false;
                 }
             }
+            // CHECK IF UNIT READY
             else if (currentRequest.unitCallback != null)
             {
                 Unit u = tryGetUnit();
@@ -102,6 +108,24 @@ public class HTargetingTool : MonoBehaviour {
                 {
                     ReturnToNormal();
                     currentRequest.unitCallback(u);
+                    Executing = false;
+                }
+            }
+            // CHECK IF UNIT OR PLAYER READY
+            else if (currentRequest.unitOrPlayerCallback != null)
+            {
+                object u = tryGetUnitOrPlayer();
+                if (u != null)
+                {
+                    ReturnToNormal();
+                    if(u.GetType() == typeof(PlayerMovement))
+                    {
+                        currentRequest.unitOrPlayerCallback(u, true);
+                    }
+                    else
+                    {
+                        currentRequest.unitOrPlayerCallback(u, false);
+                    }
                     Executing = false;
                 }
             }
@@ -131,6 +155,15 @@ public class HTargetingTool : MonoBehaviour {
         pendingRequest r = new pendingRequest();
         r.callingUnit = callingUnit;
         r.intCallback = intReadyCallbackMethod;
+        r.message = message;
+        pendingRequests.Enqueue(r);
+    }
+
+    public void GetUnitOrPlayer(Unit callingUnit, unitOrPlayerReadyCallback unitOrPlayerReadyCallbackMethod, string message)
+    {
+        pendingRequest r = new pendingRequest();
+        r.callingUnit = callingUnit;
+        r.unitOrPlayerCallback = unitOrPlayerReadyCallbackMethod;
         r.message = message;
         pendingRequests.Enqueue(r);
     }
@@ -174,6 +207,28 @@ public class HTargetingTool : MonoBehaviour {
                 if (u != null)
                 {
                     return u;
+                }
+            }
+        }
+        return null;
+    }
+
+    private object tryGetUnitOrPlayer()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hitInfo;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+            {
+                Unit u = hitInfo.collider.gameObject.GetComponent<Unit>();
+                if (u != null)
+                {
+                    return u;
+                }
+                PlayerMovement pm = hitInfo.collider.gameObject.GetComponent<PlayerMovement>();
+                if (pm != null)
+                {
+                    return pm;
                 }
             }
         }
