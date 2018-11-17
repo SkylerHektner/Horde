@@ -19,7 +19,8 @@ public class HInterface : MonoBehaviour
         Move,
         Wait,
         Beckon,
-        Pickup
+        Pickup,
+        Hug
     }
 
     public static System.Type GetHeuristic(HType heuristic)
@@ -52,10 +53,9 @@ public class HInterface : MonoBehaviour
                 return typeof(H_Beckon);
             case (HType.Pickup):
                 return typeof(H_Pickup);
+            case (HType.Hug):
+                return typeof(H_Hug);
         }
-
-
-
         return null;
     }
 }
