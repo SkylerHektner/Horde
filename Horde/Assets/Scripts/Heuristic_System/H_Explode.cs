@@ -17,9 +17,7 @@ public class H_Explode : Heuristic
     private float explosionSize = 6;
 
     [SerializeField, Tooltip("How much damage the explosion deals.")]
-    private int explosionDamage = 3;
-
-    private float chargeSpeed = 25;
+    private int explosionDamage = 500;
 
     public GameObject explosionPrefab;
 
@@ -27,30 +25,26 @@ public class H_Explode : Heuristic
     {
         base.Init();
         explosionPrefab = Resources.Load<GameObject>("ExplosionParticleSystem");
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionSize);
+
+        // Get the Unit components from the object in range and subtract their health
+        foreach (Collider c in hitColliders)
+        {
+            Debug.Log(c.tag);
+            if (c.gameObject.tag == "TeamTwoUnit" && c.gameObject != gameObject)
+            {
+                c.gameObject.GetComponent<Unit>().UnitController.TakeDamage(explosionDamage);
+            }
+        }
+        Instantiate(explosionPrefab).transform.position = transform.position;
+        unit.UnitController.TakeDamage(explosionDamage); // The unit sploded.
+        Resolve();
     }
 
     public override void Execute()
     {
-        if (unit.CurrentTarget == null)
-            Resolve();
-
-        // Charge towards the current target 
-        transform.position = Vector3.MoveTowards(transform.position, unit.CurrentTarget.transform.position, chargeSpeed * Time.deltaTime);
-
-        if(Vector3.Distance(transform.position, unit.CurrentTarget.transform.position) < 1)
-        {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionSize);
-
-            // Get the Unit components from the object in range and subtract their health
-            foreach (Collider c in hitColliders)
-            {
-                if(c.gameObject.tag == "TeamOneUnit" || c.gameObject.tag == "TeamTwoUnit")
-                    c.gameObject.GetComponent<Unit>().UnitController.TakeDamage(explosionDamage); // Subtract their health
-            }
-            Instantiate(explosionPrefab).transform.position = transform.position;
-            Destroy(gameObject); // The unit sploded.
-            Resolve();
-        }
+        base.Execute();
     }
 
     public override void Resolve()

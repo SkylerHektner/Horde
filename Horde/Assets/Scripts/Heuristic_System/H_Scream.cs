@@ -41,7 +41,6 @@ public class H_Scream : Heuristic {
         Collider[] nearbyStuff = Physics.OverlapSphere(transform.position, screamRadius);
         foreach (Collider c in nearbyStuff)
         {
-            Debug.Log(c.tag);
             if (c.tag == "TeamTwoUnit" && c.gameObject != gameObject)
             {
                 affectedUnits.Add(c.GetComponent<Unit>());
