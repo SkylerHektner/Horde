@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool lockCamToPlayer = true;
     public bool lockWASDControls = false;
+    private bool inTargetingAction = false;
 
     private bool beingCarried = false;
     [SerializeField]
@@ -32,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
         right = new Vector3(speed, 0, 0);
         anim = GetComponent<Animator>();
         lastPos = transform.position;
+        HTargetingTool.OnTargeting += OnTargetingAction;
+        HTargetingTool.OnFinishedTargeting += OnFinishedTargeting;
     }
 	
 	void Update ()
@@ -42,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         bool walking = false;
-        if (!lockWASDControls)
+        if (!lockWASDControls && !beingCarried)
         {
             if (Input.GetKey(KeyCode.W))
             {
@@ -65,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
                 walking = true;
             }
         }
-        else if (beingCarried)
+        else if (beingCarried && !inTargetingAction)
         {
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
             {
@@ -120,5 +123,19 @@ public class PlayerMovement : MonoBehaviour
         lockWASDControls = false;
         beingCarried = false;
         GetComponent<NavMeshAgent>().enabled = true;
+    }
+
+    private void OnTargetingAction()
+    {
+        lockCamToPlayer = false;
+        lockWASDControls = true;
+        inTargetingAction = true;
+    }
+
+    private void OnFinishedTargeting()
+    {
+        lockCamToPlayer = true;
+        lockWASDControls = false;
+        inTargetingAction = false;
     }
 }

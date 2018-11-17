@@ -40,12 +40,11 @@ public class HTargetingTool : MonoBehaviour {
     private bool intInputReady = false;
 
     /// <summary>
-    /// 1. Tell player to unlock the camera, stop player WASD movement
     /// 2. Move the camera to the calling unit, Unlock camera WASD movement
     /// 3. Pause everything (stop all units from executing heurstics and moving. Also stop spell projectiles currently travelling)
     /// 4. Add rim effect + instructions text(a new canvas)
     /// 5. Check every frame for a selected position or target (mouse down raycast into acceptable target)
-    /// 6. Return camera to player, remove rim and instruction text, enable player WASD and disable camera WASD and resume time
+    /// 6. remove rim and instruction text disable camera WASD and resume time
     /// </summary>
     /// 
 
@@ -174,37 +173,28 @@ public class HTargetingTool : MonoBehaviour {
         pendingRequests.Enqueue(r);
     }
 
-    /// 1. Tell player to unlock the camera, stop player WASD movement
     /// 2. Move the camera to the calling unit, Unlock camera WASD movement
     /// 3. Pause everything (stop all units from executing heurstics and moving. Also stop spell projectiles currently travelling)
     /// 4. Add rim effect + instructions text(a new canvas)
     private void Setup(string message)
     {
-        pMovement.lockCamToPlayer = false;
-        pMovement.lockWASDControls = true;
         cam.SetTargetPos(currentRequest.callingUnit.transform.position.x, currentRequest.callingUnit.transform.position.z);
         cam.lockWASDPanControls = false;
         rimCanvas.SetActive(true);
         instructionText.text = message;
         classEditor.SetActive(false);
-        //TODO: This method still needs to pause time
 
-        // Fire an event that lets listeners know the player is in a targeting phase.
         OnTargeting();
     }
 
-    /// 6. Return camera to player, remove rim and instruction text, enable player WASD and disable camera WASD and resume time
+    /// 6. remove rim and instruction text, disable camera WASD and resume time
     private void ReturnToNormal()
     {
         intInputScrim.SetActive(false);
-        pMovement.lockCamToPlayer = true;
-        pMovement.lockWASDControls = false;
         cam.lockWASDPanControls = true;
         rimCanvas.SetActive(false);
         classEditor.SetActive(true);
-        //TODO: This method still needs to resume time
 
-        // Fire an event that lets listeners know the player is done with the targeting action.
         OnFinishedTargeting();
     }
 
