@@ -8,6 +8,8 @@ public class SpellMovement : MonoBehaviour {
     private NavMeshAgent agent;
     private Transform target;
 
+    public List<HInterface.HType> behaviors;
+
 	// Use this for initialization
 	void Start () {
         agent = GetComponent<NavMeshAgent>();
@@ -23,7 +25,7 @@ public class SpellMovement : MonoBehaviour {
         agent.SetDestination(target.position);
         if((gameObject.transform.position - target.transform.position).sqrMagnitude < 3.0f) ///*agent.stoppingDistance*/ && !agent.pathPending)
         {
-            target.gameObject.GetComponent<Unit>().OverrideHeuristics();
+            target.gameObject.GetComponent<Unit>().OverrideHeuristics(behaviors);
             Destroy(gameObject);
         }
 	}

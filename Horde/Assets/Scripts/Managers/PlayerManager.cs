@@ -27,8 +27,13 @@ public class PlayerManager : MonoBehaviour
 
     public void CastSpell(Transform t)
     {
-        GameObject spell = Instantiate(SpellPrefab, Player.transform.position, Quaternion.identity);
-        spell.GetComponent<SpellMovement>().setTarget(t);
+        List<HInterface.HType> behaviors = ClassEditorUI.Instance.GetCurrentSpell();
+        if (behaviors != null)
+        {
+            GameObject spell = Instantiate(SpellPrefab, Player.transform.position, Quaternion.identity);
+            spell.GetComponent<SpellMovement>().setTarget(t);
+            spell.GetComponent<SpellMovement>().behaviors = behaviors;
+        }
     }
 
     private void TestHeuristicCosts()

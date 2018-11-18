@@ -177,11 +177,10 @@ public class Unit : MonoBehaviour
         PlayerManager.instance.CastSpell(gameObject.transform);
     }
 
-    public void OverrideHeuristics()
+    public void OverrideHeuristics(List<HInterface.HType> newBehaviorSet)
     {
         //Add if statement to check if unit is already mind controlled
         //Add if statement to check if a class is properly selected by the player
-        List<HInterface.HType> newBehaviorSet = ClassEditorUI.Instance.GetCurrentSpell();
         if (newBehaviorSet != null)
         {
             behaviors = newBehaviorSet;
