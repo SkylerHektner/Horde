@@ -68,6 +68,10 @@ public class ResourceManager : MonoBehaviour {
         {
             ResourceEmptyEvent(ResourceType.Rage);
         }
+        if(Rage <= 0)
+        {
+            Rage = 0;
+        }
         greyscalePostMat.SetFloat("_GreyAmountRed", 1 - Rage / maxRage);
     }
 
@@ -79,6 +83,10 @@ public class ResourceManager : MonoBehaviour {
         {
             ResourceEmptyEvent(ResourceType.Devotion);
         }
+        if (Devotion <= 0)
+        {
+            Devotion = 0;
+        }
         greyscalePostMat.SetFloat("_GreyAmountGreen", 1 - Devotion / maxDevotion);
     }
 
@@ -89,6 +97,10 @@ public class ResourceManager : MonoBehaviour {
         if (Tranquility <= 0 && ResourceEmptyEvent != null)
         {
             ResourceEmptyEvent(ResourceType.Tranquility);
+        }
+        if (Tranquility <= 0)
+        {
+            Tranquility = 0;
         }
         greyscalePostMat.SetFloat("_GreyAmountBlue", 1 - Tranquility / maxTranquility);
     }
