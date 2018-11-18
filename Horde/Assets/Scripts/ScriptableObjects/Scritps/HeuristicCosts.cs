@@ -9,12 +9,12 @@ public class HeuristicCosts : ScriptableObject
 	[SerializeField]
 	private int attackCost;
 
+	[SerializeField]
+	private int explodeCost;
+
 	[Header("Devotion")]
 	[SerializeField]
 	private int moveCost;
-
-	[SerializeField]
-	private int tauntCost;
 
 	[SerializeField]
 	private int pickupCost;
@@ -36,15 +36,18 @@ public class HeuristicCosts : ScriptableObject
 			case HInterface.HType.Attack:
 				ResourceManager.Instance.SpendRage(attackCost);
 				break;
+			case HInterface.HType.Explode:
+				ResourceManager.Instance.SpendRage(explodeCost);
+				break;
 			case HInterface.HType.Move:
 				ResourceManager.Instance.SpendDevotion(moveCost);
 				break;
 			case HInterface.HType.Beckon:
-				ResourceManager.Instance.SpendDevotion(tauntCost);
+				ResourceManager.Instance.SpendDevotion(beckonCost);
 				break;
-			//case HInterface.HType.Pickup:
-			//	ResourceManager.Instance.SpendDevotion(pickupCost);
-			//	break;
+			case HInterface.HType.Pickup:
+				ResourceManager.Instance.SpendDevotion(pickupCost);
+				break;
 			case HInterface.HType.Wait:
 				ResourceManager.Instance.SpendTranquility(waitCost);
 				break;
