@@ -26,7 +26,7 @@ public class H_Pickup : Heuristic
             {
                 if (unitTarget != null)
                 {
-                    unitTarget.GetComponent<UnitController>().IsMindControlled = true;
+                    unitTarget.IsMindControlled = true;
                     unitTarget.GetComponent<NavMeshAgent>().enabled = false;
                     unitTarget.beingCarried = true;
                     unitTarget.transform.SetParent(transform, false);

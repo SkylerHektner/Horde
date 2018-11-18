@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetLevel()
     {
-        Debug.Log("Reached");
+        enemies = GameObject.Find("Enemies").GetComponentsInChildren<Unit>();
+        
         foreach(Unit enemy in enemies)
         {
             Destroy(enemy.GetComponent<Heuristic>()); // Remove whatever heuristic it's executing.

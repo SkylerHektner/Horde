@@ -21,7 +21,7 @@ public class H_Beckon : Heuristic
 		if(distanceFromTarget <= 1.2f)
 		{
 			unit.CurrentTarget.UnitController.StopMoving();
-			unit.CurrentTarget.UnitController.IsMindControlled = false;
+			unit.CurrentTarget.IsMindControlled = false;
 			Resolve();
 		}
 			
@@ -36,7 +36,7 @@ public class H_Beckon : Heuristic
 	{
 		unit.CurrentTarget = u;
 
-		unit.CurrentTarget.UnitController.IsMindControlled = true;
+		unit.CurrentTarget.IsMindControlled = true;
 		unit.CurrentTarget.UnitController.MoveTo(transform.position);
 	}
 }

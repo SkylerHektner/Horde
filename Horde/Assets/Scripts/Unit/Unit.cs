@@ -9,48 +9,58 @@ using UnityEngine.UI;
 /// </summary>
 public class Unit : MonoBehaviour
 {
-    [Header("UI Stuff:")]
     [SerializeField]
     private Image healthBarMask;
 
-    // ---- //
-
-    [Header("AI Stuff:")]
-    [SerializeField]
-    private bool useHeuristicSwapping = true;
-
-    [SerializeField] 
-    private bool startAIImmediate = false; // if true, starts AI on simulation start
-
-    [SerializeField]
-    private Transform projectileSpawn;
-    public Transform ProjectileSpawn { get { return projectileSpawn; } }
-
-    [SerializeField] public List<HInterface.HType> behaviors;
-    public List<HInterface.HType> Behaviors { get { return behaviors; } }
-
     // --Shared Variables-- //
+    public string Description { get; set; }
     public int MaxHealth { get; set; }
     public int AttackDamage { get; set; }
     public float AttackRange { get; set; }
     public float AttackCooldown { get; set; }
-    public string UnitType { get; set; }
     public float MovementSpeed { get; set; }
     public float DetectionRange { get; set; }
+    public string UnitType { get; set; } // Probably don't need this but don't want to remove it right now because of compile errors.
+    // --End of Shared Variables-- //
 
-    private ResourceManager resourceManager;
+    // --Scriptable Objects-- //
+    [SerializeField]
+    private StatBlock statBlock;
 
-    // --Non-Shared Variables-- //
-    public Vector3 InitialPosition { get; set; } // So the static guards can go back to their initial location after chasing the player.
-    [Header("For debugging. Don't change these in the editor")]
     [SerializeField] 
+    private Attack attack;
+    // --End of Scriptable Objects-- //
+
+    [SerializeField]
+	private bool isPatrolling; // Set to true if this enemy should be on a patrol path.
+    public bool IsPatrolling { get { return isPatrolling; } }
+
+    [SerializeField]
+	private Transform[] patrolPoints;
+    public Transform[] PatrolPoints { get { return patrolPoints; } }
+
+    private bool isMindControlled;
+    public bool IsMindControlled 
+    { 
+        get { return isMindControlled; }
+        set 
+        { 
+            isMindControlled = value;
+            if(!isMindControlled)
+                if(isPatrolling)
+                    unitController.MoveToNextPatrolPoint();
+        } 
+    }
+
+    [Header("Visible variables for debugging purposes.")]
+    [SerializeField] // Serialized for debugging purposes.
     private int currentHealth;
     public int CurrentHealth 
     { 
         get {  return currentHealth; } 
         set 
         { 
-            if(healthBarMask != null) { healthBarMask.fillAmount = (float)CurrentHealth / (float)MaxHealth; }
+            if(healthBarMask != null) { healthBarMask.fillAmount = (float)currentHealth / (float)MaxHealth; }
             currentHealth = value; 
         } 
     }
@@ -63,24 +73,53 @@ public class Unit : MonoBehaviour
     private Heuristic currentHeuristic;
     public Heuristic CurrentHeuristic { get { return currentHeuristic; } }
 
+    private Vector3 initialPosition; 
+    public Vector3 InitialPosition { get { return initialPosition; } } 
+  
     private UnitController unitController;
     public UnitController UnitController { get { return unitController; } }
 
-    private int curHIndex = 0;
+    private Transform projectileSpawn;
+    public Transform ProjectileSpawn { get { return projectileSpawn; } }
 
+    private int curHIndex = 0;
+    private List<HInterface.HType> behaviors;
+    private ResourceManager resourceManager;
     private Vector3 lastPos;
     private Animator anim;
+
     public bool beingCarried = false;
     
-    public void Start()
+    private void Awake()
     {
-        GameObject managers = GameObject.Find("GameManagers");
-        resourceManager = managers.GetComponent<ResourceManager>();
-        GameObject classEditor = GameObject.Find("ClassEditor");
-        unitController = GetComponent<UnitController>();
-        unitController.InitializeController();
+        // Initialize the shared variables.
+        if(statBlock == null)
+            Debug.LogError("Need to set the stat block!");
+        else
+            statBlock.Initialize(this); // Initialize all of the unit stats.
 
-        if (behaviors.Count > 0 && startAIImmediate)
+        if(attack == null)
+            Debug.LogError("Need to set the attack!");
+        else
+            attack.Initialize(this); // Initialize all of the attack values.
+
+        if(isPatrolling)
+            if(patrolPoints.Length == 0)
+                Debug.LogWarning("Unit set to patrol but no patrol points have been set.");
+    }
+
+    private  void Start()
+    {
+        currentHealth = MaxHealth; // Start the unit with max health.
+        isMindControlled = false; // Start with default behavior.
+        initialPosition = transform.position; // Set their initial position to where they start on the level.
+        
+        behaviors = new List<HInterface.HType>();
+        unitController = GetComponent<UnitController>();
+        resourceManager = GameObject.Find("GameManagers").GetComponent<ResourceManager>();
+        projectileSpawn = gameObject.transform.Find("ProjectileSpawn");
+
+        if (behaviors.Count > 0)
         {
             currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
             currentHeuristic.Init();
@@ -88,8 +127,6 @@ public class Unit : MonoBehaviour
 
         lastPos = transform.position;
         anim = GetComponent<Animator>();
-
-        GetComponent<DrawDetectionRadius>().Initialize();
     }
 
     private void Update()
@@ -124,7 +161,7 @@ public class Unit : MonoBehaviour
         curHIndex++;
         if (curHIndex >= behaviors.Count)
         {
-            GetComponent<UnitController>().IsMindControlled = false;
+            isMindControlled = false;
             return;
         }
         currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
@@ -149,7 +186,7 @@ public class Unit : MonoBehaviour
         {
             behaviors = newBehaviorSet;
             curHIndex = 0;
-            GetComponent<UnitController>().IsMindControlled = true;
+            isMindControlled = true;
             foreach (HInterface.HType h in behaviors)
             {
                 ResourceManager.Instance.SpendEmotion(h);

@@ -35,7 +35,7 @@ public class H_Hug : Heuristic
 
 		if(distanceFromTarget <= 1.2f)
 		{
-			unit.CurrentTarget.UnitController.IsMindControlled = true;
+			unit.CurrentTarget.IsMindControlled = true;
 			unit.CurrentTarget.UnitController.StopMoving(); // Stop the target from moving.
 			unit.UnitController.StopMoving(); // Stop itself from moving.
 
@@ -65,7 +65,7 @@ public class H_Hug : Heuristic
 
 		HideHeart();
 
-		unit.CurrentTarget.UnitController.IsMindControlled = false;
+		unit.CurrentTarget.IsMindControlled = false;
         Resolve();
     }
 

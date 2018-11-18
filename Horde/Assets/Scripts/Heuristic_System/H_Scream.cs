@@ -31,7 +31,7 @@ public class H_Scream : Heuristic {
     {
         foreach(Unit u in affectedUnits)
         {
-            u.UnitController.IsMindControlled = false;
+            u.IsMindControlled = false;
         }
         base.Resolve();
     }
@@ -49,7 +49,7 @@ public class H_Scream : Heuristic {
 
         foreach (Unit u in affectedUnits)
         {
-            u.UnitController.IsMindControlled = true;
+            u.IsMindControlled = true;
             Vector3 gap = (u.transform.position - transform.position).normalized * 2;
             u.UnitController.MoveTo(transform.position + gap);
         }

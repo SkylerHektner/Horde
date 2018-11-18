@@ -4,44 +4,22 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// This class is responsible of executing that main commands of the unit.
-/// The Unit class will call most of these functions.
+/// This class represents the Controller in the MVC of the unit.
+/// The logic for most of the actions of a unit are in here.
 /// </summary>
 public class UnitController : MonoBehaviour 
 {
-    private bool isMindControlled;
-    public bool IsMindControlled 
-    { 
-        get { return isMindControlled; }
-        set 
-        { 
-            isMindControlled = value;
-            if(!isMindControlled)
-                if(isPatrolling)
-                    MoveToNextPatrolPoint();
-        } 
-    }
-
-    private bool isPaused = false;
-
-    [SerializeField]
-    private StatBlock statBlock;
-
-    [SerializeField] 
-    private Attack attack;
-
-    [SerializeField]
-	private bool isPatrolling; // Set to true if this enemy should be on a patrol path.
-
-	[SerializeField]
-	private Transform[] patrolPoints;
-
     private Unit u;
     private NavMeshAgent agent;
-    private int destPoint = 0;
+
+    private bool isPaused = false;
+    
+    private Transform[] patrolPointList;
+    private int destPoint = 0; // The current destination in the patrol path.
+
     private GameObject player;
     private DrawDetectionRadius detectionRadius;
-
+    
     private void OnEnable()
     {
         HTargetingTool.OnTargeting += Pause;
@@ -56,37 +34,17 @@ public class UnitController : MonoBehaviour
         GameManager.OnCaptured -= Reset;
     }
 
-    public void InitializeController()
+    private void Start()
     {
         u = GetComponent<Unit>();
         agent = GetComponent<NavMeshAgent>();
+
         detectionRadius = GetComponent<DrawDetectionRadius>();
-        u.InitialPosition = transform.position;
+        detectionRadius.Initialize();
+
         player = PlayerManager.instance.Player;
 
-        agent.autoBraking = true;
-
-        if(player == null)
-            Debug.Log("Playeris null");
-
-        if(statBlock == null)
-            Debug.LogError("Set the stat block in the Unit Controller!");
-        else
-            statBlock.Initialize(u); // Initialize all of the unit stats.
-
-        if(attack == null)
-            Debug.LogError("Set the Attack in the Unit Controller!");
-        else
-            attack.Initialize(u); // Initialize all of the attack values.
-
-        if(isPatrolling)
-            if(patrolPoints.Length == 0)
-                Debug.LogWarning("Unit set to patrol but no patrol points have been set.");
-
-        u.CurrentHealth = u.MaxHealth; // Start the unit with max health.
-        IsMindControlled = false; // Start with default behavior.
-
-        if(patrolPoints != null)
+        if(u.PatrolPoints != null)
             SetPatrolPoints(); 
     }
 
@@ -94,7 +52,6 @@ public class UnitController : MonoBehaviour
     {
         // If the unit is within capture range of the player, reset the level.
         float distanceFromPlayer = Vector3.Distance(PlayerManager.instance.Player.transform.position, transform.position);
-        Debug.Log(distanceFromPlayer);
         if(distanceFromPlayer < 3.0f) // Random number for now.
         {
             agent.velocity = Vector3.zero; // Make sure the unit stops fully so it doesn't still have momentum when reset to it's initial location.
@@ -103,7 +60,7 @@ public class UnitController : MonoBehaviour
         }
             
         // We don't want normal behavior to execute if the player is being mind controlled or if the unit is paused.
-        if(IsMindControlled || isPaused)
+        if(u.IsMindControlled || isPaused)
             return;
 
         // If the player isn't mind controlled, execute normal behavior:
@@ -122,7 +79,7 @@ public class UnitController : MonoBehaviour
 
         detectionRadius.SetToDefaultColor();
 
-        if(isPatrolling)
+        if(u.IsPatrolling)
         {
             if(!agent.pathPending && agent.remainingDistance < 0.01f)
                 MoveToNextPatrolPoint();
@@ -133,14 +90,14 @@ public class UnitController : MonoBehaviour
         }   
     }
 
-    private void MoveToNextPatrolPoint()
+    public void MoveToNextPatrolPoint()
     {
-        if(patrolPoints.Length == 0) // Return if there aren't any patrol points.
+        if(patrolPointList.Length == 0) // Return if there aren't any patrol points.
             return;
 
-        MoveTo(patrolPoints[destPoint].position);
+        MoveTo(patrolPointList[destPoint].position);
 
-        destPoint = (destPoint + 1) % patrolPoints.Length; // Increment the index
+        destPoint = (destPoint + 1) % patrolPointList.Length; // Increment the index
     }
 
     public void Attack()
@@ -237,15 +194,15 @@ public class UnitController : MonoBehaviour
     /// </summary>
     private void SetPatrolPoints()
     {
-        List<Transform> points = new List<Transform>(patrolPoints);
-        List<Transform> pointsReversed = new List<Transform>(patrolPoints);
+        List<Transform> points = new List<Transform>(u.PatrolPoints);
+        List<Transform> pointsReversed = new List<Transform>(u.PatrolPoints);
         pointsReversed.Reverse();
 
         List<Transform> mergedList = new List<Transform>();
         mergedList.AddRange(points);
         mergedList.AddRange(pointsReversed);
 
-        patrolPoints = mergedList.ToArray();
+        patrolPointList = mergedList.ToArray();
     }
 
     /// <summary>

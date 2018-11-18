@@ -1695,7 +1695,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1147260055776320}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 61.601173, y: 100.44, z: -67.943756}
+  m_LocalPosition: {x: -9.45, y: 50.21, z: -30.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4980861782175968}
@@ -2177,10 +2177,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarMask: {fileID: 0}
-  useHeuristicSwapping: 1
-  startAIImmediate: 1
-  projectileSpawn: {fileID: 4314852897687672}
-  behaviors: 
+  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
+  attack: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058, type: 2}
+  isPatrolling: 0
+  patrolPoints: []
   currentHealth: 0
   currentTarget: {fileID: 0}
   currentHeuristic: {fileID: 0}
@@ -2196,10 +2196,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdf3ad17973e0d14bb8f996acf01c0fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
-  attack: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058, type: 2}
-  isPatrolling: 0
-  patrolPoints: []
 --- !u!136 &136224580911278716
 CapsuleCollider:
   m_ObjectHideFlags: 1
