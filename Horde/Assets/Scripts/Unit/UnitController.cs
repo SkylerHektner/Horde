@@ -52,7 +52,7 @@ public class UnitController : MonoBehaviour
     {
         // If the unit is within capture range of the player, reset the level.
         float distanceFromPlayer = Vector3.Distance(PlayerManager.instance.Player.transform.position, transform.position);
-        if(distanceFromPlayer < 3.0f) // Random number for now.
+        if(distanceFromPlayer < 3.0f && !u.IsMindControlled) // Random number for now.
         {
             agent.velocity = Vector3.zero; // Make sure the unit stops fully so it doesn't still have momentum when reset to it's initial location.
             agent.ResetPath();
