@@ -13,6 +13,8 @@ public class SpellMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = 30f;
+        agent.acceleration = 35f;
 	}
 	
     public void setTarget(Transform t)
