@@ -21,17 +21,17 @@ public class PlayBeats : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             MusicSource.clip = MusicClip1;
             MusicSource.Play();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             MusicSource.clip = MusicClip2;
             MusicSource.Play();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             MusicSource.clip = MusicClip3;
             MusicSource.Play();
