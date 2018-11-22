@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -110,6 +111,43 @@ public class ResourceManager : MonoBehaviour {
         heuristicCosts.SpendEmotion(b);
     }
 
+    public bool HasEmotion(List<HInterface.HType> list)
+    {
+        float tempRage = Rage;
+        float tempTranquility = Tranquility;
+        float tempDevotion = Devotion;
+        foreach (var item in list)
+        {
+            switch(heuristicCosts.GetEmotion(item))
+            {
+                case "Rage":
+                    tempRage -= heuristicCosts.GetCost(item);
+                    if (tempRage < 0)
+                    {
+                        return false;
+                    }
+                    break;
+                case "Tranquility":
+                    tempTranquility -= heuristicCosts.GetCost(item);
+                    if (tempTranquility < 0)
+                    {
+                        return false;
+                    }
+                    break;
+                case "Devotion":
+                    tempDevotion -= heuristicCosts.GetCost(item);
+                    if(tempDevotion < 0)
+                    {
+                        return false;
+                    }
+                    break;
+            }
+        }
+        return true;
+    }
+
+
+
     [ContextMenu("Test Spending Resources")]
     private void spendResourcesTest()
     {
@@ -117,4 +155,6 @@ public class ResourceManager : MonoBehaviour {
         SpendDevotion(25f);
         SpendTranquility(25f);
     }
+
+
 }

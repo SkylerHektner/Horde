@@ -174,6 +174,15 @@ public class Unit : MonoBehaviour
             return;
         }
 
+
+        if(ResourceManager.Instance.HasEmotion(ClassEditorUI.Instance.GetCurrentSpell()) == false)
+        {
+            return;
+        }
+        foreach (HInterface.HType h in ClassEditorUI.Instance.GetCurrentSpell())
+        {
+            ResourceManager.Instance.SpendEmotion(h);
+        }
         PlayerManager.instance.CastSpell(gameObject.transform);
     }
 
@@ -186,10 +195,6 @@ public class Unit : MonoBehaviour
             behaviors = newBehaviorSet;
             curHIndex = 0;
             isMindControlled = true;
-            foreach (HInterface.HType h in behaviors)
-            {
-                ResourceManager.Instance.SpendEmotion(h);
-            }
             StartAI();
         }
         //Add if statement to check if there are enough resources to add the behaviors
