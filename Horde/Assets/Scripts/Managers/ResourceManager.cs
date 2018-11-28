@@ -14,7 +14,8 @@ public class ResourceManager : MonoBehaviour {
     public float Rage { get; private set; }
     public float Devotion { get; private set; }
     public float Tranquility { get; private set; }
-
+    [SerializeField]
+    private float baseCost = 10;
     [SerializeField]
     private float maxRage = 100;
     [SerializeField]

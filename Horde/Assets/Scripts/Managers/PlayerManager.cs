@@ -8,7 +8,8 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject Player { get; private set; }
     public GameObject SpellPrefab;
-
+    [SerializeField]
+    private float baseCost = 10;
 	private void Awake()
     {
         // Make sure only one instance of this class exists. (Singleton)
@@ -30,6 +31,9 @@ public class PlayerManager : MonoBehaviour
         List<HInterface.HType> behaviors = ClassEditorUI.Instance.GetCurrentSpell();
         if (behaviors != null)
         {
+            ResourceManager.Instance.SpendDevotion(baseCost);
+            ResourceManager.Instance.SpendRage(baseCost);
+            ResourceManager.Instance.SpendTranquility(baseCost);
             GameObject spell = Instantiate(SpellPrefab, Player.transform.position, Quaternion.identity);
             spell.GetComponent<SpellMovement>().setTarget(t);
             spell.GetComponent<SpellMovement>().behaviors = behaviors;
