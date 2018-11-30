@@ -27,8 +27,14 @@ public class H_Move : Heuristic
         }
 	}
 
-    private void positionReady(Vector3 pos)
+    private void positionReady(Vector3 pos, bool success)
     {
+        if (!success)
+        {
+            Resolve();
+            return;
+        }
+
         unit.UnitController.MoveTo(pos);
         moving = true;
     }

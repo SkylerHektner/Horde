@@ -49,9 +49,15 @@ public class H_Hug : Heuristic
 		base.Resolve();
 	}
 
-	private void TargetReady(Unit u)
+	private void TargetReady(Unit u, bool success)
 	{
-		unit.CurrentTarget = u;
+        if (!success)
+        {
+            Resolve();
+            return;
+        }
+
+        unit.CurrentTarget = u;
 		unit.UnitController.MoveTo(u.transform.position);
 	}
 

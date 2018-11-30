@@ -27,17 +27,17 @@ public class BogusTestHTargetingTool : MonoBehaviour {
             "Please select how long you want this unit to wait");
     }
 
-    private void unitCallback(Unit u)
+    private void unitCallback(Unit u, bool success)
     {
 
     }
 
-    public void posCallback(Vector3 pos)
+    public void posCallback(Vector3 pos, bool success)
     {
         GetComponent<NavMeshAgent>().SetDestination(pos);
     }
 
-    public void intCallback(int val)
+    public void intCallback(int val, bool success)
     {
         Debug.Log(val);
     }

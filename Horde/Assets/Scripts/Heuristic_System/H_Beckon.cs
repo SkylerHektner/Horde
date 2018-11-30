@@ -32,9 +32,15 @@ public class H_Beckon : Heuristic
 		base.Resolve();
 	}
 
-	private void TargetReady(Unit u)
+	private void TargetReady(Unit u, bool success)
 	{
-		unit.CurrentTarget = u;
+        if (!success)
+        {
+            Resolve();
+            return;
+        }
+
+        unit.CurrentTarget = u;
 
 		unit.CurrentTarget.IsMindControlled = true;
 		unit.CurrentTarget.UnitController.MoveTo(transform.position);

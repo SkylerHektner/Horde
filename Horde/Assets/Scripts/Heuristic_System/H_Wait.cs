@@ -26,8 +26,14 @@ public class H_Wait : Heuristic
         }
     }
 
-    private void waitTimeReady(int time)
+    private void waitTimeReady(int time, bool success)
     {
+        if(!success)
+        {
+            Resolve();
+            return;
+        }
+
         waitTime = time;
         currentTime = 0;
     }

@@ -46,9 +46,15 @@ public class H_Pickup : Heuristic
         }
     }
 
-    public void unitReady(object u, bool player)
+    public void unitReady(object u, bool player, bool success)
     {
-        if(player)
+        if (!success)
+        {
+            Resolve();
+            return;
+        }
+
+        if (player)
         {
             playerTarget = (PlayerMovement)u;
             unit.UnitController.MoveTo(playerTarget.transform.position);
