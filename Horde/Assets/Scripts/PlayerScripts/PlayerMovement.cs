@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private CameraController cam;
 
     public bool lockCamToPlayer = true;
-    public bool lockWASDControls = false;
+    public bool lockMovementControls = false;
     private bool inTargetingAction = false;
 
     private bool beingCarried = false;
@@ -24,6 +24,13 @@ public class PlayerMovement : MonoBehaviour
 
     private NavMeshAgent agent;
     private Animator anim;
+
+    public MovementPattern movementPattern = MovementPattern.WASD;
+    public enum MovementPattern
+    {
+        WASD,
+        ClickToMove
+    }
 
     private Vector3 lastPos;
 	void Start ()
@@ -39,38 +46,50 @@ public class PlayerMovement : MonoBehaviour
 	
 	void Update ()
     {
+        // if we are making a spell disable movement
         if (ClassEditorUI.Instance.InEditMode)
         {
             return;
         }
 
-        bool walking = false;
-        if (!lockWASDControls && !beingCarried)
+        // if we are not being carried and our controls are not locked, try to detect movement input and move
+        if (!lockMovementControls && !beingCarried)
         {
-            if (Input.GetKey(KeyCode.W))
+            if(movementPattern == MovementPattern.WASD)
             {
-                agent.Move(forward * Time.deltaTime);
-                walking = true;
+                if (Input.GetKey(KeyCode.W))
+                {
+                    agent.Move(forward * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.S))
+                {
+                    agent.Move(forward * -Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    agent.Move(right * -Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.D))
+                {
+                    agent.Move(right * Time.deltaTime);
+                }
             }
-            else if (Input.GetKey(KeyCode.S))
+            else if (movementPattern == MovementPattern.ClickToMove)
             {
-                agent.Move(forward * -Time.deltaTime);
-                walking = true;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                agent.Move(right * -Time.deltaTime);
-                walking = true;
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                agent.Move(right * Time.deltaTime);
-                walking = true;
+                RaycastHit hitinfo;
+                if (Input.GetMouseButton(1) && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitinfo))
+                {
+                    agent.SetDestination(hitinfo.point);
+                }
             }
         }
+        // If they are being carried and try to move ask them if they want to stop being carried
         else if (beingCarried && !inTargetingAction)
         {
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            if (((movementPattern == MovementPattern.WASD) && 
+                (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))) 
+                ||
+                ((movementPattern == MovementPattern.ClickToMove) && Input.GetMouseButtonDown(1)))
             {
                 if (curDio == null)
                 {
@@ -79,12 +98,17 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        anim.SetBool("Walking", walking);
+        
 
         if (lastPos != transform.position && !beingCarried)
         {
             transform.forward = transform.position - lastPos;
             lastPos = transform.position;
+            anim.SetBool("Walking", true);
+        }
+        else
+        {
+            anim.SetBool("Walking", false);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -112,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void toggleCarryMode()
     {
-        lockWASDControls = true;
+        lockMovementControls = true;
         beingCarried = true;
         GetComponent<NavMeshAgent>().enabled = false;
     }
@@ -120,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
     private void untoggleCarryMode()
     {
         transform.parent = null;
-        lockWASDControls = false;
+        lockMovementControls = false;
         beingCarried = false;
         GetComponent<NavMeshAgent>().enabled = true;
     }
@@ -128,14 +152,14 @@ public class PlayerMovement : MonoBehaviour
     private void OnTargetingAction()
     {
         lockCamToPlayer = false;
-        lockWASDControls = true;
+        lockMovementControls = true;
         inTargetingAction = true;
     }
 
     private void OnFinishedTargeting()
     {
         lockCamToPlayer = true;
-        lockWASDControls = false;
+        lockMovementControls = false;
         inTargetingAction = false;
     }
 }
