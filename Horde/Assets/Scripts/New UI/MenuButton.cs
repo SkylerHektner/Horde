@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
   
 [RequireComponent (typeof (RectTransform), typeof (Collider2D))]
-public class MenuButton : MonoBehaviour, ICanvasRaycastFilter, IPointerEnterHandler
+public class MenuButton : MonoBehaviour, ICanvasRaycastFilter, IPointerEnterHandler, IPointerClickHandler
 {
     [SerializeField]
     private HInterface.HType heuristic;
@@ -49,6 +49,11 @@ public class MenuButton : MonoBehaviour, ICanvasRaycastFilter, IPointerEnterHand
         radialMenu.SetCenterIcon(icon);
         radialMenu.SetCenterName(heuristic.ToString());
         radialMenu.SetCenterColor(buttonColor);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        radialMenu.SelectHeuristic();
     }
 }
  
