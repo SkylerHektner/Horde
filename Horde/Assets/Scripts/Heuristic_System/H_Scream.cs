@@ -55,8 +55,14 @@ public class H_Scream : Heuristic {
         }
     }
 
-    private void IntReadyCallback(int val)
+    private void IntReadyCallback(int val, bool success)
     {
+        if (!success)
+        {
+            Resolve();
+            return;
+        }
+
         screamDuration = val;
         scream();
         timeSoFar = 0;

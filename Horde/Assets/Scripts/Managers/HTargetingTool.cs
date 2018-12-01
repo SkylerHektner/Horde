@@ -8,13 +8,13 @@ public class HTargetingTool : MonoBehaviour {
 
     public static HTargetingTool Instance;
 
-    public delegate void unitReadyCallback(Unit selectedUnit);
+    public delegate void unitReadyCallback(Unit selectedUnit, bool success);
 
-    public delegate void positionReadyCallback(Vector3 positon);
+    public delegate void positionReadyCallback(Vector3 positon, bool success);
 
-    public delegate void intReadyCallback(int value);
+    public delegate void intReadyCallback(int value, bool success);
 
-    public delegate void unitOrPlayerReadyCallback(object unitOrPlayer, bool player);
+    public delegate void unitOrPlayerReadyCallback(object unitOrPlayer, bool player, bool success);
 
     public delegate void TargetAction();
     public static event TargetAction OnTargeting;
@@ -36,8 +36,13 @@ public class HTargetingTool : MonoBehaviour {
     private GameObject intInputScrim;
     [SerializeField]
     private IncrementableText intInputText;
+    [SerializeField]
+    private GameObject selectionRadiusIndicator;
+    [SerializeField]
+    private float selectionRadius = 10f;
 
     private bool intInputReady = false;
+    private bool abortCurrentRequest = false;
 
     /// <summary>
     /// 2. Move the camera to the calling unit, Unlock camera WASD movement
@@ -66,6 +71,7 @@ public class HTargetingTool : MonoBehaviour {
     private void Start()
     {
         Instance = this;
+        selectionRadiusIndicator.transform.localScale *= selectionRadius;
     }
 
     private void Update()
@@ -79,10 +85,39 @@ public class HTargetingTool : MonoBehaviour {
             {
                 intInputScrim.SetActive(true);
             }
+            if (currentRequest.unitCallback != null || currentRequest.unitOrPlayerCallback != null)
+            {
+                selectionRadiusIndicator.SetActive(true);
+                selectionRadiusIndicator.transform.position = currentRequest.callingUnit.transform.position + new Vector3(0, -1f, 0);
+            }
         }
 
         else if (Executing)
         {
+            // CHECK IF THE PLAYER REQUESTED TO ABORT THE CURRENT REQUEST
+            if (abortCurrentRequest)
+            {
+                ReturnToNormal();
+                if (currentRequest.posCallback != null)
+                {
+                    currentRequest.posCallback(Vector3.zero, false);
+                }
+                else if (currentRequest.intCallback != null)
+                {
+                    currentRequest.intCallback(0, false);
+                }
+                else if (currentRequest.unitCallback != null)
+                {
+                    currentRequest.unitCallback(null, false);
+                }
+                else if (currentRequest.unitOrPlayerCallback != null)
+                {
+                    currentRequest.unitOrPlayerCallback(null, false, false);
+                }
+                abortCurrentRequest = false;
+                Executing = false;
+            }
+
             // CHECK IF POSITION READY
             if (currentRequest.posCallback != null)
             {
@@ -90,7 +125,7 @@ public class HTargetingTool : MonoBehaviour {
                 if (pos != Vector3.zero)
                 {
                     ReturnToNormal();
-                    currentRequest.posCallback(pos);
+                    currentRequest.posCallback(pos, true);
                     Executing = false;
                 }
             }
@@ -101,7 +136,7 @@ public class HTargetingTool : MonoBehaviour {
                 if (value != -1)
                 {
                     ReturnToNormal();
-                    currentRequest.intCallback(value);
+                    currentRequest.intCallback(value, true);
                     Executing = false;
                 }
             }
@@ -112,7 +147,7 @@ public class HTargetingTool : MonoBehaviour {
                 if (u != null)
                 {
                     ReturnToNormal();
-                    currentRequest.unitCallback(u);
+                    currentRequest.unitCallback(u, true);
                     Executing = false;
                 }
             }
@@ -125,11 +160,11 @@ public class HTargetingTool : MonoBehaviour {
                     ReturnToNormal();
                     if(u.GetType() == typeof(PlayerMovement))
                     {
-                        currentRequest.unitOrPlayerCallback(u, true);
+                        currentRequest.unitOrPlayerCallback(u, true, true);
                     }
                     else
                     {
-                        currentRequest.unitOrPlayerCallback(u, false);
+                        currentRequest.unitOrPlayerCallback(u, false, true);
                     }
                     Executing = false;
                 }
@@ -191,6 +226,7 @@ public class HTargetingTool : MonoBehaviour {
     private void ReturnToNormal()
     {
         intInputScrim.SetActive(false);
+        selectionRadiusIndicator.SetActive(false);
         cam.lockWASDPanControls = true;
         rimCanvas.SetActive(false);
         classEditor.SetActive(true);
@@ -206,7 +242,7 @@ public class HTargetingTool : MonoBehaviour {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
                 Unit u = hitInfo.collider.gameObject.GetComponent<Unit>();
-                if (u != null)
+                if (u != null && (u.transform.position - currentRequest.callingUnit.transform.position).magnitude <= selectionRadius)
                 {
                     return u;
                 }
@@ -223,12 +259,12 @@ public class HTargetingTool : MonoBehaviour {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
                 Unit u = hitInfo.collider.gameObject.GetComponent<Unit>();
-                if (u != null)
+                if (u != null && (u.transform.position - currentRequest.callingUnit.transform.position).magnitude <= selectionRadius)
                 {
                     return u;
                 }
                 PlayerMovement pm = hitInfo.collider.gameObject.GetComponent<PlayerMovement>();
-                if (pm != null)
+                if (pm != null && (pm.transform.position - currentRequest.callingUnit.transform.position).magnitude <= selectionRadius)
                 {
                     return pm;
                 }
@@ -267,5 +303,10 @@ public class HTargetingTool : MonoBehaviour {
     public void SetIntReadyFlag()
     {
         intInputReady = true;
+    }
+
+    public void SetAbortCurRequestFlag()
+    {
+        abortCurrentRequest = true;
     }
 }

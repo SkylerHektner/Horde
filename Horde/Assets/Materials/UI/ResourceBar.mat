@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GreyscalePostProcessing
-  m_Shader: {fileID: 4800000, guid: 37400488633d2f149bf9024aff661aa9, type: 3}
+  m_Name: ResourceBar
+  m_Shader: {fileID: 4800000, guid: e50e1bad66b98eb429df421f0a87c907, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,11 +23,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BMult: 0.11
-    - _GMult: 0.59
-    - _GreyAmountBlue: 0
-    - _GreyAmountGreen: 0
-    - _GreyAmountRed: 0
-    - _RMult: 0.3
-    - _bwBlend: 0
-    m_Colors: []
+    - _Alpha: 0.7
+    - _EmissionBandSize: 0.1
+    - _Range: 0.5
+    - _WaveFrequencyMultiplier: 1
+    - _WaveHeightMultiplier: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}

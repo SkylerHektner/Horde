@@ -91,9 +91,15 @@ public class H_Attack : Heuristic
             facingTarget = true;
     }
 
-    private void TargetReady(Unit u)
+    private void TargetReady(Unit u, bool success)
     {
-        if(u == null)
+        if (!success)
+        {
+            Resolve();
+            return;
+        }
+
+        if (u == null)
             Debug.Log("null!");
         unit.CurrentTarget = u;
     }
