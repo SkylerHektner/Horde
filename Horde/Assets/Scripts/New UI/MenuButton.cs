@@ -14,6 +14,9 @@ public class MenuButton : MonoBehaviour, ICanvasRaycastFilter, IPointerEnterHand
     [SerializeField]
     private Sprite icon;
 
+    [SerializeField]
+    private CapsuleSelector capsuleSelector;
+
     private Collider2D myCollider;
     private RectTransform rectTransform;
 
@@ -53,7 +56,10 @@ public class MenuButton : MonoBehaviour, ICanvasRaycastFilter, IPointerEnterHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        radialMenu.SelectHeuristic();
+        //radialMenu.SelectHeuristic();
+
+        Capsule capsule = capsuleSelector.SelectedCapsule;
+        capsule.AddHeuristicToCapsule(icon, buttonColor, heuristic);
     }
 }
  

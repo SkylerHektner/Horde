@@ -19,12 +19,10 @@ public class RadialMenu : MonoBehaviour
 
 	[SerializeField]
 	private GameObject filler;
-	
-	private Transform displayBarLayout;
 
 	void Start () 
 	{
-		displayBarLayout = displayBar.transform.Find("HorizontalLayout");
+
 	}
 	
 	void Update () 
@@ -47,12 +45,21 @@ public class RadialMenu : MonoBehaviour
 		centerDisplay.GetComponent<Image>().color = c;
 	}
 
-	public void SelectHeuristic()
+	public void UpdateDisplayBar(Capsule c)
 	{
-		GameObject fillerGO = Instantiate(filler);
-		fillerGO.transform.SetParent(displayBar.transform.Find("Layout"));
+		// Clear it first
+		foreach(Transform child in displayBar.transform.Find("Layout"))
+		{
+			Destroy(child.gameObject);
+		}
 
-		fillerGO.transform.Find("Icon").GetComponent<Image>().sprite = currentDisplayIcon.sprite;
-		fillerGO.GetComponent<Image>().color = centerDisplay.GetComponent<Image>().color;
+		foreach(var v in c.ContainedHeuristics)
+		{
+			GameObject fillerGO = Instantiate(filler);
+			fillerGO.transform.SetParent(displayBar.transform.Find("Layout"));
+
+			fillerGO.transform.Find("Icon").GetComponent<Image>().sprite = v.icon;
+			fillerGO.GetComponent<Image>().color = v.color;
+		}
 	}
 }
