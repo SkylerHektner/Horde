@@ -9,9 +9,6 @@ public class MenuButton : MonoBehaviour, ICanvasRaycastFilter, IPointerEnterHand
     private HInterface.HType heuristic;
 
     [SerializeField]
-    private RadialMenu radialMenu;
-
-    [SerializeField]
     private Sprite icon;
 
     [SerializeField]
@@ -49,9 +46,9 @@ public class MenuButton : MonoBehaviour, ICanvasRaycastFilter, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        radialMenu.SetCenterIcon(icon);
-        radialMenu.SetCenterName(heuristic.ToString());
-        radialMenu.SetCenterColor(buttonColor);
+        RadialMenuUI.instance.SetCenterIcon(icon);
+        RadialMenuUI.instance.SetCenterName(heuristic.ToString());
+        RadialMenuUI.instance.SetCenterColor(buttonColor);
     }
 
     public void OnPointerClick(PointerEventData eventData)

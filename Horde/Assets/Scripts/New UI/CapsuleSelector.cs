@@ -6,10 +6,8 @@ using UnityEngine.UI;
 public class CapsuleSelector : MonoBehaviour 
 {
 	[SerializeField]
-	private RadialMenu radialMenu;
-
-	[SerializeField]
 	private List<Capsule> capsules;
+	public List<Capsule> Capsules { get { return capsules; } }
 
 	[SerializeField]
 	private List<Text> capsuleNumbers;
@@ -32,7 +30,7 @@ public class CapsuleSelector : MonoBehaviour
 			capsuleNumbers[0].color = Color.red;
 			selectedCapsule = capsules[0];
 
-			radialMenu.UpdateDisplayBar(selectedCapsule);
+			RadialMenuUI.instance.UpdateDisplayBar(selectedCapsule);
 		}
 		else if(Input.GetKeyDown("2"))
 		{
@@ -41,7 +39,7 @@ public class CapsuleSelector : MonoBehaviour
 			capsuleNumbers[1].color = Color.red;
 			selectedCapsule = capsules[1];
 
-			radialMenu.UpdateDisplayBar(selectedCapsule);
+			RadialMenuUI.instance.UpdateDisplayBar(selectedCapsule);
 		}
 		else if(Input.GetKeyDown("3"))
 		{
@@ -50,7 +48,7 @@ public class CapsuleSelector : MonoBehaviour
 			capsuleNumbers[2].color = Color.red;
 			selectedCapsule = capsules[2];
 
-			radialMenu.UpdateDisplayBar(selectedCapsule);
+			RadialMenuUI.instance.UpdateDisplayBar(selectedCapsule);
 		}
 		else if(Input.GetKeyDown("4"))
 		{
@@ -59,7 +57,7 @@ public class CapsuleSelector : MonoBehaviour
 			capsuleNumbers[3].color = Color.red;
 			selectedCapsule = capsules[3];
 
-			radialMenu.UpdateDisplayBar(selectedCapsule);
+			RadialMenuUI.instance.UpdateDisplayBar(selectedCapsule);
 		}
 	}
 

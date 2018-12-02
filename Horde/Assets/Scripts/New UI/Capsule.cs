@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class Capsule : MonoBehaviour 
 {
-	[SerializeField]
-	private RadialMenu radialMenu;
-
 	private List<ContainedHeuristic> containedHeuristics;
 	public List<ContainedHeuristic> ContainedHeuristics { get { return containedHeuristics; } }
 	
@@ -26,7 +23,7 @@ public class Capsule : MonoBehaviour
 		ContainedHeuristic containedHeuristic = new ContainedHeuristic(s, c, h);
 		containedHeuristics.Add(containedHeuristic);
 
-		radialMenu.UpdateDisplayBar(this);
+		RadialMenuUI.instance.UpdateDisplayBar(this);
 	}
 
 	public struct ContainedHeuristic
@@ -41,6 +38,11 @@ public class Capsule : MonoBehaviour
 			color = c;
 			heuristic = h;
 		}
+	}
+
+	public void ClearCapsule()
+	{
+		containedHeuristics.Clear();
 	}
 }
 
