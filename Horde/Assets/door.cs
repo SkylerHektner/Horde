@@ -51,5 +51,12 @@ public class door : MonoBehaviour , ITriggerHandler
 
         //smoothly transform the doors position to the new rotation
         transform.localRotation = Quaternion.Slerp(transform.localRotation, target, Time.deltaTime * smooth);
+
+        /* for easy testing of the door
+        if (Input.GetKeyDown("space"))
+        {
+            opening = !opening;
+        }
+        */
     }
 }
