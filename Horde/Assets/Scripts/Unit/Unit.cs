@@ -108,7 +108,7 @@ public class Unit : MonoBehaviour
                 Debug.LogWarning("Unit set to patrol but no patrol points have been set.");
     }
 
-    private  void Start()
+    private void Start()
     {
         currentHealth = MaxHealth; // Start the unit with max health.
         isMindControlled = false; // Start with default behavior.
@@ -175,11 +175,11 @@ public class Unit : MonoBehaviour
         }
 
 
-        if(ResourceManager.Instance.HasEmotion(ClassEditorUI.Instance.GetCurrentSpell()) == false)
+        if(ResourceManager.Instance.HasEmotion(RadialMenuUI.Instance.GetHeuristicChain()) == false)
         {
             return;
         }
-        foreach (HInterface.HType h in ClassEditorUI.Instance.GetCurrentSpell())
+        foreach (HInterface.HType h in RadialMenuUI.Instance.GetHeuristicChain())
         {
             ResourceManager.Instance.SpendEmotion(h);
         }

@@ -30,7 +30,7 @@ public class CapsuleSelector : MonoBehaviour
 			capsuleNumbers[0].color = Color.red;
 			selectedCapsule = capsules[0];
 
-			RadialMenuUI.instance.UpdateDisplayBar(selectedCapsule);
+			RadialMenuUI.Instance.UpdateDisplayBar(selectedCapsule);
 		}
 		else if(Input.GetKeyDown("2"))
 		{
@@ -39,7 +39,7 @@ public class CapsuleSelector : MonoBehaviour
 			capsuleNumbers[1].color = Color.red;
 			selectedCapsule = capsules[1];
 
-			RadialMenuUI.instance.UpdateDisplayBar(selectedCapsule);
+			RadialMenuUI.Instance.UpdateDisplayBar(selectedCapsule);
 		}
 		else if(Input.GetKeyDown("3"))
 		{
@@ -48,7 +48,7 @@ public class CapsuleSelector : MonoBehaviour
 			capsuleNumbers[2].color = Color.red;
 			selectedCapsule = capsules[2];
 
-			RadialMenuUI.instance.UpdateDisplayBar(selectedCapsule);
+			RadialMenuUI.Instance.UpdateDisplayBar(selectedCapsule);
 		}
 		else if(Input.GetKeyDown("4"))
 		{
@@ -57,7 +57,7 @@ public class CapsuleSelector : MonoBehaviour
 			capsuleNumbers[3].color = Color.red;
 			selectedCapsule = capsules[3];
 
-			RadialMenuUI.instance.UpdateDisplayBar(selectedCapsule);
+			RadialMenuUI.Instance.UpdateDisplayBar(selectedCapsule);
 		}
 	}
 

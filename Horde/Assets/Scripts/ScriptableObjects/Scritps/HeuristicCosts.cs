@@ -17,35 +17,41 @@ public class HeuristicCosts : ScriptableObject
 	private int moveCost;
 
 	[SerializeField]
-	private int pickupCost;
-
-	[SerializeField]
 	private int beckonCost;
 	
-	[Header("Tranquility")]
-	[SerializeField]
-	private int waitCost;
-
+	[Header("Joy")]
 	[SerializeField]
 	private int hugCost;
 
-    public string GetEmotion(HInterface.HType h)
+    [SerializeField]
+    private int pickupCost;
+
+    [Header("Fear")]
+    [SerializeField]
+    private int waitCost;
+
+    [SerializeField]
+    private int screamCost;
+
+
+    public ResourceManager.ResourceType GetEmotion(HInterface.HType h)
     {
         switch (h)
         {
             case HInterface.HType.Attack:
             case HInterface.HType.Explode:
-                return "Rage";
-            case HInterface.HType.Pickup:
-            case HInterface.HType.Move:
+                return ResourceManager.ResourceType.Rage;
             case HInterface.HType.Beckon:
-                return "Devotion";
-            
+            case HInterface.HType.Move:
+                return ResourceManager.ResourceType.Devotion;
             case HInterface.HType.Wait:
-            case HInterface.HType.Hug:
-                return "Tranquility";
-        }
-        return null;
+            case HInterface.HType.Scream:
+                return ResourceManager.ResourceType.Fear;
+            case HInterface.HType.Hug:                                  
+            case HInterface.HType.Pickup:                                   
+                return ResourceManager.ResourceType.Joy;
+        }                                                                   
+        return 0;
     }
 
     public float GetCost(HInterface.HType h)
@@ -66,6 +72,8 @@ public class HeuristicCosts : ScriptableObject
                 return waitCost;
             case HInterface.HType.Hug:
                 return hugCost;
+            case HInterface.HType.Scream:
+                return screamCost;
         }
         return -1;
     }
@@ -90,11 +98,14 @@ public class HeuristicCosts : ScriptableObject
                 ResourceManager.Instance.SpendDevotion(pickupCost);
 				break;
 			case HInterface.HType.Wait:
-                ResourceManager.Instance.SpendTranquility(waitCost);
+                ResourceManager.Instance.SpendJoy(waitCost);
 				break;
 			case HInterface.HType.Hug:
-                ResourceManager.Instance.SpendTranquility(hugCost);
+                ResourceManager.Instance.SpendJoy(hugCost);
 				break;
-		}
+            case HInterface.HType.Scream:
+                ResourceManager.Instance.SpendJoy(screamCost);
+                break;
+        }
 	}
 }

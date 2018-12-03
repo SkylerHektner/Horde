@@ -46,9 +46,9 @@ public class MenuButton : MonoBehaviour, ICanvasRaycastFilter, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        RadialMenuUI.instance.SetCenterIcon(icon);
-        RadialMenuUI.instance.SetCenterName(heuristic.ToString());
-        RadialMenuUI.instance.SetCenterColor(buttonColor);
+        RadialMenuUI.Instance.SetCenterIcon(icon);
+        RadialMenuUI.Instance.SetCenterName(heuristic.ToString());
+        RadialMenuUI.Instance.SetCenterColor(buttonColor);
     }
 
     public void OnPointerClick(PointerEventData eventData)

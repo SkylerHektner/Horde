@@ -13,7 +13,8 @@ public class ResourceManager : MonoBehaviour {
 
     public float Rage { get; private set; }
     public float Devotion { get; private set; }
-    public float Tranquility { get; private set; }
+    public float Joy { get; private set; }
+    public float Fear { get; private set; }
     [SerializeField]
     private float baseCost = 10;
     [SerializeField]
@@ -21,17 +22,21 @@ public class ResourceManager : MonoBehaviour {
     [SerializeField]
     private float maxDevotion = 100;
     [SerializeField]
-    private float maxTranquility = 100;
-
+    private float maxJoy = 100;
     [SerializeField]
-    private Slider rageSlider;
-    [SerializeField]
-    private Slider devotionSlider;
-    [SerializeField]
-    private Slider tranquilitySlider;
+    private float maxFear = 100;
 
     [SerializeField]
     private Material greyscalePostMat;
+
+    [SerializeField]
+    private Material resourceBarRageMat;
+    [SerializeField]
+    private Material resourceBarFearMat;
+    [SerializeField]
+    private Material resourceBarJoyMat;
+    [SerializeField]
+    private Material resourceBarDevotionMat;
 
     [SerializeField]
     private HeuristicCosts heuristicCosts;
@@ -40,7 +45,8 @@ public class ResourceManager : MonoBehaviour {
     {
         Rage,
         Devotion,
-        Tranquility
+        Joy,
+        Fear
     }
 
     private void Awake ()
@@ -48,25 +54,38 @@ public class ResourceManager : MonoBehaviour {
         Instance = this;
         Rage = maxRage;
         Devotion = maxDevotion;
-        Tranquility = maxTranquility;
-        updateSliders();
-        greyscalePostMat.SetFloat("_GreyAmountRed", 1 - Rage / maxRage);
-        greyscalePostMat.SetFloat("_GreyAmountGreen", 1 - Devotion / maxDevotion);
-        greyscalePostMat.SetFloat("_GreyAmountBlue", 1 - Tranquility / maxTranquility);
+        Joy = maxJoy;
+        Fear = maxFear;
+        updateResourceBars();
+        updateGreyscaleEffect();
     }
 
-    private void updateSliders()
+    private void updateResourceBars()
     {
-        rageSlider.value = Rage / maxRage;
-        devotionSlider.value = Devotion / maxDevotion;
-        tranquilitySlider.value = Tranquility / maxTranquility;
+        resourceBarRageMat.SetFloat("_Range", Rage / maxRage);
+        resourceBarFearMat.SetFloat("_Range", Fear / maxFear);
+        resourceBarJoyMat.SetFloat("_Range", Joy / maxJoy);
+        resourceBarDevotionMat.SetFloat("_Range", Devotion / maxDevotion);
+    }
+    
+    private void updateGreyscaleEffect()
+    {
+        float sum = 0;
+        sum += 1 - Rage / maxRage;
+        sum += 1 - Fear / maxFear;
+        sum += 1 - Joy / maxJoy;
+        sum += 1 - Devotion / maxDevotion;
+        sum *= 0.25f;
+        greyscalePostMat.SetFloat("_GreyAmountRed", sum);
+        greyscalePostMat.SetFloat("_GreyAmountGreen", sum);
+        greyscalePostMat.SetFloat("_GreyAmountBlue", sum);
     }
 
     public void SpendRage(float value)
     {
         Rage -= value;
-        updateSliders();
-        if(Rage <= 0 && ResourceEmptyEvent != null)
+        updateResourceBars();
+        if (Rage <= 0 && ResourceEmptyEvent != null)
         {
             ResourceEmptyEvent(ResourceType.Rage);
         }
@@ -74,13 +93,13 @@ public class ResourceManager : MonoBehaviour {
         {
             Rage = 0;
         }
-        greyscalePostMat.SetFloat("_GreyAmountRed", 1 - Rage / maxRage);
+        updateGreyscaleEffect();
     }
 
     public void SpendDevotion(float value)
     {
         Devotion -= value;
-        updateSliders();
+        updateResourceBars();
         if (Devotion <= 0 && ResourceEmptyEvent != null)
         {
             ResourceEmptyEvent(ResourceType.Devotion);
@@ -89,22 +108,37 @@ public class ResourceManager : MonoBehaviour {
         {
             Devotion = 0;
         }
-        greyscalePostMat.SetFloat("_GreyAmountGreen", 1 - Devotion / maxDevotion);
+        updateGreyscaleEffect();
     }
 
-    public void SpendTranquility(float value)
+    public void SpendJoy(float value)
     {
-        Tranquility -= value;
-        updateSliders();
-        if (Tranquility <= 0 && ResourceEmptyEvent != null)
+        Joy -= value;
+        updateResourceBars();
+        if (Joy <= 0 && ResourceEmptyEvent != null)
         {
-            ResourceEmptyEvent(ResourceType.Tranquility);
+            ResourceEmptyEvent(ResourceType.Joy);
         }
-        if (Tranquility <= 0)
+        if (Joy <= 0)
         {
-            Tranquility = 0;
+            Joy = 0;
         }
-        greyscalePostMat.SetFloat("_GreyAmountBlue", 1 - Tranquility / maxTranquility);
+        updateGreyscaleEffect();
+    }
+
+    public void SpendFear(float value)
+    {
+        Fear -= value;
+        updateResourceBars();
+        if (Fear <= 0 && ResourceEmptyEvent != null)
+        {
+            ResourceEmptyEvent(ResourceType.Fear);
+        }
+        if (Fear <= 0)
+        {
+            Fear = 0;
+        }
+        updateGreyscaleEffect();
     }
 
     public void SpendEmotion(HInterface.HType b)
@@ -115,29 +149,37 @@ public class ResourceManager : MonoBehaviour {
     public bool HasEmotion(List<HInterface.HType> list)
     {
         float tempRage = Rage;
-        float tempTranquility = Tranquility;
+        float tempJoy = Joy;
         float tempDevotion = Devotion;
+        float tempFear = Fear;
         foreach (var item in list)
         {
             switch(heuristicCosts.GetEmotion(item))
             {
-                case "Rage":
+                case ResourceType.Rage:
                     tempRage -= heuristicCosts.GetCost(item);
                     if (tempRage < 0)
                     {
                         return false;
                     }
                     break;
-                case "Tranquility":
-                    tempTranquility -= heuristicCosts.GetCost(item);
-                    if (tempTranquility < 0)
+                case ResourceType.Fear:
+                    tempFear -= heuristicCosts.GetCost(item);
+                    if (tempFear < 0)
                     {
                         return false;
                     }
                     break;
-                case "Devotion":
+                case ResourceType.Devotion:
                     tempDevotion -= heuristicCosts.GetCost(item);
                     if(tempDevotion < 0)
+                    {
+                        return false;
+                    }
+                    break;
+                case ResourceType.Joy:
+                    tempJoy -= heuristicCosts.GetCost(item);
+                    if (tempJoy < 0)
                     {
                         return false;
                     }
@@ -147,14 +189,13 @@ public class ResourceManager : MonoBehaviour {
         return true;
     }
 
-
-
     [ContextMenu("Test Spending Resources")]
     private void spendResourcesTest()
     {
         SpendRage(25f);
         SpendDevotion(25f);
-        SpendTranquility(25f);
+        SpendJoy(25f);
+        SpendFear(25f);
     }
 
 

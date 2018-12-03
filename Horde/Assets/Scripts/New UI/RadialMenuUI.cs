@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class RadialMenuUI : MonoBehaviour
 {
-	public static RadialMenuUI instance; // Singleton instance
+	public static RadialMenuUI Instance; // Singleton instance
 
 	[SerializeField]
 	private GameObject radialMenu;
@@ -31,12 +31,14 @@ public class RadialMenuUI : MonoBehaviour
 	[SerializeField]
 	private CapsuleSelector capsuleSelector;
 
+    public bool InEditMode { get { return radialMenu.activeInHierarchy; } }
+
 	private void Awake () 
 	{
 		// Make sure only one instance of this class exists. (Singleton)
-        if (instance == null)
-            instance = this;
-        else if (instance != null)
+        if (Instance == null)
+            Instance = this;
+        else if (Instance != null)
             Destroy(gameObject);
 	}
 

@@ -28,15 +28,17 @@ public class PlayerManager : MonoBehaviour
 
     public void CastSpell(Transform t)
     {
-        List<HInterface.HType> behaviors = ClassEditorUI.Instance.GetCurrentSpell();
+        List<HInterface.HType> behaviors = RadialMenuUI.Instance.GetHeuristicChain();
         if (behaviors != null)
         {
             ResourceManager.Instance.SpendDevotion(baseCost);
             ResourceManager.Instance.SpendRage(baseCost);
-            ResourceManager.Instance.SpendTranquility(baseCost);
+            ResourceManager.Instance.SpendJoy(baseCost);
             GameObject spell = Instantiate(SpellPrefab, Player.transform.position, Quaternion.identity);
             spell.GetComponent<SpellMovement>().setTarget(t);
             spell.GetComponent<SpellMovement>().behaviors = behaviors;
+
+            RadialMenuUI.Instance.ClearCapsule();
         }
     }
 

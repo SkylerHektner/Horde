@@ -23,7 +23,7 @@ public class Capsule : MonoBehaviour
 		ContainedHeuristic containedHeuristic = new ContainedHeuristic(s, c, h);
 		containedHeuristics.Add(containedHeuristic);
 
-		RadialMenuUI.instance.UpdateDisplayBar(this);
+		RadialMenuUI.Instance.UpdateDisplayBar(this);
 	}
 
 	public struct ContainedHeuristic

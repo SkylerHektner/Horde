@@ -31,7 +31,7 @@ public class HTargetingTool : MonoBehaviour {
     [SerializeField]
     private Text instructionText;
     [SerializeField]
-    private GameObject classEditor;
+    private GameObject radialMenuUI;
     [SerializeField]
     private GameObject intInputScrim;
     [SerializeField]
@@ -217,7 +217,7 @@ public class HTargetingTool : MonoBehaviour {
         cam.lockWASDPanControls = false;
         rimCanvas.SetActive(true);
         instructionText.text = message;
-        classEditor.SetActive(false);
+        radialMenuUI.SetActive(false);
 
         OnTargeting();
     }
@@ -229,7 +229,7 @@ public class HTargetingTool : MonoBehaviour {
         selectionRadiusIndicator.SetActive(false);
         cam.lockWASDPanControls = true;
         rimCanvas.SetActive(false);
-        classEditor.SetActive(true);
+        radialMenuUI.SetActive(true);
 
         OnFinishedTargeting();
     }

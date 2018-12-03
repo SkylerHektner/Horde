@@ -12,6 +12,7 @@
 		_WaveFrequencyMultiplier("Wave Frequency", Range(0.5, 2)) = 1
 		_EmissionColor("Emission Color", Color) = (0,0,0,0)
 		_EmissionBandSize("Emission Band Size", Range(0, 0.1)) = 0.1
+		_StartingOffset("Starting Offset", Vector) = (0,0,0,0)
 	}
 	SubShader
 	{
@@ -51,6 +52,7 @@
 			float _WaveFrequencyMultiplier;
 			float _EmissionBandSize;
 			float _Alpha;
+			float4 _StartingOffset;
 			
 			v2f vert (appdata v)
 			{
@@ -68,7 +70,7 @@
 				heightClip /= 2;
 				clip((1 - i.uv2.y) - heightClip);
 
-				half2 newUV = i.uv + half2(_Time.x, _Time.x);
+				half2 newUV = i.uv + half2(_Time.x, _Time.x) + _StartingOffset.xy;
 				fixed4 col = tex2D(_MainTex, newUV);
 				newUV = i.uv * .5 + half2(-_Time.x * .7, -_Time.x * .8);
 				col *= tex2D(_MainTex, newUV);

@@ -47,8 +47,9 @@ public class PlayerMovement : MonoBehaviour
 	void Update ()
     {
         // if we are making a spell disable movement
-        if (ClassEditorUI.Instance.InEditMode)
+        if (RadialMenuUI.Instance.InEditMode)
         {
+            anim.SetBool("Walking", false);
             return;
         }
 
