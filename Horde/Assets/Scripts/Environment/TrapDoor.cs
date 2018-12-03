@@ -6,10 +6,8 @@ public class TrapDoor : MonoBehaviour, ITriggerHandler
 {
     [SerializeField]
     [Header("Door Settings")]
-    [Tooltip("The angle the door will be at when it is open")]
+    [Tooltip("The angle in degrees that the door will change by")]
     public float OpenAngle;
-    [Tooltip("The angle the door will be at when it is closed")]
-    public float CloseAngle;
     [Tooltip("The speed at which the door opens and closes")]
     public float smooth = 2.0f;
 
@@ -19,9 +17,7 @@ public class TrapDoor : MonoBehaviour, ITriggerHandler
 
     public void Start()
     {
-        original = transform.rotation;
-        Debug.Log("ORIGINAL: ");
-        Debug.Log(original.eulerAngles);
+        original = transform.localRotation;
        // CloseAngle = transform.rotation.eulerAngles.y;
     }
     public void TriggerOff()
@@ -45,30 +41,24 @@ public class TrapDoor : MonoBehaviour, ITriggerHandler
     /// </summary>
     public void Update()
     {
-        Debug.Log("ROTATION ANGLES\n");
-        Debug.Log(transform.rotation.eulerAngles);
-        Debug.Log("LOCAL ANGLES\n");
-        Debug.Log(transform.localRotation.eulerAngles);
         // set the target to the open position
         if (opening)
         {
-            target = Quaternion.Euler(original.eulerAngles.x,
-                original.eulerAngles.y + OpenAngle, original.eulerAngles.z);
+            target = Quaternion.Euler(original.eulerAngles.x + OpenAngle, original.eulerAngles.y, original.eulerAngles.z);
         }
         // set the target to teh close position
         else
         {
-            target = original;
+            target = original;// Quaternion.Euler(0, CloseAngle, 0);
         }
 
         //smoothly transform the doors position to the new rotation
-        transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * smooth);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, target, Time.deltaTime * smooth);
 
         //for easy testing of the door
         if (Input.GetKeyDown("space"))
         {
             opening = !opening;
         }
-
     }
 }

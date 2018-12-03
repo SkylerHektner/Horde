@@ -6,10 +6,8 @@ public class Door : MonoBehaviour, ITriggerHandler
 {
     [SerializeField]
     [Header("Door Settings")]
-    [Tooltip("The angle the door will be at when it is open")]
+    [Tooltip("The angle in degrees that the door will change by")]
     public float OpenAngle = 90.0f;
-    [Tooltip("The angle the door will be at when it is closed")]
-    public float CloseAngle = 0.0f;
     [Tooltip("The speed at which the door opens and closes")]
     public float smooth = 2.0f;
 
