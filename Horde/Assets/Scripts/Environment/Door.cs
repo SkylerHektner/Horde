@@ -11,6 +11,10 @@ public class Door : MonoBehaviour, ITriggerHandler
     [Tooltip("The speed at which the door opens and closes")]
     public float smooth = 2.0f;
 
+    [Header("FOR TESTING ONLY")]
+    [Tooltip("activating this makes the space bar toggle the door")]
+    public bool SpaceBarTesting;
+
     private Quaternion target;
     private Quaternion original;
     private bool opening = false;
@@ -56,7 +60,7 @@ public class Door : MonoBehaviour, ITriggerHandler
         transform.localRotation = Quaternion.Slerp(transform.localRotation, target, Time.deltaTime * smooth);
 
         //for easy testing of the door
-        if (Input.GetKeyDown("space"))
+        if (SpaceBarTesting && Input.GetKeyDown("space"))
         {
             opening = !opening;
         }
