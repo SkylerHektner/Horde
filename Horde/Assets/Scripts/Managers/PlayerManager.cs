@@ -31,9 +31,10 @@ public class PlayerManager : MonoBehaviour
         List<HInterface.HType> behaviors = RadialMenuUI.Instance.GetHeuristicChain();
         if (behaviors != null)
         {
-            ResourceManager.Instance.SpendDevotion(baseCost);
-            ResourceManager.Instance.SpendRage(baseCost);
-            ResourceManager.Instance.SpendJoy(baseCost);
+            //ResourceManager.Instance.SpendDevotion(baseCost);
+            //ResourceManager.Instance.SpendRage(baseCost);
+            //ResourceManager.Instance.SpendJoy(baseCost);
+            //ResourceManager.Instance.SpendFear(baseCost);
             GameObject spell = Instantiate(SpellPrefab, Player.transform.position, Quaternion.identity);
             spell.GetComponent<SpellMovement>().setTarget(t);
             spell.GetComponent<SpellMovement>().behaviors = behaviors;

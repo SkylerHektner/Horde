@@ -80,31 +80,19 @@ public class HeuristicCosts : ScriptableObject
 
     public void SpendEmotion(HInterface.HType h)
 	{
-		switch(h)
+		switch(GetEmotion(h))
 		{
-			case HInterface.HType.Attack:
-				ResourceManager.Instance.SpendRage(attackCost);
+			case ResourceManager.ResourceType.Fear:
+				ResourceManager.Instance.SpendFear(GetCost(h));
 				break;
-			case HInterface.HType.Explode:
-                ResourceManager.Instance.SpendRage(explodeCost);
-				break;
-			case HInterface.HType.Move:
-                ResourceManager.Instance.SpendDevotion(moveCost);
-				break;
-			case HInterface.HType.Beckon:
-                ResourceManager.Instance.SpendDevotion(beckonCost);
-				break;
-			case HInterface.HType.Pickup:
-                ResourceManager.Instance.SpendDevotion(pickupCost);
-				break;
-			case HInterface.HType.Wait:
-                ResourceManager.Instance.SpendJoy(waitCost);
-				break;
-			case HInterface.HType.Hug:
-                ResourceManager.Instance.SpendJoy(hugCost);
-				break;
-            case HInterface.HType.Scream:
-                ResourceManager.Instance.SpendJoy(screamCost);
+            case ResourceManager.ResourceType.Joy:
+                ResourceManager.Instance.SpendJoy(GetCost(h));
+                break;
+            case ResourceManager.ResourceType.Devotion:
+                ResourceManager.Instance.SpendDevotion(GetCost(h));
+                break;
+            case ResourceManager.ResourceType.Rage:
+                ResourceManager.Instance.SpendRage(GetCost(h));
                 break;
         }
 	}
