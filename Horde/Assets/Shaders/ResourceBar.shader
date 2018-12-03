@@ -13,6 +13,7 @@
 		_EmissionColor("Emission Color", Color) = (0,0,0,0)
 		_EmissionBandSize("Emission Band Size", Range(0, 0.1)) = 0.1
 		_StartingOffset("Starting Offset", Vector) = (0,0,0,0)
+		_ScrollSpeed("Texture Scroll Speed", Range(0.2, 4)) = 1
 	}
 	SubShader
 	{
@@ -53,6 +54,7 @@
 			float _EmissionBandSize;
 			float _Alpha;
 			float4 _StartingOffset;
+			float _ScrollSpeed;
 			
 			v2f vert (appdata v)
 			{
@@ -70,13 +72,13 @@
 				heightClip /= 2;
 				clip((1 - i.uv2.y) - heightClip);
 
-				half2 newUV = i.uv + half2(_Time.x, _Time.x) + _StartingOffset.xy;
+				half2 newUV = i.uv + half2(_Time.x, _Time.x) * _ScrollSpeed + _StartingOffset.xy;
 				fixed4 col = tex2D(_MainTex, newUV);
-				newUV = i.uv * .5 + half2(-_Time.x * .7, -_Time.x * .8);
+				newUV = i.uv * .5 + half2(-_Time.x * .7, -_Time.x * .8) * _ScrollSpeed + _StartingOffset.xy;
 				col *= tex2D(_MainTex, newUV);
-				newUV = i.uv * 1.2 + half2(_Time.x * 1.9, -_Time.x * 1.2);
+				newUV = i.uv * 1.2 + half2(_Time.x * 1.9, -_Time.x * 1.2) * _ScrollSpeed + _StartingOffset.xy;
 				col *= tex2D(_MainTex, newUV);
-				newUV = i.uv * 1.6 + half2(-_Time.x * 4.5, _Time.x * .3);
+				newUV = i.uv * 1.6 + half2(-_Time.x * 4.5, _Time.x * .3) * _ScrollSpeed + _StartingOffset.xy;
 				col *= tex2D(_MainTex, newUV);
 
 				col *= _Color;
