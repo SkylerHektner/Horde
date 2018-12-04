@@ -13,11 +13,14 @@ public class CapsuleSelector : MonoBehaviour
 	private List<Text> capsuleNumbers;
 
 	private Capsule selectedCapsule;
-	public Capsule SelectedCapsule { get { return selectedCapsule;} } 
+	public Capsule SelectedCapsule { get { return selectedCapsule;} }
+
+    private Color startingTextColor;
 
 	void Start () 
 	{
-		selectedCapsule = capsules[0]; // Make the first one the default selected capsule.
+        startingTextColor = capsuleNumbers[0].color;
+        selectedCapsule = capsules[0]; // Make the first one the default selected capsule.
 		capsuleNumbers[0].color = Color.red;
 	}
 	
@@ -78,7 +81,7 @@ public class CapsuleSelector : MonoBehaviour
 	{
 		foreach(Text t in capsuleNumbers)
 		{
-			t.color = Color.black;
+			t.color = startingTextColor;
 		}
 	}
 }
