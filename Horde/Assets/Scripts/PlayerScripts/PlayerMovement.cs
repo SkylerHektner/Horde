@@ -25,6 +25,11 @@ public class PlayerMovement : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
 
+    private Ray cameraRay;
+	private RaycastHit cameraRayHit;
+
+    private int layerMask = 1 << 15; // Layer mask for the background.
+
     public MovementPattern movementPattern = MovementPattern.WASD;
     public enum MovementPattern
     {
@@ -52,6 +57,15 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Walking", false);
             return;
         }
+
+        // Make the player face in the direction of the mouse position.
+		cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+		
+		if(Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask))
+		{
+			Vector3 targetPosition = new Vector3(cameraRayHit.point.x, transform.position.y, cameraRayHit.point.z); 
+			transform.LookAt(targetPosition);
+		}
 
         // if we are not being carried and our controls are not locked, try to detect movement input and move
         if (!lockMovementControls && !beingCarried)
@@ -103,9 +117,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (lastPos != transform.position && !beingCarried)
         {
-            transform.forward = transform.position - lastPos;
-            lastPos = transform.position;
-            anim.SetBool("Walking", true);
+            //transform.forward = transform.position - lastPos;
+            //lastPos = transform.position;
+            //anim.SetBool("Walking", true);
         }
         else
         {
