@@ -8,8 +8,6 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject Player { get; private set; }
     public GameObject SpellPrefab;
-    [SerializeField]
-    private float baseCost = 10;
 	private void Awake()
     {
         // Make sure only one instance of this class exists. (Singleton)
@@ -24,23 +22,6 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         //TestHeuristicCosts();
-    }
-
-    public void CastSpell(Transform t)
-    {
-        List<HInterface.HType> behaviors = RadialMenuUI.Instance.GetHeuristicChain();
-        if (behaviors != null)
-        {
-            //ResourceManager.Instance.SpendDevotion(baseCost);
-            //ResourceManager.Instance.SpendRage(baseCost);
-            //ResourceManager.Instance.SpendJoy(baseCost);
-            //ResourceManager.Instance.SpendFear(baseCost);
-            GameObject spell = Instantiate(SpellPrefab, Player.transform.position, Quaternion.identity);
-            spell.GetComponent<SpellMovement>().setTarget(t);
-            spell.GetComponent<SpellMovement>().behaviors = behaviors;
-
-            RadialMenuUI.Instance.ClearCapsule();
-        }
     }
 
     private void TestHeuristicCosts()

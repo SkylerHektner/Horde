@@ -74,6 +74,11 @@ public class DartGunController : MonoBehaviour
 
 	public void Fire()
 	{
+        if (!ResourceManager.Instance.HasEmotion(RadialMenuUI.Instance.GetHeuristicChain()))
+        {
+            return;
+        }
+
 		Vector3 endpoint = dartSpawnLocation.position + transform.forward * maxLaserDistance;
 		GameObject dartGO = Instantiate(dart, dartSpawnLocation.position, transform.rotation);
 		dartRB = dartGO.GetComponent<Rigidbody>();

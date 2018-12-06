@@ -167,26 +167,6 @@ public class Unit : MonoBehaviour
         currentHeuristic = (Heuristic)gameObject.AddComponent(HInterface.GetHeuristic(behaviors[curHIndex]));
         currentHeuristic.Init();
     }
-    public void OnMouseDown()
-    {
-        if(HTargetingTool.Instance.GettingInput)
-        {
-            return;
-        }
-
-
-        if(ResourceManager.Instance.HasEmotion(RadialMenuUI.Instance.GetHeuristicChain()) == false)
-        {
-            return;
-        }
-        /*
-        foreach (HInterface.HType h in RadialMenuUI.Instance.GetHeuristicChain())
-        {
-            ResourceManager.Instance.SpendEmotion(h);  
-        }
-        PlayerManager.instance.CastSpell(gameObject.transform);
-        */
-    }
 
     public void OverrideHeuristics(List<HInterface.HType> newBehaviorSet)
     {
