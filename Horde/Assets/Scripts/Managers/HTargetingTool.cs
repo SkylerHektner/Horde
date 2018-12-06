@@ -216,7 +216,7 @@ public class HTargetingTool : MonoBehaviour {
     private void Setup(string message)
     {
         cam.SetTargetPos(currentRequest.callingUnit.transform.position.x, currentRequest.callingUnit.transform.position.z);
-        cam.lockWASDPanControls = false;
+        cam.lockPanControls = false;
         rimCanvas.SetActive(true);
         instructionText.text = message;
         radialMenuUI.SetActive(false);
@@ -229,7 +229,7 @@ public class HTargetingTool : MonoBehaviour {
     {
         intInputScrim.SetActive(false);
         selectionRadiusIndicator.SetActive(false);
-        cam.lockWASDPanControls = true;
+        cam.lockPanControls = true;
         rimCanvas.SetActive(false);
         radialMenuUI.SetActive(true);
 

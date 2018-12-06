@@ -21,8 +21,6 @@ public class CameraController : MonoBehaviour
 
     public bool lockZoomControls = false;
     public bool lockPanControls = false;
-    public bool lockWASDPanControls = false;
-    public bool lockMousePanControls = true;
     public bool lockRotationControls = false;
 
     private Vector3 targetRot = Vector3.zero;
@@ -47,25 +45,21 @@ public class CameraController : MonoBehaviour
 
         if(!lockPanControls)
         {
-            if ((!lockMousePanControls && Input.mousePosition.x < 0)
-            || (!lockWASDPanControls && Input.GetKey(KeyCode.A)))
+            if (Input.GetKey(KeyCode.A))
             {
                 targetPos += -transform.right * camMoveSpeed * Time.deltaTime;
             }
-            else if ((!lockMousePanControls && Input.mousePosition.x > Screen.width)
-                || (!lockWASDPanControls && Input.GetKey(KeyCode.D)))
+            else if (Input.GetKey(KeyCode.D))
             {
                 targetPos += transform.right * camMoveSpeed * Time.deltaTime;
             }
-            if ((!lockMousePanControls && Input.mousePosition.y < 0)
-                || (!lockWASDPanControls && Input.GetKey(KeyCode.S)))
+            if (Input.GetKey(KeyCode.S))
             {
                 Vector3 delta = -transform.forward;
                 delta.y = 0;
                 targetPos += delta * camMoveSpeed * Time.deltaTime;
             }
-            else if ((!lockMousePanControls && Input.mousePosition.y > Screen.height)
-                || (!lockWASDPanControls && Input.GetKey(KeyCode.W)))
+            else if (Input.GetKey(KeyCode.W))
             {
                 Vector3 delta = transform.forward;
                 delta.y = 0;
