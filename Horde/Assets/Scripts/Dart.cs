@@ -27,13 +27,9 @@ public class Dart : MonoBehaviour
 	{
 		if(c.gameObject.tag == "TeamTwoUnit")
 		{
-			Debug.Log("Hit team two unit");
+			//Debug.Log("Hit team two unit");
+			
 			c.gameObject.GetComponent<Unit>().OverrideHeuristics(heuristics);
-
-			foreach (HInterface.HType h in RadialMenuUI.Instance.GetHeuristicChain())
-        	{
-            	ResourceManager.Instance.SpendEmotion(h);
-        	}
 
 			Destroy(gameObject);
 		}
