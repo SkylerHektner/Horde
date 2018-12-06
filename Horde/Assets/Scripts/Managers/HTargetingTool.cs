@@ -241,7 +241,7 @@ public class HTargetingTool : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hitInfo;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, float.MaxValue, ~layerMask))
             {
                 Unit u = hitInfo.collider.gameObject.GetComponent<Unit>();
                 if (u != null && (u.transform.position - currentRequest.callingUnit.transform.position).magnitude <= selectionRadius)
@@ -258,7 +258,7 @@ public class HTargetingTool : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hitInfo;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, float.MaxValue, ~layerMask))
             {
                 Unit u = hitInfo.collider.gameObject.GetComponent<Unit>();
                 if (u != null && (u.transform.position - currentRequest.callingUnit.transform.position).magnitude <= selectionRadius)

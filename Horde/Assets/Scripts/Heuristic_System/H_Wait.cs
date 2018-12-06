@@ -12,7 +12,8 @@ public class H_Wait : Heuristic
     {
         base.Init();
         GetComponent<NavMeshAgent>().SetDestination(transform.position);
-        HTargetingTool.Instance.GetInt(unit, waitTimeReady, "How long do you want this unit to wait for?");
+        //HTargetingTool.Instance.GetInt(unit, waitTimeReady, "How long do you want this unit to wait for?");
+        waitTime = 5f;
     }
 
     public override void Execute()
