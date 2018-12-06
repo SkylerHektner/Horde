@@ -44,6 +44,8 @@ public class HTargetingTool : MonoBehaviour {
     private bool intInputReady = false;
     private bool abortCurrentRequest = false;
 
+    private int layerMask = 1 << 15; // Layer mask for the background.
+
     /// <summary>
     /// 2. Move the camera to the calling unit, Unlock camera WASD movement
     /// 3. Pause everything (stop all units from executing heurstics and moving. Also stop spell projectiles currently travelling)
@@ -278,7 +280,7 @@ public class HTargetingTool : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hitInfo;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, float.MaxValue, ~layerMask))
             {
                 NavMeshPath p = new NavMeshPath(); ;
                 if (currentRequest.callingUnit.GetComponent<NavMeshAgent>().CalculatePath(hitInfo.point, p))
