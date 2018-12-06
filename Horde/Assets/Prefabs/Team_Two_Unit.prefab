@@ -189,8 +189,8 @@ GameObject:
   - component: {fileID: 195430009144589202}
   - component: {fileID: 54653110650809470}
   - component: {fileID: 95070399338679710}
-  - component: {fileID: 136224580911278716}
   - component: {fileID: 114358030601567702}
+  - component: {fileID: 65294873781321014}
   m_Layer: 11
   m_Name: Team_Two_Unit
   m_TagString: TeamTwoUnit
@@ -1694,8 +1694,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1147260055776320}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -9.45, y: 50.21, z: -30.7}
+  m_LocalRotation: {x: -0, y: -0.6333987, z: -0, w: 0.77382565}
+  m_LocalPosition: {x: 20.33, y: 2.4499998, z: 23.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4980861782175968}
@@ -1705,7 +1705,7 @@ Transform:
   - {fileID: 4357844477429636}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -78.603004, z: 0}
 --- !u!4 &4581175865117018
 Transform:
   m_ObjectHideFlags: 1
@@ -2125,6 +2125,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65294873781321014
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1147260055776320}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.8279936, y: 4.320838, z: 2.2843943}
+  m_Center: {x: 0.06353145, y: -0.35975027, z: 0.084197044}
 --- !u!95 &95070399338679710
 Animator:
   serializedVersion: 3
@@ -2179,8 +2191,12 @@ MonoBehaviour:
   healthBarMask: {fileID: 0}
   statBlock: {fileID: 11400000, guid: cee4f566f6954c443ba185ba4bf58e1f, type: 2}
   attack: {fileID: 11400000, guid: 810ffaacd79b21a49b971323c7100058, type: 2}
-  isPatrolling: 0
-  patrolPoints: []
+  isPatrolling: 1
+  patrolPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   currentHealth: 0
   currentTarget: {fileID: 0}
   currentHeuristic: {fileID: 0}
@@ -2196,19 +2212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdf3ad17973e0d14bb8f996acf01c0fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &136224580911278716
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1147260055776320}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.7567512
-  m_Height: 4.979082
-  m_Direction: 1
-  m_Center: {x: 0.06402135, y: -0.29045892, z: -0.19273068}
 --- !u!137 &137128585405831852
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -2224,7 +2227,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 04392a55e5c6ae3429002bc9a5955936, type: 3}
+  - {fileID: 2100000, guid: c96b82f02acf7b34980e14860a93e3bf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2415,7 +2418,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1147260055776320}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.86
   m_Speed: 5
   m_Acceleration: 35
   avoidancePriority: 50
@@ -2424,7 +2427,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
+  m_Height: 3.61
   m_BaseOffset: 1.8
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

@@ -179,11 +179,13 @@ public class Unit : MonoBehaviour
         {
             return;
         }
+        /*
         foreach (HInterface.HType h in RadialMenuUI.Instance.GetHeuristicChain())
         {
-            ResourceManager.Instance.SpendEmotion(h);
+            ResourceManager.Instance.SpendEmotion(h);  
         }
         PlayerManager.instance.CastSpell(gameObject.transform);
+        */
     }
 
     public void OverrideHeuristics(List<HInterface.HType> newBehaviorSet)

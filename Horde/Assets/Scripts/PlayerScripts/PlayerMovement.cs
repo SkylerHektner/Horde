@@ -51,6 +51,9 @@ public class PlayerMovement : MonoBehaviour
 	
 	void Update ()
     {
+        if(HTargetingTool.Instance.GettingInput || RadialMenuUI.Instance.InEditMode)
+			return;
+            
         // if we are making a spell disable movement
         if (RadialMenuUI.Instance.InEditMode)
         {
