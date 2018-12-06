@@ -77,23 +77,4 @@ public class HeuristicCosts : ScriptableObject
         }
         return -1;
     }
-
-    public void SpendEmotion(HInterface.HType h)
-	{
-		switch(GetEmotion(h))
-		{
-			case ResourceManager.ResourceType.Fear:
-				ResourceManager.Instance.SpendFear(GetCost(h));
-				break;
-            case ResourceManager.ResourceType.Joy:
-                ResourceManager.Instance.SpendJoy(GetCost(h));
-                break;
-            case ResourceManager.ResourceType.Devotion:
-                ResourceManager.Instance.SpendDevotion(GetCost(h));
-                break;
-            case ResourceManager.ResourceType.Rage:
-                ResourceManager.Instance.SpendRage(GetCost(h));
-                break;
-        }
-	}
 }

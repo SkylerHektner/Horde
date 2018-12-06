@@ -11,6 +11,9 @@ public class ResourceManager : MonoBehaviour {
     public delegate void resourceEmptyListener(ResourceType t);
     public event resourceEmptyListener ResourceEmptyEvent;
 
+
+    public float baseSpellCost = 20f;
+
     public float Rage { get; private set; }
     public float Devotion { get; private set; }
     public float Joy { get; private set; }
@@ -67,7 +70,7 @@ public class ResourceManager : MonoBehaviour {
         resourceBarJoyMat.SetFloat("_Range", Joy / maxJoy);
         resourceBarDevotionMat.SetFloat("_Range", Devotion / maxDevotion);
     }
-    
+
     private void updateGreyscaleEffect()
     {
         float sum = 0;
@@ -81,122 +84,97 @@ public class ResourceManager : MonoBehaviour {
         greyscalePostMat.SetFloat("_GreyAmountBlue", sum);
     }
 
-    public void SpendRage(float value)
+    /// <summary>
+    /// Spends the emotions of a given list of heuristics
+    /// </summary>
+    /// <param name="b"></param>
+    public void SpendEmotion(List<HInterface.HType> b)
     {
-        Rage -= value;
-        updateResourceBars();
-        if (Rage <= 0 && ResourceEmptyEvent != null)
+        float tempRage = Rage;
+        float tempJoy = Joy;
+        float tempDevotion = Devotion;
+        float tempFear = Fear;
+        subtractEmotions(b, ref tempRage, ref tempDevotion, ref tempJoy, ref tempFear);
+
+        Rage = tempRage;
+        if (Rage < 0)
         {
             ResourceEmptyEvent(ResourceType.Rage);
         }
-        if(Rage <= 0)
-        {
-            Rage = 0;
-        }
-        updateGreyscaleEffect();
-    }
-
-    public void SpendDevotion(float value)
-    {
-        Devotion -= value;
-        updateResourceBars();
-        if (Devotion <= 0 && ResourceEmptyEvent != null)
-        {
-            ResourceEmptyEvent(ResourceType.Devotion);
-        }
-        if (Devotion <= 0)
-        {
-            Devotion = 0;
-        }
-        updateGreyscaleEffect();
-    }
-
-    public void SpendJoy(float value)
-    {
-        Joy -= value;
-        updateResourceBars();
-        if (Joy <= 0 && ResourceEmptyEvent != null)
+        Joy = tempJoy;
+        if (Joy < 0)
         {
             ResourceEmptyEvent(ResourceType.Joy);
         }
-        if (Joy <= 0)
+        Devotion = tempDevotion;
+        if (Devotion < 0)
         {
-            Joy = 0;
+            ResourceEmptyEvent(ResourceType.Devotion);
         }
-        updateGreyscaleEffect();
-    }
-
-    public void SpendFear(float value)
-    {
-        Fear -= value;
-        updateResourceBars();
-        if (Fear <= 0 && ResourceEmptyEvent != null)
+        Fear = tempFear;
+        if (Fear < 0)
         {
             ResourceEmptyEvent(ResourceType.Fear);
         }
-        if (Fear <= 0)
-        {
-            Fear = 0;
-        }
+
         updateGreyscaleEffect();
+        updateResourceBars();
     }
 
-    public void SpendEmotion(HInterface.HType b)
+    /// <summary>
+    /// subtracts the emotions of a given list of heuristics from a set of references floats
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="rage"></param>
+    /// <param name="devotion"></param>
+    /// <param name="joy"></param>
+    /// <param name="fear"></param>
+    private void subtractEmotions(List<HInterface.HType> b, ref float rage, ref float devotion, ref float joy, ref float fear)
     {
-        heuristicCosts.SpendEmotion(b);
+        float rageCost = 0;
+        float devotionCost = 0;
+        float fearCost = 0;
+        float joyCost = 0;
+        foreach (HInterface.HType h in b)
+        {
+            switch (heuristicCosts.GetEmotion(h))
+            {
+                case ResourceType.Devotion:
+                    devotionCost += 1;
+                    break;
+                case ResourceType.Joy:
+                    joyCost += 1;
+                    break;
+                case ResourceType.Rage:
+                    rageCost += 1;
+                    break;
+                case ResourceType.Fear:
+                    fearCost += 1;
+                    break;
+            }
+        }
+        rage -= (rageCost / b.Count) * baseSpellCost;
+        devotion -= (devotionCost / b.Count) * baseSpellCost;
+        joy -= (joyCost / b.Count) * baseSpellCost;
+        fear -= (fearCost / b.Count) * baseSpellCost;
     }
 
+    /// <summary>
+    /// Tests whether or not you can cast the given list of heuristics. Returns true if you can
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
     public bool HasEmotion(List<HInterface.HType> list)
     {
         float tempRage = Rage;
         float tempJoy = Joy;
         float tempDevotion = Devotion;
         float tempFear = Fear;
-        foreach (var item in list)
+        subtractEmotions(list, ref tempRage, ref tempDevotion, ref tempJoy, ref tempFear);
+        if (tempRage < 0 || tempDevotion < 0 || tempJoy < 0 || tempFear < 0)
         {
-            switch(heuristicCosts.GetEmotion(item))
-            {
-                case ResourceType.Rage:
-                    tempRage -= heuristicCosts.GetCost(item);
-                    if (tempRage < 0)
-                    {
-                        return false;
-                    }
-                    break;
-                case ResourceType.Fear:
-                    tempFear -= heuristicCosts.GetCost(item);
-                    if (tempFear < 0)
-                    {
-                        return false;
-                    }
-                    break;
-                case ResourceType.Devotion:
-                    tempDevotion -= heuristicCosts.GetCost(item);
-                    if(tempDevotion < 0)
-                    {
-                        return false;
-                    }
-                    break;
-                case ResourceType.Joy:
-                    tempJoy -= heuristicCosts.GetCost(item);
-                    if (tempJoy < 0)
-                    {
-                        return false;
-                    }
-                    break;
-            }
+            return false;
         }
         return true;
     }
-
-    [ContextMenu("Test Spending Resources")]
-    private void spendResourcesTest()
-    {
-        SpendRage(25f);
-        SpendDevotion(25f);
-        SpendJoy(25f);
-        SpendFear(25f);
-    }
-
-
 }

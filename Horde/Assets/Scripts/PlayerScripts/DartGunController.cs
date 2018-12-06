@@ -88,10 +88,9 @@ public class DartGunController : MonoBehaviour
 		dartRB.velocity = directionalVector.normalized * 125;
 		dartRB.rotation = Quaternion.LookRotation(dartRB.velocity);
 
-		foreach (HInterface.HType h in RadialMenuUI.Instance.GetHeuristicChain())
-        {
-            ResourceManager.Instance.SpendEmotion(h);
-        }
+
+        ResourceManager.Instance.SpendEmotion(RadialMenuUI.Instance.GetHeuristicChain());
+
 
 		dartGO.GetComponent<Dart>().Heuristics = RadialMenuUI.Instance.GetHeuristicChain();
 		RadialMenuUI.Instance.ClearCapsule();

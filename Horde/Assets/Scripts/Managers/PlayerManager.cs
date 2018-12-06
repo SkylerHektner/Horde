@@ -23,11 +23,4 @@ public class PlayerManager : MonoBehaviour
     {
         //TestHeuristicCosts();
     }
-
-    private void TestHeuristicCosts()
-    {
-        Debug.Log(ResourceManager.Instance.Rage);
-        ResourceManager.Instance.SpendEmotion(HInterface.HType.Attack);
-        Debug.Log(ResourceManager.Instance.Rage);
-    }
 }
