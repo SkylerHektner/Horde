@@ -11,7 +11,7 @@ public class LoadLevelTrigger : MonoBehaviour
     {
         if (nextScene != null && other.tag == "Player")
         {
-            GameManager.Instance.ResetLevel();
+            SceneManager.LoadScene(nextScene);
         }
     }
 }
