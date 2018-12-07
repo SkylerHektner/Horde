@@ -27,7 +27,7 @@ public class Dart : MonoBehaviour
 	{
 		if(c.gameObject.tag == "Player")
 			return;
-			
+
 		if(c.gameObject.tag == "TeamTwoUnit")
 		{
 			//Debug.Log("Hit team two unit");
@@ -39,7 +39,7 @@ public class Dart : MonoBehaviour
 		else
 		{
 			bounces++;
-			if(bounces >= 3)
+			if(bounces >= 4)
 			{
 				Destroy(gameObject);
 			}

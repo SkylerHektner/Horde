@@ -219,9 +219,9 @@ public class HTargetingTool : MonoBehaviour {
     /// 4. Add rim effect + instructions text(a new canvas)
     private void Setup(string message)
     {
-        Vector3 pos = new Vector3(currentRequest.callingUnit.transform.position.x, currentRequest.callingUnit.transform.position.y + 60f, currentRequest.callingUnit.transform.position.z);
-        cam.SetTargetPos(pos);
-        cam.lockPanControls = false;
+        //Vector3 pos = new Vector3(currentRequest.callingUnit.transform.position.x, currentRequest.callingUnit.transform.position.y + 60f, currentRequest.callingUnit.transform.position.z);
+        //cam.SetTargetPos(pos);
+        //cam.lockPanControls = false;
         rimCanvas.SetActive(true);
         instructionText.text = message;
         radialMenuUI.SetActive(false);
@@ -234,7 +234,7 @@ public class HTargetingTool : MonoBehaviour {
     {
         intInputScrim.SetActive(false);
         selectionRadiusIndicator.SetActive(false);
-        cam.lockPanControls = true;
+        //cam.lockPanControls = true;
         rimCanvas.SetActive(false);
         radialMenuUI.SetActive(true);
 

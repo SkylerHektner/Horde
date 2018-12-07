@@ -13,7 +13,7 @@ public class DartGunController : MonoBehaviour
 	private Rigidbody dartRB;
 	//private Vector3 origin;
 
-	private int maxLaserDistance = 50;
+	private int maxLaserDistance = 75;
 
 	private Vector3 mousePosition;
 	private LineRenderer lr;
