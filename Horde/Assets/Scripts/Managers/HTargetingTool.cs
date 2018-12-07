@@ -81,6 +81,10 @@ public class HTargetingTool : MonoBehaviour {
         if (pendingRequests.Count > 0 && !Executing)
         {
             currentRequest = pendingRequests.Dequeue();
+            if (currentRequest.callingUnit == null)
+            {
+                return;
+            }
             Executing = true;
             Setup(currentRequest.message);
             if (currentRequest.intCallback != null)
