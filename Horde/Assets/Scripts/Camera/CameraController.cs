@@ -124,10 +124,11 @@ public class CameraController : MonoBehaviour
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    public void SetTargetPos(float x, float z)
+    public void SetTargetPos(Vector3 pos)
     {
-        targetPos.x = x;
-        targetPos.z = z;
+        targetPos.x = pos.x;
+        targetPos.y = pos.y;
+        targetPos.z = pos.z;
     }
 
     /// <summary>

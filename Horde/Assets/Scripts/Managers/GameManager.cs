@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     private GameObject player;
 
     [SerializeField]
+    private CameraController cameraController;
+
+    [SerializeField]
     //private Transform[] checkpoints;
     private Checkpoint[] checkpoints;
     private Checkpoint currentCheckpoint;
@@ -64,5 +67,10 @@ public class GameManager : MonoBehaviour
     public void SetCheckpoint(Checkpoint cp)
     {
         currentCheckpoint = cp;
+    }
+
+    public void SetCameraLocation(Transform t)
+    {
+        cameraController.SetTargetPos(t.position);
     }
 }

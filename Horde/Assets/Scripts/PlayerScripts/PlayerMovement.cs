@@ -144,7 +144,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (lockCamToPlayer)
         {
-            cam.SetTargetPos(transform.position.x, transform.position.z);
+            Vector3 pos = new Vector3(transform.position.x, transform.position.y + 60f, transform.position.z);
+            cam.SetTargetPos(pos);
         }
     }
 
