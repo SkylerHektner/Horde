@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance; // Singleton instance
+    public static GameManager Instance; // Singleton instance
 
     public delegate void CaptureAction();
     public static event CaptureAction OnCaptured; // When the enemy catches the player.
@@ -24,9 +24,9 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // Make sure only one instance of this class exists. (Singleton)
-        if (instance == null)
-            instance = this;
-        else if (instance != null)
+        if (Instance == null)
+            Instance = this;
+        else if (Instance != null)
             Destroy(gameObject);
     }
 

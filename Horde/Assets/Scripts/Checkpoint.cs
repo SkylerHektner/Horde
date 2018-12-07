@@ -9,7 +9,7 @@ public class Checkpoint : MonoBehaviour
 		if(c.tag == "Player")
 		{
 			Debug.Log("Checkpoint Hit");
-			GameManager.instance.SetCheckpoint(this);
+			GameManager.Instance.SetCheckpoint(this);
 		}
 	}
 }
