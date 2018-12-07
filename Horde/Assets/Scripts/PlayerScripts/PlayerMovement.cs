@@ -120,9 +120,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (lastPos != transform.position && !beingCarried)
         {
-            //transform.forward = transform.position - lastPos;
-            //lastPos = transform.position;
-            //anim.SetBool("Walking", true);
+            transform.forward = transform.position - lastPos;
+            lastPos = transform.position;
+            anim.SetBool("Walking", true);
         }
         else
         {
