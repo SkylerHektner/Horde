@@ -69,8 +69,8 @@ public class GameManager : MonoBehaviour
         currentCheckpoint = cp;
     }
 
-    public void SetCameraLocation(Transform t)
+    public void SetCameraLocation(Vector3 v)
     {
-        cameraController.SetTargetPos(t.position);
+        cameraController.SetTargetPos(v);
     }
 }

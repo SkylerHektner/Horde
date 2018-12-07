@@ -23,7 +23,8 @@ GameObject:
   - component: {fileID: 65883356842431672}
   - component: {fileID: 114571221906632392}
   - component: {fileID: 54040189697805848}
-  m_Layer: 0
+  - component: {fileID: 114539038095779428}
+  m_Layer: 2
   m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +41,7 @@ GameObject:
   - component: {fileID: 4929881079298884}
   - component: {fileID: 33611299375482510}
   - component: {fileID: 23756946839181724}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CP Spirals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +58,7 @@ GameObject:
   - component: {fileID: 4625911281503594}
   - component: {fileID: 33562291431441672}
   - component: {fileID: 23330853192534272}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CP Spirals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +75,7 @@ GameObject:
   - component: {fileID: 4706585406626982}
   - component: {fileID: 33449082711093420}
   - component: {fileID: 23503094227669888}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CP Spirals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +92,7 @@ GameObject:
   - component: {fileID: 4996497988654408}
   - component: {fileID: 33743511167994578}
   - component: {fileID: 23438160767339926}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CP Spirals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +109,7 @@ GameObject:
   - component: {fileID: 4566015334492022}
   - component: {fileID: 33563347134259456}
   - component: {fileID: 23788895682657940}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CP Spirals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +126,7 @@ GameObject:
   - component: {fileID: 4282369799737342}
   - component: {fileID: 33827620666986034}
   - component: {fileID: 23612490702856028}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CP Spirals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +245,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: cfa1e5c66a2737a4c8bfd6a78454d9d2, type: 2}
+  - {fileID: 2100000, guid: 5d45621ede63f1744bd4f462e825ed6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -279,7 +280,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: cfa1e5c66a2737a4c8bfd6a78454d9d2, type: 2}
+  - {fileID: 2100000, guid: 5d45621ede63f1744bd4f462e825ed6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -314,7 +315,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: cfa1e5c66a2737a4c8bfd6a78454d9d2, type: 2}
+  - {fileID: 2100000, guid: 5d45621ede63f1744bd4f462e825ed6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -349,7 +350,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: cfa1e5c66a2737a4c8bfd6a78454d9d2, type: 2}
+  - {fileID: 2100000, guid: 5d45621ede63f1744bd4f462e825ed6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -384,7 +385,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: cfa1e5c66a2737a4c8bfd6a78454d9d2, type: 2}
+  - {fileID: 2100000, guid: 5d45621ede63f1744bd4f462e825ed6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -419,7 +420,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: cfa1e5c66a2737a4c8bfd6a78454d9d2, type: 2}
+  - {fileID: 2100000, guid: 5d45621ede63f1744bd4f462e825ed6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -508,6 +509,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.5418205, y: 4.4134083, z: 4.395602}
   m_Center: {x: 0.06614494, y: 3.0934105, z: -0.014415264}
+--- !u!114 &114539038095779428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1031923726702070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_IgnoreFromBuild: 1
+  m_AffectedAgents: ffffffff
 --- !u!114 &114571221906632392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -519,6 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a97f45d03e43a3e44a2818b419a647c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraLocation: {fileID: 0}
 --- !u!114 &114994201855839690
 MonoBehaviour:
   m_ObjectHideFlags: 1

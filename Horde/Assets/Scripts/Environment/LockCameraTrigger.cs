@@ -12,7 +12,10 @@ public class LockCameraTrigger : MonoBehaviour
 		if(c.tag == "Player")
 		{
 			c.GetComponent<PlayerMovement>().lockCamToPlayer = false;
-			GameManager.Instance.SetCameraLocation(cameraLocation);
+            Vector3 newPos = new Vector3(cameraLocation.position.x, cameraLocation.position.y + 60f, cameraLocation.position.z);
+            //cameraLocation.position = newPos;
+           
+			GameManager.Instance.SetCameraLocation(newPos);
 		}
 	}
 }
