@@ -8,13 +8,14 @@ public class H_Scream : Heuristic {
 
     private List<Unit> affectedUnits = new List<Unit>();
 
-    private float screamDuration = float.MaxValue;
+    private float screamDuration = 5f;
     private float timeSoFar = 0f;
 
     public override void Init()
     {
         base.Init();
-        HTargetingTool.Instance.GetInt(unit, IntReadyCallback, "How long should this unit scream?");
+        //HTargetingTool.Instance.GetInt(unit, IntReadyCallback, "How long should this unit scream?");
+        scream();
     }
 
     public override void Execute()

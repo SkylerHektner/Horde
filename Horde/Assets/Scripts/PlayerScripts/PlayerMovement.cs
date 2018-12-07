@@ -128,18 +128,18 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Walking", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Vector3 temp = forward;
-            forward = right;
-            right = -temp;
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Vector3 temp = forward;
-            forward = -right;
-            right = temp;
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    Vector3 temp = forward;
+        //    forward = right;
+        //    right = -temp;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    Vector3 temp = forward;
+        //    forward = -right;
+        //    right = temp;
+        //}
 
         if (lockCamToPlayer)
         {
