@@ -25,6 +25,9 @@ public class Dart : MonoBehaviour
 
 	void OnCollisionEnter(Collision c)
 	{
+		if(c.gameObject.tag == "Player")
+			return;
+			
 		if(c.gameObject.tag == "TeamTwoUnit")
 		{
 			//Debug.Log("Hit team two unit");
@@ -33,14 +36,16 @@ public class Dart : MonoBehaviour
 
 			Destroy(gameObject);
 		}
-
-		bounces++;
-		if(bounces >= 3)
+		else
 		{
-			Destroy(gameObject);
-		}
+			bounces++;
+			if(bounces >= 3)
+			{
+				Destroy(gameObject);
+			}
 
-		ContactPoint cp = c.contacts[0];
-		rb.velocity = Vector3.Reflect(oldVel, cp.normal).normalized * 125;
+			ContactPoint cp = c.contacts[0];
+			rb.velocity = Vector3.Reflect(oldVel, cp.normal).normalized * 125;
+		}
 	}
 }
