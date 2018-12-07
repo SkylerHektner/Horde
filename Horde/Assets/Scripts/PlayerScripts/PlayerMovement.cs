@@ -47,8 +47,8 @@ public class PlayerMovement : MonoBehaviour
         right = new Vector3(speed * ROOT2, 0, speed * ROOT2);
         anim = GetComponent<Animator>();
         lastPos = transform.position;
-        HTargetingTool.OnTargeting += OnTargetingAction;
-        HTargetingTool.OnFinishedTargeting += OnFinishedTargeting;
+        //HTargetingTool.OnTargeting += OnTargetingAction;
+        //HTargetingTool.OnFinishedTargeting += OnFinishedTargeting;
     }
 	
 	void Update ()
