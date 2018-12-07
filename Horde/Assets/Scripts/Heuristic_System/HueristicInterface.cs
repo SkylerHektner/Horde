@@ -10,9 +10,9 @@ public class HInterface : MonoBehaviour
         Attack,
         Explode,
         Move,
-        Wait,
+        Cower,
         Beckon,
-        Pickup,
+        Carry,
         Hug,
         Scream
     }
@@ -27,11 +27,11 @@ public class HInterface : MonoBehaviour
                 return typeof(H_Explode);
             case (HType.Move):
                 return typeof(H_Move);
-            case (HType.Wait):
+            case (HType.Cower):
                 return typeof(H_Wait);
             case (HType.Beckon):
                 return typeof(H_Beckon);
-            case (HType.Pickup):
+            case (HType.Carry):
                 return typeof(H_Pickup);
             case (HType.Hug):
                 return typeof(H_Hug);

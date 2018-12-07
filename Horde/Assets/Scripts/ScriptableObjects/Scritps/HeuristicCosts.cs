@@ -44,11 +44,11 @@ public class HeuristicCosts : ScriptableObject
             case HInterface.HType.Beckon:
             case HInterface.HType.Move:
                 return ResourceManager.ResourceType.Devotion;
-            case HInterface.HType.Wait:
+            case HInterface.HType.Cower:
             case HInterface.HType.Scream:
                 return ResourceManager.ResourceType.Fear;
             case HInterface.HType.Hug:                                  
-            case HInterface.HType.Pickup:                                   
+            case HInterface.HType.Carry:                                   
                 return ResourceManager.ResourceType.Joy;
         }                                                                   
         return 0;
@@ -66,9 +66,9 @@ public class HeuristicCosts : ScriptableObject
                 return moveCost;
             case HInterface.HType.Beckon:
                 return beckonCost;
-            case HInterface.HType.Pickup:
+            case HInterface.HType.Carry:
                 return pickupCost;
-            case HInterface.HType.Wait:
+            case HInterface.HType.Cower:
                 return waitCost;
             case HInterface.HType.Hug:
                 return hugCost;

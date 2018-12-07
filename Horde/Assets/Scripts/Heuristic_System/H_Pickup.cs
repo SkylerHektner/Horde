@@ -10,6 +10,10 @@ public class H_Pickup : Heuristic
     private NavMeshAgent agent;
     private Vector3 carryOffset = new Vector3(0, 4, 0);
 
+    private bool carrying = false;
+    private bool pickedUp = false;
+    private Transform originalParent;
+
     public override void Init()
     {
         base.Init();
@@ -22,27 +26,56 @@ public class H_Pickup : Heuristic
         base.Execute();
         if (playerTarget != null || unitTarget != null)
         {
-            if (agent.remainingDistance <= 1f && !agent.pathPending)
+            if (!carrying)
             {
-                if (unitTarget != null)
+                if (!pickedUp && agent.remainingDistance <= 1.8f && !agent.pathPending)
                 {
-                    unitTarget.IsMindControlled = true;
-                    unitTarget.GetComponent<NavMeshAgent>().enabled = false;
-                    unitTarget.beingCarried = true;
-                    unitTarget.transform.SetParent(transform, false);
-                    unitTarget.transform.localPosition = carryOffset;
-                    unitTarget.transform.rotation = Quaternion.identity;
-                    Resolve();
-                }
-                else if (playerTarget != null)
-                {
-                    playerTarget.toggleCarryMode();
-                    playerTarget.transform.parent = transform;
-                    playerTarget.transform.localPosition = carryOffset;
-                    playerTarget.transform.rotation = Quaternion.identity;
-                    Resolve();
+                    if (unitTarget != null)
+                    {
+                        originalParent = unitTarget.transform.parent;
+                        unitTarget.IsMindControlled = true;
+                        unitTarget.GetComponent<NavMeshAgent>().enabled = false;
+                        unitTarget.beingCarried = true;
+                        unitTarget.transform.SetParent(transform, false);
+                        unitTarget.transform.localPosition = carryOffset;
+                        unitTarget.transform.rotation = Quaternion.identity;
+                    }
+                    else if (playerTarget != null)
+                    {
+                        originalParent = playerTarget.transform.parent;
+                        playerTarget.toggleCarryMode();
+                        playerTarget.transform.parent = transform;
+                        playerTarget.transform.localPosition = carryOffset;
+                        playerTarget.transform.rotation = Quaternion.identity;
+                    }
+                    pickedUp = true;
+                    HTargetingTool.Instance.GetPositon(unit, destReady, "Please click where this unit should set this down");
                 }
             }
+            else
+            {
+                if (agent.remainingDistance <= 1.8f && !agent.pathPending)
+                {
+                    if (unitTarget != null)
+                    {
+                        unitTarget.IsMindControlled = false;
+                        unitTarget.GetComponent<NavMeshAgent>().enabled = true;
+                        unitTarget.beingCarried = false;
+                        unitTarget.transform.parent = originalParent;
+                        unitTarget.transform.position = unitTarget.transform.position - carryOffset;
+                        unitTarget.transform.rotation = Quaternion.identity;
+                        Resolve();
+                    }
+                    else if (playerTarget != null)
+                    {
+                        playerTarget.untoggleCarryMode();
+                        playerTarget.transform.parent = originalParent;
+                        playerTarget.transform.position = playerTarget.transform.position - carryOffset;
+                        playerTarget.transform.rotation = Quaternion.identity;
+                        Resolve();
+                    }
+                }
+            } 
         }
     }
 
@@ -64,5 +97,11 @@ public class H_Pickup : Heuristic
             unitTarget = (Unit)u;
             unit.UnitController.MoveTo(unitTarget.transform.position);
         }
+    }
+
+    public void destReady(Vector3 destination, bool success)
+    {
+        agent.SetDestination(destination);
+        carrying = true;
     }
 }

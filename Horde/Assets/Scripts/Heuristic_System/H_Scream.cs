@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class H_Scream : Heuristic {
 
-    private float screamRadius = 50f;
+    private float screamRadius = 20f;
 
     private List<Unit> affectedUnits = new List<Unit>();
 

@@ -170,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<NavMeshAgent>().enabled = false;
     }
 
-    private void untoggleCarryMode()
+    public void untoggleCarryMode()
     {
         transform.parent = null;
         lockMovementControls = false;
