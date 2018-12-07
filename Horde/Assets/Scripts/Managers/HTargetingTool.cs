@@ -215,7 +215,7 @@ public class HTargetingTool : MonoBehaviour {
     /// 4. Add rim effect + instructions text(a new canvas)
     private void Setup(string message)
     {
-        Vector3 pos = new Vector3(currentRequest.callingUnit.transform.position.x, currentRequest.callingUnit.transform.position.y, currentRequest.callingUnit.transform.position.z);
+        Vector3 pos = new Vector3(currentRequest.callingUnit.transform.position.x, currentRequest.callingUnit.transform.position.y + 60f, currentRequest.callingUnit.transform.position.z);
         cam.SetTargetPos(pos);
         cam.lockPanControls = false;
         rimCanvas.SetActive(true);
