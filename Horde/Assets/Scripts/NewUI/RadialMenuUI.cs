@@ -31,6 +31,14 @@ public class RadialMenuUI : MonoBehaviour
 	[SerializeField]
 	private CapsuleSelector capsuleSelector;
 
+    public int curBehaviorCount
+    {
+        get
+        {
+            return capsuleSelector.SelectedCapsule.ContainedHeuristics.Count;
+        }
+    }
+
     public bool InEditMode { get { return radialMenu.activeInHierarchy; } }
 
 	private void Awake () 

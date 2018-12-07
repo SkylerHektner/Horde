@@ -11,10 +11,10 @@ public class Checkpoint : MonoBehaviour
 		if(c.tag == "Player")
 		{
 			Debug.Log("Checkpoint Hit");
-			GameManager.instance.SetCheckpoint(this);
+			GameManager.Instance.SetCheckpoint(this);
 			
 			c.GetComponent<PlayerMovement>().lockCamToPlayer = false;
-			GameManager.instance.SetCameraLocation(cameraLocation);
+			GameManager.Instance.SetCameraLocation(cameraLocation);
 		}
 	}
 }

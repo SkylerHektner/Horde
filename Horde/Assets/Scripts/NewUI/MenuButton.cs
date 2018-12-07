@@ -54,6 +54,10 @@ public class MenuButton : MonoBehaviour, ICanvasRaycastFilter, IPointerEnterHand
     public void OnPointerClick(PointerEventData eventData)
     {
         //radialMenu.SelectHeuristic();
+        if (RadialMenuUI.Instance.curBehaviorCount >= 4)
+        {
+            return;
+        }
 
         Capsule capsule = capsuleSelector.SelectedCapsule;
         capsule.AddHeuristicToCapsule(icon, buttonColor, heuristic);
