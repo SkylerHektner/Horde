@@ -33,7 +33,7 @@ public class H_Hug : Heuristic
 
         float distanceFromTarget = Vector3.Distance(transform.position, unit.CurrentTarget.transform.position);
 
-		if(distanceFromTarget <= 1.2f)
+		if(distanceFromTarget <= 1.8f)
 		{
 			unit.CurrentTarget.IsMindControlled = true;
 			unit.CurrentTarget.UnitController.StopMoving(); // Stop the target from moving.
