@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Checkpoint : MonoBehaviour 
+public class LockCameraTrigger : MonoBehaviour 
 {
+
 	[SerializeField]
 	private Transform cameraLocation;
 	private void OnTriggerEnter(Collider c)
 	{
 		if(c.tag == "Player")
 		{
-			Debug.Log("Checkpoint Hit");
-			GameManager.Instance.SetCheckpoint(this);
+			c.GetComponent<PlayerMovement>().lockCamToPlayer = false;
+			GameManager.Instance.SetCameraLocation(cameraLocation);
 		}
 	}
 }
