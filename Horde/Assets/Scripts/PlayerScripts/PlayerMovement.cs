@@ -52,14 +52,11 @@ public class PlayerMovement : MonoBehaviour
 	void Update ()
     {
         if(HTargetingTool.Instance.GettingInput || RadialMenuUI.Instance.InEditMode)
-			return;
-            
-        // if we are making a spell disable movement
-        if (RadialMenuUI.Instance.InEditMode)
         {
             anim.SetBool("Walking", false);
             return;
         }
+           
 
         // Make the player face in the direction of the mouse position.
 		cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
