@@ -30,7 +30,8 @@ public class DartGunController : MonoBehaviour
         lr.startColor = Color.green;
         lr.endColor = Color.green;
         lr.material = new Material(Shader.Find("Particles/Additive"));
-	}
+        lr.enabled = false;
+    }
 
 	void Update () 
 	{
@@ -42,28 +43,32 @@ public class DartGunController : MonoBehaviour
 		if(HTargetingTool.Instance.GettingInput || RadialMenuUI.Instance.InEditMode)
 			return;
 
-		if (Physics.Raycast(dartSpawnLocation.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
+		if (Input.GetMouseButton(0) && RadialMenuUI.Instance.curBehaviorCount != 0)
 		{
-			if(gunRayHit.collider.gameObject.tag == "TeamTwoUnit")
-				ChangeColor(Color.red);
-			else
-				ChangeColor(Color.green);
+            lr.enabled = true;
+            if (Physics.Raycast(dartSpawnLocation.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
+            {
+                if (gunRayHit.collider.gameObject.tag == "TeamTwoUnit")
+                    ChangeColor(Color.red);
+                else
+                    ChangeColor(Color.green);
 
-			lr.SetPosition(0, dartSpawnLocation.position);
-			lr.SetPosition(1, gunRayHit.point);
-		}
-		else // If the ray doesn't hit anything, just render it's max distance.
-		{
-			ChangeColor(Color.green);	
+                lr.SetPosition(0, dartSpawnLocation.position);
+                lr.SetPosition(1, gunRayHit.point);
+            }
+            else // If the ray doesn't hit anything, just render it's max distance.
+            {
+                ChangeColor(Color.green);
 
-			lr.SetPosition(0, dartSpawnLocation.position);
-			lr.SetPosition(1, dartSpawnLocation.position + transform.forward * maxLaserDistance);
-		}
-
-		if(Input.GetMouseButtonDown(0) && RadialMenuUI.Instance.GetHeuristicChain().Count != 0)
-		{
-			Fire(); 
-		}
+                lr.SetPosition(0, dartSpawnLocation.position);
+                lr.SetPosition(1, dartSpawnLocation.position + transform.forward * maxLaserDistance);
+            }
+        }
+        if (Input.GetMouseButtonUp(0) && RadialMenuUI.Instance.curBehaviorCount != 0)
+        {
+            Fire();
+            lr.enabled = false;
+        }
 	}
 
 	private void ChangeColor(Color c)

@@ -93,7 +93,7 @@ public class RadialMenuUI : MonoBehaviour
 		foreach(var v in c.ContainedHeuristics)
 		{
 			GameObject fillerGO = Instantiate(filler);
-			fillerGO.transform.SetParent(displayBar.transform.Find("Layout"));
+			fillerGO.transform.SetParent(displayBar.transform.Find("Layout"), false);
 
 			fillerGO.transform.Find("Icon").GetComponent<Image>().sprite = v.icon;
 			fillerGO.GetComponent<Image>().color = v.color;
