@@ -43,8 +43,8 @@ public class PlayerMovement : MonoBehaviour
 	void Start ()
     {
         agent = GetComponent<NavMeshAgent>();
-        forward = new Vector3(-speed * ROOT2, 0, speed * ROOT2);
-        right = new Vector3(speed * ROOT2, 0, speed * ROOT2);
+        forward = new Vector3(-ROOT2 * speed, 0, ROOT2 * speed);
+        right = new Vector3(ROOT2 * speed, 0, ROOT2 * speed);
         anim = GetComponent<Animator>();
         lastPos = transform.position;
         //HTargetingTool.OnTargeting += OnTargetingAction;
@@ -74,22 +74,33 @@ public class PlayerMovement : MonoBehaviour
         {
             if(movementPattern == MovementPattern.WASD)
             {
+                Vector3 dest = Vector3.zero;
                 if (Input.GetKey(KeyCode.W))
                 {
-                    agent.Move(forward * Time.deltaTime);
+                    //agent.Move(forward * Time.deltaTime);
+                    //agent.SetDestination(transform.position + forward);
+                    dest += forward * Time.deltaTime;
                 }
                 else if (Input.GetKey(KeyCode.S))
                 {
-                    agent.Move(forward * -Time.deltaTime);
+                    //agent.Move(forward * -Time.deltaTime);
+                    //agent.SetDestination(transform.position + -forward);
+                    dest -= forward * Time.deltaTime;
                 }
                 if (Input.GetKey(KeyCode.A))
                 {
-                    agent.Move(right * -Time.deltaTime);
+                    //agent.Move(right * -Time.deltaTime);
+                    //agent.SetDestination(transform.position + -right);
+                    dest -= right * Time.deltaTime;
                 }
                 else if (Input.GetKey(KeyCode.D))
                 {
-                    agent.Move(right * Time.deltaTime);
+                    //agent.Move(right * Time.deltaTime);
+                    //agent.SetDestination(transform.position + right);
+                    dest += right * Time.deltaTime;
                 }
+
+                agent.Move(dest);
             }
             else if (movementPattern == MovementPattern.ClickToMove)
             {
