@@ -37,12 +37,14 @@ public class PlayerMovement : MonoBehaviour
         ClickToMove
     }
 
+    private const float ROOT2 = 0.707f;
+
     private Vector3 lastPos;
 	void Start ()
     {
         agent = GetComponent<NavMeshAgent>();
-        forward = new Vector3(0, 0, speed);
-        right = new Vector3(speed, 0, 0);
+        forward = new Vector3(-speed * ROOT2, 0, speed * ROOT2);
+        right = new Vector3(speed * ROOT2, 0, speed * ROOT2);
         anim = GetComponent<Animator>();
         lastPos = transform.position;
         HTargetingTool.OnTargeting += OnTargetingAction;
