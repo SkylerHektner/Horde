@@ -67,6 +67,7 @@ public class H_Attack : Heuristic
     {
         while(unit.CurrentTarget != null) // Attack until the target is dead.
         {
+            Debug.Log("KJNASDJASKDJNASD");
             unit.UnitController.Attack();
 
             // Attack needs a cooldown or else it will resolve way too fast, creating an insane attack speed.
@@ -93,14 +94,17 @@ public class H_Attack : Heuristic
 
     private void TargetReady(Unit u, bool success)
     {
-        if (!success)
-        {
-            Resolve();
-            return;
-        }
+        //if (!success)
+        //{
+        //    Resolve();
+        //    return;
+        //}
 
-        if (u == null)
-            Debug.Log("null!");
-        unit.CurrentTarget = u;
+        //if (u == null)
+        //    Debug.Log("null!");
+        //unit.CurrentTarget = u;
+
+        u.UnitController.TakeDamage(100);
+        Resolve();
     }
 }
