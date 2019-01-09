@@ -28,7 +28,7 @@ public class Dart : MonoBehaviour
 		if(c.gameObject.tag == "Player")
 			return;
 
-		if(c.gameObject.tag == "TeamTwoUnit")
+		if(c.gameObject.tag == "Enemy")
 		{
 			//Debug.Log("Hit team two unit");
 			
