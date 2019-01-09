@@ -115,9 +115,17 @@ public class VisionCone : MonoBehaviour
 			}
 		}
 
+        Vector2[] UV = new Vector2[vertexCount];
+        UV[0] = new Vector2(0, 0.5f);
+        for (int i = 1; i < vertexCount; i++)
+        {
+            UV[i] = new Vector2(1, (float)i / (float)vertexCount);
+        }
+
 		viewMesh.Clear();
 		viewMesh.vertices = vertices;
 		viewMesh.triangles = triangles;
+        viewMesh.uv = UV;
 		viewMesh.RecalculateNormals();
 	}
 
