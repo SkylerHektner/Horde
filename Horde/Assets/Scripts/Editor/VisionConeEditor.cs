@@ -19,6 +19,7 @@ public class VisionConeEditor : Editor
 		Handles.DrawLine(vc.transform.position, vc.transform.position + viewAngleA * vc.ViewRadius);
 		Handles.DrawLine(vc.transform.position, vc.transform.position + viewAngleB * vc.ViewRadius);
 
+		// Draw lines from the enemy to the visible target.
 		Handles.color = Color.red;
 		foreach(Transform visibleTarget in vc.VisibleTargets)
 		{

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This class is heavily based on the youtube tutorial https://www.youtube.com/watch?v=rQG9aUWarwE&list=PLFt_AvWsXl0dohbtVgHDNmgZV_UY7xZv7
+
 //[RequireComponent(typeof(Enemy))]
 public class VisionCone : MonoBehaviour 
 {
@@ -47,7 +49,7 @@ public class VisionCone : MonoBehaviour
 		return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
 	}
 
-	// Move to Enemy script
+	// TODO: Move to Enemy script
 	private IEnumerator FindTargetsWithDelay(float delay)
 	{
 		while(true)
@@ -57,7 +59,7 @@ public class VisionCone : MonoBehaviour
 		}
 	}
 
-	// Move to Enemy script
+	// TODO: Move to Enemy script
 	private void FindVisibleTargets()
 	{
 		visibleTargets.Clear();
