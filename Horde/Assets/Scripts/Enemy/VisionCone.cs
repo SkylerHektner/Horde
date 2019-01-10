@@ -90,16 +90,19 @@ public class VisionCone : MonoBehaviour
 
 		List<Vector3> viewPoints = new List<Vector3>();
 
-		for(int i = 0; i <= stepCount; i++)
+        int vertexCount = stepCount + 2;
+        Vector2[] UV = new Vector2[vertexCount];
+        UV[0] = new Vector2(0, 0.5f);
+        for (int i = 0; i <= stepCount; i++)
 		{
-			
-			float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
 			ViewCastInfo newViewCast = ViewCast(angle);
-			viewPoints.Add(newViewCast.point);
+            UV[i+1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)vertexCount);
+            viewPoints.Add(newViewCast.point);
 			//Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
 		}
 
-		int vertexCount = viewPoints.Count + 1;
+		
 		Vector3[] vertices = new Vector3[vertexCount];
 		int[] triangles = new int[(vertexCount - 2) * 3];
 
@@ -116,13 +119,6 @@ public class VisionCone : MonoBehaviour
 				triangles[i * 3 + 2] = i + 2;
 			}
 		}
-
-        Vector2[] UV = new Vector2[vertexCount];
-        UV[0] = new Vector2(0, 0.5f);
-        for (int i = 1; i < vertexCount; i++)
-        {
-            UV[i] = new Vector2(1, (float)i / (float)vertexCount);
-        }
 
 		viewMesh.Clear();
 		viewMesh.vertices = vertices;
