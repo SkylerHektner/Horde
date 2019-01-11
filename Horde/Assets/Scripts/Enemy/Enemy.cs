@@ -7,6 +7,8 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour 
 {
 	[SerializeField] private EnemySettings enemySettings;
+	[SerializeField] private bool IsPatrolling;
+	[SerializeField] private List<Vector3> patrolPoints;
 
 	private NavMeshAgent agent;
 	private AIState currentState;
@@ -16,7 +18,7 @@ public class Enemy : MonoBehaviour
 		agent = GetComponent<NavMeshAgent>();
 		
 		// Set to idle or patrol state
-		if(enemySettings.HasPatrolPath)
+		if(IsPatrolling)
 			ChangeState(new Patrol(this, enemySettings));
 		else
 			ChangeState(new Idle(this, enemySettings));
@@ -24,7 +26,7 @@ public class Enemy : MonoBehaviour
 	
 	private void Update() 
 	{
-		
+		currentState.Tick();
 	}
 
 	/// <summary>
@@ -41,5 +43,10 @@ public class Enemy : MonoBehaviour
 			currentState.LeaveState();
 
 		currentState = state;
+	}
+
+	public override string ToString()
+	{
+		return currentState != null ? currentState.ToString() : "NONE";
 	}
 }

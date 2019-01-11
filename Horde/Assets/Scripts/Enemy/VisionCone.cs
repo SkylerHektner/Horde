@@ -41,6 +41,7 @@ public class VisionCone : MonoBehaviour
 	public void ChangeColor(Color c)
 	{
 		// TODO: Change the color of the mesh.
+		transform.GetComponentInChildren<MeshRenderer>().materials[0].color = c;
 	}
 
 	/// <summary>
