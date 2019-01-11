@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Idle : AIState
 {
-	public Idle(Enemy enemy, EnemyMovement enemyMovement): base(enemy, enemyMovement)
+	public Idle(Enemy enemy, EnemySettings enemySettings): base(enemy, enemySettings)
 	{
-		
+		VisionCone vc = enemy.GetComponent<VisionCone>();
+		vc.ChangeColor(enemySettings.DefaultColor);
 	}
 
 	public override void LeaveState()

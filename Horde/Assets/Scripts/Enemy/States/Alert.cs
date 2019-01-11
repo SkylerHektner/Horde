@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Patrol : AIState
+public class Alert : AIState
 {
-	public Patrol(Enemy enemy, EnemySettings enemySettings): base(enemy, enemySettings)
+	public Alert(Enemy enemy, EnemySettings enemySettings): base(enemy, enemySettings)
 	{
 		
 	}
@@ -16,6 +16,6 @@ public class Patrol : AIState
 
 	public override void Tick()
 	{
-
+		
 	}
 }

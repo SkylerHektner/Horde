@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Fear : AIState
 {
-	public Fear(Enemy enemy, EnemyMovement enemyMovement): base(enemy, enemyMovement)
+	public Fear(Enemy enemy, EnemySettings enemySettings): base(enemy, enemySettings)
 	{
 		
 	}

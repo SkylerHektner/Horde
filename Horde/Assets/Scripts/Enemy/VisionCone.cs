@@ -4,7 +4,7 @@ using UnityEngine;
 
 // This class is heavily based on the youtube tutorial https://www.youtube.com/watch?v=rQG9aUWarwE&list=PLFt_AvWsXl0dohbtVgHDNmgZV_UY7xZv7
 
-//[RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(Enemy))]
 public class VisionCone : MonoBehaviour 
 {
 	public float ViewRadius { get { return viewRadius; } }
@@ -33,9 +33,14 @@ public class VisionCone : MonoBehaviour
 		StartCoroutine(FindTargetsWithDelay(0.2f));
 	}
 
-	private void Update() //Only gets called AFTER the controller is updated.
+	private void LateUpdate() //Only gets called AFTER the controller is updated.
 	{
 		DrawVisionCone();
+	}
+
+	public void ChangeColor(Color c)
+	{
+		// TODO: Change the color of the mesh.
 	}
 
 	/// <summary>
@@ -49,7 +54,6 @@ public class VisionCone : MonoBehaviour
 		return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
 	}
 
-	// TODO: Move to Enemy script
 	private IEnumerator FindTargetsWithDelay(float delay)
 	{
 		while(true)
@@ -59,7 +63,6 @@ public class VisionCone : MonoBehaviour
 		}
 	}
 
-	// TODO: Move to Enemy script
 	private void FindVisibleTargets()
 	{
 		visibleTargets.Clear();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sadness : AIState 
 {
-	public Sadness(Enemy enemy, EnemyMovement enemyMovement): base(enemy, enemyMovement)
+	public Sadness(Enemy enemy, EnemySettings enemySettings): base(enemy, enemySettings)
 	{
 		
 	}

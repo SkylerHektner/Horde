@@ -6,7 +6,7 @@ public class Anger : AIState
 {
 	private bool hasTarget; // Might not need??
 
-	public Anger(Enemy enemy, EnemyMovement enemyMovement): base(enemy, enemyMovement)
+	public Anger(Enemy enemy, EnemySettings enemySettings): base(enemy, enemySettings)
 	{
 		
 	}
