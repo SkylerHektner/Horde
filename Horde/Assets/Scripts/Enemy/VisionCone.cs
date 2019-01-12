@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public class VisionCone : MonoBehaviour 
 {
+	public static event Action OnPlayerEnteredVision = delegate { };
+	public static event Action OnPlayerExitedVision = delegate { };
+
 	public float ViewRadius { get { return viewRadius; } }
 	public float ViewAngle { get { return viewAngle; } }
 	public List<Transform> VisibleTargets { get { return visibleTargets; } }
@@ -23,6 +27,7 @@ public class VisionCone : MonoBehaviour
 	private List<Transform> visibleTargets = new List<Transform>();
 	private LayerMask targetMask;
 	private LayerMask obstacleMask;
+	private bool playerInVision = false;
 
 	private void Start()
 	{
@@ -41,26 +46,55 @@ public class VisionCone : MonoBehaviour
 		viewMeshFilter.mesh = viewMesh;
 
 		enemy = GetComponent<Enemy>();
-		StartCoroutine(FindTargetsWithDelay(0.2f));
+		StartCoroutine(FindTargetsWithDelay(0.05f));
+	}
+
+	private void Update()
+	{
+		if(targetMask == LayerMask.GetMask("Player")) // If the Layer Mask is for only the player.
+		{
+			if(!playerInVision && visibleTargets.Count == 1)
+			{
+				OnPlayerEnteredVision();
+				playerInVision = true;
+			}
+
+			if(playerInVision && visibleTargets.Count == 0)
+			{
+				OnPlayerExitedVision();
+				playerInVision = false;
+			}
+		}
+
+		//Debug.Log(playerInVision);
 	}
 
 	private void LateUpdate() //Only gets called AFTER the controller is updated.
 	{
 		DrawVisionCone();
-		Debug.Log(visibleTargets.Count);
 	}
 
+	/// <summary>
+	///	Changes the color of the vision cone.
+	/// </summary>
 	public void ChangeColor(Color c)
 	{
 		transform.GetComponentInChildren<MeshRenderer>().materials[0].color = c;
 	}
 
 	/// <summary>
-	///	
+	///	Changes which layers the vision cone considers targets.
+	///
+	/// Used for when an enemy changes behaviors and looks for
+	/// targets other than the player.
 	/// </summary>
-	public void ChangeTargetMasks()
+	public void ChangeTargetMasks(List<LayerMask> layerMasks)
 	{
-
+		foreach(LayerMask mask in layerMasks)
+		{
+			targetMask = 0; // Clear the layer mask
+			targetMask = targetMask | mask;
+		}
 	}
 
 	/// <summary>

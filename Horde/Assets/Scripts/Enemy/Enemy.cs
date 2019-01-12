@@ -6,6 +6,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(EnemyMovement), typeof(EnemyAttack))]
 public class Enemy : MonoBehaviour 
 {
+	public EnemySettings EnemySettings { get { return enemySettings; } }
+
 	[SerializeField] private EnemySettings enemySettings;
 	[SerializeField] private bool IsPatrolling;
 	[SerializeField] private List<Vector3> patrolPoints;
@@ -13,15 +15,27 @@ public class Enemy : MonoBehaviour
 	private NavMeshAgent agent;
 	private AIState currentState;
 
+	private void OnEnable()
+	{
+		VisionCone.OnPlayerEnteredVision += HandleEnemyEnteredVision;
+		VisionCone.OnPlayerExitedVision += HandleEnemyExitedVision;
+	}
+
+	private void OnDisable()
+	{
+		VisionCone.OnPlayerEnteredVision -= HandleEnemyEnteredVision;
+		VisionCone.OnPlayerExitedVision -= HandleEnemyExitedVision;
+	}
+
 	private void Awake() 
 	{
 		agent = GetComponent<NavMeshAgent>();
 		
 		// Set to idle or patrol state
 		if(IsPatrolling)
-			ChangeState(new Patrol(this, enemySettings));
+			ChangeState(new Patrol(this));
 		else
-			ChangeState(new Idle(this, enemySettings));
+			ChangeState(new Idle(this));
 	}
 	
 	private void Update() 
@@ -43,6 +57,19 @@ public class Enemy : MonoBehaviour
 			currentState.LeaveState();
 
 		currentState = state;
+	}
+
+	private void HandleEnemyEnteredVision()
+	{
+		if(currentState is Idle || currentState is Patrol)
+			ChangeState(new Alert(this));
+	}
+
+	private void HandleEnemyExitedVision()
+	{
+		// TEMP
+		if(currentState is Alert)
+			ChangeState(new Idle(this));
 	}
 
 	public override string ToString()

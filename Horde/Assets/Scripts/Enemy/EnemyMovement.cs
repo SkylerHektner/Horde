@@ -5,13 +5,11 @@ using UnityEngine.AI;
 
 public class EnemyMovement: MonoBehaviour
 {
-    private EnemySettings enemySettings;
     private NavMeshAgent agent;
 
-    public EnemyMovement(EnemySettings enemySettings, NavMeshAgent agent)
+    private void Start()
     {
-        this.enemySettings = enemySettings;
-        this.agent = agent;
+        agent = GetComponent<NavMeshAgent>();
     }
 
     /// <summary>
@@ -20,7 +18,7 @@ public class EnemyMovement: MonoBehaviour
     /// </summary>
     public void MoveTo(Vector3 pos)
     {
-
+        agent.SetDestination(pos);
     }
 
     /// <summary>

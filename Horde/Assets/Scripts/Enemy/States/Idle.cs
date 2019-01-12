@@ -4,24 +4,18 @@ using UnityEngine;
 
 public class Idle : AIState
 {
-	private VisionCone vc;
-
-	public Idle(Enemy enemy, EnemySettings enemySettings): base(enemy, enemySettings)
+	public Idle(Enemy enemy): base(enemy)
 	{
-		vc = enemy.GetComponent<VisionCone>();
-		vc.ChangeColor(enemySettings.DefaultColor);
+		visionCone.ChangeColor(enemy.EnemySettings.DefaultColor);
+	}
+
+	public override void Tick()
+	{
+		
 	}
 
 	public override void LeaveState()
 	{
 
-	}
-
-	public override void Tick()
-	{
-		if(vc.VisibleTargets.Count > 0) // If the player is in the vision cone.
-		{
-			
-		}
 	}
 }

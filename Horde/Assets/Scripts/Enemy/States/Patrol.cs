@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Patrol : AIState
 {
-	public Patrol(Enemy enemy, EnemySettings enemySettings): base(enemy, enemySettings)
+	public Patrol(Enemy enemy): base(enemy)
 	{
 		VisionCone vc = enemy.GetComponent<VisionCone>();
-		vc.ChangeColor(enemySettings.DefaultColor);
+		vc.ChangeColor(enemy.EnemySettings.DefaultColor);
 	}
 
 	public override void LeaveState()

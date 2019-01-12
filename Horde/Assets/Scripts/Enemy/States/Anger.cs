@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Anger : AIState
 {
-	private bool hasTarget; // Might not need??
-
-	public Anger(Enemy enemy, EnemySettings enemySettings): base(enemy, enemySettings)
+	public Anger(Enemy enemy): base(enemy)
 	{
 		
 	}
