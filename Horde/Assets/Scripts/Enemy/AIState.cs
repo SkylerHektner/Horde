@@ -5,10 +5,12 @@ using UnityEngine;
 public abstract class AIState
 {
 	protected Enemy enemy;
+	protected EnemySettings enemySettings;
 
 	public AIState(Enemy enemy, EnemySettings enemySettings)
 	{
 		this.enemy = enemy;
+		this.enemySettings = enemySettings;
 	}
 
 	public abstract void Tick();

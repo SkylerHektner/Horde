@@ -13,18 +13,29 @@ public class VisionCone : MonoBehaviour
 
 	[SerializeField] private float viewRadius;
 	[SerializeField, Range(0, 360)] private float viewAngle;
-	[SerializeField] private LayerMask targetMask;
-	[SerializeField] private LayerMask obstacleMask;
+	[SerializeField] private List<LayerMask> targetMasks;
+	[SerializeField] private List<LayerMask> obstacleMasks;
 	[SerializeField] private float meshResolution;
 	[SerializeField] private MeshFilter viewMeshFilter;
 
 	private  Mesh viewMesh;
 	private Enemy enemy;
 	private List<Transform> visibleTargets = new List<Transform>();
-	
+	private LayerMask targetMask;
+	private LayerMask obstacleMask;
 
 	private void Start()
 	{
+		foreach(LayerMask mask in targetMasks)
+		{
+			targetMask = targetMask | mask; // Create one Layer Mask for targets.
+		}
+
+		foreach(LayerMask mask in obstacleMasks)
+		{
+			obstacleMask = obstacleMask | mask; // Create one Layer Mask for obstacles.
+		}
+
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;
@@ -36,12 +47,20 @@ public class VisionCone : MonoBehaviour
 	private void LateUpdate() //Only gets called AFTER the controller is updated.
 	{
 		DrawVisionCone();
+		Debug.Log(visibleTargets.Count);
 	}
 
 	public void ChangeColor(Color c)
 	{
-		// TODO: Change the color of the mesh.
 		transform.GetComponentInChildren<MeshRenderer>().materials[0].color = c;
+	}
+
+	/// <summary>
+	///	
+	/// </summary>
+	public void ChangeTargetMasks()
+	{
+
 	}
 
 	/// <summary>
