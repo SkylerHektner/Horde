@@ -17,11 +17,13 @@ public class Anger : AIState
 	{
 		if(player == null) // Player isn't in vision.
 			BreakClosestObject();
-
-		if (path.corners != null) {
-            if(path.corners.Length > 0) {
-                for (int i = 0; i < path.corners.Length-1; i++) {
-                Debug.DrawLine (path.corners [i], path.corners [i + 1], Color.red);
+		if (path.corners != null) 
+		{
+            if(path.corners.Length > 0) 
+			{
+                for (int i = 0; i < path.corners.Length-1; i++) 
+				{
+                	Debug.DrawLine (path.corners [i], path.corners [i + 1], Color.red);
                 }
             }
         }
@@ -62,8 +64,9 @@ public class Anger : AIState
 
         foreach (IBreakable b in breakables)
         {
-            agent.CalculatePath(b.GetPosition(), path);
-			Debug.Log(path.status);
+			//Debug.Log(b.GetPosition());
+            agent.CalculatePath(b.GetPosition(), path); // Calculate the NavMesh path to the object
+			Debug.Log(path.status); // WHY IS THIS ALWAYS INVALID???
 
             if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
             {
