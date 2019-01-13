@@ -19,7 +19,13 @@ public class EnemyStateVisualizer : MonoBehaviour
 		
 		foreach(var enemy in enemies)
 		{
-			UnityEditor.Handles.Label(enemy.transform.position + heightOffset, enemy.ToString(), style); 
+			string stateString = "NONE";
+			if(enemy.GetCurrentState() != null)
+			{
+				stateString = enemy.GetCurrentState().ToString();
+			}
+
+			UnityEditor.Handles.Label(enemy.transform.position + heightOffset, stateString, style); 
 		}
 	}
 }

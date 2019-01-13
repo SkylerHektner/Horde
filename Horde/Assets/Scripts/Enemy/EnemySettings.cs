@@ -5,11 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Enemy/Settings", fileName = "EnemyData")]
 public class EnemySettings : ScriptableObject
 {
-	[SerializeField] private float defaultMovementSpeed = 10f;
-    [SerializeField] private float angerMovementSpeed = 10f;
-    [SerializeField] private float fearMovementSpeed = 10f;
-    [SerializeField] private float joyMovementSpeed = 10f;
-    [SerializeField] private float sadnessMovementSpeed = 10f;
+    [SerializeField] private float attackRange;
+
+	[SerializeField] private float defaultMovementSpeed;
+    [SerializeField] private float angerMovementSpeed;
+    [SerializeField] private float fearMovementSpeed;
+    [SerializeField] private float joyMovementSpeed;
+    [SerializeField] private float sadnessMovementSpeed;
 
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color alertColor;
@@ -17,6 +19,8 @@ public class EnemySettings : ScriptableObject
     [SerializeField] private Color fearColor;
     [SerializeField] private Color sadnessColor;
     [SerializeField] private Color joyColor;
+
+    public float AttackRange { get { return attackRange; } }
 
     public float DefaultMovementSpeed { get { return defaultMovementSpeed; } }
     public float AngerMovementSpeed { get { return angerMovementSpeed; } }

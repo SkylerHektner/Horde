@@ -9,10 +9,12 @@ public class Enemy : MonoBehaviour
 	public EnemySettings EnemySettings { get { return enemySettings; } }
 
 	[SerializeField] private EnemySettings enemySettings;
-	[SerializeField] private bool IsPatrolling;
+	[SerializeField] private bool isPatrolling;
 	[SerializeField] private List<Vector3> patrolPoints;
 
 	private NavMeshAgent agent;
+	private EnemyAttack enemyAttack;
+
 	private AIState currentState;
 
 	private void OnEnable()
@@ -30,12 +32,13 @@ public class Enemy : MonoBehaviour
 	private void Awake() 
 	{
 		agent = GetComponent<NavMeshAgent>();
+		enemyAttack = GetComponent<EnemyAttack>();
 		
 		// Set to idle or patrol state
-		if(IsPatrolling)
+		if(isPatrolling)
 			ChangeState(new Patrol(this));
 		else
-			ChangeState(new Idle(this));
+			ChangeState(new Anger(this));
 	}
 	
 	private void Update() 
@@ -70,10 +73,5 @@ public class Enemy : MonoBehaviour
 		// TEMP
 		if(currentState is Alert)
 			ChangeState(new Idle(this));
-	}
-
-	public override string ToString()
-	{
-		return currentState != null ? currentState.ToString() : "NONE";
 	}
 }

@@ -1,20 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class AIState
 {
 	protected Enemy enemy;
 	protected EnemyMovement enemyMovement;
+	protected EnemyAttack enemyAttack;
 	protected GameObject player;
 	protected VisionCone visionCone;
+	protected NavMeshAgent agent;
 
 	public AIState(Enemy enemy)
 	{
 		this.enemy = enemy;
 
 		enemyMovement = enemy.GetComponent<EnemyMovement>();
+		enemyAttack = enemy.GetComponent<EnemyAttack>();
 		visionCone = enemy.GetComponent<VisionCone>();
+		agent = enemy.GetComponent<NavMeshAgent>();
 
 		GetPlayer();
 	}
@@ -24,7 +29,6 @@ public abstract class AIState
 	/// </summary>
 	private void GetPlayer()
 	{
-		Debug.Log(visionCone.VisibleTargets.Count);
 		foreach(Transform t in visionCone.VisibleTargets)
 		{
 			if(t.gameObject.layer == LayerMask.NameToLayer("Player")) // TODO: Make player script so we can use typeof rather than checking the layer
@@ -33,7 +37,6 @@ public abstract class AIState
 				break;
 			}
 		}
-		Debug.Log(player);
 	}
 
 	public abstract void Tick();
