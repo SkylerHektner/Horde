@@ -21,6 +21,11 @@ public class EnemyMovement: MonoBehaviour
         agent.SetDestination(pos);
     }
 
+    public void MoveInDirection(Vector3 dir)
+    {
+        agent.Move(dir);
+    }
+
     /// <summary>
     /// Halts the movement of the NavMesh Agent.
     /// </summary>

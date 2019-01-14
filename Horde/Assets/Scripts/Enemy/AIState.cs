@@ -26,22 +26,6 @@ public abstract class AIState
 		//GetPlayer();
 	}
 
-	/// <summary>
-	///	Loops through the visible targets to find the player.
-	/// </summary>
-	protected Player TryGetPlayer()
-	{
-		foreach(Transform t in visionCone.VisibleTargets)
-		{
-			if(t.GetComponent<Player>() != null) 
-			{
-				return t.GetComponent<Player>();
-			}
-		}
-
-		return null;
-	}
-
 	public abstract void Tick();
 	public abstract void LeaveState();
 	protected abstract void UpdateVisionConeColor();

@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///	-- Idle State --
+/// Enemy doesn't move.
+/// If player enters vision, change to Alert state
+/// and alert the other guards.
+/// </summary>
 public class Idle : AIState
 {
 	public Idle(Enemy enemy): base(enemy)
@@ -11,8 +17,9 @@ public class Idle : AIState
 
 	public override void Tick()
 	{
-		if(TryGetPlayer())
+		if(visionCone.TryGetPlayer())
 		{
+			//EnemyManager.instance.AlertEnemies();
 			enemy.ChangeState(new Alert(enemy));
 		}
 	}

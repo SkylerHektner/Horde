@@ -70,6 +70,22 @@ public class VisionCone : MonoBehaviour
 	}
 
 	/// <summary>
+	///	Loops through the visible targets to try to find the player.
+	/// </summary>
+	public Player TryGetPlayer()
+	{
+		foreach(Transform t in visibleTargets)
+		{
+			if(t.GetComponent<Player>() != null) 
+			{
+				return t.GetComponent<Player>();
+			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
 	///	Changes the color of the vision cone.
 	/// </summary>
 	public void ChangeColor(Color c)

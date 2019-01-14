@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
 		if(hasPatrolPath)
 			ChangeState(new Patrol(this));
 		else
-			ChangeState(new Idle(this));
+			ChangeState(new Fear(this));
 	}
 	
 	private void Update() 
@@ -50,25 +50,4 @@ public class Enemy : MonoBehaviour
 
 		currentState = state;
 	}
-
-	/// <summary>
-	///	Changes all the enemies in the room to the alert state
-	/// if they have a valid path to the player.
-	/// </summary>
-	public void AlertEnemies()
-	{
-		Enemy[] enemies = FindObjectsOfType<Enemy>();
-
-		if(enemies.Length != 0)
-		{
-			foreach(Enemy e in enemies)
-			{
-				// TODO: Add check here to see if enemy has valid path to player.
-
-				e.ChangeState(new Alert(this));
-			}
-		}
-	}
-
-	
 }

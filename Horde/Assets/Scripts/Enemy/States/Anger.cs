@@ -15,7 +15,7 @@ public class Anger : AIState
 
 	public override void Tick()
 	{
-		if(TryGetPlayer() == null) // Player isn't in vision.
+		if(visionCone.TryGetPlayer() == null) // Player isn't in vision.
 			BreakClosestObject();
 	}
 

@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///	-- Alert State --
+/// Chases the player until it loses vision. (All alerted guards share vision)
+/// If player is still out of vision, guards play a search animation.(Look around)
+/// </summary>
 public class Alert : AIState
 {
 	public Alert(Enemy enemy): base(enemy)
 	{
-		visionCone = enemy.GetComponent<VisionCone>();
-		visionCone.ChangeColor(enemy.EnemySettings.AlertColor);
+		
 	}
 
 	public override void Tick()
 	{
-		if(!TryGetPlayer())
+		// Just has basic chase behavior right now.
+
+		if(!visionCone.TryGetPlayer()) // If the player isn't in vision.
 		{
 			if(enemy.HasPatrolPath)
 				enemy.ChangeState(new Patrol(enemy));
@@ -21,7 +27,7 @@ public class Alert : AIState
 		}
 		else
 		{
-			enemyMovement.MoveTo(TryGetPlayer().transform.position);
+			enemyMovement.MoveTo(visionCone.TryGetPlayer().transform.position);
 		}
 	}
 
@@ -32,7 +38,7 @@ public class Alert : AIState
 
 	protected override void UpdateVisionConeColor()
 	{
-
+		visionCone.ChangeColor(enemy.EnemySettings.AlertColor);
 	}
 
 	protected override void UpdateTargetMask()
