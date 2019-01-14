@@ -17,21 +17,21 @@ public class Anger : AIState
 	{
 		if(player == null) // Player isn't in vision.
 			BreakClosestObject();
-		if (path.corners != null) 
-		{
-            if(path.corners.Length > 0) 
-			{
-                for (int i = 0; i < path.corners.Length-1; i++) 
-				{
-                	Debug.DrawLine (path.corners [i], path.corners [i + 1], Color.red);
-                }
-            }
-        }
 	}
 
 	public override void LeaveState()
 	{
+		
+	}
 
+	protected override void HandleTargetEnteredVision()
+	{
+		
+	}
+
+	protected override void HandleTargetExitedVision()
+	{
+		
 	}
 
 	private void BreakClosestObject()

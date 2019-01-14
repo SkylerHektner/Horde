@@ -9,13 +9,23 @@ public class Fear : AIState
 		
 	}
 
+	public override void Tick()
+	{
+
+	}
+
 	public override void LeaveState()
 	{
 
 	}
 
-	public override void Tick()
+	protected override void HandleTargetEnteredVision()
 	{
 
+	}
+
+	protected override void HandleTargetExitedVision()
+	{
+		
 	}
 }

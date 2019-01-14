@@ -20,5 +20,13 @@ public class Alert : AIState
 
 	}
 
-	
+	protected override void HandleTargetEnteredVision()
+	{
+
+	}
+
+	protected override void HandleTargetExitedVision()
+	{
+		
+	}
 }

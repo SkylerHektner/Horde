@@ -22,6 +22,9 @@ public abstract class AIState
 		agent = enemy.GetComponent<NavMeshAgent>();
 
 		GetPlayer();
+
+		visionCone.OnTargetEnteredVision += HandleTargetEnteredVision;
+		visionCone.OnTargetExitedVision += HandleTargetExitedVision;
 	}
 
 	/// <summary>
@@ -41,4 +44,6 @@ public abstract class AIState
 
 	public abstract void Tick();
 	public abstract void LeaveState();
+	protected abstract void HandleTargetEnteredVision();
+	protected abstract void HandleTargetExitedVision();
 }

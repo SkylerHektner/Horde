@@ -17,18 +17,6 @@ public class Enemy : MonoBehaviour
 
 	private AIState currentState;
 
-	private void OnEnable()
-	{
-		VisionCone.OnPlayerEnteredVision += HandleEnemyEnteredVision;
-		VisionCone.OnPlayerExitedVision += HandleEnemyExitedVision;
-	}
-
-	private void OnDisable()
-	{
-		VisionCone.OnPlayerEnteredVision -= HandleEnemyEnteredVision;
-		VisionCone.OnPlayerExitedVision -= HandleEnemyExitedVision;
-	}
-
 	private void Awake() 
 	{
 		agent = GetComponent<NavMeshAgent>();
@@ -54,7 +42,7 @@ public class Enemy : MonoBehaviour
 		return currentState;
 	}
 
-	private void ChangeState(AIState state)
+	public void ChangeState(AIState state)
 	{
 		if(currentState != null)
 			currentState.LeaveState();
@@ -62,16 +50,24 @@ public class Enemy : MonoBehaviour
 		currentState = state;
 	}
 
-	private void HandleEnemyEnteredVision()
+	/// <summary>
+	///	Changes all the enemies in the room to the alert state
+	/// if they have a valid path to the player.
+	/// </summary>
+	public void AlertEnemies()
 	{
-		if(currentState is Idle || currentState is Patrol)
-			ChangeState(new Alert(this));
+		Enemy[] enemies = FindObjectsOfType<Enemy>();
+
+		if(enemies.Length != 0)
+		{
+			foreach(Enemy e in enemies)
+			{
+				// TODO: Add check here to see if enemy has valid path to player.
+
+				e.ChangeState(new Alert(this));
+			}
+		}
 	}
 
-	private void HandleEnemyExitedVision()
-	{
-		// TEMP
-		if(currentState is Alert)
-			ChangeState(new Idle(this));
-	}
+	
 }

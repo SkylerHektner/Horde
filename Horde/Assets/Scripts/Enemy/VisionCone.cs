@@ -8,8 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public class VisionCone : MonoBehaviour 
 {
-	public static event Action OnPlayerEnteredVision = delegate { };
-	public static event Action OnPlayerExitedVision = delegate { };
+	public event Action OnTargetEnteredVision = delegate { };
+	public event Action OnTargetExitedVision = delegate { };
 
 	public float ViewRadius { get { return viewRadius; } }
 	public float ViewAngle { get { return viewAngle; } }
@@ -55,13 +55,13 @@ public class VisionCone : MonoBehaviour
 		{
 			if(!playerInVision && visibleTargets.Count == 1)
 			{
-				OnPlayerEnteredVision();
+				OnTargetEnteredVision();
 				playerInVision = true;
 			}
 
 			if(playerInVision && visibleTargets.Count == 0)
 			{
-				OnPlayerExitedVision();
+				OnTargetExitedVision();
 				playerInVision = false;
 			}
 		}

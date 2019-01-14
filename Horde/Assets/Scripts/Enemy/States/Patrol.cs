@@ -10,13 +10,23 @@ public class Patrol : AIState
 		vc.ChangeColor(enemy.EnemySettings.DefaultColor);
 	}
 
+	public override void Tick()
+	{
+
+	}
+
 	public override void LeaveState()
 	{
 
 	}
 
-	public override void Tick()
+	protected override void HandleTargetEnteredVision()
 	{
 
+	}
+
+	protected override void HandleTargetExitedVision()
+	{
+		
 	}
 }
