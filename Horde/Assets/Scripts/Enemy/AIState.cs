@@ -8,7 +8,6 @@ public abstract class AIState
 	protected Enemy enemy;
 	protected EnemyMovement enemyMovement;
 	protected EnemyAttack enemyAttack;
-	protected GameObject player;
 	protected VisionCone visionCone;
 	protected NavMeshAgent agent;
 
@@ -21,29 +20,30 @@ public abstract class AIState
 		visionCone = enemy.GetComponent<VisionCone>();
 		agent = enemy.GetComponent<NavMeshAgent>();
 
-		GetPlayer();
+		UpdateVisionConeColor();
+		UpdateTargetMask();
 
-		visionCone.OnTargetEnteredVision += HandleTargetEnteredVision;
-		visionCone.OnTargetExitedVision += HandleTargetExitedVision;
+		//GetPlayer();
 	}
 
 	/// <summary>
 	///	Loops through the visible targets to find the player.
 	/// </summary>
-	private void GetPlayer()
+	protected Player TryGetPlayer()
 	{
 		foreach(Transform t in visionCone.VisibleTargets)
 		{
-			if(t.gameObject.layer == LayerMask.NameToLayer("Player")) // TODO: Make player script so we can use typeof rather than checking the layer
+			if(t.GetComponent<Player>() != null) 
 			{
-				player = t.gameObject;
-				break;
+				return t.GetComponent<Player>();
 			}
 		}
+
+		return null;
 	}
 
 	public abstract void Tick();
 	public abstract void LeaveState();
-	protected abstract void HandleTargetEnteredVision();
-	protected abstract void HandleTargetExitedVision();
+	protected abstract void UpdateVisionConeColor();
+	protected abstract void UpdateTargetMask();
 }

@@ -7,9 +7,10 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour 
 {
 	public EnemySettings EnemySettings { get { return enemySettings; } }
+	public bool HasPatrolPath { get { return hasPatrolPath; } }
 
 	[SerializeField] private EnemySettings enemySettings;
-	[SerializeField] private bool isPatrolling;
+	[SerializeField] private bool hasPatrolPath;
 	[SerializeField] private List<Vector3> patrolPoints;
 
 	private NavMeshAgent agent;
@@ -23,7 +24,7 @@ public class Enemy : MonoBehaviour
 		enemyAttack = GetComponent<EnemyAttack>();
 		
 		// Set to idle or patrol state
-		if(isPatrolling)
+		if(hasPatrolPath)
 			ChangeState(new Patrol(this));
 		else
 			ChangeState(new Idle(this));

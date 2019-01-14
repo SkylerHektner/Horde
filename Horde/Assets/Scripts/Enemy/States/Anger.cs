@@ -10,12 +10,12 @@ public class Anger : AIState
 
 	public Anger(Enemy enemy): base(enemy)
 	{
-		visionCone.ChangeColor(enemy.EnemySettings.AngerColor);
+		
 	}
 
 	public override void Tick()
 	{
-		if(player == null) // Player isn't in vision.
+		if(TryGetPlayer() == null) // Player isn't in vision.
 			BreakClosestObject();
 	}
 
@@ -24,12 +24,12 @@ public class Anger : AIState
 		
 	}
 
-	protected override void HandleTargetEnteredVision()
+	protected override void UpdateVisionConeColor()
 	{
-		
+		visionCone.ChangeColor(enemy.EnemySettings.AngerColor);
 	}
 
-	protected override void HandleTargetExitedVision()
+	protected override void UpdateTargetMask()
 	{
 		
 	}

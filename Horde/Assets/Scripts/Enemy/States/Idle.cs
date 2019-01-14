@@ -6,14 +6,15 @@ public class Idle : AIState
 {
 	public Idle(Enemy enemy): base(enemy)
 	{
-		visionCone.ChangeColor(enemy.EnemySettings.DefaultColor);
-
 		// Go back to original location.
 	}
 
 	public override void Tick()
 	{
-		
+		if(TryGetPlayer())
+		{
+			enemy.ChangeState(new Alert(enemy));
+		}
 	}
 
 	public override void LeaveState()
@@ -21,13 +22,14 @@ public class Idle : AIState
 
 	}
 
-	protected override void HandleTargetEnteredVision()
+	protected override void UpdateVisionConeColor()
 	{
-		enemy.ChangeState(new Alert(enemy));
+		visionCone.ChangeColor(enemy.EnemySettings.DefaultColor);
 	}
 
-	protected override void HandleTargetExitedVision()
+	protected override void UpdateTargetMask()
 	{
-		enemy.ChangeState(new Idle(enemy));
+		LayerMask targetMask = 1 << LayerMask.NameToLayer("Player");
+		visionCone.ChangeTargetMask(targetMask);
 	}
 }

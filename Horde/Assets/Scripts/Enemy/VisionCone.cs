@@ -8,8 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public class VisionCone : MonoBehaviour 
 {
-	public event Action OnTargetEnteredVision = delegate { };
-	public event Action OnTargetExitedVision = delegate { };
+	//public event Action OnTargetEnteredVision = delegate { };
+	//public event Action OnTargetExitedVision = delegate { };
 
 	public float ViewRadius { get { return viewRadius; } }
 	public float ViewAngle { get { return viewAngle; } }
@@ -17,7 +17,7 @@ public class VisionCone : MonoBehaviour
 
 	[SerializeField] private float viewRadius;
 	[SerializeField, Range(0, 360)] private float viewAngle;
-	[SerializeField] private List<LayerMask> targetMasks;
+	//[SerializeField] private List<LayerMask> targetMasks;
 	[SerializeField] private List<LayerMask> obstacleMasks;
 	[SerializeField] private float meshResolution;
 	[SerializeField] private MeshFilter viewMeshFilter;
@@ -31,11 +31,6 @@ public class VisionCone : MonoBehaviour
 
 	private void Start()
 	{
-		foreach(LayerMask mask in targetMasks)
-		{
-			targetMask = targetMask | mask; // Create one Layer Mask for targets.
-		}
-
 		foreach(LayerMask mask in obstacleMasks)
 		{
 			obstacleMask = obstacleMask | mask; // Create one Layer Mask for obstacles.
@@ -55,13 +50,13 @@ public class VisionCone : MonoBehaviour
 		{
 			if(!playerInVision && visibleTargets.Count == 1)
 			{
-				OnTargetEnteredVision();
+				//OnTargetEnteredVision();
 				playerInVision = true;
 			}
 
 			if(playerInVision && visibleTargets.Count == 0)
 			{
-				OnTargetExitedVision();
+				//OnTargetExitedVision();
 				playerInVision = false;
 			}
 		}
@@ -88,13 +83,9 @@ public class VisionCone : MonoBehaviour
 	/// Used for when an enemy changes behaviors and looks for
 	/// targets other than the player.
 	/// </summary>
-	public void ChangeTargetMasks(List<LayerMask> layerMasks)
+	public void ChangeTargetMask(LayerMask layerMask)
 	{
-		foreach(LayerMask mask in layerMasks)
-		{
-			targetMask = 0; // Clear the layer mask
-			targetMask = targetMask | mask;
-		}
+		targetMask = layerMask;
 	}
 
 	/// <summary>

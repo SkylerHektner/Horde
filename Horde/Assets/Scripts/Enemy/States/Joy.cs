@@ -19,12 +19,12 @@ public class Joy : AIState
 
 	}
 
-	protected override void HandleTargetEnteredVision()
+	protected override void UpdateVisionConeColor()
 	{
 
 	}
 
-	protected override void HandleTargetExitedVision()
+	protected override void UpdateTargetMask()
 	{
 		
 	}
