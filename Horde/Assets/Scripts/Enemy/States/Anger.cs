@@ -65,7 +65,7 @@ public class Anger : AIState
         foreach (IBreakable b in breakables)
         {
 			//Debug.Log(b.GetPosition());
-            agent.CalculatePath(b.GetPosition(), path); // Calculate the NavMesh path to the object
+            agent.CalculatePath(new Vector3(b.GetPosition().x, 0.0f, b.GetPosition().z), path); // Calculate the NavMesh path to the object
 			Debug.Log(path.status); // WHY IS THIS ALWAYS INVALID???
 
             if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)

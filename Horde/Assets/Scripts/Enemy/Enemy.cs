@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
 		if(isPatrolling)
 			ChangeState(new Patrol(this));
 		else
-			ChangeState(new Anger(this));
+			ChangeState(new Idle(this));
 	}
 	
 	private void Update() 
