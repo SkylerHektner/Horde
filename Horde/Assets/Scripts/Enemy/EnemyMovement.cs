@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement
+public class EnemyMovement: MonoBehaviour
 {
-    private EnemySettings enemySettings;
     private NavMeshAgent agent;
 
-    public EnemyMovement(EnemySettings enemySettings, NavMeshAgent agent)
+    private void Start()
     {
-        this.enemySettings = enemySettings;
-        this.agent = agent;
+        agent = GetComponent<NavMeshAgent>();
     }
 
     /// <summary>
@@ -20,7 +18,12 @@ public class EnemyMovement
     /// </summary>
     public void MoveTo(Vector3 pos)
     {
+        agent.SetDestination(pos);
+    }
 
+    public void MoveInDirection(Vector3 dir)
+    {
+        agent.Move(dir);
     }
 
     /// <summary>
@@ -36,8 +39,8 @@ public class EnemyMovement
     /// Used for when there is a noise or something that catches an
     /// enemies attention.
     /// </summary>
-    public void RotateTowards(Vector3 pos)
+    public void LookAt(Vector3 pos)
     {
-
+        // TODO: Lerp the angle of the enemy to look at a location.
     }
 }

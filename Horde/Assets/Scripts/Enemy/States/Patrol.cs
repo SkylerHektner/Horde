@@ -2,15 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Patrol : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
+public class Patrol : AIState
+{
+	public Patrol(Enemy enemy): base(enemy)
+	{
+		VisionCone vc = enemy.GetComponent<VisionCone>();
+		vc.ChangeColor(enemy.EnemySettings.DefaultColor);
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	public override void Tick()
+	{
+
+	}
+
+	public override void LeaveState()
+	{
+
+	}
+
+	protected override void UpdateVisionConeColor()
+	{
+
+	}
+
+	protected override void UpdateTargetMask()
+	{
 		
 	}
 }

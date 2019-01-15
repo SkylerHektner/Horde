@@ -3,34 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class Enemy : MonoBehaviour 
+[RequireComponent(typeof(EnemyMovement), typeof(EnemyAttack))]
+public class Enemy : MonoBehaviour 
 {
+	public EnemySettings EnemySettings { get { return enemySettings; } }
+	public bool HasPatrolPath { get { return hasPatrolPath; } }
+
 	[SerializeField] private EnemySettings enemySettings;
+	[SerializeField] private bool hasPatrolPath;
+	[SerializeField] private List<Vector3> patrolPoints;
 
 	private NavMeshAgent agent;
-	private EnemyMovement enemyMovement;
+	private EnemyAttack enemyAttack;
+
 	private AIState currentState;
 
 	private void Awake() 
 	{
 		agent = GetComponent<NavMeshAgent>();
-		enemyMovement = new EnemyMovement(enemySettings, agent);
+		enemyAttack = GetComponent<EnemyAttack>();
 		
 		// Set to idle or patrol state
-		ChangeState(new Idle(this, enemyMovement));
+		if(hasPatrolPath)
+			ChangeState(new Patrol(this));
+		else
+			ChangeState(new Fear(this));
 	}
 	
 	private void Update() 
 	{
-		
+		currentState.Tick();
 	}
 
-	public void LookAtTarget(Vector3 pos)
+	/// <summary>
+	/// Returns the current state of the Enemy.
+	/// </summary>
+	public AIState GetCurrentState()
 	{
-		enemyMovement.RotateTowards(pos);
+		return currentState;
 	}
 
-	private void ChangeState(AIState state)
+	public void ChangeState(AIState state)
 	{
 		if(currentState != null)
 			currentState.LeaveState();
