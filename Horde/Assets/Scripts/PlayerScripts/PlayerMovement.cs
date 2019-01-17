@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Ray cameraRay;
 	private RaycastHit cameraRayHit;
 
-    private int layerMask = 1 << 15; // Layer mask for the background.
+    private int layerMask = 1 << 9; // Layer mask for the background.
 
     public MovementPattern movementPattern = MovementPattern.WASD;
     public enum MovementPattern

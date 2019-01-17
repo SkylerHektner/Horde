@@ -1,39 +1,107 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(Enemy))]
+// This class is heavily based on the youtube tutorial https://www.youtube.com/watch?v=rQG9aUWarwE&list=PLFt_AvWsXl0dohbtVgHDNmgZV_UY7xZv7
+
+[RequireComponent(typeof(Enemy))]
 public class VisionCone : MonoBehaviour 
 {
+	//public event Action OnTargetEnteredVision = delegate { };
+	//public event Action OnTargetExitedVision = delegate { };
+
 	public float ViewRadius { get { return viewRadius; } }
 	public float ViewAngle { get { return viewAngle; } }
 	public List<Transform> VisibleTargets { get { return visibleTargets; } }
 
 	[SerializeField] private float viewRadius;
 	[SerializeField, Range(0, 360)] private float viewAngle;
-	[SerializeField] private LayerMask targetMask;
-	[SerializeField] private LayerMask obstacleMask;
+	//[SerializeField] private List<LayerMask> targetMasks;
+	[SerializeField] private List<LayerMask> obstacleMasks;
 	[SerializeField] private float meshResolution;
 	[SerializeField] private MeshFilter viewMeshFilter;
 
 	private  Mesh viewMesh;
 	private Enemy enemy;
 	private List<Transform> visibleTargets = new List<Transform>();
-	
+	private LayerMask targetMask;
+	private LayerMask obstacleMask;
+	private bool playerInVision = false;
 
 	private void Start()
 	{
+		foreach(LayerMask mask in obstacleMasks)
+		{
+			obstacleMask = obstacleMask | mask; // Create one Layer Mask for obstacles.
+		}
+
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;
 
 		enemy = GetComponent<Enemy>();
-		StartCoroutine(FindTargetsWithDelay(0.2f));
+		StartCoroutine(FindTargetsWithDelay(0.05f));
 	}
 
-	private void Update() //Only gets called AFTER the controller is updated.
+	private void Update()
+	{
+		if(targetMask == LayerMask.GetMask("Player")) // If the Layer Mask is for only the player.
+		{
+			if(!playerInVision && visibleTargets.Count == 1)
+			{
+				//OnTargetEnteredVision();
+				playerInVision = true;
+			}
+
+			if(playerInVision && visibleTargets.Count == 0)
+			{
+				//OnTargetExitedVision();
+				playerInVision = false;
+			}
+		}
+
+		//Debug.Log(playerInVision);
+	}
+
+	private void LateUpdate() //Only gets called AFTER the controller is updated.
 	{
 		DrawVisionCone();
+	}
+
+	/// <summary>
+	///	Loops through the visible targets to try to find the player.
+	/// </summary>
+	public Player TryGetPlayer()
+	{
+		foreach(Transform t in visibleTargets)
+		{
+			if(t.GetComponent<Player>() != null) 
+			{
+				return t.GetComponent<Player>();
+			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	///	Changes the color of the vision cone.
+	/// </summary>
+	public void ChangeColor(Color c)
+	{
+		transform.GetComponentInChildren<MeshRenderer>().materials[0].color = c;
+	}
+
+	/// <summary>
+	///	Changes which layers the vision cone considers targets.
+	///
+	/// Used for when an enemy changes behaviors and looks for
+	/// targets other than the player.
+	/// </summary>
+	public void ChangeTargetMask(LayerMask layerMask)
+	{
+		targetMask = layerMask;
 	}
 
 	/// <summary>
@@ -47,7 +115,6 @@ public class VisionCone : MonoBehaviour
 		return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
 	}
 
-	// Move to Enemy script
 	private IEnumerator FindTargetsWithDelay(float delay)
 	{
 		while(true)
@@ -57,7 +124,6 @@ public class VisionCone : MonoBehaviour
 		}
 	}
 
-	// Move to Enemy script
 	private void FindVisibleTargets()
 	{
 		visibleTargets.Clear();
@@ -88,16 +154,19 @@ public class VisionCone : MonoBehaviour
 
 		List<Vector3> viewPoints = new List<Vector3>();
 
-		for(int i = 0; i <= stepCount; i++)
+        int vertexCount = stepCount + 2;
+        Vector2[] UV = new Vector2[vertexCount];
+        UV[0] = new Vector2(0, 0.5f);
+        for (int i = 0; i <= stepCount; i++)
 		{
-			
-			float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
 			ViewCastInfo newViewCast = ViewCast(angle);
-			viewPoints.Add(newViewCast.point);
+            UV[i+1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)vertexCount);
+            viewPoints.Add(newViewCast.point);
 			//Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
 		}
 
-		int vertexCount = viewPoints.Count + 1;
+		
 		Vector3[] vertices = new Vector3[vertexCount];
 		int[] triangles = new int[(vertexCount - 2) * 3];
 
@@ -118,6 +187,7 @@ public class VisionCone : MonoBehaviour
 		viewMesh.Clear();
 		viewMesh.vertices = vertices;
 		viewMesh.triangles = triangles;
+        viewMesh.uv = UV;
 		viewMesh.RecalculateNormals();
 	}
 
