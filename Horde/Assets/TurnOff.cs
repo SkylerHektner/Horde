@@ -21,7 +21,7 @@ public class TurnOff : MonoBehaviour
     private void Update()
     {
 
-        if (headLamp != null && Input.GetKeyUp(KeyCode.L))
+        if (headLamp != null && Input.GetKeyUp(KeyCode.F))
         {
             headLamp.enabled = !headLamp.enabled;
             if (headLamp.enabled == true)
