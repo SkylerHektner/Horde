@@ -6,10 +6,29 @@ using UnityEngine.AI;
 public class EnemyMovement: MonoBehaviour
 {
     private NavMeshAgent agent;
-
+    private Animator anim;
+    private Vector3 lastPos;
+    
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
+        lastPos = transform.position;
+    }
+
+    private void Update()
+    {
+        // make them face the way they are walking
+        if ((lastPos.x != transform.position.x || lastPos.z != transform.position.z))
+        {
+            transform.forward = transform.position - lastPos;
+            lastPos = transform.position;
+            anim.SetBool("Walking", true);
+        }
+        else
+        {
+            anim.SetBool("Walking", false);
+        }
     }
 
     /// <summary>

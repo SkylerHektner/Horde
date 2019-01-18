@@ -4,36 +4,54 @@ using UnityEngine;
 
 public class Dart : MonoBehaviour 
 {
-	private List<HInterface.HType> heuristics;
 	public List<HInterface.HType> Heuristics { get { return heuristics; }  set { heuristics = value; } }
 
+	private ResourceManager.ResourceType loadedEmotion;
+	private List<HInterface.HType> heuristics;
 	private Rigidbody rb;
 	private Vector3 oldVel;
 	private int bounces = 0;
 
-	void Start () 
+	private void Start () 
 	{
 		rb = GetComponent<Rigidbody>();
+		//loadedEmotion = ResourceManager.ResourceType.Fear;
 	}
 	
-	void FixedUpdate () 
+	private void FixedUpdate () 
 	{ 
 		// Rotate the projectile along it's projectile path.
 		transform.rotation = Quaternion.LookRotation(rb.velocity);
 		oldVel = rb.velocity;
+
+		//Debug.Log(loadedEmotion);
 	}
 
-	void OnCollisionEnter(Collision c)
+	private void OnCollisionEnter(Collision c)
 	{
 		if(c.gameObject.tag == "Player")
 			return;
 
 		if(c.gameObject.tag == "Enemy")
 		{
-			//Debug.Log("Hit team two unit");
-			
-			c.gameObject.GetComponent<Unit>().OverrideHeuristics(heuristics);
-
+			Enemy enemy = c.gameObject.GetComponent<Enemy>();
+			//Debug.Log(loadedEmotion);
+			switch(loadedEmotion)
+			{
+				case ResourceManager.ResourceType.Rage:
+					enemy.ChangeState(new Anger(enemy));
+					break;
+				case ResourceManager.ResourceType.Joy:
+					enemy.ChangeState(new Joy(enemy));
+					break;
+				case ResourceManager.ResourceType.Sadness:
+					enemy.ChangeState(new Sadness(enemy));
+					break;
+				case ResourceManager.ResourceType.Fear:
+					enemy.ChangeState(new Fear(enemy));
+					break;
+			}
+				
 			Destroy(gameObject);
 		}
 		else
@@ -47,5 +65,10 @@ public class Dart : MonoBehaviour
 			ContactPoint cp = c.contacts[0];
 			rb.velocity = Vector3.Reflect(oldVel, cp.normal).normalized * 125;
 		}
+	}
+
+	public void LoadEmotion(ResourceManager.ResourceType emotion)
+	{
+		loadedEmotion = emotion;
 	}
 }

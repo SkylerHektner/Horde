@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
 		if(hasPatrolPath)
 			ChangeState(new Patrol(this));
 		else
-			ChangeState(new Fear(this));
+			ChangeState(new Idle(this));
 	}
 	
 	private void Update() 
