@@ -13,14 +13,24 @@ public class AbilityInfoMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        //ButtonController.ButtonEvent.AddListener(activateInfoPanel);
         ButtonController.ButtonEvent.AddListener(activateInfoPanel);
+        AbilityInfoButtonPanel.SetActive(false);
+        AbilityInfoPanel.SetActive(false);
 	}
 
-    private void activateInfoPanel(string name, string description, string filename)
+    private void activateInfoPanel(string name, string description, string filename, bool activate)
     {
-        AbilityInfoPanel.SetActive(true);
-        AbilityInfo.NameText = name;
-        AbilityInfo.DescriptionText = description;
+        if (activate)
+        { 
+            AbilityInfoPanel.SetActive(true);
+            AbilityInfo.NameText.text = name;
+            AbilityInfo.DescriptionText.text = description;
+        }
+        else
+        {
+            AbilityInfoPanel.SetActive(false);
+        }
     }
 
 	// Update is called once per frame
