@@ -21,7 +21,9 @@ public class Joy : AIState
 
 	protected override void UpdateVisionCone()
 	{
-
+		visionCone.ChangeColor(enemy.EnemySettings.JoyColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.JoyVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.JoyVisionConeViewAngle);
 	}
 
 	protected override void UpdateTargetMask()

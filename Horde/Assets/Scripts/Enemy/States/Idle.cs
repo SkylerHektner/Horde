@@ -32,6 +32,8 @@ public class Idle : AIState
 	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.DefaultColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.DefaultVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.DefaultVisionConeViewAngle);
 	}
 
 	protected override void UpdateTargetMask()

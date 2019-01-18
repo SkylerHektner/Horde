@@ -21,7 +21,9 @@ public class Sadness : AIState
 
 	protected override void UpdateVisionCone()
 	{
-
+		visionCone.ChangeColor(enemy.EnemySettings.SadnessColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.SadnessVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.SadnessVisionConeViewAngle);
 	}
 
 	protected override void UpdateTargetMask()

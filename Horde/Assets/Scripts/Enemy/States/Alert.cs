@@ -39,6 +39,8 @@ public class Alert : AIState
 	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.AlertColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.AlertVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.AlertVisionConeViewAngle);
 	}
 
 	protected override void UpdateTargetMask()

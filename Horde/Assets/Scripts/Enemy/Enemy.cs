@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 {
 	public EnemySettings EnemySettings { get { return enemySettings; } }
 	public bool HasPatrolPath { get { return hasPatrolPath; } }
+	public Vector3 SpawnPosition { get { return spawnPosition; } }
 
 	[SerializeField] private EnemySettings enemySettings;
 	[SerializeField] private bool hasPatrolPath;
@@ -17,17 +18,20 @@ public class Enemy : MonoBehaviour
 	private EnemyAttack enemyAttack;
 
 	private AIState currentState;
+	private Vector3 spawnPosition;
 
 	private void Awake() 
 	{
 		agent = GetComponent<NavMeshAgent>();
 		enemyAttack = GetComponent<EnemyAttack>();
+
+		spawnPosition = transform.position;
 		
 		// Set to idle or patrol state
 		if(hasPatrolPath)
-			ChangeState(new Patrol(this));
+			currentState = new Patrol(this);
 		else
-			ChangeState(new Idle(this));
+			currentState = new Idle(this);
 	}
 	
 	private void Update() 
@@ -49,5 +53,22 @@ public class Enemy : MonoBehaviour
 			currentState.LeaveState();
 
 		currentState = state;
+	}
+
+	public IEnumerator ChangeStateForDuration(AIState state, float duration)
+	{
+		if(currentState != null)
+			currentState.LeaveState();
+
+		currentState = state;
+
+		yield return new WaitForSeconds(duration);
+
+		currentState.LeaveState();
+
+		if(hasPatrolPath)
+			currentState = new Patrol(this);
+		else
+			currentState = new Idle(this);
 	}
 }

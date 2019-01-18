@@ -11,34 +11,27 @@ public class Fear : AIState
 
 	public override void Tick()
 	{
-		if(visionCone.TryGetPlayer())
+		
+		if(visionCone.VisibleTargets.Count > 0)
 		{
-			//Vector3 reverseDirection = (enemy.transform.position - visionCone.TryGetPlayer().transform.position).normalized * 0.25f;
-			//Vector3 reversedPosition = Quaternion.Euler(180, 0, 0) * Vector3.forward;
-
-			//Vector3 rotatedVector = Quaternion.Euler(180, 0, 0) * Vector3.forward;
-
-			//enemyMovement.MoveTo(visionCone.TryGetPlayer().transform.position);
-			//enemyMovement.MoveInDirection(reverseDirection);
-
-
-			// Move in the opposite direction of the target.
-			// TODO: Run away from nearest target in vision cone.
-			Vector3 dir = visionCone.TryGetPlayer().transform.position - enemy.transform.position;
-			dir = Quaternion.Euler(180, 0, 0) * dir;
-
-			enemyMovement.MoveTo(dir + enemy.transform.position);
+			Transform closestTarget = GetClosestTargetInVisionCone();
+			Vector3 runTo = enemy.transform.position + ((enemy.transform.position - closestTarget.position) * 0.5f);
+ 			float distance = Vector3.Distance(enemy.transform.position, closestTarget.position);
+			enemyMovement.MoveTo(runTo);
 		}
 	}
 		
 	public override void LeaveState()
 	{
-
+		// TODO: Save spawn transform to also save the angle.
+		enemyMovement.MoveTo(enemy.SpawnPosition);
 	}
 
 	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.FearColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.FearVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.FearVisionConeViewAngle);
 	}
 
 	protected override void UpdateTargetMask()
@@ -48,5 +41,18 @@ public class Fear : AIState
 		LayerMask enemyMask = 1 << LayerMask.NameToLayer("Enemy");
 		LayerMask targetMask = playerMask | enemyMask;
 		visionCone.ChangeTargetMask(targetMask);
+	}
+
+	private Transform GetClosestTargetInVisionCone()
+	{
+		Transform closestTarget = visionCone.VisibleTargets[0];
+
+		foreach(Transform t in visionCone.VisibleTargets)
+		{
+			if(Vector3.Distance(enemy.transform.position, closestTarget.position) > Vector3.Distance(enemy.transform.position, t.position))
+				closestTarget = t;
+		}
+
+		return closestTarget;
 	}
 }

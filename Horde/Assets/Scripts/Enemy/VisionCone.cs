@@ -105,6 +105,22 @@ public class VisionCone : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Changes the radius of the vision cone.
+	/// </summary>
+	public void ChangeRadius(float radius)
+	{
+		viewRadius = radius;
+	}
+
+	/// <summary>
+	/// Changes the view angle of the vision cone.
+	/// </summary>
+	public void ChangeViewAngle(float angle)
+	{
+		viewAngle = angle;
+	}
+
+	/// <summary>
 	/// Takes in an angle and spits out the direction of that angle.
 	/// </summary>
 	public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
@@ -132,6 +148,10 @@ public class VisionCone : MonoBehaviour
 		for(int i = 0; i < targetsInViewRadius.Length; i++)
 		{
 			Transform target = targetsInViewRadius[i].transform;
+
+			if(target == transform) // Don't count itself.
+				continue;
+				
 			Vector3 dirToTarget = (target.position - transform.position).normalized;
 			
 			// Check if the target is within the view angle

@@ -17,16 +17,21 @@ public class Anger : AIState
 	{
 		if(visionCone.TryGetPlayer() == null) // Player isn't in vision.
 			BreakClosestObject();
+		else
+			enemyMovement.MoveTo(visionCone.TryGetPlayer().transform.position);
 	}
 
 	public override void LeaveState()
 	{
-		
+		// TODO: Save spawn transform to also save the angle.
+		enemyMovement.MoveTo(enemy.SpawnPosition);
 	}
 
 	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.AngerColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.AngerVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.AngerVisionConeViewAngle);
 	}
 
 	protected override void UpdateTargetMask()
