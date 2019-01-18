@@ -20,14 +20,19 @@ public abstract class AIState
 		visionCone = enemy.GetComponent<VisionCone>();
 		agent = enemy.GetComponent<NavMeshAgent>();
 
-		UpdateVisionConeColor();
-		UpdateTargetMask();
+		InitializeState();
 
 		//GetPlayer();
 	}
 
+	private void InitializeState()
+	{
+		UpdateVisionCone();
+		UpdateTargetMask();
+	}
+
 	public abstract void Tick();
 	public abstract void LeaveState();
-	protected abstract void UpdateVisionConeColor();
+	protected abstract void UpdateVisionCone();
 	protected abstract void UpdateTargetMask();
 }

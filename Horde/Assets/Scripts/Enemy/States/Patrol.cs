@@ -20,7 +20,7 @@ public class Patrol : AIState
 
 	}
 
-	protected override void UpdateVisionConeColor()
+	protected override void UpdateVisionCone()
 	{
 
 	}

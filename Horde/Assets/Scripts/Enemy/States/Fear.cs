@@ -36,7 +36,7 @@ public class Fear : AIState
 
 	}
 
-	protected override void UpdateVisionConeColor()
+	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.FearColor);
 	}

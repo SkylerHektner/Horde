@@ -24,7 +24,7 @@ public class Anger : AIState
 		
 	}
 
-	protected override void UpdateVisionConeColor()
+	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.AngerColor);
 	}

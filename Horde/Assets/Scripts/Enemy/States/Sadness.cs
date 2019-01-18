@@ -19,7 +19,7 @@ public class Sadness : AIState
 
 	}
 
-	protected override void UpdateVisionConeColor()
+	protected override void UpdateVisionCone()
 	{
 
 	}

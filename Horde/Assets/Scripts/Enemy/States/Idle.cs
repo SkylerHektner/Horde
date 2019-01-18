@@ -29,7 +29,7 @@ public class Idle : AIState
 
 	}
 
-	protected override void UpdateVisionConeColor()
+	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.DefaultColor);
 	}
