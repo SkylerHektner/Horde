@@ -9,8 +9,17 @@ public class AbilityButtonEvent : UnityEvent<string,string,string, bool>{}
 
 public class AbilityButtonUIController : MonoBehaviour {
 
+    [SerializeField]
+    [Header("BUTTON EVENT")]
+    [Tooltip("The angle in degrees that the door will change by")]
     public AbilityButtonEvent ButtonEvent;
+
+    [SerializeField]
+    [Header("COLOR CONTROL")]
+    [Tooltip("The new normal color of the active button")]
     public Color ActiveButtonColor;
+    [Tooltip("The new color of the active button when the mouse hovers over it")]
+    public Color ActiveButtonHilightColor;
 
     private ColorBlock cb;
     private Color normalButtonColor;
@@ -39,7 +48,7 @@ public class AbilityButtonUIController : MonoBehaviour {
 
             cb = sender.colors;
             cb.normalColor = ActiveButtonColor;
-            cb.highlightedColor = ActiveButtonColor;
+            cb.highlightedColor = ActiveButtonHilightColor;
             sender.colors = cb;
         }
         else

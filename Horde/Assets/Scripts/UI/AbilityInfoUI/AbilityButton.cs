@@ -8,10 +8,20 @@ public class GetAbilityInfoEvent : UnityEvent<string, string, string> { }
 
 public class AbilityButton : MonoBehaviour {
 
+    [SerializeField]
+    [Header("Ability Info")]
+    [Tooltip("The Name of the ability")]
     public string AbilityName;
+    [Tooltip("How the ability works as well as any Lore about the ability")]
     public string AbilityText;
+    [Tooltip("The filename of the ability")]
     public string AbilityImage;
+
+    [SerializeField]
+    [Header("Ability Button Scripts")]
+    [Tooltip("The controller that passes the Ability Info to the Ability info panel")]
     public AbilityButtonUIController Controller;
+    [Tooltip("The button that contains this ability info")]
     public Button ActualButton;
 
 	// Use this for initialization
