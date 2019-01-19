@@ -52,11 +52,6 @@ public class Box : MonoBehaviour, IBreakable
 		Physics.Raycast(transform.position, -Vector3.up, out hit, Mathf.Infinity, mask);
 		Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.red);
 
-		//Debug.Log(hit.distance);
-		//Debug.Log(distToGround);
-
-		Debug.Log(hit.distance - distToGround);
-
 		if(hit.distance - distToGround > 0.1f)
 			return true;
 		else

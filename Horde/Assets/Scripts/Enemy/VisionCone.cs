@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // This class is heavily based on the youtube tutorial https://www.youtube.com/watch?v=rQG9aUWarwE&list=PLFt_AvWsXl0dohbtVgHDNmgZV_UY7xZv7
 
@@ -28,6 +29,7 @@ public class VisionCone : MonoBehaviour
 	private LayerMask targetMask;
 	private LayerMask obstacleMask;
 	private bool playerInVision = false;
+	private NavMeshPath path;
 
 	private void Start()
 	{
@@ -119,6 +121,49 @@ public class VisionCone : MonoBehaviour
 	{
 		viewAngle = angle;
 	}
+
+	public Transform GetClosestTarget()
+	{
+		float closestDistance = 10000f;
+        Transform closestTarget = visibleTargets[0];
+		path = new NavMeshPath();
+
+        foreach (Transform t in visibleTargets)
+        {
+            GetComponent<NavMeshAgent>().CalculatePath(new Vector3(t.transform.position.x, 0.0f, t.transform.position.z), path); // Calculate the NavMesh path to the object
+
+            if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
+            {
+                float distance = GetPathDistance(path.corners);
+
+                if (distance <= closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTarget = t;
+                }
+            }
+        }
+
+		return closestTarget;
+	}
+
+	/// <summary>
+    /// Given an array of Vector3's (the corners of the path),
+    /// This function will return the total distance of the path.
+    /// </summary>
+    /// <param name="corners"></param>
+    /// <returns></returns>
+    private float GetPathDistance(Vector3[] corners)
+    {
+        float totalDistance = 0;
+
+        for(int i = 0; i < corners.Length - 1; i++)
+        {
+            totalDistance += Vector3.Distance(corners[i], corners[i + 1]);
+        }
+
+        return totalDistance;
+    }
 
 	/// <summary>
 	/// Takes in an angle and spits out the direction of that angle.

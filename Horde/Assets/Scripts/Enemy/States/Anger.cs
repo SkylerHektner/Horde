@@ -17,15 +17,14 @@ public class Anger : AIState
 
 	public override void Tick()
 	{
-		if(visionCone.TryGetPlayer() == null) // Player isn't in vision.
+		if(visionCone.VisibleTargets.Count == 0) // Player isn't in vision.
 			BreakClosestObject();
 		else
-			enemyMovement.MoveTo(visionCone.TryGetPlayer().transform.position);
+			enemyMovement.MoveTo(visionCone.GetClosestTarget().position);
 	}
 
 	public override void LeaveState()
 	{
-		// TODO: Save spawn transform to also save the angle.
 		enemyMovement.MoveTo(enemy.SpawnPosition);
 	}
 
@@ -38,7 +37,11 @@ public class Anger : AIState
 
 	protected override void UpdateTargetMask()
 	{
-		
+		// Targets in the vision cone should be the player and other guards.
+		LayerMask playerMask = 1 << LayerMask.NameToLayer("Player");
+		LayerMask enemyMask = 1 << LayerMask.NameToLayer("Enemy");
+		LayerMask targetMask = playerMask | enemyMask;
+		visionCone.ChangeTargetMask(targetMask);
 	}
 
 	private void BreakClosestObject()
@@ -56,6 +59,8 @@ public class Anger : AIState
 
 			if(enemyAttack.IsInAttackRange(target.GetPosition()))
 			{
+				enemyMovement.Stop();
+				//enemyMovement.LookAt(target.GetPosition());
 				enemy.StartCoroutine(enemyAttack.AttackBreakable(target));
 			}
 		}

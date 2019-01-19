@@ -29,7 +29,7 @@ public class EnemyAttack : MonoBehaviour
 		// TODO: Add code for attacking the player and other enemies.
 
 		yield return new WaitForSeconds(0.75f); // Wait a little bit longer before moving again.
-
+		
 		isAttacking = false;
 	}
 

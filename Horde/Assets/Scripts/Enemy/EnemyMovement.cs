@@ -9,7 +9,7 @@ public class EnemyMovement: MonoBehaviour
     private Animator anim;
     private Vector3 lastPos;
     
-    private void Start()
+    private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
@@ -37,10 +37,9 @@ public class EnemyMovement: MonoBehaviour
     /// </summary>
     public void MoveTo(Vector3 pos)
     {
+        //Debug.Log(pos);
+        agent.isStopped = false;
         agent.SetDestination(pos);
-
-        if(Vector3.Distance(pos, transform.position) < GetComponent<Enemy>().EnemySettings.AttackRange - 0.5f)
-            Stop();
     }
 
     public void MoveInDirection(Vector3 dir)
@@ -53,7 +52,7 @@ public class EnemyMovement: MonoBehaviour
     /// </summary>
     public void Stop()
     {
-        agent.ResetPath();
+        agent.isStopped = true;
         agent.velocity = Vector3.zero;
     }
 
@@ -64,6 +63,6 @@ public class EnemyMovement: MonoBehaviour
     /// </summary>
     public void LookAt(Vector3 pos)
     {
-        // TODO: Lerp the angle of the enemy to look at a location.
+        transform.LookAt(pos);
     }
 }

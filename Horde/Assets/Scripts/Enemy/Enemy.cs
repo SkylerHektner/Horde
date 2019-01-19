@@ -8,11 +8,12 @@ public class Enemy : MonoBehaviour
 {
 	public EnemySettings EnemySettings { get { return enemySettings; } }
 	public bool HasPatrolPath { get { return hasPatrolPath; } }
+	public List<Transform> PatrolPoints { get { return patrolPoints; } }
 	public Vector3 SpawnPosition { get { return spawnPosition; } }
 
 	[SerializeField] private EnemySettings enemySettings;
 	[SerializeField] private bool hasPatrolPath;
-	[SerializeField] private List<Vector3> patrolPoints;
+	[SerializeField] private List<Transform> patrolPoints;
 
 	private NavMeshAgent agent;
 	private EnemyAttack enemyAttack;

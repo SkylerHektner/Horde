@@ -13,6 +13,7 @@ public class Idle : AIState
 	public Idle(Enemy enemy): base(enemy)
 	{
 		// Go back to original location.
+		enemyMovement.MoveTo(enemy.SpawnPosition);
 	}
 
 	public override void Tick()
