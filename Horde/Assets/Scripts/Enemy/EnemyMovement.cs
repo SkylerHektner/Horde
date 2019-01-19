@@ -65,4 +65,9 @@ public class EnemyMovement: MonoBehaviour
     {
         transform.LookAt(pos);
     }
+
+    public void TeleportToSpawn()
+    {
+        agent.Warp(GetComponent<Enemy>().SpawnPosition);
+    }
 }

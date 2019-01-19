@@ -48,6 +48,7 @@ public class VisionCone : MonoBehaviour
 
 	private void Update()
 	{
+		//Debug.Log(visibleTargets.Count);
 		if(targetMask == LayerMask.GetMask("Player")) // If the Layer Mask is for only the player.
 		{
 			if(!playerInVision && visibleTargets.Count == 1)
@@ -130,6 +131,9 @@ public class VisionCone : MonoBehaviour
 
         foreach (Transform t in visibleTargets)
         {
+			if(t == null)
+				continue; 
+				
             GetComponent<NavMeshAgent>().CalculatePath(new Vector3(t.transform.position.x, 0.0f, t.transform.position.z), path); // Calculate the NavMesh path to the object
 
             if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
@@ -194,13 +198,18 @@ public class VisionCone : MonoBehaviour
 		{
 			Transform target = targetsInViewRadius[i].transform;
 
-			if(target == transform) // Don't count itself.
+			if(target.gameObject == transform.gameObject) // Don't count itself.
 				continue;
-				
-			Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+			Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, target.position.z);	
+			Vector3 dirToTarget = (targetPosition - transform.position).normalized;
+
+			Debug.Log(Vector3.Angle(dirToTarget, transform.forward));
+
+			Debug.DrawRay(transform.position, dirToTarget, Color.red);
 			
 			// Check if the target is within the view angle
-			if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+			if(Vector3.Angle(dirToTarget, transform.forward) < viewAngle / 2)
 			{
 				float distanceToTarget = Vector3.Distance(transform.position, target.position);
 

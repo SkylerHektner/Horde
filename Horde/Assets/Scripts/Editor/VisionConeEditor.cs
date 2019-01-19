@@ -23,6 +23,9 @@ public class VisionConeEditor : Editor
 		Handles.color = Color.red;
 		foreach(Transform visibleTarget in vc.VisibleTargets)
 		{
+			if(visibleTarget == null)
+				continue;
+				
 			Handles.DrawLine(vc.transform.position, visibleTarget.position);
 		}
 	}

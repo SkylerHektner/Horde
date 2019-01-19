@@ -20,7 +20,20 @@ public class Anger : AIState
 		if(visionCone.VisibleTargets.Count == 0) // Player isn't in vision.
 			BreakClosestObject();
 		else
+		{
+			if(visionCone.GetClosestTarget() == null)
+				return;
+				
 			enemyMovement.MoveTo(visionCone.GetClosestTarget().position);
+
+			Transform closestTarget = visionCone.GetClosestTarget();
+			if(enemyAttack.IsInAttackRange(closestTarget.position))
+			{
+				if(!enemyAttack.IsAttacking)
+					enemy.StartCoroutine(enemyAttack.Attack(closestTarget.gameObject));
+			}
+		}
+			
 	}
 
 	public override void LeaveState()
@@ -59,8 +72,6 @@ public class Anger : AIState
 
 			if(enemyAttack.IsInAttackRange(target.GetPosition()))
 			{
-				enemyMovement.Stop();
-				//enemyMovement.LookAt(target.GetPosition());
 				enemy.StartCoroutine(enemyAttack.AttackBreakable(target));
 			}
 		}

@@ -23,11 +23,11 @@ public class Enemy : MonoBehaviour
 
 	private void Awake() 
 	{
+		spawnPosition = transform.position;
+
 		agent = GetComponent<NavMeshAgent>();
 		enemyAttack = GetComponent<EnemyAttack>();
 
-		spawnPosition = transform.position;
-		
 		// Set to idle or patrol state
 		if(hasPatrolPath)
 			currentState = new Patrol(this);

@@ -17,8 +17,39 @@ public class EnemyAttack : MonoBehaviour
 		animator = GetComponent<Animator>();
 	}
 
+	public IEnumerator Attack(GameObject target)
+	{
+		GetComponent<EnemyMovement>().Stop();
+
+		transform.LookAt(target.transform.position);
+
+		isAttacking = true;
+		animator.SetTrigger("Attack");
+
+		if(target.tag == "Player")
+			target.GetComponent<PlayerMovement>().lockMovementControls = true; // Dont let player run away if getting attacked.
+		else
+		{
+			target.GetComponent<Enemy>().ChangeState(new Idle(target.GetComponent<Enemy>()));
+			target.GetComponent<EnemyMovement>().Stop();
+		}
+
+		yield return new WaitForSeconds(0.75f);
+
+		if(target.tag == "Player")
+			target.GetComponent<Player>().Respawn();
+		else
+			Destroy(target); // Just destroy other enemies for now.
+
+		yield return new WaitForSeconds(0.75f);
+
+		isAttacking = false;
+	}
+
 	public IEnumerator AttackBreakable(IBreakable target)
 	{
+		GetComponent<EnemyMovement>().Stop();
+		
 		transform.LookAt(target.GetPosition());
 
 		isAttacking = true;
@@ -27,8 +58,6 @@ public class EnemyAttack : MonoBehaviour
 		yield return new WaitForSeconds(0.75f); // Wait a little bit so it breaks when the attack connects.
 
 		target.Break();
-
-		// TODO: Add code for attacking the player and other enemies.
 
 		yield return new WaitForSeconds(0.75f); // Wait a little bit longer before moving again.
 

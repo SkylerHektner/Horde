@@ -28,6 +28,11 @@ public class Alert : AIState
 		else
 		{
 			enemyMovement.MoveTo(visionCone.TryGetPlayer().transform.position);
+			
+			if(enemyAttack.IsInAttackRange(visionCone.TryGetPlayer().transform.position))
+			{
+				enemyAttack.Attack(visionCone.TryGetPlayer().gameObject);
+			}
 		}
 	}
 
