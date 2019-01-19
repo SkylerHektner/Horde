@@ -23,8 +23,7 @@ public class Fear : AIState
 		
 	public override void LeaveState()
 	{
-		// TODO: Save spawn transform to also save the angle.
-		enemyMovement.MoveTo(enemy.SpawnPosition);
+		
 	}
 
 	protected override void UpdateVisionCone()

@@ -21,7 +21,7 @@ public class EnemyMovement: MonoBehaviour
         // make them face the way they are walking
         if ((lastPos.x != transform.position.x || lastPos.z != transform.position.z))
         {
-            transform.forward = transform.position - lastPos;
+            //transform.forward = transform.position - lastPos;
             lastPos = transform.position;
             anim.SetBool("Walking", true);
         }
