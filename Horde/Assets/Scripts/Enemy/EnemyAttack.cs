@@ -5,24 +5,32 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour 
 {
 	public float AttackRange { get { return attackRange; } }
+	public bool IsAttacking { get { return isAttacking; } }
 
 	private float attackRange;
+	private bool isAttacking;
+	private Animator animator;
 
 	private void Start()
 	{
 		attackRange = GetComponent<Enemy>().EnemySettings.AttackRange;
+		animator = GetComponent<Animator>();
 	}
 
-	public void Attack(GameObject target)
+	public IEnumerator AttackBreakable(IBreakable target)
 	{
-		IBreakable breakableObject = target.GetComponent<IBreakable>();
-		if(breakableObject != null) // If target is a breakable object.
-		{
-			breakableObject.Break();
-			return;
-		}
+		isAttacking = true;
+		animator.SetTrigger("Attack");
 
-		// TODO: Add support to attack other enemies and the player.
+		yield return new WaitForSeconds(0.75f); // Wait a little bit so it breaks when the attack connects.
+
+		target.Break();
+
+		// TODO: Add code for attacking the player and other enemies.
+
+		yield return new WaitForSeconds(0.75f); // Wait a little bit longer before moving again.
+
+		isAttacking = false;
 	}
 
 	public bool IsInAttackRange(Vector3 targetPos)

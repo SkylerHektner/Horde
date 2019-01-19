@@ -38,6 +38,9 @@ public class EnemyMovement: MonoBehaviour
     public void MoveTo(Vector3 pos)
     {
         agent.SetDestination(pos);
+
+        if(Vector3.Distance(pos, transform.position) < GetComponent<Enemy>().EnemySettings.AttackRange - 0.5f)
+            Stop();
     }
 
     public void MoveInDirection(Vector3 dir)
@@ -50,7 +53,8 @@ public class EnemyMovement: MonoBehaviour
     /// </summary>
     public void Stop()
     {
-        
+        agent.ResetPath();
+        agent.velocity = Vector3.zero;
     }
 
     /// <summary>

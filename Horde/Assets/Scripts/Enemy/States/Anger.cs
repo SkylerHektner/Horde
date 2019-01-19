@@ -7,6 +7,8 @@ using System.Linq;
 public class Anger : AIState
 {
 	NavMeshPath path;
+	//Animator animator;
+	//private bool isAttacking;
 
 	public Anger(Enemy enemy): base(enemy)
 	{
@@ -41,17 +43,22 @@ public class Anger : AIState
 
 	private void BreakClosestObject()
 	{
-		IBreakable target = FindClosestBreakable();
-		if(target == null)
+		if(!enemyAttack.IsAttacking)
 		{
-			// TODO: Initiate behavior when there aren't any more breakables.
-			return;
+			IBreakable target = FindClosestBreakable();
+			if(target == null)
+			{
+				// TODO: Initiate behavior when there aren't any more breakables.
+				return;
+			}
+
+			enemyMovement.MoveTo(target.GetPosition());
+
+			if(enemyAttack.IsInAttackRange(target.GetPosition()))
+			{
+				enemy.StartCoroutine(enemyAttack.AttackBreakable(target));
+			}
 		}
-
-		enemyMovement.MoveTo(target.GetPosition());
-
-		if(enemyAttack.IsInAttackRange(target.GetPosition()))
-			target.Break();
 	}
 
 	private IBreakable FindClosestBreakable()
