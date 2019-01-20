@@ -14,14 +14,29 @@ public class MaterialSwapTrigger : MonoBehaviour {
     /// </summary>
     public Material Mat;
 
+    private Material originalMat;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
             MeshRenderer[] meshRenderers = MeshGroupParent.GetComponentsInChildren<MeshRenderer>();
-            foreach(MeshRenderer mr in meshRenderers)
+            originalMat = meshRenderers[0].material;
+            foreach (MeshRenderer mr in meshRenderers)
             {
                 mr.material = Mat;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            MeshRenderer[] meshRenderers = MeshGroupParent.GetComponentsInChildren<MeshRenderer>();
+            foreach (MeshRenderer mr in meshRenderers)
+            {
+                mr.material = originalMat;
             }
         }
     }
