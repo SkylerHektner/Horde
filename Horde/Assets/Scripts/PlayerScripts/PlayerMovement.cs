@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Ray cameraRay;
 	private RaycastHit cameraRayHit;
 
-    private int layerMask = 1 << 15; // Layer mask for the background.
+    private int layerMask = 1 << 9; // Layer mask for the background.
 
     public MovementPattern movementPattern = MovementPattern.WASD;
     public enum MovementPattern
@@ -53,13 +53,6 @@ public class PlayerMovement : MonoBehaviour
 	
 	void Update ()
     {
-        if(HTargetingTool.Instance.GettingInput || RadialMenuUI.Instance.InEditMode)
-        {
-            anim.SetBool("Walking", false);
-            return;
-        }
-           
-
         // Make the player face in the direction of the mouse position.
 		cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		

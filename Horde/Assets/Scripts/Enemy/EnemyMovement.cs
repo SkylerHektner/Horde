@@ -3,15 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement
+public class EnemyMovement: MonoBehaviour
 {
-    private EnemySettings enemySettings;
     private NavMeshAgent agent;
-
-    public EnemyMovement(EnemySettings enemySettings, NavMeshAgent agent)
+    private Animator anim;
+    private Vector3 lastPos;
+    
+    private void Awake()
     {
-        this.enemySettings = enemySettings;
-        this.agent = agent;
+        agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
+        lastPos = transform.position;
+    }
+
+    private void Update()
+    {
+        // make them face the way they are walking
+        if ((lastPos.x != transform.position.x || lastPos.z != transform.position.z))
+        {
+            //transform.forward = transform.position - lastPos;
+            lastPos = transform.position;
+            anim.SetBool("Walking", true);
+        }
+        else
+        {
+            anim.SetBool("Walking", false);
+        }
     }
 
     /// <summary>
@@ -20,7 +37,14 @@ public class EnemyMovement
     /// </summary>
     public void MoveTo(Vector3 pos)
     {
+        //Debug.Log(pos);
+        agent.isStopped = false;
+        agent.SetDestination(pos);
+    }
 
+    public void MoveInDirection(Vector3 dir)
+    {
+        agent.Move(dir);
     }
 
     /// <summary>
@@ -28,7 +52,8 @@ public class EnemyMovement
     /// </summary>
     public void Stop()
     {
-        
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
     }
 
     /// <summary>
@@ -36,8 +61,13 @@ public class EnemyMovement
     /// Used for when there is a noise or something that catches an
     /// enemies attention.
     /// </summary>
-    public void RotateTowards(Vector3 pos)
+    public void LookAt(Vector3 pos)
     {
+        transform.LookAt(pos);
+    }
 
+    public void TeleportToSpawn()
+    {
+        agent.Warp(GetComponent<Enemy>().SpawnPosition);
     }
 }

@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Joy : AIState
 {
-	public Joy(Enemy enemy, EnemyMovement enemyMovement): base(enemy, enemyMovement)
+	public Joy(Enemy enemy): base(enemy)
 	{
 		
+	}
+
+	public override void Tick()
+	{
+
 	}
 
 	public override void LeaveState()
@@ -14,8 +19,15 @@ public class Joy : AIState
 
 	}
 
-	public override void Tick()
+	protected override void UpdateVisionCone()
 	{
+		visionCone.ChangeColor(enemy.EnemySettings.JoyColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.JoyVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.JoyVisionConeViewAngle);
+	}
 
+	protected override void UpdateTargetMask()
+	{
+		
 	}
 }

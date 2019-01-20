@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResourceManager : MonoBehaviour {
+public class ResourceManager : MonoBehaviour 
+{
 
     public static ResourceManager Instance;
 
@@ -17,6 +18,7 @@ public class ResourceManager : MonoBehaviour {
     public float Rage { get; private set; }
     public float Devotion { get; private set; }
     public float Joy { get; private set; }
+    public float Sadness { get; private set; }
     public float Fear { get; private set; }
     [SerializeField]
     private float baseCost = 10;
@@ -49,7 +51,8 @@ public class ResourceManager : MonoBehaviour {
         Rage,
         Devotion,
         Joy,
-        Fear
+        Fear,
+        Sadness
     }
 
     private void Awake ()
@@ -115,6 +118,30 @@ public class ResourceManager : MonoBehaviour {
         if (Fear < 0)
         {
             ResourceEmptyEvent(ResourceType.Fear);
+        }
+
+        updateGreyscaleEffect();
+        updateResourceBars();
+    }
+
+    /// <summary>
+    /// Spends the emotion of the passed in resource type.
+    public void SpendEmotion(ResourceType type)
+    {
+        switch(type)
+        {
+            case ResourceType.Rage:
+                Rage -= baseSpellCost;
+                break;
+            case ResourceType.Fear:
+                Fear -= baseSpellCost;
+                break;
+            case ResourceType.Sadness:
+                Sadness -= baseSpellCost;
+                break;
+            case ResourceType.Joy:
+                Joy -= baseSpellCost;
+                break;
         }
 
         updateGreyscaleEffect();

@@ -9,25 +9,33 @@ public class PressurePlate : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (listeners != null)
+        if (other.gameObject.tag == "Player")
         {
-            foreach (GameObject handler in listeners)
+            if (listeners != null)
             {
-                handler.GetComponent<ITriggerHandler>().TriggerOn();
+                foreach (GameObject handler in listeners)
+                {
+                    handler.GetComponent<ITriggerHandler>().TriggerOn();
+                }
             }
+            Debug.Log("TRIGGERED");
         }
-        Debug.Log("TRIGGERED");
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (listeners != null)
+        if (other.gameObject.tag == "Player")
         {
-            foreach (GameObject handler in listeners)
+            if (listeners != null)
             {
-                handler.GetComponent<ITriggerHandler>().TriggerOff();
+                foreach (GameObject handler in listeners)
+                {
+                    handler.GetComponent<ITriggerHandler>().TriggerOff();
+                }
             }
+            Debug.Log("UN TRIGGERED");
         }
-        Debug.Log("UN TRIGGERED");
+
     }
 }

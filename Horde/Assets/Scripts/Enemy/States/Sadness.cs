@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Sadness : AIState 
 {
-	public Sadness(Enemy enemy, EnemyMovement enemyMovement): base(enemy, enemyMovement)
+	public Sadness(Enemy enemy): base(enemy)
 	{
 		
+	}
+
+	public override void Tick()
+	{
+
 	}
 
 	public override void LeaveState()
@@ -14,8 +19,15 @@ public class Sadness : AIState
 
 	}
 
-	public override void Tick()
+	protected override void UpdateVisionCone()
 	{
+		visionCone.ChangeColor(enemy.EnemySettings.SadnessColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.SadnessVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.SadnessVisionConeViewAngle);
+	}
 
+	protected override void UpdateTargetMask()
+	{
+		
 	}
 }

@@ -1,40 +1,173 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-//[RequireComponent(typeof(Enemy))]
+// This class is heavily based on the youtube tutorial https://www.youtube.com/watch?v=rQG9aUWarwE&list=PLFt_AvWsXl0dohbtVgHDNmgZV_UY7xZv7
+
+[RequireComponent(typeof(Enemy))]
 public class VisionCone : MonoBehaviour 
 {
+	//public event Action OnTargetEnteredVision = delegate { };
+	//public event Action OnTargetExitedVision = delegate { };
+
 	public float ViewRadius { get { return viewRadius; } }
 	public float ViewAngle { get { return viewAngle; } }
 	public List<Transform> VisibleTargets { get { return visibleTargets; } }
 
 	[SerializeField] private float viewRadius;
 	[SerializeField, Range(0, 360)] private float viewAngle;
-	[SerializeField] private LayerMask targetMask;
-	[SerializeField] private LayerMask obstacleMask;
+	//[SerializeField] private List<LayerMask> targetMasks;
+	[SerializeField] private List<LayerMask> obstacleMasks;
 	[SerializeField] private float meshResolution;
 	[SerializeField] private MeshFilter viewMeshFilter;
 
 	private  Mesh viewMesh;
 	private Enemy enemy;
 	private List<Transform> visibleTargets = new List<Transform>();
-	
+	private LayerMask targetMask;
+	private LayerMask obstacleMask;
+	private bool playerInVision = false;
+	private NavMeshPath path;
 
 	private void Start()
 	{
+		foreach(LayerMask mask in obstacleMasks)
+		{
+			obstacleMask = obstacleMask | mask; // Create one Layer Mask for obstacles.
+		}
+
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;
 
 		enemy = GetComponent<Enemy>();
-		StartCoroutine(FindTargetsWithDelay(0.2f));
+		StartCoroutine(FindTargetsWithDelay(0.05f));
 	}
 
-	private void Update() //Only gets called AFTER the controller is updated.
+	private void Update()
+	{
+		//Debug.Log(visibleTargets.Count);
+		if(targetMask == LayerMask.GetMask("Player")) // If the Layer Mask is for only the player.
+		{
+			if(!playerInVision && visibleTargets.Count == 1)
+			{
+				//OnTargetEnteredVision();
+				playerInVision = true;
+			}
+
+			if(playerInVision && visibleTargets.Count == 0)
+			{
+				//OnTargetExitedVision();
+				playerInVision = false;
+			}
+		}
+
+		//Debug.Log(playerInVision);
+	}
+
+	private void LateUpdate() //Only gets called AFTER the controller is updated.
 	{
 		DrawVisionCone();
 	}
+
+	/// <summary>
+	///	Loops through the visible targets to try to find the player.
+	/// </summary>
+	public Player TryGetPlayer()
+	{
+		foreach(Transform t in visibleTargets)
+		{
+			if(t.GetComponent<Player>() != null) 
+			{
+				return t.GetComponent<Player>();
+			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	///	Changes the color of the vision cone.
+	/// </summary>
+	public void ChangeColor(Color c)
+	{
+		transform.GetComponentInChildren<MeshRenderer>().materials[0].color = c;
+	}
+
+	/// <summary>
+	///	Changes which layers the vision cone considers targets.
+	///
+	/// Used for when an enemy changes behaviors and looks for
+	/// targets other than the player.
+	/// </summary>
+	public void ChangeTargetMask(LayerMask layerMask)
+	{
+		targetMask = layerMask;
+	}
+
+	/// <summary>
+	/// Changes the radius of the vision cone.
+	/// </summary>
+	public void ChangeRadius(float radius)
+	{
+		viewRadius = radius;
+	}
+
+	/// <summary>
+	/// Changes the view angle of the vision cone.
+	/// </summary>
+	public void ChangeViewAngle(float angle)
+	{
+		viewAngle = angle;
+	}
+
+	public Transform GetClosestTarget()
+	{
+		float closestDistance = 10000f;
+        Transform closestTarget = visibleTargets[0];
+		path = new NavMeshPath();
+
+        foreach (Transform t in visibleTargets)
+        {
+			if(t == null)
+				continue; 
+				
+            GetComponent<NavMeshAgent>().CalculatePath(new Vector3(t.transform.position.x, 0.0f, t.transform.position.z), path); // Calculate the NavMesh path to the object
+
+            if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
+            {
+                float distance = GetPathDistance(path.corners);
+
+                if (distance <= closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTarget = t;
+                }
+            }
+        }
+
+		return closestTarget;
+	}
+
+	/// <summary>
+    /// Given an array of Vector3's (the corners of the path),
+    /// This function will return the total distance of the path.
+    /// </summary>
+    /// <param name="corners"></param>
+    /// <returns></returns>
+    private float GetPathDistance(Vector3[] corners)
+    {
+        float totalDistance = 0;
+
+        for(int i = 0; i < corners.Length - 1; i++)
+        {
+            totalDistance += Vector3.Distance(corners[i], corners[i + 1]);
+        }
+
+        return totalDistance;
+    }
 
 	/// <summary>
 	/// Takes in an angle and spits out the direction of that angle.
@@ -47,7 +180,6 @@ public class VisionCone : MonoBehaviour
 		return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
 	}
 
-	// Move to Enemy script
 	private IEnumerator FindTargetsWithDelay(float delay)
 	{
 		while(true)
@@ -57,7 +189,6 @@ public class VisionCone : MonoBehaviour
 		}
 	}
 
-	// Move to Enemy script
 	private void FindVisibleTargets()
 	{
 		visibleTargets.Clear();
@@ -66,10 +197,19 @@ public class VisionCone : MonoBehaviour
 		for(int i = 0; i < targetsInViewRadius.Length; i++)
 		{
 			Transform target = targetsInViewRadius[i].transform;
-			Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+			if(target.gameObject == transform.gameObject) // Don't count itself.
+				continue;
+
+			Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, target.position.z);	
+			Vector3 dirToTarget = (targetPosition - transform.position).normalized;
+
+			Debug.Log(Vector3.Angle(dirToTarget, transform.forward));
+
+			Debug.DrawRay(transform.position, dirToTarget, Color.red);
 			
 			// Check if the target is within the view angle
-			if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+			if(Vector3.Angle(dirToTarget, transform.forward) < viewAngle / 2)
 			{
 				float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
@@ -88,16 +228,19 @@ public class VisionCone : MonoBehaviour
 
 		List<Vector3> viewPoints = new List<Vector3>();
 
-		for(int i = 0; i <= stepCount; i++)
+        int vertexCount = stepCount + 2;
+        Vector2[] UV = new Vector2[vertexCount];
+        UV[0] = new Vector2(0, 0.5f);
+        for (int i = 0; i <= stepCount; i++)
 		{
-			
-			float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
 			ViewCastInfo newViewCast = ViewCast(angle);
-			viewPoints.Add(newViewCast.point);
+            UV[i+1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)vertexCount);
+            viewPoints.Add(newViewCast.point);
 			//Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
 		}
 
-		int vertexCount = viewPoints.Count + 1;
+		
 		Vector3[] vertices = new Vector3[vertexCount];
 		int[] triangles = new int[(vertexCount - 2) * 3];
 
@@ -118,6 +261,7 @@ public class VisionCone : MonoBehaviour
 		viewMesh.Clear();
 		viewMesh.vertices = vertices;
 		viewMesh.triangles = triangles;
+        viewMesh.uv = UV;
 		viewMesh.RecalculateNormals();
 	}
 

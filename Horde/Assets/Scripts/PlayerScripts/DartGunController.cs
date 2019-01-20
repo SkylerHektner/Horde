@@ -48,7 +48,7 @@ public class DartGunController : MonoBehaviour
             lr.enabled = true;
             if (Physics.Raycast(dartSpawnLocation.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
             {
-                if (gunRayHit.collider.gameObject.tag == "TeamTwoUnit")
+                if (gunRayHit.collider.gameObject.tag == "Enemy")
                     ChangeColor(Color.red);
                 else
                     ChangeColor(Color.green);
