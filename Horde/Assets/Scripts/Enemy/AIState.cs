@@ -15,6 +15,7 @@ public abstract class AIState
 	{
 		this.enemy = enemy;
 
+		Debug.Log("hit");
 		enemyMovement = enemy.GetComponent<EnemyMovement>();
 		enemyAttack = enemy.GetComponent<EnemyAttack>();
 		visionCone = enemy.GetComponent<VisionCone>();

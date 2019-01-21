@@ -203,10 +203,6 @@ public class VisionCone : MonoBehaviour
 
 			Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, target.position.z);	
 			Vector3 dirToTarget = (targetPosition - transform.position).normalized;
-
-			Debug.Log(Vector3.Angle(dirToTarget, transform.forward));
-
-			Debug.DrawRay(transform.position, dirToTarget, Color.red);
 			
 			// Check if the target is within the view angle
 			if(Vector3.Angle(dirToTarget, transform.forward) < viewAngle / 2)

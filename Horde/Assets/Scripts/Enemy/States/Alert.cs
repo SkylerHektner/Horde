@@ -31,7 +31,8 @@ public class Alert : AIState
 			
 			if(enemyAttack.IsInAttackRange(visionCone.TryGetPlayer().transform.position))
 			{
-				enemyAttack.Attack(visionCone.TryGetPlayer().gameObject);
+				if(!enemyAttack.IsAttacking)
+					enemy.StartCoroutine(enemyAttack.Attack(visionCone.TryGetPlayer().gameObject));
 			}
 		}
 	}

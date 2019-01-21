@@ -57,7 +57,8 @@ public class EnemyAttack : MonoBehaviour
 
 		yield return new WaitForSeconds(0.75f); // Wait a little bit so it breaks when the attack connects.
 
-		target.Break();
+		if(target != null)
+			target.Break();
 
 		yield return new WaitForSeconds(0.75f); // Wait a little bit longer before moving again.
 
@@ -66,6 +67,7 @@ public class EnemyAttack : MonoBehaviour
 
 	public bool IsInAttackRange(Vector3 targetPos)
 	{
+		Debug.Log(Vector3.Distance(transform.position, targetPos));
 		if(Vector3.Distance(transform.position, targetPos) <= attackRange)
 			return true;
 
