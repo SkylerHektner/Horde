@@ -16,12 +16,16 @@ public class MaterialSwapTrigger : MonoBehaviour {
 
     private Material originalMat;
 
+    private void Start()
+    {
+        originalMat = MeshGroupParent.GetComponentInChildren<MeshRenderer>().material;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
             MeshRenderer[] meshRenderers = MeshGroupParent.GetComponentsInChildren<MeshRenderer>();
-            originalMat = meshRenderers[0].material;
             foreach (MeshRenderer mr in meshRenderers)
             {
                 mr.material = Mat;
