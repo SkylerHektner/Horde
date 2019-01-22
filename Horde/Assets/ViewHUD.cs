@@ -16,13 +16,13 @@ public class ViewHUD : MonoBehaviour
     void Update ()
     {
 
-        if (Input.GetKey(KeyCode.Y))
+        if (Input.GetKey(KeyCode.Tab))
         {
             transform.position = Player.GetComponent<Transform>().position;
             Player.gameObject.GetComponent<PlayerMovement>().lockToBack = true;
             Player.gameObject.GetComponent<PlayerMovement>().lockMovementControls = true;
         }
-        if (Input.GetKeyUp(KeyCode.Y))
+        if (Input.GetKeyUp(KeyCode.Tab))
         {
             Player.gameObject.GetComponent<PlayerMovement>().lockToBack = false;
             Player.gameObject.GetComponent<PlayerMovement>().lockMovementControls = false;
