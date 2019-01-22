@@ -10,7 +10,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private CameraController cam;
 
+    public GameObject Backpack;
+    public GameObject North;
+    public Vector3 CamGirl;
+
     public bool lockCamToPlayer = true;
+    public bool lockToBack = false;
     public bool lockMovementControls = false;
     private bool inTargetingAction = false;
 
@@ -56,11 +61,16 @@ public class PlayerMovement : MonoBehaviour
         // Make the player face in the direction of the mouse position.
 		cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		
-		if(Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask))
+		if(Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == false)
 		{
 			Vector3 targetPosition = new Vector3(cameraRayHit.point.x, transform.position.y, cameraRayHit.point.z); 
 			transform.LookAt(targetPosition);
 		}
+        if (Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == true)
+        {
+            Vector3 targetPosition = new Vector3(North.transform.position.x, North.transform.position.y, North.transform.position.z);
+            transform.LookAt(targetPosition);
+        }
 
         // if we are not being carried and our controls are not locked, try to detect movement input and move
         if (!lockMovementControls && !beingCarried)
@@ -147,9 +157,37 @@ public class PlayerMovement : MonoBehaviour
 
         if (lockCamToPlayer)
         {
-            Vector3 pos = new Vector3(transform.position.x, transform.position.y + 60f, transform.position.z);
-            cam.SetTargetPos(pos);
+            if (!lockToBack)
+            {
+                Vector3 pos = new Vector3(transform.position.x, transform.position.y + 60f, transform.position.z);
+                cam.SetTargetPos(pos);
+            }
+
+
+            if (lockToBack)
+            {
+                Vector3 position = new Vector3(Backpack.transform.position.x - 21f, Backpack.transform.position.y + 30f, Backpack.transform.position.z +21);
+                cam.SetTargetPos(position);
+            }
         }
+
+        if (!lockCamToPlayer)
+        {
+
+            if (!lockToBack)
+            {
+                Vector3 pos = CamGirl;
+                cam.SetTargetPos(pos);
+            }
+
+
+            if (lockToBack)
+            {
+                Vector3 position = new Vector3(Backpack.transform.position.x - 21f, Backpack.transform.position.y + 30f, Backpack.transform.position.z + 21f);
+                cam.SetTargetPos(position);
+            }
+        }
+
     }
 
     /// <summary>
