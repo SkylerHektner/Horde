@@ -96,6 +96,15 @@ public class VisionCone : MonoBehaviour
 		transform.GetComponentInChildren<MeshRenderer>().materials[0].color = c;
 	}
 
+    /// <summary>
+    /// Changes the "pulse" rate on the vision cone shader. 0.3 = normal, 0.6 = fast, 0.15 = slow
+    /// </summary>
+    /// <param name="rate"></param>
+    public void ChangePulseRate(float rate)
+    {
+        transform.GetComponentInChildren<Renderer>().material.SetFloat("_BloomSpeed", rate);
+    }
+
 	/// <summary>
 	///	Changes which layers the vision cone considers targets.
 	///

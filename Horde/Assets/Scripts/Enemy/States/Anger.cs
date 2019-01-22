@@ -46,6 +46,7 @@ public class Anger : AIState
 		visionCone.ChangeColor(enemy.EnemySettings.AngerColor);
 		visionCone.ChangeRadius(enemy.EnemySettings.AngerVisionConeRadius);
 		visionCone.ChangeViewAngle(enemy.EnemySettings.AngerVisionConeViewAngle);
+        visionCone.ChangePulseRate(0.5f);
 	}
 
 	protected override void UpdateTargetMask()

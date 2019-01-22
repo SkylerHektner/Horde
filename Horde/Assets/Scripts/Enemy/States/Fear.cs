@@ -31,6 +31,7 @@ public class Fear : AIState
 		visionCone.ChangeColor(enemy.EnemySettings.FearColor);
 		visionCone.ChangeRadius(enemy.EnemySettings.FearVisionConeRadius);
 		visionCone.ChangeViewAngle(enemy.EnemySettings.FearVisionConeViewAngle);
+        visionCone.ChangePulseRate(0.8f);
 	}
 
 	protected override void UpdateTargetMask()
