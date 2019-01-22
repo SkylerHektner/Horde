@@ -7,6 +7,7 @@ public class DartGun : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject dart;
+    public GameObject Player;
 
 	[SerializeField]
 	private Transform dartSpawnLocation;
@@ -20,11 +21,12 @@ public class DartGun : MonoBehaviour
 	private void Start() 
 	{
 		InitializeLineRenderer();
+        Player = GameObject.FindGameObjectWithTag("Player");  
 	}
 	
 	private void Update() 
 	{
-		if (Input.GetMouseButton(0))
+		if (Input.GetMouseButton(0) && Player.gameObject.GetComponent<PlayerMovement>().lockToBack == false)
 		{
             lr.enabled = true;
             if (Physics.Raycast(dartSpawnLocation.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
@@ -46,7 +48,7 @@ public class DartGun : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && Player.gameObject.GetComponent<PlayerMovement>().lockToBack == false)
         {
             Fire();
             lr.enabled = false;
