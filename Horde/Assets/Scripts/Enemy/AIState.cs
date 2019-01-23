@@ -14,12 +14,14 @@ public abstract class AIState
 	public AIState(Enemy enemy)
 	{
 		this.enemy = enemy;
-
-		Debug.Log("hit");
+        
 		enemyMovement = enemy.GetComponent<EnemyMovement>();
 		enemyAttack = enemy.GetComponent<EnemyAttack>();
-		visionCone = enemy.GetComponent<VisionCone>();
+		visionCone = enemy.GetComponentInChildren<VisionCone>();
 		agent = enemy.GetComponent<NavMeshAgent>();
+
+        if (visionCone == null)
+            Debug.Log("Vision cone is null");
 
 		InitializeState();
 

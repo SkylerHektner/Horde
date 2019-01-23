@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 // This class is heavily based on the youtube tutorial https://www.youtube.com/watch?v=rQG9aUWarwE&list=PLFt_AvWsXl0dohbtVgHDNmgZV_UY7xZv7
 
-[RequireComponent(typeof(Enemy))]
 public class VisionCone : MonoBehaviour 
 {
 	//public event Action OnTargetEnteredVision = delegate { };
@@ -22,9 +21,10 @@ public class VisionCone : MonoBehaviour
 	[SerializeField] private List<LayerMask> obstacleMasks;
 	[SerializeField] private float meshResolution;
 	[SerializeField] private MeshFilter viewMeshFilter;
+    [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private Transform root;
 
 	private  Mesh viewMesh;
-	private Enemy enemy;
 	private List<Transform> visibleTargets = new List<Transform>();
 	private LayerMask targetMask;
 	private LayerMask obstacleMask;
@@ -41,8 +41,7 @@ public class VisionCone : MonoBehaviour
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;
-
-		enemy = GetComponent<Enemy>();
+        
 		StartCoroutine(FindTargetsWithDelay(0.05f));
 	}
 
@@ -93,7 +92,7 @@ public class VisionCone : MonoBehaviour
 	/// </summary>
 	public void ChangeColor(Color c)
 	{
-		transform.GetComponentInChildren<MeshRenderer>().materials[0].color = c;
+		mesh.materials[0].color = c;
 	}
 
     /// <summary>
@@ -143,7 +142,7 @@ public class VisionCone : MonoBehaviour
 			if(t == null)
 				continue; 
 				
-            GetComponent<NavMeshAgent>().CalculatePath(new Vector3(t.transform.position.x, 0.0f, t.transform.position.z), path); // Calculate the NavMesh path to the object
+            GetComponentInParent<NavMeshAgent>().CalculatePath(new Vector3(t.transform.position.x, 0.0f, t.transform.position.z), path); // Calculate the NavMesh path to the object
 
             if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
             {
@@ -207,8 +206,12 @@ public class VisionCone : MonoBehaviour
 		{
 			Transform target = targetsInViewRadius[i].transform;
 
-			if(target.gameObject == transform.gameObject) // Don't count itself.
-				continue;
+			if(target == root) // Don't count itself.
+            {
+                Debug.Log("hit");
+                continue;
+            }
+				
 
 			Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, target.position.z);	
 			Vector3 dirToTarget = (targetPosition - transform.position).normalized;

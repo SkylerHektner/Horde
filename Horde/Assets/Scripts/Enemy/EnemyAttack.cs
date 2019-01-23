@@ -67,7 +67,7 @@ public class EnemyAttack : MonoBehaviour
 
 	public bool IsInAttackRange(Vector3 targetPos)
 	{
-		Debug.Log(Vector3.Distance(transform.position, targetPos));
+		//Debug.Log(Vector3.Distance(transform.position, targetPos));
 		if(Vector3.Distance(transform.position, targetPos) <= attackRange)
 			return true;
 
