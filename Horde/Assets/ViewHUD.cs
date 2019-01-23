@@ -10,6 +10,7 @@ public class ViewHUD : MonoBehaviour
     public void Awake()
     {
         transform.position = Player.GetComponent<Transform>().position;
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -21,11 +22,15 @@ public class ViewHUD : MonoBehaviour
             transform.position = Player.GetComponent<Transform>().position;
             Player.gameObject.GetComponent<PlayerMovement>().lockToBack = true;
             Player.gameObject.GetComponent<PlayerMovement>().lockMovementControls = true;
+            Player.GetComponent<Animator>().SetBool("Kneeling", true);
+
+
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
             Player.gameObject.GetComponent<PlayerMovement>().lockToBack = false;
             Player.gameObject.GetComponent<PlayerMovement>().lockMovementControls = false;
+            Player.GetComponent<Animator>().SetBool("Kneeling", false);
 
         }
     }
