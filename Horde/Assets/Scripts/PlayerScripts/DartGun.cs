@@ -5,28 +5,26 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class DartGun : MonoBehaviour 
 {
-	[SerializeField]
-	private GameObject dart;
-    public GameObject Player;
 
-	[SerializeField]
-	private Transform dartSpawnLocation;
-
-	private Rigidbody dartRB;
+    [SerializeField] private GameObject dart;
+    [SerializeField] private Transform dartSpawnLocation;
+    [SerializeField] private float attackCooldown = 1;
+    
+    private Rigidbody dartRB;
 	private int maxLaserDistance = 75;
 	private Vector3 mousePosition;
 	private LineRenderer lr;
 	private RaycastHit gunRayHit;
+    private bool attackOnCooldown = false;
 
 	private void Start() 
 	{
 		InitializeLineRenderer();
-        Player = GameObject.FindGameObjectWithTag("Player");  
 	}
 	
 	private void Update() 
 	{
-		if (Input.GetMouseButton(0) && Player.gameObject.GetComponent<PlayerMovement>().lockToBack == false)
+		if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown)
 		{
             lr.enabled = true;
             if (Physics.Raycast(dartSpawnLocation.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
@@ -48,9 +46,11 @@ public class DartGun : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && Player.gameObject.GetComponent<PlayerMovement>().lockToBack == false)
+        if (Input.GetMouseButtonUp(0) && GetComponent<PlayerMovement>().lockToBack == false)
         {
-            Fire();
+            if(!attackOnCooldown)
+                StartCoroutine(Fire());
+
             lr.enabled = false;
         }
 	}
@@ -74,8 +74,10 @@ public class DartGun : MonoBehaviour
 		lr.endColor = c;
 	}
 
-	public void Fire()
+	private IEnumerator Fire()
 	{
+        attackOnCooldown = true;
+
 		Vector3 endpoint = dartSpawnLocation.position + transform.forward * maxLaserDistance;
 		GameObject dartGO = Instantiate(dart, dartSpawnLocation.position, transform.rotation);
 		dartRB = dartGO.GetComponent<Rigidbody>();
@@ -89,7 +91,8 @@ public class DartGun : MonoBehaviour
 
 		dartGO.GetComponent<Dart>().LoadEmotion(PathosUI.instance.CurrentEmotion);
 
-		//Debug.Log(dart.GetComponent<Dart>().LoadedEmotion);
-		//Debug.Log(PathosUI.instance.CurrentEmotion);
+        yield return new WaitForSeconds(attackCooldown);
+
+        attackOnCooldown = false;
 	}
 }
