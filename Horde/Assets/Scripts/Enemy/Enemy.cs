@@ -65,8 +65,6 @@ public class Enemy : MonoBehaviour
 
 		yield return new WaitForSeconds(duration);
 
-		currentState.LeaveState();
-
 		if(hasPatrolPath)
 			currentState = new Patrol(this);
 		else

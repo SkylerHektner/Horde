@@ -38,7 +38,7 @@ public class Anger : AIState
 
 	public override void LeaveState()
 	{
-		enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.AngerMovementSpeed);
+		
 	}
 
 	protected override void UpdateVisionCone()

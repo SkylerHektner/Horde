@@ -208,7 +208,6 @@ public class VisionCone : MonoBehaviour
 
 			if(target == root) // Don't count itself.
             {
-                Debug.Log("hit");
                 continue;
             }
 				
