@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyAttack : MonoBehaviour 
 {
@@ -26,6 +27,8 @@ public class EnemyAttack : MonoBehaviour
 		isAttacking = true;
 		animator.SetTrigger("Attack");
 
+        Debug.Log(target.tag);
+
 		if(target.tag == "Player")
 			target.GetComponent<PlayerMovement>().lockMovementControls = true; // Dont let player run away if getting attacked.
 		else
@@ -37,7 +40,10 @@ public class EnemyAttack : MonoBehaviour
 		yield return new WaitForSeconds(0.75f);
 
 		if(target.tag == "Player")
-			target.GetComponent<Player>().Respawn();
+        {
+            target.GetComponent<Player>().Respawn();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 		else
 			Destroy(target); // Just destroy other enemies for now.
 
