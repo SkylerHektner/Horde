@@ -183,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (lockToBack)
             {
-                Vector3 position = new Vector3(Backpack.transform.position.x - 21f, Backpack.transform.position.y + 30f, Backpack.transform.position.z + 21f);
+                Vector3 position = new Vector3(Backpack.transform.position.x - 23f, Backpack.transform.position.y + 27f, Backpack.transform.position.z + 23f);
                 cam.SetTargetPos(position);
             }
         }
