@@ -24,7 +24,7 @@ public class Anger : AIState
 			if(visionCone.GetClosestTarget() == null)
 				return;
 				
-			enemyMovement.MoveTo(visionCone.GetClosestTarget().position);
+			enemyMovement.MoveTo(visionCone.GetClosestTarget().position, enemy.EnemySettings.AngerMovementSpeed);
 
 			Transform closestTarget = visionCone.GetClosestTarget();
 			if(enemyAttack.IsInAttackRange(closestTarget.position))
@@ -38,7 +38,7 @@ public class Anger : AIState
 
 	public override void LeaveState()
 	{
-		enemyMovement.MoveTo(enemy.SpawnPosition);
+		enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.AngerMovementSpeed);
 	}
 
 	protected override void UpdateVisionCone()
@@ -69,7 +69,7 @@ public class Anger : AIState
 				return;
 			}
 
-			enemyMovement.MoveTo(target.GetPosition());
+			enemyMovement.MoveTo(target.GetPosition(), enemy.EnemySettings.AngerMovementSpeed);
 
 			if(enemyAttack.IsInAttackRange(target.GetPosition()))
 			{

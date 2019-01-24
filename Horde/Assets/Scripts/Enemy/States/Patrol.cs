@@ -51,7 +51,7 @@ public class Patrol : AIState
 
 	private void MoveToNextPatrolPoint()
     {
-        enemyMovement.MoveTo(patrolPointList[destPoint].position);
+        enemyMovement.MoveTo(patrolPointList[destPoint].position, enemy.EnemySettings.DefaultMovementSpeed);
 		//Debug.Log(patrolPointList[destPoint].position);
 
         destPoint = (destPoint + 1) % patrolPointList.Count; // Increment the index

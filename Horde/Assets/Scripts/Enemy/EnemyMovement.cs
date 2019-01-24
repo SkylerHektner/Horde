@@ -35,10 +35,11 @@ public class EnemyMovement: MonoBehaviour
     /// Gives a new destination to the NavMesh Agent.
     /// The agent will figure out the rest.
     /// </summary>
-    public void MoveTo(Vector3 pos)
+    public void MoveTo(Vector3 pos, float speed)
     {
         //Debug.Log(pos);
         agent.isStopped = false;
+        agent.speed = speed;
         agent.SetDestination(pos);
     }
 

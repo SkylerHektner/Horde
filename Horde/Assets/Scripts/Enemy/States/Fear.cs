@@ -17,7 +17,7 @@ public class Fear : AIState
 			Transform closestTarget = GetClosestTargetInVisionCone();
 			Vector3 runTo = enemy.transform.position + ((enemy.transform.position - closestTarget.position) * 0.5f);
  			float distance = Vector3.Distance(enemy.transform.position, closestTarget.position);
-			enemyMovement.MoveTo(runTo);
+			enemyMovement.MoveTo(runTo, enemy.EnemySettings.FearMovementSpeed);
 		}
 	}
 		

@@ -27,7 +27,7 @@ public class Alert : AIState
 		}
 		else
 		{
-			enemyMovement.MoveTo(visionCone.TryGetPlayer().transform.position);
+			enemyMovement.MoveTo(visionCone.TryGetPlayer().transform.position, enemy.EnemySettings.AlertMovementSpeed);
 			
 			if(enemyAttack.IsInAttackRange(visionCone.TryGetPlayer().transform.position))
 			{
