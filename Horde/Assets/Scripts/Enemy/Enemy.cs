@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 	private AIState currentState;
 	private Vector3 spawnPosition;
 
-	private void Awake() 
+	private void Start() 
 	{
 		spawnPosition = transform.position;
 
