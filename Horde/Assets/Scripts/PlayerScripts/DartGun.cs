@@ -39,6 +39,11 @@ public class DartGun : MonoBehaviour
 
         if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown)
 		{
+            GetComponent<Animator>().SetBool("Aiming", true);
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                GetComponent<Animator>().SetBool("Sneaking", true);
+            }
             lr.enabled = true;
             if (Physics.Raycast(DartSpawn.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
             {
@@ -61,7 +66,8 @@ public class DartGun : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && GetComponent<PlayerMovement>().lockToBack == false)
         {
-            if(!attackOnCooldown)
+            GetComponent<Animator>().SetBool("Aiming", false);
+            if (!attackOnCooldown)
                 StartCoroutine(Fire());
 
             lr.enabled = false;

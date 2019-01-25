@@ -68,13 +68,23 @@ public class PlayerMovement : MonoBehaviour
 		
 		if(Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == false)
 		{
-			Vector3 targetPosition = new Vector3(cameraRayHit.point.x, transform.position.y, cameraRayHit.point.z); 
-			transform.LookAt(targetPosition);
-		}
+			Vector3 targetPosition = new Vector3(cameraRayHit.point.x, transform.position.y, cameraRayHit.point.z);
+
+            if (!lockMovementControls && !lockToBack)
+            {
+                transform.LookAt(targetPosition);
+            }
+
+        }
         if (Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == true)
         {
             Vector3 targetPosition = new Vector3(North.transform.position.x, North.transform.position.y, North.transform.position.z);
             transform.LookAt(targetPosition);
+
+        }
+        if (lockMovementControls) // if caught
+        {
+            //GetComponent<Animator>().SetTrigger("Caught");
         }
 
         // if we are not being carried and our controls are not locked, try to detect movement input and move

@@ -11,11 +11,14 @@ public class EnemyAttack : MonoBehaviour
 	private float attackRange;
 	private bool isAttacking;
 	private Animator animator;
+    GameObject Player;
+
 
 	private void Start()
 	{
 		attackRange = GetComponent<Enemy>().EnemySettings.AttackRange;
 		animator = GetComponent<Animator>();
+        Player = GameObject.FindGameObjectWithTag("Player");
 	}
 
 	public IEnumerator Attack(GameObject target)
@@ -30,8 +33,11 @@ public class EnemyAttack : MonoBehaviour
         Debug.Log(target.tag);
 
 		if(target.tag == "Player")
-			target.GetComponent<PlayerMovement>().lockMovementControls = true; // Dont let player run away if getting attacked.
-		else
+        {
+            target.GetComponent<PlayerMovement>().lockMovementControls = true; // Dont let player run away if getting attacked.
+            Player.transform.LookAt(transform.position);
+        }
+        else
 		{
 			target.GetComponent<Enemy>().ChangeState(new Idle(target.GetComponent<Enemy>()));
 			target.GetComponent<EnemyMovement>().Stop();
@@ -39,8 +45,9 @@ public class EnemyAttack : MonoBehaviour
 
 		yield return new WaitForSeconds(0.75f);
 
-		if(target.tag == "Player")
+		if(target.tag == "Player") // If they strike the player
         {
+            yield return new WaitForSeconds(.75f);
             target.GetComponent<Player>().Respawn();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
