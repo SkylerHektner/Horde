@@ -11,6 +11,21 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1145734458408516}
   m_IsPrefabAsset: 1
+--- !u!1 &1005121845732076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4708456117063360}
+  m_Layer: 11
+  m_Name: DartSpawnLocationCrouched
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1014022889462980
 GameObject:
   m_ObjectHideFlags: 1
@@ -346,6 +361,7 @@ GameObject:
   - component: {fileID: 114164267277119306}
   - component: {fileID: 114541136762647592}
   - component: {fileID: 114287899598632196}
+  - component: {fileID: 65682809591686772}
   m_Layer: 11
   m_Name: PlayerV2
   m_TagString: Player
@@ -2190,6 +2206,7 @@ Transform:
   - {fileID: 4374910113903744}
   - {fileID: 4291922151437812}
   - {fileID: 4835789220755992}
+  - {fileID: 4708456117063360}
   - {fileID: 4263263912690602}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2473,7 +2490,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4074843865808940}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4264010321568644
 Transform:
@@ -3114,6 +3131,19 @@ Transform:
   m_Father: {fileID: 4260208416267084}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 17.88861, y: 7.7172523, z: 6.4936743}
+--- !u!4 &4708456117063360
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1005121845732076}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.00000019116412, y: 0.86, z: 0.48900035}
+  m_LocalScale: {x: 0.99999976, y: 0.9999993, z: 0.99999976}
+  m_Children: []
+  m_Father: {fileID: 4074843865808940}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4724669170034974
 Transform:
   m_ObjectHideFlags: 1
@@ -5818,6 +5848,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.49444613, y: 1.5920565, z: 0.5949111}
   m_Center: {x: 0.0050963457, y: 0.82345784, z: 0.037037868}
+--- !u!65 &65682809591686772
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1145734458408516}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.49444613, y: 0.89706635, z: 0.59491116}
+  m_Center: {x: 0.005096345, y: 0.47596276, z: 0.03703787}
 --- !u!82 &82209817529455784
 AudioSource:
   m_ObjectHideFlags: 1
@@ -6450,7 +6492,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dart: {fileID: 1267026707163580, guid: af6bb79e3142ca44392e62520e50cbdf, type: 2}
   dartSpawnLocation: {fileID: 4835789220755992}
+  dartSpawnLocationCrouched: {fileID: 4708456117063360}
   attackCooldown: 0.3
+  isCrouching: 0
 --- !u!114 &114335362819627532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7272,6 +7316,8 @@ MonoBehaviour:
   Backpack: {fileID: 1190942459005400}
   North: {fileID: 0}
   CamGirl: {x: 0, y: 0, z: 0}
+  StandingHitbox: {fileID: 65621152496665104}
+  CrouchingHitbox: {fileID: 65682809591686772}
   lockCamToPlayer: 1
   lockToBack: 0
   lockMovementControls: 0

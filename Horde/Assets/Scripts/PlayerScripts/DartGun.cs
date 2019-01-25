@@ -8,6 +8,9 @@ public class DartGun : MonoBehaviour
 
     [SerializeField] private GameObject dart;
     [SerializeField] private Transform dartSpawnLocation;
+    [SerializeField] private Transform dartSpawnLocationCrouched;
+    private Transform DartSpawn;
+
     [SerializeField] private float attackCooldown = 1;
     
     private Rigidbody dartRB;
@@ -16,6 +19,7 @@ public class DartGun : MonoBehaviour
 	private LineRenderer lr;
 	private RaycastHit gunRayHit;
     private bool attackOnCooldown = false;
+    public bool isCrouching = false;
 
 	private void Start() 
 	{
@@ -24,25 +28,34 @@ public class DartGun : MonoBehaviour
 	
 	private void Update() 
 	{
-		if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown)
+        if (isCrouching == true)
+        {
+            DartSpawn = dartSpawnLocationCrouched;
+        }
+        if (isCrouching == false)
+        {
+            DartSpawn = dartSpawnLocation;
+        }
+
+        if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown)
 		{
             lr.enabled = true;
-            if (Physics.Raycast(dartSpawnLocation.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
+            if (Physics.Raycast(DartSpawn.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
             {
                 if (gunRayHit.collider.gameObject.tag == "Enemy")
                     ChangeColor(Color.red);
                 else
                     ChangeColor(Color.green);
 
-                lr.SetPosition(0, dartSpawnLocation.position);
+                lr.SetPosition(0, DartSpawn.position);
                 lr.SetPosition(1, gunRayHit.point);
             }
             else // If the ray doesn't hit anything, just render it's max distance.
             {
                 ChangeColor(Color.green);
 
-                lr.SetPosition(0, dartSpawnLocation.position);
-                lr.SetPosition(1, dartSpawnLocation.position + transform.forward * maxLaserDistance);
+                lr.SetPosition(0, DartSpawn.position);
+                lr.SetPosition(1, DartSpawn.position + transform.forward * maxLaserDistance);
             }
         }
 
@@ -78,8 +91,8 @@ public class DartGun : MonoBehaviour
 	{
         attackOnCooldown = true;
 
-		Vector3 endpoint = dartSpawnLocation.position + transform.forward * maxLaserDistance;
-		GameObject dartGO = Instantiate(dart, dartSpawnLocation.position, transform.rotation);
+		Vector3 endpoint = DartSpawn.position + transform.forward * maxLaserDistance;
+		GameObject dartGO = Instantiate(dart, DartSpawn.position, transform.rotation);
 		dartRB = dartGO.GetComponent<Rigidbody>();
 
 		Vector3 directionalVector = endpoint - transform.position;

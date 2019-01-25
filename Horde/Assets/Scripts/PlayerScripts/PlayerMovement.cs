@@ -7,12 +7,16 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private float speed = 1f;
+    private float crouchSpeed = 1f;
     [SerializeField]
     private CameraController cam;
 
     public GameObject Backpack;
     public GameObject North;
     public Vector3 CamGirl;
+
+    public BoxCollider StandingHitbox;
+    public BoxCollider CrouchingHitbox;
 
     public bool lockCamToPlayer = true;
     public bool lockToBack = false;
@@ -58,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
 	
 	void Update ()
     {
+
         // Make the player face in the direction of the mouse position.
 		cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		
@@ -82,25 +87,25 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //agent.Move(forward * Time.deltaTime);
                     //agent.SetDestination(transform.position + forward);
-                    dest += forward * Time.deltaTime;
+                    dest += forward * (Time.deltaTime * crouchSpeed);
                 }
                 else if (Input.GetKey(KeyCode.S))
                 {
                     //agent.Move(forward * -Time.deltaTime);
                     //agent.SetDestination(transform.position + -forward);
-                    dest -= forward * Time.deltaTime;
+                    dest -= forward * (Time.deltaTime * crouchSpeed);
                 }
                 if (Input.GetKey(KeyCode.A))
                 {
                     //agent.Move(right * -Time.deltaTime);
                     //agent.SetDestination(transform.position + -right);
-                    dest -= right * Time.deltaTime;
+                    dest -= right * (Time.deltaTime * crouchSpeed);
                 }
                 else if (Input.GetKey(KeyCode.D))
                 {
                     //agent.Move(right * Time.deltaTime);
                     //agent.SetDestination(transform.position + right);
-                    dest += right * Time.deltaTime;
+                    dest += right * (Time.deltaTime * crouchSpeed);
                 }
 
                 agent.Move(dest);
@@ -186,6 +191,26 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 position = new Vector3(Backpack.transform.position.x - 23f, Backpack.transform.position.y + 27f, Backpack.transform.position.z + 23f);
                 cam.SetTargetPos(position);
             }
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            crouchSpeed = .5f;
+            GetComponent<Animator>().SetBool("Sneaking", true);
+            GetComponent<NavMeshAgent>().height = 0.83f;
+            StandingHitbox.enabled = false;
+            CrouchingHitbox.enabled = true;
+            GetComponent<DartGun>().isCrouching = true;
+        }
+        if (!Input.GetKey(KeyCode.LeftShift))
+        {
+            crouchSpeed = 1f;
+            GetComponent<Animator>().SetBool("Sneaking", false);
+            GetComponent<NavMeshAgent>().height = 1.61f;
+            StandingHitbox.enabled = true;
+            CrouchingHitbox.enabled = false;
+            GetComponent<DartGun>().isCrouching = false;
+
         }
 
     }
