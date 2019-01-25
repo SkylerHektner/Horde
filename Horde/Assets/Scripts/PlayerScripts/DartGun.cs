@@ -39,6 +39,7 @@ public class DartGun : MonoBehaviour
 
         if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown)
 		{
+            GetComponent<PlayerMovement>().lockMovementControls = true;
             GetComponent<Animator>().SetBool("Aiming", true);
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -66,6 +67,7 @@ public class DartGun : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && GetComponent<PlayerMovement>().lockToBack == false)
         {
+            GetComponent<PlayerMovement>().lockMovementControls = false;
             GetComponent<Animator>().SetBool("Aiming", false);
             if (!attackOnCooldown)
                 StartCoroutine(Fire());

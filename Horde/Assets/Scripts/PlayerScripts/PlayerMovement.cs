@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
 		{
 			Vector3 targetPosition = new Vector3(cameraRayHit.point.x, transform.position.y, cameraRayHit.point.z);
 
-            if (!lockMovementControls && !lockToBack)
+            if (!lockToBack)
             {
                 transform.LookAt(targetPosition);
             }
