@@ -21,16 +21,16 @@ public class Box : MonoBehaviour, IBreakable
 		rb = GetComponent<Rigidbody>();
 	}
 
-	private void Update()
-	{
-		if(IsFloating())
-			rb.isKinematic = false;
-		else
-			StartCoroutine(ChangeToKinematic()); // We need to use a coroutine to give it an extra 1/10 of a second
-												 // before we set kinematic back to true or else it sinks into the ground.
-	}
+    private void Update()
+    {
+        if (IsFloating())
+            rb.isKinematic = false;
+        else
+            StartCoroutine(ChangeToKinematic()); // We need to use a coroutine to give it an extra 1/10 of a second
+                                                 // before we set kinematic back to true or else it sinks into the ground.
+    }
 
-	public void Break()
+    public void Break()
 	{
 		GameObject go = Instantiate(brokenVersion, transform.position, transform.rotation);
 		foreach(Rigidbody rb in go.GetComponentsInChildren<Rigidbody>())

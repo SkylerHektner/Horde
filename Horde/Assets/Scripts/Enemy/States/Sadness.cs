@@ -8,6 +8,7 @@ public class Sadness : AIState
 
 	public Sadness(Enemy enemy, float duration): base(enemy, duration)
 	{
+        enemy.GetComponent<Animator>().SetBool("Sad", true);
 		// TODO: Start sadness animation here.
 
 		Collider[] enemies = Physics.OverlapSphere(enemy.transform.position, 15f, enemyMask);
@@ -37,6 +38,7 @@ public class Sadness : AIState
 
 	public override void LeaveState()
 	{
+        enemy.GetComponent<Animator>().SetBool("Sad", false);
 		// TODO: Stop sadness animation here.
 
 		base.LeaveState();

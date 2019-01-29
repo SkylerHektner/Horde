@@ -6,20 +6,15 @@ public class Joy : AIState
 {
 	public Joy(Enemy enemy, float duration): base(enemy, duration)
 	{
-		
-	}
+        enemy.GetComponent<Animator>().SetBool("Happy", true);
+    }
 
-	public override void Tick()
+    public override void Tick()
 	{
 		base.Tick();
 	}
 
-	public override void LeaveState()
-	{
-
-	}
-
-	protected override void UpdateVisionCone()
+    protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.JoyColor);
 		visionCone.ChangeRadius(enemy.EnemySettings.JoyVisionConeRadius);

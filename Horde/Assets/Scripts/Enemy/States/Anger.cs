@@ -8,10 +8,10 @@ public class Anger : AIState
 {
 	public Anger(Enemy enemy, float duration): base(enemy, duration)
 	{
-		
-	}
+        //enemy.GetComponent<Animator>().SetBool("Angry", true);
+    }
 
-	public override void Tick()
+    public override void Tick()
 	{
 		base.Tick();
 		
@@ -21,8 +21,8 @@ public class Anger : AIState
 		{
 			if(visionCone.GetClosestTarget() == null)
 				return;
-				
-			enemyMovement.MoveTo(visionCone.GetClosestTarget().position, enemy.EnemySettings.AngerMovementSpeed);
+
+            enemyMovement.MoveTo(visionCone.GetClosestTarget().position, enemy.EnemySettings.AngerMovementSpeed);
 
 			Transform closestTarget = visionCone.GetClosestTarget();
 			if(enemyAttack.IsInAttackRange(closestTarget.position))
@@ -73,7 +73,7 @@ public class Anger : AIState
 
 	private IBreakable FindClosestBreakable()
 	{
-		NavMeshPath path = new NavMeshPath();
+        NavMeshPath path = new NavMeshPath();
 
 		var breakablesVar = Object.FindObjectsOfType<MonoBehaviour>().OfType<IBreakable>();
 		List<IBreakable> breakables = breakablesVar.ToList();
@@ -120,4 +120,5 @@ public class Anger : AIState
 
         return totalDistance;
     }
+
 }
