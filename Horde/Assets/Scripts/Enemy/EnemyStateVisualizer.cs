@@ -25,7 +25,9 @@ public class EnemyStateVisualizer : MonoBehaviour
 				stateString = enemy.GetCurrentState().ToString();
 			}
 
-			UnityEditor.Handles.Label(enemy.transform.position + heightOffset, stateString, style); 
-		}
+#if UNITY_EDITOR
+            UnityEditor.Handles.Label(enemy.transform.position + heightOffset, stateString, style);
+#endif
+        }
 	}
 }
