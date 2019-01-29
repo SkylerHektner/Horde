@@ -17,7 +17,7 @@ public class Alert : AIState
 	public override void Tick()
 	{
 		Player player = visionCone.TryGetPlayer();
-		if(player == null) // If the player isn't in vision.
+		if(player == null || player.GetComponent<PlayerMovement>().isDead) // If the player isn't in vision or player is dead.
 		{
 			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
 			{

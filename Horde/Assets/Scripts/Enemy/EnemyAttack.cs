@@ -48,8 +48,8 @@ public class EnemyAttack : MonoBehaviour
 			// TODO: Start death animation here.
 
             yield return new WaitForSeconds(2f); // Give the death animation some time to play.
+			target.GetComponent<PlayerMovement>().isDead = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            target.GetComponent<PlayerMovement>().isDead = false;
         }
         else
         {

@@ -54,6 +54,7 @@ public class EnemyMovement: MonoBehaviour
     /// </summary>
     public void Stop()
     {
+        agent.ResetPath();
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
     }

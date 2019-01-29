@@ -63,11 +63,13 @@ public class PlayerMovement : MonoBehaviour
 	
 	void Update ()
     {
+        if(isDead)
+            return;
 
         // Make the player face in the direction of the mouse position.
 		cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		
-		if(Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == false && isDead == false)
+		if(Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == false)
 		{
 			Vector3 targetPosition = new Vector3(cameraRayHit.point.x, transform.position.y, cameraRayHit.point.z);
 

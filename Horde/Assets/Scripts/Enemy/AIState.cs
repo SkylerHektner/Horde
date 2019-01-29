@@ -26,6 +26,7 @@ public abstract class AIState
 
 
 		InitializeState();
+		enemyMovement.Stop();
 	}
 
 	private void InitializeState()
