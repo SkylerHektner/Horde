@@ -8,6 +8,8 @@ public class Sadness : AIState
 
 	public Sadness(Enemy enemy, float duration): base(enemy, duration)
 	{
+		// TODO: Start sadness animation here.
+
 		Collider[] enemies = Physics.OverlapSphere(enemy.transform.position, 15f, enemyMask);
 
 		// Make enemies look at the crying guard.
@@ -31,6 +33,13 @@ public class Sadness : AIState
 		base.Tick();
 		// TODO: Check for enemies around every tick so it doesn't
 		//       only affect the guards next to him when behavior is started.
+	}
+
+	public override void LeaveState()
+	{
+		// TODO: Stop sadness animation here.
+
+		base.LeaveState();
 	}
 
 	protected override void UpdateVisionCone()

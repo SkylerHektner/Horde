@@ -42,8 +42,9 @@ public class EnemyAttack : MonoBehaviour
 
 		if(target.tag == "Player") // If they strike the player
         {
-			// TODO: Start death animation.
-            yield return new WaitForSeconds(.75f); // Give the animation some time to play.
+			// TODO: Start death animation here.
+			
+            yield return new WaitForSeconds(.75f); // Give the death animation some time to play.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 		else
