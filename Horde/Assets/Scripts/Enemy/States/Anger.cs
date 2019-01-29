@@ -34,6 +34,13 @@ public class Anger : AIState
 			
 	}
 
+	public override void LeaveState()
+    {
+        enemy.GetComponent<Animator>().SetBool("Angry", false);
+
+        base.LeaveState();
+    }
+
 	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.AngerColor);

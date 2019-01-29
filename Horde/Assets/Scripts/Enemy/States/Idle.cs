@@ -14,11 +14,18 @@ public class Idle : AIState
 	{
 		// Go back to original location.
 		if(enemy.SpawnPosition != null)
-		    enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+		{
+			Debug.Log("Hit");
+			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+		}
+		    
 	}
 
 	public override void Tick()
 	{
+		if(enemy.transform.position != enemy.SpawnPosition)
+			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+			
 		if(visionCone.TryGetPlayer())
 		{
 			//EnemyManager.instance.AlertEnemies();

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class EnemyAttack : MonoBehaviour 
 {
 	public float AttackRange { get { return attackRange; } }
-	public bool IsAttacking { get { return isAttacking; } }
+	public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
 
 	private float attackRange;
 	private bool isAttacking;
@@ -43,7 +43,7 @@ public class EnemyAttack : MonoBehaviour
 		if(target.tag == "Player") // If they strike the player
         {
 			// TODO: Start death animation here.
-			
+
             yield return new WaitForSeconds(.75f); // Give the death animation some time to play.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
@@ -57,6 +57,9 @@ public class EnemyAttack : MonoBehaviour
 
 	public IEnumerator AttackBreakable(IBreakable target)
 	{
+		if(target == null) // If the target is already broken.
+			yield break;
+
 		GetComponent<EnemyMovement>().Stop();
 		
 		transform.LookAt(target.GetPosition());
@@ -76,7 +79,6 @@ public class EnemyAttack : MonoBehaviour
 
 	public bool IsInAttackRange(Vector3 targetPos)
 	{
-		//Debug.Log(Vector3.Distance(transform.position, targetPos));
 		if(Vector3.Distance(transform.position, targetPos) <= attackRange)
 			return true;
 

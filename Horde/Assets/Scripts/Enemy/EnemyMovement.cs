@@ -38,6 +38,7 @@ public class EnemyMovement: MonoBehaviour
     public void MoveTo(Vector3 pos, float speed)
     {
         //Debug.Log(pos);
+        agent.ResetPath();
         agent.isStopped = false;
         agent.speed = speed;
         agent.SetDestination(pos);
@@ -72,7 +73,7 @@ public class EnemyMovement: MonoBehaviour
         {
             Debug.Log(Vector3.Angle(transform.forward, pos - transform.position));
             transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 3.0f * Time.deltaTime);
-            
+
             yield return new WaitForSeconds(0.01f);
         }
 

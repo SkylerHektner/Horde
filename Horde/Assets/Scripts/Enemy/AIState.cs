@@ -44,6 +44,7 @@ public abstract class AIState
 	
 	public virtual void LeaveState()
 	{
+		//enemyAttack.IsAttacking = false;
 		if(enemy.HasPatrolPath)
 			enemy.ChangeState(new Patrol(enemy));
 		else

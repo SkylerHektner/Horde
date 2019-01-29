@@ -14,6 +14,13 @@ public class Joy : AIState
 		base.Tick();
 	}
 
+	public override void LeaveState()
+    {
+        enemy.GetComponent<Animator>().SetBool("Happy", false);
+
+        base.LeaveState();
+    }
+
     protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.JoyColor);

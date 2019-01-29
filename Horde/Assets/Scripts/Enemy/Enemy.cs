@@ -37,6 +37,7 @@ public class Enemy : MonoBehaviour
 	
 	private void Update() 
 	{
+		Debug.Log(enemyAttack.IsAttacking);
 		currentState.Tick();
 	}
 
@@ -50,7 +51,7 @@ public class Enemy : MonoBehaviour
 
 	public void ChangeState(AIState state)
 	{
-		StopAllCoroutines();
+		//StopAllCoroutines();
 		currentState = state;
 	}
 }
