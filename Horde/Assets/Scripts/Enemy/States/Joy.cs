@@ -7,6 +7,9 @@ public class Joy : AIState
 	public Joy(Enemy enemy, float duration): base(enemy, duration)
 	{
         enemy.GetComponent<Animator>().SetBool("Happy", true);
+        enemy.GetComponent<Animator>().SetBool("Scared", false);
+        enemy.GetComponent<Animator>().SetBool("Sad", false);
+        enemy.GetComponent<Animator>().SetBool("Angry", false);
     }
 
     public override void Tick()

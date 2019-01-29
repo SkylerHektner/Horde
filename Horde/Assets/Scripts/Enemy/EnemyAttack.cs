@@ -34,23 +34,29 @@ public class EnemyAttack : MonoBehaviour
 
 		if(target.tag == "Player")
         {
+            target.GetComponent<Animator>().SetTrigger("Caught");
+            target.GetComponent<PlayerMovement>().isDead = true;
+            target.gameObject.transform.LookAt(transform.position);
             target.GetComponent<PlayerMovement>().lockMovementControls = true; // Dont let player run away if getting attacked.
-            Player.transform.LookAt(transform.position);
         }
 
 		yield return new WaitForSeconds(0.75f);
 
 		if(target.tag == "Player") // If they strike the player
         {
+            target.GetComponent<Animator>().SetTrigger("Die");
 			// TODO: Start death animation here.
 
-            yield return new WaitForSeconds(.75f); // Give the death animation some time to play.
+            yield return new WaitForSeconds(2f); // Give the death animation some time to play.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            target.GetComponent<PlayerMovement>().isDead = false;
         }
-		else
-			Destroy(target); // Just destroy other enemies for now.
+        else
+        {
+            Destroy(target); // Just destroy other enemies for now.
+        }
 
-		yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.75f);
 
 		isAttacking = false;
 	}

@@ -9,9 +9,13 @@ public class Sadness : AIState
 	public Sadness(Enemy enemy, float duration): base(enemy, duration)
 	{
         enemy.GetComponent<Animator>().SetBool("Sad", true);
-		// TODO: Start sadness animation here.
+        enemy.GetComponent<Animator>().SetBool("Happy", false);
+        enemy.GetComponent<Animator>().SetBool("Scared", false);
+        enemy.GetComponent<Animator>().SetBool("Angry", false);
 
-		Collider[] enemies = Physics.OverlapSphere(enemy.transform.position, 15f, enemyMask);
+        // TODO: Start sadness animation here.
+
+        Collider[] enemies = Physics.OverlapSphere(enemy.transform.position, 15f, enemyMask);
 
 		// Make enemies look at the crying guard.
 		foreach(Collider c in enemies)

@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public bool lockToBack = false;
     public bool lockMovementControls = false;
     private bool inTargetingAction = false;
+    public bool isDead = false;
 
     private bool beingCarried = false;
     [SerializeField]
@@ -66,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         // Make the player face in the direction of the mouse position.
 		cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		
-		if(Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == false)
+		if(Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == false && isDead == false)
 		{
 			Vector3 targetPosition = new Vector3(cameraRayHit.point.x, transform.position.y, cameraRayHit.point.z);
 
