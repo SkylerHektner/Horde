@@ -11,6 +11,7 @@ public class Fear : AIState
 
 	public override void Tick()
 	{
+		base.Tick();
 		
 		if(visionCone.VisibleTargets.Count > 0)
 		{

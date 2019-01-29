@@ -11,7 +11,7 @@ public class Joy : AIState
 
 	public override void Tick()
 	{
-
+		base.Tick();
 	}
 
 	public override void LeaveState()

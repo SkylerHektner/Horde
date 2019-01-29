@@ -26,6 +26,13 @@ public class Sadness : AIState
 		}
 	}
 
+	public override void Tick()
+	{
+		base.Tick();
+		// TODO: Check for enemies around every tick so it doesn't
+		//       only affect the guards next to him when behavior is started.
+	}
+
 	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.SadnessColor);

@@ -6,10 +6,6 @@ using System.Linq;
 
 public class Anger : AIState
 {
-	NavMeshPath path;
-	//Animator animator;
-	//private bool isAttacking;
-
 	public Anger(Enemy enemy, float duration): base(enemy, duration)
 	{
 		
@@ -17,6 +13,8 @@ public class Anger : AIState
 
 	public override void Tick()
 	{
+		base.Tick();
+		
 		if(visionCone.VisibleTargets.Count == 0) // Player isn't in vision.
 			BreakClosestObject();
 		else
@@ -75,7 +73,7 @@ public class Anger : AIState
 
 	private IBreakable FindClosestBreakable()
 	{
-		path = new NavMeshPath();
+		NavMeshPath path = new NavMeshPath();
 
 		var breakablesVar = Object.FindObjectsOfType<MonoBehaviour>().OfType<IBreakable>();
 		List<IBreakable> breakables = breakablesVar.ToList();

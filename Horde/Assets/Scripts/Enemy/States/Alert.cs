@@ -39,11 +39,6 @@ public class Alert : AIState
 		}
 	}
 
-	public override void LeaveState()
-	{
-
-	}
-
 	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.AlertColor);
