@@ -10,22 +10,22 @@ public abstract class AIState
 	protected EnemyAttack enemyAttack;
 	protected VisionCone visionCone;
 	protected NavMeshAgent agent;
+	protected float duration;
 
-	public AIState(Enemy enemy)
+	public AIState(Enemy enemy) : this(enemy, Mathf.Infinity) { }
+
+	public AIState(Enemy enemy, float duration)
 	{
 		this.enemy = enemy;
+		this.duration = duration;
         
 		enemyMovement = enemy.GetComponent<EnemyMovement>();
 		enemyAttack = enemy.GetComponent<EnemyAttack>();
 		visionCone = enemy.GetComponentInChildren<VisionCone>();
 		agent = enemy.GetComponent<NavMeshAgent>();
 
-        if (visionCone == null)
-            Debug.Log("Vision cone is null");
 
 		InitializeState();
-
-		//GetPlayer();
 	}
 
 	private void InitializeState()
@@ -34,8 +34,22 @@ public abstract class AIState
 		UpdateTargetMask();
 	}
 
-	public abstract void Tick();
-	public abstract void LeaveState();
+	public virtual void Tick()
+	{
+		duration -= Time.smoothDeltaTime;
+		
+		if(duration <= 0)
+			LeaveState();
+	}
+	
+	public virtual void LeaveState()
+	{
+		if(enemy.HasPatrolPath)
+			enemy.ChangeState(new Patrol(enemy));
+		else
+			enemy.ChangeState(new Idle(enemy));
+	}
+
 	protected abstract void UpdateVisionCone();
 	protected abstract void UpdateTargetMask();
 }

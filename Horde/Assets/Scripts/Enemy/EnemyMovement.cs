@@ -62,9 +62,28 @@ public class EnemyMovement: MonoBehaviour
     /// Used for when there is a noise or something that catches an
     /// enemies attention.
     /// </summary>
-    public void LookAt(Vector3 pos)
+    public IEnumerator LookAtForDuration(Vector3 pos, float duration)
     {
-        transform.LookAt(pos);
+        Vector3 direction = pos - transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+        Quaternion startingRotation = transform.rotation;
+        
+        while(Vector3.Angle(transform.forward, pos - transform.position) >= 1f)
+        {
+            Debug.Log(Vector3.Angle(transform.forward, pos - transform.position));
+            transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 3.0f * Time.deltaTime);
+            
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        yield return new WaitForSeconds(duration); // Stare at the guard for as long as he is sad.
+
+        while(transform.rotation != startingRotation)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, startingRotation, 3.0f * Time.deltaTime);
+
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 
     public void TeleportToSpawn()

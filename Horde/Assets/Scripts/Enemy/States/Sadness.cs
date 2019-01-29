@@ -4,19 +4,26 @@ using UnityEngine;
 
 public class Sadness : AIState 
 {
-	public Sadness(Enemy enemy): base(enemy)
+	private LayerMask enemyMask = 1 << LayerMask.NameToLayer("Enemy");
+
+	public Sadness(Enemy enemy, float duration): base(enemy, duration)
 	{
-		
-	}
+		Collider[] enemies = Physics.OverlapSphere(enemy.transform.position, 15f, enemyMask);
 
-	public override void Tick()
-	{
+		// Make enemies look at the crying guard.
+		foreach(Collider c in enemies)
+		{
+			if(c.transform == enemy.transform) // Don't count itself.
+				continue;
 
-	}
-
-	public override void LeaveState()
-	{
-
+			Enemy _enemy = c.GetComponent<Enemy>();
+			if(_enemy.GetCurrentState() is Idle) // Only affect idle guards for now.
+			{
+				EnemyMovement enemyMovement = c.GetComponent<EnemyMovement>();
+				c.GetComponent<Enemy>().StartCoroutine(enemyMovement.LookAtForDuration(enemy.transform.position, duration));
+			}
+			
+		}
 	}
 
 	protected override void UpdateVisionCone()

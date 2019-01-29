@@ -11,7 +11,7 @@ public class Dart : MonoBehaviour
 	private Rigidbody rb;
 	private Vector3 oldVel;
 	private int bounces = 0;
-	private float dartDuration = 8.0f;
+	private float dartDuration = 6.0f;
 
 	private void Start () 
 	{
@@ -40,16 +40,16 @@ public class Dart : MonoBehaviour
 			switch(loadedEmotion)
 			{
 				case ResourceManager.ResourceType.Rage:
-					enemy.StartCoroutine(enemy.ChangeStateForDuration(new Anger(enemy), dartDuration));
+					enemy.ChangeState(new Anger(enemy, dartDuration));
 					break;
 				case ResourceManager.ResourceType.Joy:
-					enemy.StartCoroutine(enemy.ChangeStateForDuration(new Joy(enemy), dartDuration));
+					enemy.ChangeState(new Joy(enemy, dartDuration));
 					break;
 				case ResourceManager.ResourceType.Sadness:
-					enemy.StartCoroutine(enemy.ChangeStateForDuration(new Sadness(enemy), dartDuration));
+					enemy.ChangeState(new Sadness(enemy, dartDuration));
 					break;
 				case ResourceManager.ResourceType.Fear:
-					enemy.StartCoroutine(enemy.ChangeStateForDuration(new Fear(enemy), dartDuration));
+					enemy.ChangeState(new Fear(enemy, dartDuration));
 					break;
 			}
 				

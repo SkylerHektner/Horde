@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Fear : AIState
 {
-	public Fear(Enemy enemy): base(enemy)
+	public Fear(Enemy enemy, float duration): base(enemy, duration)
 	{
 		
 	}
@@ -19,11 +19,6 @@ public class Fear : AIState
  			float distance = Vector3.Distance(enemy.transform.position, closestTarget.position);
 			enemyMovement.MoveTo(runTo, enemy.EnemySettings.FearMovementSpeed);
 		}
-	}
-		
-	public override void LeaveState()
-	{
-		
 	}
 
 	protected override void UpdateVisionCone()

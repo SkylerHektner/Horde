@@ -16,23 +16,25 @@ public class Alert : AIState
 
 	public override void Tick()
 	{
-		// Just has basic chase behavior right now.
-
-		if(!visionCone.TryGetPlayer()) // If the player isn't in vision.
+		Player player = visionCone.TryGetPlayer();
+		if(player == null) // If the player isn't in vision.
 		{
-			if(enemy.HasPatrolPath)
-				enemy.ChangeState(new Patrol(enemy));
-			else
-				enemy.ChangeState(new Idle(enemy));
+			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
+			{
+				if(enemy.HasPatrolPath)
+					enemy.ChangeState(new Patrol(enemy));
+				else
+					enemy.ChangeState(new Idle(enemy));
+			}
 		}
 		else
 		{
-			enemyMovement.MoveTo(visionCone.TryGetPlayer().transform.position, enemy.EnemySettings.AlertMovementSpeed);
+			enemyMovement.MoveTo(player.transform.position, enemy.EnemySettings.AlertMovementSpeed);
 			
-			if(enemyAttack.IsInAttackRange(visionCone.TryGetPlayer().transform.position))
+			if(enemyAttack.IsInAttackRange(player.transform.position))
 			{
 				if(!enemyAttack.IsAttacking)
-					enemy.StartCoroutine(enemyAttack.Attack(visionCone.TryGetPlayer().gameObject));
+					enemy.StartCoroutine(enemyAttack.Attack(player.gameObject));
 			}
 		}
 	}

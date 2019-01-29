@@ -50,24 +50,7 @@ public class Enemy : MonoBehaviour
 
 	public void ChangeState(AIState state)
 	{
-		if(currentState != null)
-			currentState.LeaveState();
-
+		StopAllCoroutines();
 		currentState = state;
-	}
-
-	public IEnumerator ChangeStateForDuration(AIState state, float duration)
-	{
-		if(currentState != null)
-			currentState.LeaveState();
-
-		currentState = state;
-
-		yield return new WaitForSeconds(duration);
-
-		if(hasPatrolPath)
-			currentState = new Patrol(this);
-		else
-			currentState = new Idle(this);
 	}
 }

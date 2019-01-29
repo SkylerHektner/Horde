@@ -10,7 +10,7 @@ public class Anger : AIState
 	//Animator animator;
 	//private bool isAttacking;
 
-	public Anger(Enemy enemy): base(enemy)
+	public Anger(Enemy enemy, float duration): base(enemy, duration)
 	{
 		
 	}
@@ -34,11 +34,6 @@ public class Anger : AIState
 			}
 		}
 			
-	}
-
-	public override void LeaveState()
-	{
-		
 	}
 
 	protected override void UpdateVisionCone()

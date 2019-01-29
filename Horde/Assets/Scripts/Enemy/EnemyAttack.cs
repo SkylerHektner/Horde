@@ -37,18 +37,13 @@ public class EnemyAttack : MonoBehaviour
             target.GetComponent<PlayerMovement>().lockMovementControls = true; // Dont let player run away if getting attacked.
             Player.transform.LookAt(transform.position);
         }
-        else
-		{
-			target.GetComponent<Enemy>().ChangeState(new Idle(target.GetComponent<Enemy>()));
-			target.GetComponent<EnemyMovement>().Stop();
-		}
 
 		yield return new WaitForSeconds(0.75f);
 
 		if(target.tag == "Player") // If they strike the player
         {
-            yield return new WaitForSeconds(.75f);
-            target.GetComponent<Player>().Respawn();
+			// TODO: Start death animation.
+            yield return new WaitForSeconds(.75f); // Give the animation some time to play.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 		else
