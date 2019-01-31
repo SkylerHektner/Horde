@@ -85,10 +85,7 @@ public class PlayerMovement : MonoBehaviour
             transform.LookAt(targetPosition);
 
         }
-        if (lockMovementControls) // if caught
-        {
-            //GetComponent<Animator>().SetTrigger("Caught");
-        }
+
 
         // if we are not being carried and our controls are not locked, try to detect movement input and move
         if (!lockMovementControls && !beingCarried)
