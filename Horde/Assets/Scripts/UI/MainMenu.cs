@@ -9,9 +9,15 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField]
     public GameObject Menu;
+    public GameObject MenuTexts;
     public GameObject Settings;
     public Transform cameraLocationSettings;
     public Transform cameraLocationMenu;
+    public GameObject MovingMan;
+    public GameObject place;
+
+    bool moving = false;
+    public float timer = 200f;
 
 
     private void Start()
@@ -21,7 +27,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadLevel1()
 	{
-		SceneManager.LoadScene(1);
+        moving = true;
 	}
 
 	public void LoadLevelSelect()
@@ -49,5 +55,26 @@ public class MainMenu : MonoBehaviour
         GameManager.Instance.SetCameraLocation(newPos);
         Menu.SetActive(true);
         Settings.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (moving)
+        {
+            timer--;
+            Menu.SetActive(false);
+            MenuTexts.SetActive(false);
+
+            MovingMan.transform.GetComponent<Animator>().SetTrigger("MoveAway");
+            //Vector3 targetPosition = new Vector3(place.transform.position.x, place.transform.position.y, place.transform.position.z);
+
+            MovingMan.transform.LookAt(place.transform.position);
+            MovingMan.transform.Translate(Time.deltaTime, 0, Time.deltaTime * 3);
+            if (timer <= 0)
+            {
+                timer = 0;
+                SceneManager.LoadScene(1);
+            }
+        }
     }
 }
