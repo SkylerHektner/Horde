@@ -17,7 +17,7 @@ public class ViewHUD : MonoBehaviour
     void Update ()
     {
 
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKey(KeyCode.R) && !Input.GetKey(KeyCode.Mouse0))
         {
             transform.position = Player.GetComponent<Transform>().position;
             Player.gameObject.GetComponent<PlayerMovement>().lockToBack = true;
