@@ -39,7 +39,7 @@ public class DartGunController : MonoBehaviour
 
 		//Debug.DrawRay(origin, transform.forward * maxLaserDistance, Color.red);
 
-		if(HTargetingTool.Instance.GettingInput || RadialMenuUI.Instance.InEditMode)
+		if(HTargetingTool.Instance.GettingInput || RadialMenuUI.Instance.InEditMode || GetComponent<PlayerMovement>().isDead)
 			return;
 
 		if (Input.GetMouseButton(0))

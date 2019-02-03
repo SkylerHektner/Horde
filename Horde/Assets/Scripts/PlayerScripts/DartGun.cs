@@ -28,6 +28,9 @@ public class DartGun : MonoBehaviour
 	
 	private void Update() 
 	{
+        if(GetComponent<PlayerMovement>().isDead)
+            return;
+            
         if (isCrouching == true)
         {
             DartSpawn = dartSpawnLocationCrouched;
