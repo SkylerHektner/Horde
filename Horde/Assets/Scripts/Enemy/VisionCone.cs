@@ -23,6 +23,7 @@ public class VisionCone : MonoBehaviour
 	[SerializeField] private MeshFilter viewMeshFilter;
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private Transform root;
+    [SerializeField] private float lerpFactor = 2f;
 
 	private  Mesh viewMesh;
 	private List<Transform> visibleTargets = new List<Transform>();
@@ -31,7 +32,26 @@ public class VisionCone : MonoBehaviour
 	private bool playerInVision = false;
 	private NavMeshPath path;
 
-	private void Start()
+    private float bloomSpeed;
+    private Color color;
+
+    private float targetViewRadius;
+    private float targetViewAngle;
+    private Color targetColor;
+    private float targetBloomSpeed;
+
+    private void Awake()
+    {
+        color = mesh.material.color;
+        bloomSpeed = mesh.material.GetFloat("_BloomSpeed");
+
+        targetViewRadius = viewRadius;
+        targetViewAngle = viewAngle;
+        targetColor = color;
+        targetBloomSpeed = bloomSpeed;
+    }
+
+    private void Start()
 	{
 		foreach(LayerMask mask in obstacleMasks)
 		{
@@ -43,7 +63,7 @@ public class VisionCone : MonoBehaviour
 		viewMeshFilter.mesh = viewMesh;
         
 		StartCoroutine(FindTargetsWithDelay(0.05f));
-	}
+    }
 
 	private void Update()
 	{
@@ -64,6 +84,26 @@ public class VisionCone : MonoBehaviour
 		}
 
 		//Debug.Log(playerInVision);
+
+        if (viewRadius != targetViewRadius)
+        {
+            viewRadius = Mathf.Lerp(viewRadius, targetViewRadius, Time.deltaTime * lerpFactor);
+        }
+        if (viewAngle != targetViewAngle)
+        {
+            viewAngle = Mathf.Lerp(viewAngle, targetViewAngle, Time.deltaTime * lerpFactor);
+        }
+        if (color != targetColor)
+        {
+            color = Color.Lerp(color, targetColor, Time.deltaTime * lerpFactor);
+            mesh.material.color = color;
+        }
+        if (bloomSpeed != targetBloomSpeed)
+        {
+            bloomSpeed = Mathf.Lerp(bloomSpeed, targetBloomSpeed, Time.deltaTime * lerpFactor);
+            mesh.material.SetFloat("_BloomSpeed", bloomSpeed);
+        }
+
 	}
 
 	private void LateUpdate() //Only gets called AFTER the controller is updated.
@@ -92,7 +132,7 @@ public class VisionCone : MonoBehaviour
 	/// </summary>
 	public void ChangeColor(Color c)
 	{
-		mesh.materials[0].color = c;
+		targetColor = c;
 	}
 
     /// <summary>
@@ -101,7 +141,7 @@ public class VisionCone : MonoBehaviour
     /// <param name="rate"></param>
     public void ChangePulseRate(float rate)
     {
-        transform.GetComponentInChildren<Renderer>().material.SetFloat("_BloomSpeed", rate);
+        targetBloomSpeed = rate;
     }
 
 	/// <summary>
@@ -120,7 +160,7 @@ public class VisionCone : MonoBehaviour
 	/// </summary>
 	public void ChangeRadius(float radius)
 	{
-		viewRadius = radius;
+		targetViewRadius = radius;
 	}
 
 	/// <summary>
@@ -128,7 +168,7 @@ public class VisionCone : MonoBehaviour
 	/// </summary>
 	public void ChangeViewAngle(float angle)
 	{
-		viewAngle = angle;
+		targetViewAngle = angle;
 	}
 
 	public Transform GetClosestTarget()
