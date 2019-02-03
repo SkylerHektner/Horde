@@ -14,6 +14,8 @@
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
 		LOD 100
 
+		ZWrite Off
+
 		Pass
 		{
 			Blend SrcAlpha OneMinusSrcAlpha
