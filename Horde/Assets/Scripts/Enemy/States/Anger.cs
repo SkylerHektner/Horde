@@ -69,8 +69,9 @@ public class Anger : AIState
 			IBreakable target = FindClosestBreakable();
 			if(target == null)
 			{
-				// TODO: Initiate behavior when there aren't any more breakables.
-				return;
+                //Initiate behavior when there aren't any more breakables.
+                enemy.GetComponent<Animator>().SetBool("Angry", false);
+                return;
 			}
 
 			enemyMovement.MoveTo(target.GetPosition(), enemy.EnemySettings.AngerMovementSpeed);

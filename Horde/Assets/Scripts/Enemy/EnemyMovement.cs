@@ -8,6 +8,7 @@ public class EnemyMovement: MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     private Vector3 lastPos;
+    public bool talking;
     
     private void Awake()
     {

@@ -51,7 +51,8 @@ public class Enemy : MonoBehaviour
 
 	public void ChangeState(AIState state)
 	{
-		//StopAllCoroutines();
-		currentState = state;
+        //StopAllCoroutines();
+        transform.GetComponent<Animator>().SetTrigger("StopTalking");
+        currentState = state;
 	}
 }
