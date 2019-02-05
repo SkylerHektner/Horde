@@ -43,7 +43,7 @@ public class H_Pickup : Heuristic
                     else if (playerTarget != null)
                     {
                         originalParent = playerTarget.transform.parent;
-                        playerTarget.toggleCarryMode();
+                        //playerTarget.toggleCarryMode();
                         playerTarget.transform.parent = transform;
                         playerTarget.transform.localPosition = carryOffset;
                         playerTarget.transform.rotation = Quaternion.identity;
@@ -68,7 +68,7 @@ public class H_Pickup : Heuristic
                     }
                     else if (playerTarget != null)
                     {
-                        playerTarget.untoggleCarryMode();
+                        //playerTarget.untoggleCarryMode();
                         playerTarget.transform.parent = originalParent;
                         playerTarget.transform.position = playerTarget.transform.position - carryOffset;
                         playerTarget.transform.rotation = Quaternion.identity;
