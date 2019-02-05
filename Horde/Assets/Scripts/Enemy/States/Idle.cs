@@ -15,7 +15,6 @@ public class Idle : AIState
 		// Go back to original location.
 		if(enemy.SpawnPosition != null)
 		{
-			Debug.Log("Hit");
 			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
 		}
 		    
