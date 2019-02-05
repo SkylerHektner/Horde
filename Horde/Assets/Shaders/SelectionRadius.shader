@@ -8,6 +8,7 @@
 		_BloomSpeed("Bloom Speed", Range(.2,2)) = 1
 		_BloomFadeOffset("Bloom Fade Offset", Range(0,1)) = 0.65
 		_BloomFadeMagnitude("Bloom Fade Magnitude", Range(0,1)) = 0.5
+		_OpacityFalloff("Opacity Falloff Factor", Range(0,1)) = 0.5
 	}
 	SubShader
 	{
@@ -45,6 +46,7 @@
 			float _BloomSpeed;
 			float _BloomFadeOffset;
 			float _BloomFadeMagnitude;
+			float _OpacityFalloff;
 			
 			v2f vert (appdata v)
 			{
@@ -56,9 +58,11 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
+				half2 originalUV = i.uv;
 				i.uv.x -= _Time.y * _BloomSpeed;
 				fixed4 col = tex2D(_MainTex, i.uv) * _Color;
 				col.a *= _Alpha * (abs(sin((_Time.y * _BloomSpeed + 0.65) * 3.14)) * _BloomFadeMagnitude + (1 - _BloomFadeMagnitude));
+				col.a *= (1.0 - max(abs(0.5 - originalUV.x), abs(0.5 - originalUV.y)) * 2 * _OpacityFalloff) ;
 				return col;
 			}
 			ENDCG
