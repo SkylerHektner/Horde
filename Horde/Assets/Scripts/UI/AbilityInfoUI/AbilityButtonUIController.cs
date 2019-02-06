@@ -61,17 +61,23 @@ public class AbilityButtonUIController : MonoBehaviour {
         }
     }
 
+    public void DisableActiveButton()
+    {
+        if (activeString != "NONE")
+        {
+            activeString = "NONE";
+            cb = activeButton.colors;
+            cb.normalColor = normalButtonColor;
+            cb.highlightedColor = highlightedButtonColor;
+            activeButton.colors = cb;
+        }
+    }
+
 	// Use this for initialization
 	void Awake () {
 		if (ButtonEvent == null)
         {
             ButtonEvent = new AbilityButtonEvent();
         }
-	}
-
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
 }

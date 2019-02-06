@@ -48,6 +48,11 @@ public class AbilityInfoMenu : MonoBehaviour {
         {
             isActive = !isActive;
 
+            if(!isActive)
+            {
+                AbilityInfoPanel.SetActive(false);
+                ButtonController.DisableActiveButton();
+            }
             AbilityInfoButtonPanel.SetActive(isActive);
         }
 	}
