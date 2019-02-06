@@ -42,13 +42,13 @@ MonoBehaviour:
   ambientOcclusion:
     m_Enabled: 0
     m_Settings:
-      intensity: 2
-      radius: 0.3
+      intensity: 2.01
+      radius: 2.44
       sampleCount: 10
       downsampling: 1
-      forceForwardCompatibility: 0
+      forceForwardCompatibility: 1
       ambientOnly: 0
-      highPrecision: 0
+      highPrecision: 1
   screenSpaceReflection:
     m_Enabled: 0
     m_Settings:
@@ -97,16 +97,16 @@ MonoBehaviour:
       logMin: -8
       logMax: 4
   bloom:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       bloom:
-        intensity: 0.5
+        intensity: 1
         threshold: 1.1
         softKnee: 0.5
         radius: 4
-        antiFlicker: 0
+        antiFlicker: 1
       lensDirt:
-        texture: {fileID: 0}
+        texture: {fileID: 2800000, guid: d1e0ea0f7624ec944aef2e572ffa1edc, type: 3}
         intensity: 3
   colorGrading:
     m_Enabled: 0
@@ -300,9 +300,9 @@ MonoBehaviour:
         e_CurveG: 0
         e_CurveB: 0
   userLut:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
-      lut: {fileID: 2800000, guid: 8177989ebfc26c7409478e9e548c3a31, type: 3}
+      lut: {fileID: 2800000, guid: fd364ffb8ad92434cbe61d69dbd0f958, type: 3}
       contribution: 1
   chromaticAberration:
     m_Enabled: 0
@@ -312,24 +312,24 @@ MonoBehaviour:
   grain:
     m_Enabled: 0
     m_Settings:
-      colored: 1
-      intensity: 1
-      size: 1
-      luminanceContribution: 0.8
+      colored: 0
+      intensity: 0.138
+      size: 0.89
+      luminanceContribution: 0.667
   vignette:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       mode: 0
       color: {r: 0, g: 0, b: 0, a: 1}
-      center: {x: 10, y: 10}
-      intensity: 1
-      smoothness: 0.2
-      roundness: 1
+      center: {x: 0.5, y: 0.5}
+      intensity: 0.24
+      smoothness: 0.371
+      roundness: 0.499
       mask: {fileID: 0}
       opacity: 1
       rounded: 0
   dithering:
-    m_Enabled: 0
+    m_Enabled: 1
   monitors:
     currentMonitorID: 0
     refreshOnPlay: 0

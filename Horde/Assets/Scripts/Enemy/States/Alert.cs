@@ -16,29 +16,35 @@ public class Alert : AIState
 
 	public override void Tick()
 	{
-		// Just has basic chase behavior right now.
-
-		if(!visionCone.TryGetPlayer()) // If the player isn't in vision.
+		Player player = visionCone.TryGetPlayer();
+		if(player == null || player.GetComponent<PlayerMovement>().isDead) // If the player isn't in vision or player is dead.
 		{
-			if(enemy.HasPatrolPath)
-				enemy.ChangeState(new Patrol(enemy));
-			else
-				enemy.ChangeState(new Idle(enemy));
+			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
+			{
+				if(enemy.HasPatrolPath)
+					enemy.ChangeState(new Patrol(enemy));
+				else
+					enemy.ChangeState(new Idle(enemy));
+			}
 		}
 		else
 		{
-			enemyMovement.MoveTo(visionCone.TryGetPlayer().transform.position);
+			enemyMovement.MoveTo(player.transform.position, enemy.EnemySettings.AlertMovementSpeed);
+			
+			if(enemyAttack.IsInAttackRange(player.transform.position))
+			{
+				if(!enemyAttack.IsAttacking)
+					enemy.StartCoroutine(enemyAttack.Attack(player.gameObject));
+			}
 		}
 	}
 
-	public override void LeaveState()
-	{
-
-	}
-
-	protected override void UpdateVisionConeColor()
+	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.AlertColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.AlertVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.AlertVisionConeViewAngle);
+        visionCone.ChangePulseRate(.5f);
 	}
 
 	protected override void UpdateTargetMask()

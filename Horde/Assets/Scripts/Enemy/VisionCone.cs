@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // This class is heavily based on the youtube tutorial https://www.youtube.com/watch?v=rQG9aUWarwE&list=PLFt_AvWsXl0dohbtVgHDNmgZV_UY7xZv7
 
-[RequireComponent(typeof(Enemy))]
 public class VisionCone : MonoBehaviour 
 {
 	//public event Action OnTargetEnteredVision = delegate { };
@@ -21,15 +21,37 @@ public class VisionCone : MonoBehaviour
 	[SerializeField] private List<LayerMask> obstacleMasks;
 	[SerializeField] private float meshResolution;
 	[SerializeField] private MeshFilter viewMeshFilter;
+    [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private Transform root;
+    [SerializeField] private float lerpFactor = 2f;
 
 	private  Mesh viewMesh;
-	private Enemy enemy;
 	private List<Transform> visibleTargets = new List<Transform>();
 	private LayerMask targetMask;
 	private LayerMask obstacleMask;
 	private bool playerInVision = false;
+	private NavMeshPath path;
 
-	private void Start()
+    private float bloomSpeed;
+    private Color color;
+
+    private float targetViewRadius;
+    private float targetViewAngle;
+    private Color targetColor;
+    private float targetBloomSpeed;
+
+    private void Awake()
+    {
+        color = mesh.material.color;
+        bloomSpeed = mesh.material.GetFloat("_BloomSpeed");
+
+        targetViewRadius = viewRadius;
+        targetViewAngle = viewAngle;
+        targetColor = color;
+        targetBloomSpeed = bloomSpeed;
+    }
+
+    private void Start()
 	{
 		foreach(LayerMask mask in obstacleMasks)
 		{
@@ -39,13 +61,13 @@ public class VisionCone : MonoBehaviour
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;
-
-		enemy = GetComponent<Enemy>();
+        
 		StartCoroutine(FindTargetsWithDelay(0.05f));
-	}
+    }
 
 	private void Update()
 	{
+		//Debug.Log(visibleTargets.Count);
 		if(targetMask == LayerMask.GetMask("Player")) // If the Layer Mask is for only the player.
 		{
 			if(!playerInVision && visibleTargets.Count == 1)
@@ -62,6 +84,26 @@ public class VisionCone : MonoBehaviour
 		}
 
 		//Debug.Log(playerInVision);
+
+        if (viewRadius != targetViewRadius)
+        {
+            viewRadius = Mathf.Lerp(viewRadius, targetViewRadius, Time.deltaTime * lerpFactor);
+        }
+        if (viewAngle != targetViewAngle)
+        {
+            viewAngle = Mathf.Lerp(viewAngle, targetViewAngle, Time.deltaTime * lerpFactor);
+        }
+        if (color != targetColor)
+        {
+            color = Color.Lerp(color, targetColor, Time.deltaTime * lerpFactor);
+            mesh.material.color = color;
+        }
+        if (bloomSpeed != targetBloomSpeed)
+        {
+            bloomSpeed = Mathf.Lerp(bloomSpeed, targetBloomSpeed, Time.deltaTime * lerpFactor);
+            mesh.material.SetFloat("_BloomSpeed", bloomSpeed);
+        }
+
 	}
 
 	private void LateUpdate() //Only gets called AFTER the controller is updated.
@@ -90,8 +132,17 @@ public class VisionCone : MonoBehaviour
 	/// </summary>
 	public void ChangeColor(Color c)
 	{
-		transform.GetComponentInChildren<MeshRenderer>().materials[0].color = c;
+		targetColor = c;
 	}
+
+    /// <summary>
+    /// Changes the "pulse" rate on the vision cone shader. 0.3 = normal, 0.6 = fast, 0.15 = slow
+    /// </summary>
+    /// <param name="rate"></param>
+    public void ChangePulseRate(float rate)
+    {
+        targetBloomSpeed = rate;
+    }
 
 	/// <summary>
 	///	Changes which layers the vision cone considers targets.
@@ -103,6 +154,68 @@ public class VisionCone : MonoBehaviour
 	{
 		targetMask = layerMask;
 	}
+
+	/// <summary>
+	/// Changes the radius of the vision cone.
+	/// </summary>
+	public void ChangeRadius(float radius)
+	{
+		targetViewRadius = radius;
+	}
+
+	/// <summary>
+	/// Changes the view angle of the vision cone.
+	/// </summary>
+	public void ChangeViewAngle(float angle)
+	{
+		targetViewAngle = angle;
+	}
+
+	public Transform GetClosestTarget()
+	{
+		float closestDistance = 10000f;
+        Transform closestTarget = visibleTargets[0];
+		path = new NavMeshPath();
+
+        foreach (Transform t in visibleTargets)
+        {
+			if(t == null)
+				continue; 
+				
+            GetComponentInParent<NavMeshAgent>().CalculatePath(new Vector3(t.transform.position.x, 0.0f, t.transform.position.z), path); // Calculate the NavMesh path to the object
+
+            if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
+            {
+                float distance = GetPathDistance(path.corners);
+
+                if (distance <= closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTarget = t;
+                }
+            }
+        }
+
+		return closestTarget;
+	}
+
+	/// <summary>
+    /// Given an array of Vector3's (the corners of the path),
+    /// This function will return the total distance of the path.
+    /// </summary>
+    /// <param name="corners"></param>
+    /// <returns></returns>
+    private float GetPathDistance(Vector3[] corners)
+    {
+        float totalDistance = 0;
+
+        for(int i = 0; i < corners.Length - 1; i++)
+        {
+            totalDistance += Vector3.Distance(corners[i], corners[i + 1]);
+        }
+
+        return totalDistance;
+    }
 
 	/// <summary>
 	/// Takes in an angle and spits out the direction of that angle.
@@ -132,10 +245,18 @@ public class VisionCone : MonoBehaviour
 		for(int i = 0; i < targetsInViewRadius.Length; i++)
 		{
 			Transform target = targetsInViewRadius[i].transform;
-			Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+			if(target == root) // Don't count itself.
+            {
+                continue;
+            }
+				
+
+			Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, target.position.z);	
+			Vector3 dirToTarget = (targetPosition - transform.position).normalized;
 			
 			// Check if the target is within the view angle
-			if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+			if(Vector3.Angle(dirToTarget, transform.forward) < viewAngle / 2)
 			{
 				float distanceToTarget = Vector3.Distance(transform.position, target.position);
 

@@ -6,52 +6,86 @@ using System.Linq;
 
 public class Anger : AIState
 {
-	NavMeshPath path;
-
-	public Anger(Enemy enemy): base(enemy)
+	public Anger(Enemy enemy, float duration): base(enemy, duration)
 	{
+        enemy.GetComponent<Animator>().SetBool("Angry", true);
+        enemy.GetComponent<Animator>().SetBool("Happy", false);
+        enemy.GetComponent<Animator>().SetBool("Sad", false);
+        enemy.GetComponent<Animator>().SetBool("Scared", false);
+
+    }
+
+    public override void Tick()
+	{
+		base.Tick();
 		
-	}
-
-	public override void Tick()
-	{
-		if(visionCone.TryGetPlayer() == null) // Player isn't in vision.
+		if(visionCone.VisibleTargets.Count == 0) // Player isn't in vision.
 			BreakClosestObject();
+		else
+		{
+			if(visionCone.GetClosestTarget() == null)
+				return;
+
+            enemyMovement.MoveTo(visionCone.GetClosestTarget().position, enemy.EnemySettings.AngerMovementSpeed);
+
+			Transform closestTarget = visionCone.GetClosestTarget();
+			if(enemyAttack.IsInAttackRange(closestTarget.position))
+			{
+				if(!enemyAttack.IsAttacking)
+					enemy.StartCoroutine(enemyAttack.Attack(closestTarget.gameObject));
+			}
+		}
+			
 	}
 
 	public override void LeaveState()
-	{
-		
-	}
+    {
+        enemy.GetComponent<Animator>().SetBool("Angry", false);
 
-	protected override void UpdateVisionConeColor()
+        base.LeaveState();
+    }
+
+	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.AngerColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.AngerVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.AngerVisionConeViewAngle);
+        visionCone.ChangePulseRate(0.5f);
 	}
 
 	protected override void UpdateTargetMask()
 	{
-		
+		// Targets in the vision cone should be the player and other guards.
+		LayerMask playerMask = 1 << LayerMask.NameToLayer("Player");
+		LayerMask enemyMask = 1 << LayerMask.NameToLayer("Enemy");
+		LayerMask targetMask = playerMask | enemyMask;
+		visionCone.ChangeTargetMask(targetMask);
 	}
 
 	private void BreakClosestObject()
 	{
-		IBreakable target = FindClosestBreakable();
-		if(target == null)
+		if(!enemyAttack.IsAttacking)
 		{
-			// TODO: Initiate behavior when there aren't any more breakables.
-			return;
+			IBreakable target = FindClosestBreakable();
+			if(target == null)
+			{
+                //Initiate behavior when there aren't any more breakables.
+                enemy.GetComponent<Animator>().SetBool("Angry", false);
+                return;
+			}
+
+			enemyMovement.MoveTo(target.GetPosition(), enemy.EnemySettings.AngerMovementSpeed);
+
+			if(enemyAttack.IsInAttackRange(target.GetPosition()))
+			{
+				enemy.StartCoroutine(enemyAttack.AttackBreakable(target));
+			}
 		}
-
-		enemyMovement.MoveTo(target.GetPosition());
-
-		if(enemyAttack.IsInAttackRange(target.GetPosition()))
-			target.Break();
 	}
 
 	private IBreakable FindClosestBreakable()
 	{
-		path = new NavMeshPath();
+        NavMeshPath path = new NavMeshPath();
 
 		var breakablesVar = Object.FindObjectsOfType<MonoBehaviour>().OfType<IBreakable>();
 		List<IBreakable> breakables = breakablesVar.ToList();
@@ -64,9 +98,7 @@ public class Anger : AIState
 
         foreach (IBreakable b in breakables)
         {
-			//Debug.Log(b.GetPosition());
             agent.CalculatePath(new Vector3(b.GetPosition().x, 0.0f, b.GetPosition().z), path); // Calculate the NavMesh path to the object
-			Debug.Log(path.status); // WHY IS THIS ALWAYS INVALID???
 
             if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
             {
@@ -100,4 +132,5 @@ public class Anger : AIState
 
         return totalDistance;
     }
+
 }

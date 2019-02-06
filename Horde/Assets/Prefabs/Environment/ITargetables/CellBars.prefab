@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4414460990775344}
-  - component: {fileID: 114047672482177638}
+  - component: {fileID: 208589723863081802}
   m_Layer: 0
   m_Name: CellBars
   m_TagString: Untagged
@@ -69,9 +69,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4738491644180532}
-  - component: {fileID: 114798863532220982}
-  - component: {fileID: 208922893249931598}
-  - component: {fileID: 114620094424844852}
   m_Layer: 0
   m_Name: Hinge
   m_TagString: Untagged
@@ -189,8 +186,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402866007064506}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 5.1085005, y: 44.09462, z: 9.253752}
-  m_LocalScale: {x: 1.4146445, y: 23.901722, z: 1.4146445}
+  m_LocalPosition: {x: -3.1018524, y: 5.782222, z: -2.1963463}
+  m_LocalScale: {x: 2, y: 1.5923, z: 2}
   m_Children:
   - {fileID: 4738491644180532}
   - {fileID: 4062271324393554}
@@ -437,61 +434,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1821746097947610}
   m_Mesh: {fileID: 4300004, guid: 1619ca725fb90411caa15bceb12f6381, type: 3}
---- !u!114 &114047672482177638
-MonoBehaviour:
+--- !u!208 &208589723863081802
+NavMeshObstacle:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402866007064506}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 805a361529bdf8d439b37cd6db5f247f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OpenAngle: 90
-  smooth: 2
-  SpaceBarTesting: 0
---- !u!114 &114620094424844852
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1585094385327108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 0
-  m_Area: 0
-  m_IgnoreFromBuild: 1
-  m_AffectedAgents: ffffffff
---- !u!114 &114798863532220982
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1585094385327108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 805a361529bdf8d439b37cd6db5f247f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OpenAngle: 90
-  smooth: 2
-  SpaceBarTesting: 0
---- !u!208 &208922893249931598
-NavMeshObstacle:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1585094385327108}
-  m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.09, y: 1.705, z: 0.785}
+  m_Extents: {x: 0.275, y: 2.35, z: 2.9}
   m_MoveThreshold: 0.1
   m_Carve: 0
-  m_CarveOnlyStationary: 0
-  m_Center: {x: 0.01, y: -0.02, z: -0.79}
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.08}
   m_TimeToStationary: 0.5

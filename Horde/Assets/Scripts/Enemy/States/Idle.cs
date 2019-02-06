@@ -13,10 +13,18 @@ public class Idle : AIState
 	public Idle(Enemy enemy): base(enemy)
 	{
 		// Go back to original location.
+		if(enemy.SpawnPosition != null)
+		{
+			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+		}
+		    
 	}
 
 	public override void Tick()
 	{
+		if(enemy.transform.position != enemy.SpawnPosition)
+			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+			
 		if(visionCone.TryGetPlayer())
 		{
 			//EnemyManager.instance.AlertEnemies();
@@ -29,9 +37,12 @@ public class Idle : AIState
 
 	}
 
-	protected override void UpdateVisionConeColor()
+	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.DefaultColor);
+		visionCone.ChangeRadius(enemy.EnemySettings.DefaultVisionConeRadius);
+		visionCone.ChangeViewAngle(enemy.EnemySettings.DefaultVisionConeViewAngle);
+        visionCone.ChangePulseRate(0.3f);
 	}
 
 	protected override void UpdateTargetMask()

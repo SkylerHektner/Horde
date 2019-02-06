@@ -6,28 +6,39 @@ using UnityEngine;
 public class PressurePlate : MonoBehaviour {
 
     public GameObject[] listeners;
+    public bool guardsCanTrigger = false;
+
+    private int onCount = 0;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (listeners != null)
+        if (other.gameObject.tag == "Player" || guardsCanTrigger)
         {
-            foreach (GameObject handler in listeners)
+            onCount++;
+            if (listeners != null && onCount == 1)
             {
-                handler.GetComponent<ITriggerHandler>().TriggerOn();
+                foreach (GameObject handler in listeners)
+                {
+                    handler.GetComponent<ITriggerHandler>().TriggerOn();
+                }
+                Debug.Log("TRIGGERED");
             }
         }
-        Debug.Log("TRIGGERED");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (listeners != null)
+        if (other.gameObject.tag == "Player" || guardsCanTrigger)
         {
-            foreach (GameObject handler in listeners)
+            onCount--;
+            if (listeners != null && onCount == 0)
             {
-                handler.GetComponent<ITriggerHandler>().TriggerOff();
+                foreach (GameObject handler in listeners)
+                {
+                    handler.GetComponent<ITriggerHandler>().TriggerOff();
+                }
+                Debug.Log("UN TRIGGERED");
             }
         }
-        Debug.Log("UN TRIGGERED");
     }
 }

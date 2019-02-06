@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class DartGunController : MonoBehaviour 
 {
-	[SerializeField]
-	private GameObject dart;
-
-	[SerializeField]
-	private Transform dartSpawnLocation;
+    [SerializeField] private GameObject dart;
+	[SerializeField] private Transform dartSpawnLocation;
+    [SerializeField] private float attackCooldown = 1;
 
 	private Rigidbody dartRB;
 	//private Vector3 origin;
@@ -18,6 +16,7 @@ public class DartGunController : MonoBehaviour
 	private Vector3 mousePosition;
 	private LineRenderer lr;
 	private RaycastHit gunRayHit;
+    private bool attackOnCooldown = false;
 
 	void Start () 
 	{
@@ -40,10 +39,10 @@ public class DartGunController : MonoBehaviour
 
 		//Debug.DrawRay(origin, transform.forward * maxLaserDistance, Color.red);
 
-		if(HTargetingTool.Instance.GettingInput || RadialMenuUI.Instance.InEditMode)
+		if(HTargetingTool.Instance.GettingInput || RadialMenuUI.Instance.InEditMode || GetComponent<PlayerMovement>().isDead)
 			return;
 
-		if (Input.GetMouseButton(0) && RadialMenuUI.Instance.curBehaviorCount != 0)
+		if (Input.GetMouseButton(0))
 		{
             lr.enabled = true;
             if (Physics.Raycast(dartSpawnLocation.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
@@ -64,9 +63,12 @@ public class DartGunController : MonoBehaviour
                 lr.SetPosition(1, dartSpawnLocation.position + transform.forward * maxLaserDistance);
             }
         }
-        if (Input.GetMouseButtonUp(0) && RadialMenuUI.Instance.curBehaviorCount != 0)
+        if (Input.GetMouseButtonUp(0))
         {
-            Fire();
+            Debug.Log(attackOnCooldown);
+            if(!attackOnCooldown)
+                //StartCoroutine(Fire());
+
             lr.enabled = false;
         }
 	}
@@ -77,12 +79,9 @@ public class DartGunController : MonoBehaviour
 		lr.endColor = c;
 	}
 
-	public void Fire()
+	private IEnumerator Fire()
 	{
-        if (!ResourceManager.Instance.HasEmotion(RadialMenuUI.Instance.GetHeuristicChain()))
-        {
-            return;
-        }
+        attackOnCooldown = true;
 
 		Vector3 endpoint = dartSpawnLocation.position + transform.forward * maxLaserDistance;
 		GameObject dartGO = Instantiate(dart, dartSpawnLocation.position, transform.rotation);
@@ -99,5 +98,9 @@ public class DartGunController : MonoBehaviour
 
 		dartGO.GetComponent<Dart>().Heuristics = RadialMenuUI.Instance.GetHeuristicChain();
 		RadialMenuUI.Instance.ClearCapsule();
+
+        yield return new WaitForSeconds(attackCooldown);
+
+        attackOnCooldown = false;
 	}
 }

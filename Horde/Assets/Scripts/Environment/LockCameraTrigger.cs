@@ -6,7 +6,8 @@ public class LockCameraTrigger : MonoBehaviour
 {
 
 	[SerializeField]
-	private Transform cameraLocation;
+	public Transform cameraLocation;
+
 	private void OnTriggerEnter(Collider c)
 	{
 		if(c.tag == "Player")
@@ -16,6 +17,10 @@ public class LockCameraTrigger : MonoBehaviour
             //cameraLocation.position = newPos;
            
 			GameManager.Instance.SetCameraLocation(newPos);
+
+
+
+            c.GetComponent<PlayerMovement>().CamGirl = newPos;
 		}
 	}
 }
