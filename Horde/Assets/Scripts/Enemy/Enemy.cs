@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
 
 	private NavMeshAgent agent;
 	private EnemyAttack enemyAttack;
+	private EnemyMovement enemyMovement;
 
 	private AIState currentState;
 	private Vector3 spawnPosition;
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour
 
 		agent = GetComponent<NavMeshAgent>();
 		enemyAttack = GetComponent<EnemyAttack>();
+		enemyMovement = GetComponent<EnemyMovement>();
 
 		enemyMask = 1 << LayerMask.NameToLayer("Enemy");
 
@@ -84,5 +86,11 @@ public class Enemy : MonoBehaviour
 			Destroy(c.gameObject);
 
 		Destroy(gameObject);
+	}
+
+	public void Respawn()
+	{
+		enemyMovement.Stop();
+		enemyMovement.Respawn(spawnPosition);
 	}
 }

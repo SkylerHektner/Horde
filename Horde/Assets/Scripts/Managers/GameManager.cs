@@ -10,19 +10,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // Singleton instance
 
-    public delegate void CaptureAction();
-    public static event CaptureAction OnCaptured; // When the enemy catches the player.
-
-    private Unit[] enemies;
+    private Room[] rooms;
     private GameObject player;
 
-    [SerializeField]
-    private CameraController cameraController;
-
-    [SerializeField]
-    //private Transform[] checkpoints;
-    private Checkpoint[] checkpoints;
-    private Checkpoint currentCheckpoint;
+    [SerializeField] private CameraController cameraController;
 
     private void Awake()
     {
@@ -35,39 +26,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Populate the enemies array
-        enemies = GameObject.Find("Enemies").GetComponentsInChildren<Unit>();
-        player = PlayerManager.instance.Player;
-
-        currentCheckpoint = checkpoints[0];
+        //rooms = GameObject.Find("Rooms").GetComponentsInChildren<Room>();
     }
 	
 	private void Update ()
     {
 
 	}
-
-    public void ResetLevel()
-    {
-        player.GetComponent<NavMeshAgent>().Warp(currentCheckpoint.transform.position); // Telepport the player to the current checkpoint.
-
-        enemies = GameObject.Find("Enemies").GetComponentsInChildren<Unit>();
-        
-        foreach(Unit enemy in enemies)
-        {
-            Destroy(enemy.GetComponent<Heuristic>()); // Remove whatever heuristic it's executing.
-            enemy.GetComponent<NavMeshAgent>().Warp(enemy.GetComponent<Unit>().InitialPosition); // Set position to it's initial location.
-            enemy.GetComponent<Unit>().UnitController.ResetPatrolPathing(); // Make sure the unit starts at the beginning of his patrol. 
-        }
-    }
-
-    /// <summary>
-    /// Sets the current checkpoints to the checkpoint that is passed in.
-    /// </summary>
-    public void SetCheckpoint(Checkpoint cp)
-    {
-        currentCheckpoint = cp;
-    }
 
     public void SetCameraLocation(Vector3 v)
     {

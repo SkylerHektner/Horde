@@ -8,7 +8,7 @@ public class LethalOnTrigger : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            GameManager.Instance.ResetLevel();
+            //GameManager.Instance.ResetLevel();
         }
     }
 }
