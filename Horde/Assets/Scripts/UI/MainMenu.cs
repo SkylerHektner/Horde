@@ -22,7 +22,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        Settings.SetActive(false);
+        if(Settings != null)
+            Settings.SetActive(false);
     }
 
     public void LoadLevel1()
