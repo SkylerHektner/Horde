@@ -56,18 +56,14 @@ public class AbilityInfoMenu : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update () {
-		if(Input.GetKeyDown(KeyCode.Tab))
+    public void ActivateAbilityMenu()
+    {
+        isActive = !isActive;
+        if(!isActive)
         {
-            isActive = !isActive;
-
-            if(!isActive)
-            {
-                AbilityInfoPanel.SetActive(false);
-                ButtonController.DisableActiveButton();
-            }
-            AbilityInfoButtonPanel.SetActive(isActive);
+            AbilityInfoPanel.SetActive(false);
+            ButtonController.DisableActiveButton();
         }
-	}
+        AbilityInfoButtonPanel.SetActive(isActive);
+    }
 }
