@@ -10,15 +10,16 @@ public class MaterialSwapTrigger : MonoBehaviour {
     /// </summary>
     public GameObject MeshGroupParent;
     /// <summary>
-    /// set this to the material you want the meshes to use after the swap
+    /// Set this to the materials you want the meshes to use after the swap
+    /// Some meshes use more than one material which is why this is an array
     /// </summary>
-    public Material Mat;
+    public Material[] Mats;
 
-    private Material originalMat;
+    private Material[] originalMats;
 
     private void Start()
     {
-        originalMat = MeshGroupParent.GetComponentInChildren<MeshRenderer>().material;
+        originalMats = MeshGroupParent.GetComponentInChildren<MeshRenderer>().materials;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,7 +29,7 @@ public class MaterialSwapTrigger : MonoBehaviour {
             MeshRenderer[] meshRenderers = MeshGroupParent.GetComponentsInChildren<MeshRenderer>();
             foreach (MeshRenderer mr in meshRenderers)
             {
-                mr.material = Mat;
+                mr.materials = Mats;
             }
         }
     }
@@ -40,7 +41,7 @@ public class MaterialSwapTrigger : MonoBehaviour {
             MeshRenderer[] meshRenderers = MeshGroupParent.GetComponentsInChildren<MeshRenderer>();
             foreach (MeshRenderer mr in meshRenderers)
             {
-                mr.material = originalMat;
+                mr.materials = originalMats;
             }
         }
     }
