@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class GetAbilityInfoEvent : UnityEvent<string, string, string> { }
 
@@ -15,7 +16,7 @@ public class AbilityButton : MonoBehaviour {
     [Tooltip("How the ability works as well as any Lore about the ability")]
     public string AbilityText;
     [Tooltip("The filename of the ability")]
-    public string AbilityImage;
+    public VideoClip AbilityClip;
 
     [SerializeField]
     [Header("Ability Button Scripts")]
@@ -30,7 +31,7 @@ public class AbilityButton : MonoBehaviour {
 	
     public void SendInfo()
     {
-        Controller.AbilityButtonPressed(AbilityName, AbilityText, AbilityImage, ActualButton);
+        Controller.AbilityButtonPressed(AbilityName, AbilityText, AbilityClip, ActualButton);
     }
 
 	// Update is called once per frame

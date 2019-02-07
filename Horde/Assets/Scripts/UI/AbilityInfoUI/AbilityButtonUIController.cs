@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
-
-public class AbilityButtonEvent : UnityEvent<string,string,string, bool>{}
+public class AbilityButtonEvent : UnityEvent<string,string,VideoClip, bool>{}
 
 public class AbilityButtonUIController : MonoBehaviour {
 
@@ -27,10 +27,10 @@ public class AbilityButtonUIController : MonoBehaviour {
     private string activeString = "NONE";
     private Button activeButton;
 
-    public void AbilityButtonPressed(string name, string description, string filename, Button sender)
+    public void AbilityButtonPressed(string name, string description, VideoClip clip, Button sender)
     {
         bool alreadyactive = (activeString == name);
-        ButtonEvent.Invoke(name, description, filename, !alreadyactive);
+        ButtonEvent.Invoke(name, description, clip, !alreadyactive);
 
         if(!alreadyactive)
         {

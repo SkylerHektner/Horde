@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class AbilityInfoMenu : MonoBehaviour {
 
@@ -10,6 +11,8 @@ public class AbilityInfoMenu : MonoBehaviour {
     public GameObject AbilityInfoButtonPanel;
     [Tooltip("The panel that the ability information will appear on")]
     public GameObject AbilityInfoPanel;
+    [Tooltip("The video streamer for the info panel")]
+    public VideoStreamer streamer;
 
     [SerializeField]
     [Header("UI CONTROL SCRIPTS")]
@@ -27,7 +30,7 @@ public class AbilityInfoMenu : MonoBehaviour {
         AbilityInfoPanel.SetActive(false);
 	}
 
-    private void activateInfoPanel(string name, string description, string filename, bool activate)
+    private void activateInfoPanel(string name, string description, VideoClip videoclip, bool activate)
     {
         if (activate)
         { 
@@ -35,9 +38,20 @@ public class AbilityInfoMenu : MonoBehaviour {
             AbilityInfo.NameText.text = name;
             Debug.Log("Text is: " + description);
             AbilityInfo.DescriptionText.text = description;
+            if(streamer != null)
+            {
+                if(streamer.videoPlayer.isPlaying)
+                {
+                    streamer.endPlaying();
+                }
+                streamer.videoPlayer.clip = videoclip;
+                Debug.Log("CALL PLAY FUNCTION");
+                streamer.beginPlaying();
+            }
         }
         else
         {
+            streamer.endPlaying();
             AbilityInfoPanel.SetActive(false);
         }
     }
