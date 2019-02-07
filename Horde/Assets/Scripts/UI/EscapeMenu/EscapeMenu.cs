@@ -16,12 +16,12 @@ public class EscapeMenu : MonoBehaviour {
 
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     public void LoadLevelSelect()
     {
-        //SceneManager.LoadScene();
+        SceneManager.LoadScene("Level Select");
     }
 
     public void ExitGame()
@@ -29,9 +29,9 @@ public class EscapeMenu : MonoBehaviour {
         Application.Quit();
     }
 
-    void Update()
+    public void ActivateEscapeMenu()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             isActive = !isActive;
             MenuPanel.SetActive(isActive);

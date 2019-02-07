@@ -9,27 +9,66 @@ public class MaterialSwapTrigger : MonoBehaviour {
     /// set this to be the parent object of all the meshes you want to have the materials changed on
     /// </summary>
     public GameObject MeshGroupParent;
+    private Renderer[] renderers;
     /// <summary>
-    /// set this to the material you want the meshes to use after the swap
+    /// Set this to the materials you want the meshes to use after the swap
+    /// Some meshes use more than one material which is why this is an array
     /// </summary>
-    public Material Mat;
+    public Shader transparentShader;
+    private List<Shader[]> originalShaders;
 
-    private Material originalMat;
+    public float targetAlpha = 0.2f;
+    private float currentAlpha = 1f;
+    private float fadeTimer = 0f;
 
     private void Start()
     {
-        originalMat = MeshGroupParent.GetComponentInChildren<MeshRenderer>().material;
+        renderers = MeshGroupParent.GetComponentsInChildren<Renderer>();
+        originalShaders = new List<Shader[]>();
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            Shader[] ar = new Shader[renderers[i].materials.Length];
+            Material[] mats = renderers[i].materials;
+            for (int x = 0; x < mats.Length; x++)
+            {
+                ar[x] = mats[x].shader;
+            }
+            originalShaders.Add(ar);
+        }
+    }
+
+    private void Update()
+    {
+        if (fadeTimer > 0f)
+        {
+            fadeTimer -= Time.deltaTime;
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Material[] mats = renderers[i].materials;
+                for (int x = 0; x < mats.Length; x++)
+                {
+                    currentAlpha = Mathf.Lerp(currentAlpha, targetAlpha, Time.deltaTime);
+                    mats[x].SetFloat("_Alpha", currentAlpha);
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            MeshRenderer[] meshRenderers = MeshGroupParent.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer mr in meshRenderers)
+            for (int i = 0; i < renderers.Length; i++)
             {
-                mr.material = Mat;
+                Material[] mats = renderers[i].materials;
+                for (int x = 0; x < mats.Length; x++)
+                {
+                    mats[x].shader = transparentShader;
+                    mats[x].SetFloat("_Alpha", 1f);
+                }
             }
+            currentAlpha = 1f;
+            fadeTimer = 3f;
         }
     }
 
@@ -37,11 +76,15 @@ public class MaterialSwapTrigger : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            MeshRenderer[] meshRenderers = MeshGroupParent.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer mr in meshRenderers)
+            for (int i = 0; i < renderers.Length; i++)
             {
-                mr.material = originalMat;
+                Material[] mats = renderers[i].materials;
+                for (int x = 0; x < mats.Length; x++)
+                {
+                    mats[x].shader = originalShaders[i][x];
+                }
             }
+            fadeTimer = 0f;
         }
     }
 }
