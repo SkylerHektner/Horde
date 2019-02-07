@@ -11,7 +11,6 @@ public class Checkpoint : MonoBehaviour
 		if(c.tag == "Player")
 		{
 			Debug.Log("Checkpoint Hit");
-			GameManager.Instance.SetCheckpoint(this);
 		}
 	}
 }

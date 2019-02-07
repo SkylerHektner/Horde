@@ -89,8 +89,8 @@ public class EnemyMovement: MonoBehaviour
         }
     }
 
-    public void TeleportToSpawn()
+    public void Respawn(Vector3 pos)
     {
-        agent.Warp(GetComponent<Enemy>().SpawnPosition);
+        agent.Warp(pos);
     }
 }
