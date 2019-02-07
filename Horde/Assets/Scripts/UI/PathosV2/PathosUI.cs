@@ -7,8 +7,12 @@ public class PathosUI : MonoBehaviour
 	public static PathosUI instance;
 
 	public ResourceManager.ResourceType CurrentEmotion { get { return currentEmotion; } set { currentEmotion = value; } }
-
 	private ResourceManager.ResourceType currentEmotion;
+    public EscapeMenu escMenu;
+    public AbilityInfoMenu tabMenu;
+
+    private bool escActive;
+    private bool tabActive;
 
 	private void Awake() 
 	{
@@ -20,6 +24,20 @@ public class PathosUI : MonoBehaviour
 	
 	void Update () 
 	{
-		
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            escActive = !escActive;
+            if (escActive && tabActive)
+            {
+                tabActive = false;
+                tabMenu.ActivateAbilityMenu();
+            }
+            escMenu.ActivateEscapeMenu();
+        }
+	    if(Input.GetKeyDown(KeyCode.Tab) && !escActive)
+        {
+            tabActive = !tabActive;
+            tabMenu.ActivateAbilityMenu();
+        }
 	}
 }
