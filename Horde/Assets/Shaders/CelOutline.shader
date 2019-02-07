@@ -1,4 +1,4 @@
-﻿Shader "Custom/Cel" 
+﻿Shader "Custom/CelOutline" 
 {
 	Properties
 	{
