@@ -22,6 +22,9 @@ GameObject:
   - component: {fileID: 208295858108310180}
   - component: {fileID: 54894850536458638}
   - component: {fileID: 114053220695593430}
+  - component: {fileID: 65517706731271134}
+  - component: {fileID: 65996284084843426}
+  - component: {fileID: 65727420754854528}
   m_Layer: 10
   m_Name: WoodCrate
   m_TagString: Untagged
@@ -67,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1285222424911362}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 31.98, y: 3.62, z: -23.6}
+  m_LocalPosition: {x: -3.07, y: 0.020000458, z: 8.369999}
   m_LocalScale: {x: 1.6999999, y: 1.6999999, z: 1.6999999}
   m_Children:
   - {fileID: 4745698644699426}
@@ -129,8 +132,32 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!65 &65517706731271134
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1285222424911362}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9077557, y: 1.731247, z: 1.841884}
+  m_Center: {x: 0.0017927676, y: -0.0052140043, z: -0.013952817}
+--- !u!65 &65727420754854528
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1285222424911362}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9077557, y: 1.731247, z: 1.841884}
+  m_Center: {x: 0.0017927676, y: -0.0052140043, z: -0.013952817}
 --- !u!65 &65738219415585122
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -143,6 +170,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9482776, y: 0.8672292, z: 0.94215864}
   m_Center: {x: -0.0020161972, y: 0, z: -0.000080711696}
+--- !u!65 &65996284084843426
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1285222424911362}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9077557, y: 1.731247, z: 1.841884}
+  m_Center: {x: 0.0017927676, y: -0.0052140043, z: -0.013952817}
 --- !u!114 &114053220695593430
 MonoBehaviour:
   m_ObjectHideFlags: 1
