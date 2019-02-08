@@ -26,6 +26,7 @@ public class Idle : AIState
 	{
 		if(!AtSpawnPosition()) 
 		{
+			Debug.Log("Restting position");
 			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
 		}
 
@@ -94,7 +95,7 @@ public class Idle : AIState
 	private bool AtSpawnPosition()
 	{
 		// We don't care if y values are different.
-		if(enemy.transform.position.x == enemy.SpawnPosition.x && enemy.transform.position.z == enemy.SpawnPosition.z)
+		if(Vector3.Distance(enemy.transform.position, enemy.SpawnPosition) < 0.1f)
 		{
 			return true;
 		}
