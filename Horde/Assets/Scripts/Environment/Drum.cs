@@ -21,29 +21,24 @@ public class Drum : MonoBehaviour, IBreakable
 	{
 		meshRenderer = GetComponentInChildren<MeshRenderer>();
 
-		var tempMaterial = new Material(meshRenderer.sharedMaterial);
+		//var tempMaterial = new Material(meshRenderer.sharedMaterial);
 		
 		switch(drumType)
 		{
 			case DrumType.Anger:
-				tempMaterial.color = Color.red;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/AngerDrum");
 				break;
 			case DrumType.Fear:
-				tempMaterial.color = Color.yellow;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/FearDrum");
 				break;
 			case DrumType.Sadness:
-				tempMaterial.color = Color.blue;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/SadnessDrum");
 				break;
 			case DrumType.Joy:
-				tempMaterial.color = Color.green;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/JoyDrum");
 				break;
 			case DrumType.Explosive:
-				tempMaterial.color = Color.white;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/ExplosiveDrum");
 				break;
 		}
 	}
