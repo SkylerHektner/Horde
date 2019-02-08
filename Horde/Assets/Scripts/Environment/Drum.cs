@@ -62,7 +62,18 @@ public class Drum : MonoBehaviour, IBreakable
 		{
 			foreach(Collider c in objectsInRange)
 			{
-				Destroy(c.gameObject);
+				Enemy e = c.GetComponent<Enemy>();
+				e.ChangeState(new Dead(e));
+			}
+
+			Collider[] rigidbodies = Physics.OverlapSphere(transform.position, explosionRadius);
+			foreach(Collider c in rigidbodies)
+			{
+				Debug.Log("Hit");
+				Rigidbody rb = c.GetComponent<Rigidbody>();
+
+				if(rb != null)
+					rb.AddExplosionForce(50f, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
 			}
 		}
 		else

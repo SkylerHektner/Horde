@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
 
 	private void Start() 
 	{
+		SetKinematic(true);
+		
 		spawnPosition = transform.position;
 		spawnRotation = transform.rotation;
 
@@ -87,6 +89,16 @@ public class Enemy : MonoBehaviour
 			Destroy(c.gameObject);
 
 		Destroy(gameObject);
+	}
+
+	// Used for the ragdoll rigidbodies.
+	public void SetKinematic(bool value)
+	{
+		Rigidbody[] bodies = GetComponentsInChildren<Rigidbody>();
+		foreach (Rigidbody rb in bodies)
+		{
+			rb.isKinematic = value;
+		}
 	}
 
 	public void Respawn()

@@ -26,13 +26,11 @@ public class Idle : AIState
 	{
 		if(!AtSpawnPosition()) 
 		{
-			Debug.Log("Restting position");
 			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
 		}
 
 		if(AtSpawnPosition() && enemy.transform.rotation != enemy.SpawnRotation)
 		{
-			Debug.Log("Restting rotation");
 			ResetRotation();
 		}
 			
