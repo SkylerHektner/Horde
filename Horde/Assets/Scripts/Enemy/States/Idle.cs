@@ -11,29 +11,29 @@ using UnityEngine;
 public class Idle : AIState
 {
 	private float preAlertDuration = 2.0f; // How long it takes until the guard enters the alert state after seeing the player.
-	private Vector3 spawnLocation;
-	private Quaternion spawnRotation;
 
 	public Idle(Enemy enemy): base(enemy)
 	{
-		spawnLocation = enemy.Spawn.transform.position;
-		spawnRotation = enemy.Spawn.transform.rotation;
-
 		// Go back to original location.
-		if(enemy.Spawn != null)
+		if(enemy.SpawnPosition != null)
 		{
-			enemyMovement.MoveTo(spawnLocation, enemy.EnemySettings.DefaultMovementSpeed);
+			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
 		}
 		    
 	}
 
 	public override void Tick()
 	{
-		if(enemy.transform.position != spawnLocation)
-			enemyMovement.MoveTo(spawnLocation, enemy.EnemySettings.DefaultMovementSpeed);
-		
-		if(enemy.transform.rotation != spawnRotation)
+		if(!AtSpawnPosition()) 
+		{
+			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+		}
+
+		if(AtSpawnPosition() && enemy.transform.rotation != enemy.SpawnRotation)
+		{
+			Debug.Log("Restting rotation");
 			ResetRotation();
+		}
 			
 		if(visionCone.TryGetPlayer())
 		{
@@ -88,6 +88,17 @@ public class Idle : AIState
 
 	private void ResetRotation()
 	{
-		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, spawnRotation, 20.0f * Time.deltaTime);
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, enemy.SpawnRotation, 20.0f * Time.deltaTime);
+	}
+
+	private bool AtSpawnPosition()
+	{
+		// We don't care if y values are different.
+		if(enemy.transform.position.x == enemy.SpawnPosition.x && enemy.transform.position.z == enemy.SpawnPosition.z)
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

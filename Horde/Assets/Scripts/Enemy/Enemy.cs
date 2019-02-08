@@ -9,7 +9,8 @@ public class Enemy : MonoBehaviour
 	public EnemySettings EnemySettings { get { return enemySettings; } }
 	public bool HasPatrolPath { get { return hasPatrolPath; } }
 	public List<Transform> PatrolPoints { get { return patrolPoints; } }
-	public Transform Spawn { get { return spawn; } }
+	public Vector3 SpawnPosition { get { return spawnPosition; } }
+	public Quaternion SpawnRotation { get { return spawnRotation; } }
 
 	[SerializeField] private EnemySettings enemySettings;
 	[SerializeField] private bool hasPatrolPath;
@@ -20,14 +21,16 @@ public class Enemy : MonoBehaviour
 	private EnemyMovement enemyMovement;
 
 	private AIState currentState;
-	private Transform spawn;
+	private Vector3 spawnPosition;
+	private Quaternion spawnRotation;
 
 	private int explosionCounter; // Keeps track of when the enemy should explode.
 	private LayerMask enemyMask; 
 
 	private void Start() 
 	{
-		spawn = transform;
+		spawnPosition = transform.position;
+		spawnRotation = transform.rotation;
 
 		agent = GetComponent<NavMeshAgent>();
 		enemyAttack = GetComponent<EnemyAttack>();
@@ -69,8 +72,6 @@ public class Enemy : MonoBehaviour
 		{
 			explosionCounter = 1;
 		}
-
-		Debug.Log(explosionCounter);
 			
         transform.GetComponent<Animator>().SetTrigger("StopTalking");
         currentState = state;
@@ -91,6 +92,6 @@ public class Enemy : MonoBehaviour
 	public void Respawn()
 	{
 		enemyMovement.Stop();
-		enemyMovement.Respawn(spawn.position);
+		enemyMovement.Respawn(spawnPosition);
 	}
 }
