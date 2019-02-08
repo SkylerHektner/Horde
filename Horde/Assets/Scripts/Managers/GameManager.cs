@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // Singleton instance
 
+    public Room CurrentRoom { get { return currentRoom; } }
+
     private Room[] rooms;
+    private Room currentRoom;
     private GameObject player;
 
     [SerializeField] private CameraController cameraController;
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //rooms = GameObject.Find("Rooms").GetComponentsInChildren<Room>();
+        //currentRoom = rooms[0];
     }
 	
 	private void Update ()

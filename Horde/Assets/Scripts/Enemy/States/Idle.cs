@@ -10,25 +10,52 @@ using UnityEngine;
 /// </summary>
 public class Idle : AIState
 {
+	private float preAlertDuration = 2.0f; // How long it takes until the guard enters the alert state after seeing the player.
+	private Vector3 spawnLocation;
+	private Quaternion spawnRotation;
+
 	public Idle(Enemy enemy): base(enemy)
 	{
+		spawnLocation = enemy.Spawn.transform.position;
+		spawnRotation = enemy.Spawn.transform.rotation;
+
 		// Go back to original location.
-		if(enemy.SpawnPosition != null)
+		if(enemy.Spawn != null)
 		{
-			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+			enemyMovement.MoveTo(spawnLocation, enemy.EnemySettings.DefaultMovementSpeed);
 		}
 		    
 	}
 
 	public override void Tick()
 	{
-		if(enemy.transform.position != enemy.SpawnPosition)
-			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+		if(enemy.transform.position != spawnLocation)
+			enemyMovement.MoveTo(spawnLocation, enemy.EnemySettings.DefaultMovementSpeed);
+		
+		if(enemy.transform.rotation != spawnRotation)
+			ResetRotation();
 			
 		if(visionCone.TryGetPlayer())
 		{
-			//EnemyManager.instance.AlertEnemies();
-			enemy.ChangeState(new Alert(enemy));
+			preAlertDuration -= Time.smoothDeltaTime;
+
+			StareAtTarget();
+
+			if(preAlertDuration <= 0)
+			{
+				/*
+				foreach(Enemy e in GameManager.Instance.CurrentRoom.Enemies)
+				{
+					e.ChangeState(new Alert(enemy));
+				}
+				*/
+
+				enemy.ChangeState(new Alert(enemy));
+			}
+		}
+		else
+		{
+			preAlertDuration = 2.0f; // Reset the timer if player leaves vision.
 		}
 	}
 
@@ -49,5 +76,18 @@ public class Idle : AIState
 	{
 		LayerMask targetMask = 1 << LayerMask.NameToLayer("Player");
 		visionCone.ChangeTargetMask(targetMask);
+	}
+
+	private void StareAtTarget()
+	{
+		Vector3 direction = visionCone.TryGetPlayer().transform.position - enemy.transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 20.0f * Time.deltaTime);
+	}
+
+	private void ResetRotation()
+	{
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, spawnRotation, 20.0f * Time.deltaTime);
 	}
 }
