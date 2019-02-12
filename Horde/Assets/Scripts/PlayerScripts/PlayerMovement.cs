@@ -119,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!lockToBack)
             {
-                Vector3 pos = new Vector3(transform.position.x, transform.position.y + 60f, transform.position.z);
+                Vector3 pos = new Vector3(transform.position.x - 9f, transform.position.y + 50f, transform.position.z + 9f);
                 cam.SetTargetPos(pos);
             }
 
@@ -152,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         {
             crouchSpeed = .5f;
             GetComponent<Animator>().SetBool("Sneaking", true);
-            GetComponent<NavMeshAgent>().height = 0.83f;
+            GetComponent<NavMeshAgent>().height = 0.63f;
             StandingHitbox.enabled = false;
             CrouchingHitbox.enabled = true;
             GetComponent<DartGun>().isCrouching = true;
