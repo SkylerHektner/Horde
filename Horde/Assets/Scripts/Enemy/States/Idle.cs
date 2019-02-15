@@ -25,16 +25,19 @@ public class Idle : AIState
 
 	public override void Tick()
 	{
-		if(!AtSpawnPosition()) 
+		if(!enemy.IsDistracted)
 		{
-			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
-		}
+			if(!AtSpawnPosition()) 
+			{
+				enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+			}
 
-		if(AtSpawnPosition() && enemy.transform.rotation != enemy.SpawnRotation)
-		{
-			ResetRotation();
+			if(AtSpawnPosition() && enemy.transform.rotation != enemy.SpawnRotation)
+			{
+				ResetRotation();
+			}
 		}
-			
+		
 		if(visionCone.TryGetPlayer())
 		{
 			preAlertDuration -= Time.smoothDeltaTime;

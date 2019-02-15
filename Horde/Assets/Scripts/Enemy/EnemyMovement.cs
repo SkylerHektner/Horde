@@ -69,6 +69,8 @@ public class EnemyMovement: MonoBehaviour
     /// </summary>
     public IEnumerator LookAtForDuration(Vector3 pos, float duration)
     {
+        GetComponent<Enemy>().IsDistracted = true;
+
         Vector3 direction = pos - transform.position;
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
         Quaternion startingRotation = transform.rotation;
@@ -95,6 +97,8 @@ public class EnemyMovement: MonoBehaviour
 
             yield return new WaitForSeconds(0.01f);
         }
+
+        GetComponent<Enemy>().IsDistracted = false;
     }
 
     public void Respawn(Vector3 pos)

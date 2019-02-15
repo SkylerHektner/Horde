@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
 	public List<Transform> PatrolPoints { get { return patrolPoints; } }
 	public Vector3 SpawnPosition { get { return spawnPosition; } }
 	public Quaternion SpawnRotation { get { return spawnRotation; } }
+	public bool IsDistracted { get { return isDistracted; } set { isDistracted = value; } } // When looking at something. (Like at a crying guard)
 
 	[SerializeField] private EnemySettings enemySettings;
 	[SerializeField] private bool hasPatrolPath;
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour
 	private AIState currentState;
 	private Vector3 spawnPosition;
 	private Quaternion spawnRotation;
+	private bool isDistracted;
 
 	private int explosionCounter; // Keeps track of when the enemy should explode.
 	private LayerMask enemyMask; 
