@@ -17,8 +17,8 @@ public class Idle : AIState
 		// Go back to original location.
 		if(enemy.SpawnPosition != null)
 		{
-			ResetPosition();
-			ResetRotation();
+			//ResetPosition();
+			//ResetRotation();
 		}
 		    
 	}
@@ -27,12 +27,12 @@ public class Idle : AIState
 	{
 		if(!AtSpawnPosition()) 
 		{
-			//enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
 		}
 
 		if(AtSpawnPosition() && enemy.transform.rotation != enemy.SpawnRotation)
 		{
-			//ResetRotation();
+			ResetRotation();
 		}
 			
 		if(visionCone.TryGetPlayer())
