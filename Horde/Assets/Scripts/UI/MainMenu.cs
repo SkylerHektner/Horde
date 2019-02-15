@@ -74,7 +74,7 @@ public class MainMenu : MonoBehaviour
             if (timer <= 0)
             {
                 timer = 0;
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene("Warehouse2");
             }
         }
     }
