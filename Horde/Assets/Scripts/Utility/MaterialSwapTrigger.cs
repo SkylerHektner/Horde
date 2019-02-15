@@ -23,10 +23,17 @@ public class MaterialSwapTrigger : MonoBehaviour {
 
     private void Start()
     {
-        renderers = MeshGroupParent.GetComponentsInChildren<Renderer>();
+        if(MeshGroupParent != null)
+            renderers = MeshGroupParent.GetComponentsInChildren<Renderer>();
+
         originalShaders = new List<Shader[]>();
+
+        if(renderers == null)
+            return;
+
         for (int i = 0; i < renderers.Length; i++)
         {
+            
             Shader[] ar = new Shader[renderers[i].materials.Length];
             Material[] mats = renderers[i].materials;
             for (int x = 0; x < mats.Length; x++)
@@ -58,6 +65,9 @@ public class MaterialSwapTrigger : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
+            if(renderers == null)
+                return;
+
             for (int i = 0; i < renderers.Length; i++)
             {
                 Material[] mats = renderers[i].materials;
@@ -76,6 +86,9 @@ public class MaterialSwapTrigger : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
+            if(renderers == null)
+                return;
+
             for (int i = 0; i < renderers.Length; i++)
             {
                 Material[] mats = renderers[i].materials;

@@ -11,7 +11,7 @@ public class Sadness : AIState
         enemy.GetComponent<Animator>().SetBool("Sad", true);
         enemy.GetComponent<Animator>().SetBool("Happy", false);
         enemy.GetComponent<Animator>().SetBool("Scared", false);
-        enemy.GetComponent<Animator>().SetBool("Angry", false);
+        enemy.GetComponent<Animator>().SetBool("Angry", false); 
 
         // TODO: Start sadness animation here.
 

@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyMovement: MonoBehaviour
 {
+    [SerializeField] bool DEBUG_MODE;
+
     private NavMeshAgent agent;
     private Animator anim;
     private Vector3 lastPos;
@@ -73,13 +75,19 @@ public class EnemyMovement: MonoBehaviour
         
         while(Vector3.Angle(transform.forward, pos - transform.position) >= 1f)
         {
-            Debug.Log(Vector3.Angle(transform.forward, pos - transform.position));
+            if(DEBUG_MODE)
+            {
+                Debug.Log("Rotating towards.");
+                Debug.Log(Vector3.Angle(transform.forward, pos - transform.position));
+            }
+                
+
             transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 3.0f * Time.deltaTime);
 
             yield return new WaitForSeconds(0.01f);
         }
 
-        yield return new WaitForSeconds(duration); // Stare at the guard for as long as he is sad.
+        yield return new WaitForSeconds(duration); // How long he should stare at the position.sd
 
         while(transform.rotation != startingRotation)
         {

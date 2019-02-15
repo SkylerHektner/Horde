@@ -9,6 +9,10 @@ using UnityEngine;
 /// </summary>
 public class Alert : AIState
 {
+	private Transform currentTarget;
+	private float currentTargetBuffer = 2.0f; // The amount of time the current target can be out of vision before losing it.
+	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
+
 	public Alert(Enemy enemy): base(enemy)
 	{
 		
@@ -17,24 +21,42 @@ public class Alert : AIState
 	public override void Tick()
 	{
 		Player player = visionCone.TryGetPlayer();
-		if(player == null || player.GetComponent<PlayerMovement>().isDead) // If the player isn't in vision or player is dead.
+
+		if(player != null)
 		{
-			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
+			currentTarget = player.transform; // Mark the player as the current target.
+			outOfVisionDuration = 0; // Reset the outOfVisionDuration counter if the player is in vision.
+		}
+
+		if(outOfVisionDuration >= currentTargetBuffer) // If target has been out of vision for extended amount of time.
+		{
+			currentTarget = null;
+		}
+			
+		if(player == null) // If the player isn't in vision.
+		{
+			outOfVisionDuration += Time.smoothDeltaTime; // Keep track of the amount of time the target is out of vision.
+
+			if(currentTarget == null)
 			{
-				if(enemy.HasPatrolPath)
-					enemy.ChangeState(new Patrol(enemy));
-				else
-					enemy.ChangeState(new Idle(enemy));
+				if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
+				{
+					if(enemy.HasPatrolPath)
+						enemy.ChangeState(new Patrol(enemy));
+					else
+						enemy.ChangeState(new Idle(enemy));
+				}
 			}
+			
 		}
 		else
 		{
-			enemyMovement.MoveTo(player.transform.position, enemy.EnemySettings.AlertMovementSpeed);
+			enemyMovement.MoveTo(currentTarget.transform.position, enemy.EnemySettings.AlertMovementSpeed);
 			
-			if(enemyAttack.IsInAttackRange(player.transform.position))
+			if(enemyAttack.IsInAttackRange(currentTarget.transform.position))
 			{
 				if(!enemyAttack.IsAttacking)
-					enemy.StartCoroutine(enemyAttack.Attack(player.gameObject));
+					enemy.StartCoroutine(enemyAttack.Attack(currentTarget.gameObject));
 			}
 		}
 	}

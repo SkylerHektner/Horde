@@ -6,6 +6,10 @@ using System.Linq;
 
 public class Anger : AIState
 {
+	private Transform currentTarget;
+	private float currentTargetBuffer = 2.0f; // The amount of time the current target can be out of vision before losing it.
+	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
+
 	public Anger(Enemy enemy, float duration): base(enemy, duration)
 	{
         enemy.GetComponent<Animator>().SetBool("Angry", true);
@@ -18,24 +22,37 @@ public class Anger : AIState
     public override void Tick()
 	{
 		base.Tick();
+
+		Transform closestTarget = visionCone.GetClosestTarget();
+		if(closestTarget != null && closestTarget != currentTarget)
+			currentTarget = closestTarget; // Change aggro to the closer target.
 		
-		if(visionCone.VisibleTargets.Count == 0) // Player isn't in vision.
-			BreakClosestObject();
-		else
+		if(currentTarget == null)
 		{
-			if(visionCone.GetClosestTarget() == null)
-				return;
-
-            enemyMovement.MoveTo(visionCone.GetClosestTarget().position, enemy.EnemySettings.AngerMovementSpeed);
-
-			Transform closestTarget = visionCone.GetClosestTarget();
-			if(enemyAttack.IsInAttackRange(closestTarget.position))
+			BreakClosestObject();
+		}
+		else if(closestTarget == null) // If there is a current target but he's out of vision.
+		{
+			outOfVisionDuration += Time.smoothDeltaTime; // Increase the out-of-vision duration counter.
+			if(outOfVisionDuration >= currentTargetBuffer)
 			{
-				if(!enemyAttack.IsAttacking)
-					enemy.StartCoroutine(enemyAttack.Attack(closestTarget.gameObject));
+				currentTarget = null; // Stop chasing the target if he's been out of vision for too long.
+			}
+			else 
+			{
+				enemyMovement.MoveTo(currentTarget.position, enemy.EnemySettings.AngerMovementSpeed); // Move to the target.
+				if(enemyAttack.IsInAttackRange(currentTarget.position)) // Attack if it's in range.
+				{
+					if(!enemyAttack.IsAttacking)
+						enemy.StartCoroutine(enemyAttack.Attack(currentTarget.gameObject));
+				}
 			}
 		}
-			
+		else // There is a target in vision.
+		{
+			currentTarget = closestTarget; // Aggro the closest target.
+			outOfVisionDuration = 0; // Reset the out-of-vision counter.
+		}
 	}
 
 	public override void LeaveState()

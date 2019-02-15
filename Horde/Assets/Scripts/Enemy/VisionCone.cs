@@ -173,6 +173,9 @@ public class VisionCone : MonoBehaviour
 
 	public Transform GetClosestTarget()
 	{
+		if(visibleTargets.Count == 0)
+			return null;
+			
 		float closestDistance = 10000f;
         Transform closestTarget = visibleTargets[0];
 		path = new NavMeshPath();

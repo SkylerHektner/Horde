@@ -17,7 +17,8 @@ public class Idle : AIState
 		// Go back to original location.
 		if(enemy.SpawnPosition != null)
 		{
-			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+			ResetPosition();
+			ResetRotation();
 		}
 		    
 	}
@@ -26,12 +27,12 @@ public class Idle : AIState
 	{
 		if(!AtSpawnPosition()) 
 		{
-			enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
+			//enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
 		}
 
 		if(AtSpawnPosition() && enemy.transform.rotation != enemy.SpawnRotation)
 		{
-			ResetRotation();
+			//ResetRotation();
 		}
 			
 		if(visionCone.TryGetPlayer())
@@ -83,6 +84,11 @@ public class Idle : AIState
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
 
 		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 20.0f * Time.deltaTime);
+	}
+
+	private void ResetPosition()
+	{
+		enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
 	}
 
 	private void ResetRotation()
