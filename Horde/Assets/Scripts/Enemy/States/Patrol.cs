@@ -19,8 +19,16 @@ public class Patrol : AIState
 
 	public override void Tick()
 	{
-		if(!enemy.IsDistracted && !visionCone.TryGetPlayer())
+		if(enemy.IsDistracted)
 		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("1");
+			enemyMovement.PausePath();
+		}
+		else if(!enemy.IsDistracted && !visionCone.TryGetPlayer())
+		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("2");
 			preAlertDuration = enemy.EnemySettings.PreAlertDuration; // Reset the timer if player isn't in vision.
 
 			enemyMovement.ResumePath();
@@ -31,6 +39,8 @@ public class Patrol : AIState
 		}
 		else if(visionCone.TryGetPlayer()) // If the player is within vision.
 		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("3");
 			preAlertDuration -= Time.smoothDeltaTime; // Count down the pre-alert duration.
 
 			enemyMovement.PausePath();
@@ -46,8 +56,16 @@ public class Patrol : AIState
 		}
 		else if(!agent.pathPending && agent.remainingDistance < 0.01f)
 		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("4");
 			MoveToNextPatrolPoint();
 		} 
+		else
+		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("5");
+			enemyMovement.ResumePath();
+		}
 	}
 
 	public override void LeaveState()

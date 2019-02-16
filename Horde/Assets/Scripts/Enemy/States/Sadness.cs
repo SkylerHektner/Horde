@@ -12,10 +12,13 @@ public class Sadness : AIState
         enemy.GetComponent<Animator>().SetBool("Happy", false);
         enemy.GetComponent<Animator>().SetBool("Scared", false);
         enemy.GetComponent<Animator>().SetBool("Angry", false); 
+	}
 
-        // TODO: Start sadness animation here.
+	public override void Tick()
+	{
+		base.Tick();
 
-        Collider[] enemies = Physics.OverlapSphere(enemy.transform.position, 15f, enemyMask);
+		Collider[] enemies = Physics.OverlapSphere(enemy.transform.position, 15f, enemyMask);
 
 		// Make enemies look at the crying guard.
 		foreach(Collider c in enemies)
@@ -23,19 +26,18 @@ public class Sadness : AIState
 			if(c.transform == enemy.transform) // Don't count itself.
 				continue;
 
-			Enemy _enemy = c.GetComponent<Enemy>();
-			if(_enemy.GetCurrentState() is Idle) // Only affect idle guards for now.
+			Enemy e = c.GetComponent<Enemy>();
+			if(e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol) // Only affect idle and patrolling guards.
 			{
-				EnemyMovement enemyMovement = c.GetComponent<EnemyMovement>();
-				c.GetComponent<Enemy>().StartCoroutine(enemyMovement.LookAtForDuration(enemy.transform.position, duration));
+				if(!e.IsDistracted)
+				{
+					// Distract an enemy for the remaining duration of sadness.
+					EnemyMovement enemyMovement = c.GetComponent<EnemyMovement>();
+					c.GetComponent<Enemy>().StartCoroutine(enemyMovement.LookAtForDuration(enemy.transform.position, duration));
+				}
 			}
 			
 		}
-	}
-
-	public override void Tick()
-	{
-		base.Tick();
 		// TODO: Check for enemies around every tick so it doesn't
 		//       only affect the guards next to him when behavior is started.
 	}

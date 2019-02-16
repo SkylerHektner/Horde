@@ -79,11 +79,10 @@ public class EnemyMovement: MonoBehaviour
     {
         GetComponent<Enemy>().IsDistracted = true;
 
-        Vector3 direction = pos - transform.position;
-        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+        Quaternion desiredRotation = Quaternion.LookRotation(-pos);
         Quaternion startingRotation = transform.rotation;
         
-        while(Vector3.Angle(transform.forward, pos - transform.position) >= 1f)
+        while(Vector3.Angle(transform.forward, pos - transform.position) >= 1.0f)
         {
             if(GetComponent<Enemy>().DEBUG_MODE)
             {
@@ -91,13 +90,12 @@ public class EnemyMovement: MonoBehaviour
                 Debug.Log(Vector3.Angle(transform.forward, pos - transform.position));
             }
                 
-
             transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 3.0f * Time.deltaTime);
 
             yield return new WaitForSeconds(0.01f);
         }
 
-        yield return new WaitForSeconds(duration); // How long he should stare at the position.sd
+        yield return new WaitForSeconds(duration); // How long he should stare at the position.
 
         while(transform.rotation != startingRotation)
         {
