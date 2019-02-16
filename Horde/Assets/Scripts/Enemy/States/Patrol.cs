@@ -52,30 +52,37 @@ public class Patrol : AIState
 	private void MoveToNextPatrolPoint()
     {
         enemyMovement.MoveTo(patrolPointList[destPoint].position, enemy.EnemySettings.DefaultMovementSpeed);
-		//Debug.Log(patrolPointList[destPoint].position);
 
         destPoint = (destPoint + 1) % patrolPointList.Count; // Increment the index
     }
 
 	/// <summary>
-    /// Puts the patrol points in the order that the unit should traverse them in.
-    /// e.g. given patrol points A, B, C, this function change the list to A, B, C, C, B, A
+	/// Patrol Option:
+    /// Concatenates the patrol points forwards and then backwards to create a patrolling path.
+    /// e.g. given patrol points A, B, C, the patrol path will be updated to A -> B -> C -> C -> B -> A
+	///
+	/// Loop Option:
+	/// Keeps the patrol points in the same order for a looping path.
+	/// e.g. given patrol points A, B, C, the patrol path will be updated to A -> B -> C
     /// </summary>
     private void SetPatrolPoints()
     {
-        List<Transform> points = new List<Transform>(enemy.PatrolPoints);
-        List<Transform> pointsReversed = new List<Transform>(enemy.PatrolPoints);
-        pointsReversed.Reverse();
-
-        List<Transform> mergedList = new List<Transform>();
-        mergedList.AddRange(points);
-        mergedList.AddRange(pointsReversed);
-
-        patrolPointList = mergedList;
-
-		foreach(Transform t in patrolPointList)
+		// Set the points to a patrolling path.
+		if(enemy.PatrolType == PatrolType.Patrol)
 		{
-			//Debug.Log(t.position);
+			List<Transform> points = new List<Transform>(enemy.PatrolPoints);
+			List<Transform> pointsReversed = new List<Transform>(enemy.PatrolPoints);
+			pointsReversed.Reverse();
+
+			List<Transform> mergedList = new List<Transform>();
+			mergedList.AddRange(points);
+			mergedList.AddRange(pointsReversed);
+
+			patrolPointList = mergedList;
+		}
+		else if(enemy.PatrolType == PatrolType.Loop)
+		{
+			patrolPointList = enemy.PatrolPoints;
 		}
     }
 }

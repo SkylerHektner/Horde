@@ -12,10 +12,12 @@ public class Enemy : MonoBehaviour
 	public Vector3 SpawnPosition { get { return spawnPosition; } }
 	public Quaternion SpawnRotation { get { return spawnRotation; } }
 	public bool IsDistracted { get { return isDistracted; } set { isDistracted = value; } } // When looking at something. (Like at a crying guard)
+	public PatrolType PatrolType { get { return patrolType; } }
 
 	[SerializeField] private EnemySettings enemySettings;
 	[SerializeField] private bool hasPatrolPath;
 	[SerializeField] private List<Transform> patrolPoints;
+	[SerializeField] private PatrolType patrolType;
 
 	private NavMeshAgent agent;
 	private EnemyAttack enemyAttack;
@@ -27,7 +29,9 @@ public class Enemy : MonoBehaviour
 	private bool isDistracted;
 
 	private int explosionCounter; // Keeps track of when the enemy should explode.
-	private LayerMask enemyMask; 
+	private LayerMask enemyMask;
+
+	
 
 	private void Start() 
 	{
@@ -109,3 +113,5 @@ public class Enemy : MonoBehaviour
 		enemyMovement.Respawn(spawnPosition);
 	}
 }
+
+public enum PatrolType { Patrol, Loop }; 
