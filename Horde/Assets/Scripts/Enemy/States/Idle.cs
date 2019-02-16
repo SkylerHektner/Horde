@@ -10,55 +10,40 @@ using UnityEngine;
 /// </summary>
 public class Idle : AIState
 {
-	private float preAlertDuration = 2.0f; // How long it takes until the guard enters the alert state after seeing the player.
+	private float preAlertDuration;
 
 	public Idle(Enemy enemy): base(enemy)
 	{
-		// Go back to original location.
-		if(enemy.SpawnPosition != null)
-		{
-			//ResetPosition();
-			//ResetRotation();
-		}
-		    
+		preAlertDuration = enemy.EnemySettings.PreAlertDuration; 
 	}
 
 	public override void Tick()
 	{
-		if(!enemy.IsDistracted)
+		if(!enemy.IsDistracted && !visionCone.TryGetPlayer()) // Don't reset position if currently distracted or if player in vision.
 		{
+			preAlertDuration = enemy.EnemySettings.PreAlertDuration; // Reset the timer if player isn't in vision.
+
 			if(!AtSpawnPosition()) 
 			{
 				enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
 			}
-
-			if(AtSpawnPosition() && enemy.transform.rotation != enemy.SpawnRotation)
+			else if(AtSpawnPosition() && enemy.transform.rotation != enemy.SpawnRotation)
 			{
 				ResetRotation();
 			}
 		}
-		
-		if(visionCone.TryGetPlayer())
+		else if(visionCone.TryGetPlayer()) // If the player is within vision.
 		{
-			preAlertDuration -= Time.smoothDeltaTime;
+			preAlertDuration -= Time.smoothDeltaTime; // Count down the pre-alert duration.
 
+			// Stare at the target until the pre-alert duration is over.
 			StareAtTarget();
-
 			if(preAlertDuration <= 0)
 			{
-				/*
-				foreach(Enemy e in GameManager.Instance.CurrentRoom.Enemies)
-				{
-					e.ChangeState(new Alert(enemy));
-				}
-				*/
-
+				// TODO: Trigger all the guards in the room to be alerted.
+				
 				enemy.ChangeState(new Alert(enemy));
 			}
-		}
-		else
-		{
-			preAlertDuration = 2.0f; // Reset the timer if player leaves vision.
 		}
 	}
 
@@ -86,7 +71,7 @@ public class Idle : AIState
 		Vector3 direction = visionCone.TryGetPlayer().transform.position - enemy.transform.position;
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
 
-		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 20.0f * Time.deltaTime);
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 5.0f * Time.deltaTime);
 	}
 
 	private void ResetPosition()
@@ -96,13 +81,13 @@ public class Idle : AIState
 
 	private void ResetRotation()
 	{
-		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, enemy.SpawnRotation, 20.0f * Time.deltaTime);
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, enemy.SpawnRotation, 5.0f * Time.deltaTime);
 	}
 
 	private bool AtSpawnPosition()
 	{
 		// We don't care if y values are different.
-		if(Vector3.Distance(enemy.transform.position, enemy.SpawnPosition) < 0.1f)
+		if(Vector3.Distance(enemy.transform.position, enemy.SpawnPosition) < 0.25f)
 		{
 			return true;
 		}

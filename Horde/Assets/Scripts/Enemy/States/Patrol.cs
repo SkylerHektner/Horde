@@ -6,10 +6,12 @@ public class Patrol : AIState
 {
 	private List<Transform> patrolPointList;
 	private int destPoint = 0; // The current destination in the patrol path.
+	private float preAlertDuration;
 
 	public Patrol(Enemy enemy): base(enemy)
 	{
 		patrolPointList = new List<Transform>();
+		preAlertDuration = enemy.EnemySettings.PreAlertDuration;
 
 		SetPatrolPoints();
 		MoveToNextPatrolPoint();
@@ -17,14 +19,32 @@ public class Patrol : AIState
 
 	public override void Tick()
 	{
-		if(visionCone.TryGetPlayer())
+		if(!enemy.IsDistracted && !visionCone.TryGetPlayer())
 		{
-			//EnemyManager.instance.AlertEnemies();
-			enemy.ChangeState(new Alert(enemy));
-		}
+			preAlertDuration = enemy.EnemySettings.PreAlertDuration; // Reset the timer if player isn't in vision.
 
-		//Debug.Log(agent.path.);
-		if(!agent.pathPending && agent.remainingDistance < 0.01f)
+			enemyMovement.ResumePath();
+			if(!agent.pathPending && agent.remainingDistance < 0.01f)
+			{
+				MoveToNextPatrolPoint();
+			}
+		}
+		else if(visionCone.TryGetPlayer()) // If the player is within vision.
+		{
+			preAlertDuration -= Time.smoothDeltaTime; // Count down the pre-alert duration.
+
+			enemyMovement.PausePath();
+
+			// Stare at the target until the pre-alert duration is over.
+			StareAtTarget();
+			if(preAlertDuration <= 0)
+			{
+				// TODO: Trigger all the guards in the room to be alerted.
+				
+				enemy.ChangeState(new Alert(enemy));
+			}
+		}
+		else if(!agent.pathPending && agent.remainingDistance < 0.01f)
 		{
 			MoveToNextPatrolPoint();
 		} 
@@ -85,4 +105,28 @@ public class Patrol : AIState
 			patrolPointList = enemy.PatrolPoints;
 		}
     }
+
+	private void StareAtTarget()
+	{
+		Vector3 direction = visionCone.TryGetPlayer().transform.position - enemy.transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 5.0f * Time.deltaTime);
+	}
+
+	private bool AtSpawnPosition()
+	{
+		// We don't care if y values are different.
+		if(Vector3.Distance(enemy.transform.position, enemy.SpawnPosition) < 0.25f)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	private void ResetRotation()
+	{
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, enemy.SpawnRotation, 5.0f * Time.deltaTime);
+	}
 }

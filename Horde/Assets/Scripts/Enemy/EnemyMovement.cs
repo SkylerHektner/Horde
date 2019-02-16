@@ -5,8 +5,6 @@ using UnityEngine.AI;
 
 public class EnemyMovement: MonoBehaviour
 {
-    [SerializeField] bool DEBUG_MODE;
-
     private NavMeshAgent agent;
     private Animator anim;
     private Vector3 lastPos;
@@ -62,6 +60,16 @@ public class EnemyMovement: MonoBehaviour
         agent.velocity = Vector3.zero;
     }
 
+    public void ResumePath()
+    {
+        agent.isStopped = false;
+    }
+
+    public void PausePath()
+    {
+        agent.isStopped = true;
+    }
+
     /// <summary>
     /// Makes the enemy rotate towards and look at the given location.
     /// Used for when there is a noise or something that catches an
@@ -77,7 +85,7 @@ public class EnemyMovement: MonoBehaviour
         
         while(Vector3.Angle(transform.forward, pos - transform.position) >= 1f)
         {
-            if(DEBUG_MODE)
+            if(GetComponent<Enemy>().DEBUG_MODE)
             {
                 Debug.Log("Rotating towards.");
                 Debug.Log(Vector3.Angle(transform.forward, pos - transform.position));
