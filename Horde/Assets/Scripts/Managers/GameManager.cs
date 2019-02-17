@@ -54,7 +54,8 @@ public class GameManager : MonoBehaviour
         Debug.Log(currentRoom.Enemies.Count);
         foreach(Enemy e in currentRoom.Enemies)
         {
-            e.ChangeState(new Alert(e));
+            if(e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol)
+                e.ChangeState(new Alert(e));
         }
     }
 
