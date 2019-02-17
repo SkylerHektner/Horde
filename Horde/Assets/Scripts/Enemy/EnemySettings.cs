@@ -44,6 +44,9 @@ public class EnemySettings : ScriptableObject
     [Tooltip("How long the guard looks at you until he triggers the alert state.")]
     [SerializeField] private float preAlertDuration;
 
+    [Tooltip("The amount of time the current target can be out of vision before losing it.")]
+    [SerializeField] private float currentTargetBuffer;
+
     public float AttackRange { get { return attackRange; } }
 
     public float DefaultMovementSpeed { get { return defaultMovementSpeed; } }
@@ -75,4 +78,5 @@ public class EnemySettings : ScriptableObject
     public float JoyVisionConeViewAngle { get { return joyVisionConeViewAngle; } } 
 
     public float PreAlertDuration { get { return preAlertDuration; } }
+    public float CurrentTargetBuffer { get { return currentTargetBuffer; } }
 }

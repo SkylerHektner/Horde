@@ -40,9 +40,7 @@ public class Idle : AIState
 			StareAtTarget();
 			if(preAlertDuration <= 0)
 			{
-				// TODO: Trigger all the guards in the room to be alerted.
-				
-				enemy.ChangeState(new Alert(enemy));
+				GameManager.Instance.AlertGuards();
 			}
 		}
 	}

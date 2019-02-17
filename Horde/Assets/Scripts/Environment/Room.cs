@@ -6,6 +6,8 @@ public class Room : MonoBehaviour
 {
 	public List<Enemy> Enemies { get { return enemies; } }
 
+	[SerializeField] private string roomName; // Not sure if we need this or not.
+
 	private List<Enemy> enemies;
 	private Checkpoint checkpoint;
 
@@ -32,6 +34,8 @@ public class Room : MonoBehaviour
 
 	private void InitializeVariables()
 	{
+		enemies = new List<Enemy>();
+		
 		foreach(Enemy e in GetComponentsInChildren<Enemy>())
 		{
 			enemies.Add(e);	// Populate the enemies list.

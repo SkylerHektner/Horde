@@ -18,7 +18,7 @@ public class VisionCone : MonoBehaviour
 	[SerializeField] private float viewRadius;
 	[SerializeField, Range(0, 360)] private float viewAngle;
 	//[SerializeField] private List<LayerMask> targetMasks;
-	[SerializeField] private List<LayerMask> obstacleMasks;
+	[SerializeField] private LayerMask obstacleMask;
 	[SerializeField] private float meshResolution;
 	[SerializeField] private MeshFilter viewMeshFilter;
     [SerializeField] private MeshRenderer mesh;
@@ -28,7 +28,6 @@ public class VisionCone : MonoBehaviour
 	private  Mesh viewMesh;
 	private List<Transform> visibleTargets = new List<Transform>();
 	private LayerMask targetMask;
-	private LayerMask obstacleMask;
 	private bool playerInVision = false;
 	private NavMeshPath path;
 
@@ -53,11 +52,6 @@ public class VisionCone : MonoBehaviour
 
     private void Start()
 	{
-		foreach(LayerMask mask in obstacleMasks)
-		{
-			obstacleMask = obstacleMask | mask; // Create one Layer Mask for obstacles.
-		}
-
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;

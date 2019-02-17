@@ -33,8 +33,6 @@ public class Enemy : MonoBehaviour
 	private int explosionCounter; // Keeps track of when the enemy should explode.
 	private LayerMask enemyMask;
 
-	
-
 	private void Start() 
 	{
 		SetKinematic(true);

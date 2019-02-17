@@ -11,12 +11,19 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance; // Singleton instance
 
     public Room CurrentRoom { get { return currentRoom; } }
+    public Player Player { get { return player; } }
+    public bool PlayerIsMarked { get { return playerIsMarked; } set { playerIsMarked = value; } }
+    public float OutOfVisionDuration { get { return outOfVisionDuration; } set { outOfVisionDuration = value; } }
+
+    [SerializeField] private CameraController cameraController;
 
     private Room[] rooms;
     private Room currentRoom;
-    private GameObject player;
 
-    [SerializeField] private CameraController cameraController;
+    // Helpers to give guards shared vision during alert state.
+    private Player player;
+    private bool playerIsMarked;
+	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
 
     private void Awake()
     {
@@ -29,14 +36,27 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //rooms = GameObject.Find("Rooms").GetComponentsInChildren<Room>();
-        //currentRoom = rooms[0];
+        player = FindObjectOfType<Player>();
+        rooms = FindObjectsOfType<Room>();
+        currentRoom = rooms[0];
     }
 	
 	private void Update ()
     {
-
+        OutOfVisionDuration += Time.smoothDeltaTime;
 	}
+
+    /// <summary>
+    /// Alerts all the guards in the room.
+    /// </summary>
+    public void AlertGuards()
+    {
+        Debug.Log(currentRoom.Enemies.Count);
+        foreach(Enemy e in currentRoom.Enemies)
+        {
+            e.ChangeState(new Alert(e));
+        }
+    }
 
     public void SetCameraLocation(Vector3 v)
     {

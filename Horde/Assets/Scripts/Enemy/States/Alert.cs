@@ -10,12 +10,13 @@ using UnityEngine;
 public class Alert : AIState
 {
 	private Transform currentTarget;
-	private float currentTargetBuffer = 2.0f; // The amount of time the current target can be out of vision before losing it.
+	private float currentTargetBuffer; // The amount of time the current target can be out of vision before losing it.
 	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
 
 	public Alert(Enemy enemy): base(enemy)
 	{
-		
+		GameManager.Instance.PlayerIsMarked = true;
+		GameManager.Instance.OutOfVisionDuration = 0;
 	}
 
 	public override void Tick()
@@ -24,39 +25,33 @@ public class Alert : AIState
 
 		if(player != null)
 		{
-			currentTarget = player.transform; // Mark the player as the current target.
-			outOfVisionDuration = 0; // Reset the outOfVisionDuration counter if the player is in vision.
+			GameManager.Instance.PlayerIsMarked = true; // Mark the player as the current target.
+			GameManager.Instance.OutOfVisionDuration = 0; // Reset the outOfVisionDuration counter if the player is in vision.
 		}
 
-		if(outOfVisionDuration >= currentTargetBuffer) // If target has been out of vision for extended amount of time.
+		if(GameManager.Instance.OutOfVisionDuration >= enemy.EnemySettings.CurrentTargetBuffer) // If target has been out of vision for extended amount of time.
 		{
-			currentTarget = null;
+			GameManager.Instance.PlayerIsMarked = false;
 		}
 			
-		if(player == null) // If the player isn't in vision.
+		if(GameManager.Instance.PlayerIsMarked == false)
 		{
-			outOfVisionDuration += Time.smoothDeltaTime; // Keep track of the amount of time the target is out of vision.
-
-			if(currentTarget == null)
+			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
 			{
-				if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
-				{
-					if(enemy.HasPatrolPath)
-						enemy.ChangeState(new Patrol(enemy));
-					else
-						enemy.ChangeState(new Idle(enemy));
-				}
+				if(enemy.HasPatrolPath)
+					enemy.ChangeState(new Patrol(enemy));
+				else
+					enemy.ChangeState(new Idle(enemy));
 			}
-			
 		}
 		else
 		{
-			enemyMovement.MoveTo(currentTarget.transform.position, enemy.EnemySettings.AlertMovementSpeed);
+			enemyMovement.MoveTo(GameManager.Instance.Player.transform.position, enemy.EnemySettings.AlertMovementSpeed);
 			
-			if(enemyAttack.IsInAttackRange(currentTarget.transform.position))
+			if(enemyAttack.IsInAttackRange(GameManager.Instance.Player.transform.position))
 			{
 				if(!enemyAttack.IsAttacking)
-					enemy.StartCoroutine(enemyAttack.Attack(currentTarget.gameObject));
+					enemy.StartCoroutine(enemyAttack.Attack(GameManager.Instance.Player.gameObject));
 			}
 		}
 	}
