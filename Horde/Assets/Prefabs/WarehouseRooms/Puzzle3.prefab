@@ -67349,7 +67349,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 21504
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -67359,7 +67359,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: dce4c4b3289a5c34a8a1079c7432d10e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f191fc8dba18b4947a7c4c2db57e2dcd, type: 2}
 --- !u!114 &114306213229111964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67486,11 +67486,11 @@ MonoBehaviour:
     lineCount: 2
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 23887177655487428}
@@ -67566,9 +67566,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewRadius: 6
   viewAngle: 60
-  obstacleMasks:
-  - serializedVersion: 2
-    m_Bits: 21504
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
   meshResolution: 0.3
   viewMeshFilter: {fileID: 33532815506151132}
   mesh: {fileID: 23953745986631806}
@@ -67614,9 +67614,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewRadius: 6
   viewAngle: 60
-  obstacleMasks:
-  - serializedVersion: 2
-    m_Bits: 21504
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
   meshResolution: 0.3
   viewMeshFilter: {fileID: 33724282558345138}
   mesh: {fileID: 23640739632787008}
@@ -67704,6 +67704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b755563ccaf5524a92ceb937819e38d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomName: 
 --- !u!135 &135306434870741786
 SphereCollider:
   m_ObjectHideFlags: 1

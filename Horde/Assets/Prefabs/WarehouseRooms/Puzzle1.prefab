@@ -3080,7 +3080,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1653288207807496
 GameObject:
   m_ObjectHideFlags: 1
@@ -16868,9 +16868,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewRadius: 6
   viewAngle: 60
-  obstacleMasks:
-  - serializedVersion: 2
-    m_Bits: 21504
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
   meshResolution: 0.3
   viewMeshFilter: {fileID: 33348687464713076}
   mesh: {fileID: 23868920793161188}
@@ -16904,7 +16904,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 21504
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -16914,7 +16914,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 8ba0f7ed695593e4aa1e8ba6b56b938d, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 7646cdd93b2819d4eb36870302f0864a, type: 2}
 --- !u!114 &114673127225923652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17024,11 +17024,11 @@ MonoBehaviour:
     lineCount: 2
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 23282664413136254}
@@ -17053,6 +17053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b755563ccaf5524a92ceb937819e38d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomName: 
 --- !u!114 &114746656014826560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17148,11 +17149,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 23260436250012684}
