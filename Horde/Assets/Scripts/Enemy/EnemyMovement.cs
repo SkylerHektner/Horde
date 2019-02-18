@@ -79,7 +79,8 @@ public class EnemyMovement: MonoBehaviour
     {
         GetComponent<Enemy>().IsDistracted = true;
 
-        Quaternion desiredRotation = Quaternion.LookRotation(-pos);
+        Vector3 direction = pos - transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
         Quaternion startingRotation = transform.rotation;
         
         while(Vector3.Angle(transform.forward, pos - transform.position) >= 1.0f)

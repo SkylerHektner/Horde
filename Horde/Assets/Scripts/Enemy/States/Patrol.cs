@@ -49,9 +49,7 @@ public class Patrol : AIState
 			StareAtTarget();
 			if(preAlertDuration <= 0)
 			{
-				// TODO: Trigger all the guards in the room to be alerted.
-				
-				enemy.ChangeState(new Alert(enemy));
+				GameManager.Instance.AlertGuards();
 			}
 		}
 		else if(!agent.pathPending && agent.remainingDistance < 0.01f)

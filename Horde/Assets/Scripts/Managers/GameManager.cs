@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
     public float OutOfVisionDuration { get { return outOfVisionDuration; } set { outOfVisionDuration = value; } }
 
     [SerializeField] private CameraController cameraController;
+    [SerializeField] private Room[] rooms;
 
-    private Room[] rooms;
     private Room currentRoom;
 
     // Helpers to give guards shared vision during alert state.
@@ -37,8 +37,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<Player>();
-        rooms = FindObjectsOfType<Room>();
-        currentRoom = rooms[0];
+        currentRoom = rooms[1];
     }
 	
 	private void Update ()
@@ -52,6 +51,7 @@ public class GameManager : MonoBehaviour
     public void AlertGuards()
     {
         Debug.Log(currentRoom.Enemies.Count);
+        Debug.Log(currentRoom.RoomName);
         foreach(Enemy e in currentRoom.Enemies)
         {
             if(e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol)

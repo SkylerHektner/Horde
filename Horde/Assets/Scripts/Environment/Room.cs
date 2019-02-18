@@ -5,6 +5,7 @@ using UnityEngine;
 public class Room : MonoBehaviour 
 {
 	public List<Enemy> Enemies { get { return enemies; } }
+	public string RoomName { get { return roomName; } }
 
 	[SerializeField] private string roomName; // Not sure if we need this or not.
 
@@ -35,7 +36,7 @@ public class Room : MonoBehaviour
 	private void InitializeVariables()
 	{
 		enemies = new List<Enemy>();
-		
+
 		foreach(Enemy e in GetComponentsInChildren<Enemy>())
 		{
 			enemies.Add(e);	// Populate the enemies list.
