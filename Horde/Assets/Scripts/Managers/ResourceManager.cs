@@ -107,4 +107,72 @@ public class ResourceManager : MonoBehaviour
 
         return true;
     }
+
+    /// <summary>
+    /// Checks whether there is any of a given emotion left
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public bool CanSpendEmotion(ResourceType type)
+    {
+        switch (type)
+        {
+            case ResourceType.Rage:
+                if (Rage == 0)
+                    return false;
+                break;
+            case ResourceType.Fear:
+                if (Fear == 0)
+                    return false;
+                break;
+            case ResourceType.Sadness:
+                if (Sadness == 0)
+                    return false;
+                break;
+            case ResourceType.Joy:
+                if (Joy == 0)
+                    return false;
+                break;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Adds a given amount to a given emotion.
+    /// If that amount is more than the max allowed for that
+    /// emotion, adds up the max
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="amount"></param>
+    public void AddEmotion(ResourceType type, int amount)
+    {
+        switch (type)
+        {
+            case ResourceType.Rage:
+                Rage += amount;
+                break;
+            case ResourceType.Fear:
+                Fear += amount;
+                break;
+            case ResourceType.Sadness:
+                Sadness += amount;
+                break;
+            case ResourceType.Joy:
+                Joy += amount;
+                break;
+        }
+
+        if (Rage > maxRage)
+            Rage = maxRage;
+        if (Fear > maxFear)
+            Fear = maxFear;
+        if (Sadness > maxSadness)
+            Sadness = maxSadness;
+        if (Joy > maxJoy)
+            Joy = maxJoy;
+
+        updateResourceBars();
+        updateGreyscaleEffect();
+    }
 }

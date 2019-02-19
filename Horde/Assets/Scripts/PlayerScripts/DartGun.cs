@@ -41,7 +41,8 @@ public class DartGun : MonoBehaviour
             DartSpawn = dartSpawnLocation;
         }
 
-        if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown)
+        if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown
+            && ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion))
 		{
             GetComponent<PlayerMovement>().lockMovementControls = true;
             GetComponent<Animator>().SetBool("Aiming", true);
