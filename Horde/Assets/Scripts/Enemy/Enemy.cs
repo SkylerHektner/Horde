@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
 	public bool IsDistracted { get { return isDistracted; } set { isDistracted = value; } } // When looking at something. (Like at a crying guard)
 	public PatrolType PatrolType { get { return patrolType; } }
 
+    public bool IsDead { get { return currentState.GetType() == typeof(Dead); } }
+
 	public bool DEBUG_MODE;
 
 	[SerializeField] private EnemySettings enemySettings;
