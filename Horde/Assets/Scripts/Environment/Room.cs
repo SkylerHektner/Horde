@@ -6,14 +6,20 @@ public class Room : MonoBehaviour
 {
 	public List<Enemy> Enemies { get { return enemies; } }
 	public string RoomName { get { return roomName; } }
+	public Exit Exit { get { return exit; } }
+	public Transform Spawn { get { return playerSpawn; } }
+	public Transform CameraSpawn { get { return cameraSpawn; } }
 
-	[SerializeField] private string roomName; // Not sure if we need this or not.
+	[SerializeField] private string roomName;
+	[SerializeField] private bool isCheckpoint; // Is a checkpoint room.
 
 	private List<Enemy> enemies;
-	private Checkpoint checkpoint;
+	private Exit exit;
+	private Transform playerSpawn;
+	private Transform cameraSpawn;
 
 	
-	void Start () 
+	void Awake() 
 	{
 		InitializeVariables(); // Initialize enemies, checkpoint, etc...
 		CheckIfProperlyInitialized(); // Checks for initialization errors, mainly null values.
@@ -42,15 +48,23 @@ public class Room : MonoBehaviour
 			enemies.Add(e);	// Populate the enemies list.
 		}
 
-		checkpoint = GetComponentInChildren<Checkpoint>(); // Set the checkpoint.
+		playerSpawn = transform.Find("Player-Spawn");
+		cameraSpawn = transform.Find("Camera-Spawn");
+		exit = GetComponentInChildren<Exit>();
 	}
 
 	private void CheckIfProperlyInitialized()
 	{
 		if(enemies.Count == 0)
-			Debug.LogWarning("There are no enemies in this room. Is this intentional?");
+			Debug.LogError("There are no enemies detected in room: " + roomName);
 
-		if(checkpoint == null)
-			Debug.LogError("Please set a checkpoint for the room");
+		if(playerSpawn == null)
+			Debug.LogError("There is no Player Spawn in room: " + roomName);
+		
+		if(cameraSpawn == null)
+			Debug.LogError("There is no Camera Spawn in room: " + roomName);
+
+		if(exit == null)
+			Debug.LogError("There is no exit detected in room: " + roomName);
 	}
 }

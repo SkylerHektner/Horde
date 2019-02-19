@@ -16,11 +16,12 @@ public class GameManager : MonoBehaviour
     public float OutOfVisionDuration { get { return outOfVisionDuration; } set { outOfVisionDuration = value; } }
 
     [SerializeField] private CameraController cameraController;
-    [SerializeField] private Room[] rooms;
+    [SerializeField] private List<Room> rooms;
 
     private Room currentRoom;
+    private Room lastCheckpoint;
 
-    // Helpers to give guards shared vision during alert state.
+    // Helpers to give guards shared vision during alert state. //
     private Player player;
     private bool playerIsMarked;
 	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
@@ -37,12 +38,22 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<Player>();
-        currentRoom = rooms[1];
+        currentRoom = rooms[0];
+        lastCheckpoint = rooms[0];
+
+        Debug.Log(currentRoom.CameraSpawn.position);
+        cameraController.MoveTo(currentRoom.CameraSpawn);
     }
 	
 	private void Update ()
     {
         OutOfVisionDuration += Time.smoothDeltaTime;
+
+        // Lock the door if guards are alerted.
+        if(playerIsMarked)
+            currentRoom.Exit.LockDoor();
+        else
+            currentRoom.Exit.UnlockDoor();
 	}
 
     /// <summary>
@@ -59,8 +70,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetCameraLocation(Vector3 v)
+    public void TransitionToNextRoom()
     {
-        cameraController.SetTargetPos(v);
+        Room nextRoom;
+        if(rooms[rooms.Count - 1] == currentRoom) // If it's the last room.
+            nextRoom = currentRoom; // Just loop in same room for now.
+        else
+            nextRoom = rooms[rooms.IndexOf(currentRoom) + 1];
+
+        currentRoom = nextRoom;
+
+        currentRoom.gameObject.SetActive(true); // Activate the new room.
+        rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false);
+
+        player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
+        player.transform.rotation = currentRoom.Spawn.rotation;
+        cameraController.MoveTo(currentRoom.CameraSpawn);
     }
 }

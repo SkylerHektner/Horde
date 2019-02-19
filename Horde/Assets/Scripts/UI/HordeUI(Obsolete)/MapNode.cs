@@ -56,8 +56,8 @@ public class MapNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void OnPointerClick(PointerEventData eventData)
     {
         //CameraController.Instance.SetTargetPos(transform.position.x, transform.position.z);
-        CameraController.Instance.setTargetZoom(10);
-        CameraController.Instance.lockPanControls = true;
+        //CameraController.Instance.setTargetZoom(10);
+        //CameraController.Instance.lockPanControls = true;
         MissionInfoPanel.Instance.ShowUI(missionTitle, missionDescription, levelID);
     }
 
