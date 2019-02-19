@@ -12,24 +12,14 @@ public class ResourceManager : MonoBehaviour
     public delegate void resourceEmptyListener(ResourceType t);
     public event resourceEmptyListener ResourceEmptyEvent;
 
-
-    public float baseSpellCost = 20f;
-
-    public float Rage { get; private set; }
-    public float Devotion { get; private set; }
-    public float Joy { get; private set; }
-    public float Sadness { get; private set; }
-    public float Fear { get; private set; }
-    [SerializeField]
-    private float baseCost = 10;
-    [SerializeField]
-    private float maxRage = 100;
-    [SerializeField]
-    private float maxDevotion = 100;
-    [SerializeField]
-    private float maxJoy = 100;
-    [SerializeField]
-    private float maxFear = 100;
+    [SerializeField] public int maxRage = 10;
+    [SerializeField] public int maxJoy = 10;
+    [SerializeField] public int maxSadness = 10;
+    [SerializeField] public int maxFear = 10;
+    public int Rage { get; private set; }
+    public int Joy { get; private set; }
+    public int Sadness { get; private set; }
+    public int Fear { get; private set; }
 
     [SerializeField]
     private Material greyscalePostMat;
@@ -43,13 +33,9 @@ public class ResourceManager : MonoBehaviour
     [SerializeField]
     private Material resourceBarDevotionMat;
 
-    [SerializeField]
-    private HeuristicCosts heuristicCosts;
-
     public enum ResourceType
     {
         Rage,
-        Devotion,
         Joy,
         Fear,
         Sadness
@@ -59,7 +45,7 @@ public class ResourceManager : MonoBehaviour
     {
         Instance = this;
         Rage = maxRage;
-        Devotion = maxDevotion;
+        Sadness = maxSadness;
         Joy = maxJoy;
         Fear = maxFear;
         updateResourceBars();
@@ -68,19 +54,19 @@ public class ResourceManager : MonoBehaviour
 
     private void updateResourceBars()
     {
-        resourceBarRageMat.SetFloat("_Range", Rage / maxRage);
-        resourceBarFearMat.SetFloat("_Range", Fear / maxFear);
-        resourceBarJoyMat.SetFloat("_Range", Joy / maxJoy);
-        resourceBarDevotionMat.SetFloat("_Range", Devotion / maxDevotion);
+        resourceBarRageMat.SetFloat("_Range", (float)Rage / maxRage);
+        resourceBarFearMat.SetFloat("_Range", (float)Fear / maxFear);
+        resourceBarJoyMat.SetFloat("_Range", (float)Joy / maxJoy);
+        resourceBarDevotionMat.SetFloat("_Range", (float)Sadness / maxSadness);
     }
 
     private void updateGreyscaleEffect()
     {
         float sum = 0;
-        sum += 1 - Rage / maxRage;
-        sum += 1 - Fear / maxFear;
-        sum += 1 - Joy / maxJoy;
-        sum += 1 - Devotion / maxDevotion;
+        sum += 1 - (float)Rage / maxRage;
+        sum += 1 - (float)Fear / maxFear;
+        sum += 1 - (float)Joy / maxJoy;
+        sum += 1 - (float)Sadness / maxSadness;
         sum *= 0.25f;
         greyscalePostMat.SetFloat("_GreyAmountRed", sum);
         greyscalePostMat.SetFloat("_GreyAmountGreen", sum);
@@ -88,120 +74,37 @@ public class ResourceManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Spends the emotions of a given list of heuristics
-    /// </summary>
-    /// <param name="b"></param>
-    public void SpendEmotion(List<HInterface.HType> b)
-    {
-        float tempRage = Rage;
-        float tempJoy = Joy;
-        float tempDevotion = Devotion;
-        float tempFear = Fear;
-        subtractEmotions(b, ref tempRage, ref tempDevotion, ref tempJoy, ref tempFear);
-
-        Rage = tempRage;
-        if (Rage < 0)
-        {
-            ResourceEmptyEvent(ResourceType.Rage);
-        }
-        Joy = tempJoy;
-        if (Joy < 0)
-        {
-            ResourceEmptyEvent(ResourceType.Joy);
-        }
-        Devotion = tempDevotion;
-        if (Devotion < 0)
-        {
-            ResourceEmptyEvent(ResourceType.Devotion);
-        }
-        Fear = tempFear;
-        if (Fear < 0)
-        {
-            ResourceEmptyEvent(ResourceType.Fear);
-        }
-
-        updateGreyscaleEffect();
-        updateResourceBars();
-    }
-
-    /// <summary>
     /// Spends the emotion of the passed in resource type.
-    public void SpendEmotion(ResourceType type)
+    /// Returns true if succesful, false otherwise
+    public bool TrySpendEmotion(ResourceType type)
     {
         switch(type)
         {
             case ResourceType.Rage:
-                Rage -= baseSpellCost;
+                if (Rage == 0)
+                    return false;
+                Rage -= 1;
                 break;
             case ResourceType.Fear:
-                Fear -= baseSpellCost;
+                if (Fear == 0)
+                    return false;
+                Fear -= 1;
                 break;
             case ResourceType.Sadness:
-                Sadness -= baseSpellCost;
+                if (Sadness == 0)
+                    return false;
+                Sadness -= 1;
                 break;
             case ResourceType.Joy:
-                Joy -= baseSpellCost;
+                if (Joy == 0)
+                    return false;
+                Joy -= 1;
                 break;
         }
 
         updateGreyscaleEffect();
         updateResourceBars();
-    }
 
-    /// <summary>
-    /// subtracts the emotions of a given list of heuristics from a set of references floats
-    /// </summary>
-    /// <param name="b"></param>
-    /// <param name="rage"></param>
-    /// <param name="devotion"></param>
-    /// <param name="joy"></param>
-    /// <param name="fear"></param>
-    private void subtractEmotions(List<HInterface.HType> b, ref float rage, ref float devotion, ref float joy, ref float fear)
-    {
-        float rageCost = 0;
-        float devotionCost = 0;
-        float fearCost = 0;
-        float joyCost = 0;
-        foreach (HInterface.HType h in b)
-        {
-            switch (heuristicCosts.GetEmotion(h))
-            {
-                case ResourceType.Devotion:
-                    devotionCost += 1;
-                    break;
-                case ResourceType.Joy:
-                    joyCost += 1;
-                    break;
-                case ResourceType.Rage:
-                    rageCost += 1;
-                    break;
-                case ResourceType.Fear:
-                    fearCost += 1;
-                    break;
-            }
-        }
-        rage -= (rageCost / b.Count) * baseSpellCost;
-        devotion -= (devotionCost / b.Count) * baseSpellCost;
-        joy -= (joyCost / b.Count) * baseSpellCost;
-        fear -= (fearCost / b.Count) * baseSpellCost;
-    }
-
-    /// <summary>
-    /// Tests whether or not you can cast the given list of heuristics. Returns true if you can
-    /// </summary>
-    /// <param name="list"></param>
-    /// <returns></returns>
-    public bool HasEmotion(List<HInterface.HType> list)
-    {
-        float tempRage = Rage;
-        float tempJoy = Joy;
-        float tempDevotion = Devotion;
-        float tempFear = Fear;
-        subtractEmotions(list, ref tempRage, ref tempDevotion, ref tempJoy, ref tempFear);
-        if (tempRage < 0 || tempDevotion < 0 || tempJoy < 0 || tempFear < 0)
-        {
-            return false;
-        }
         return true;
     }
 }
