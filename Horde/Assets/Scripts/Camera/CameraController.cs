@@ -4,25 +4,29 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private float transitionSpeed = 3.0f;
+    private int numTransitionFrames = 100;
     private Transform targetTransform;
+
+    private int curTransitionFrame = 20;
     
     private void Awake()
     {
         targetTransform = transform;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if(transform.position != targetTransform.position)
+        if(curTransitionFrame != numTransitionFrames)
         {
-            transform.position = Vector3.Lerp(transform.position, targetTransform.position, transitionSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, transitionSpeed * Time.deltaTime);
+            curTransitionFrame++;
+            transform.position = Vector3.Lerp(transform.position, targetTransform.position, (float)curTransitionFrame / numTransitionFrames);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, (float)curTransitionFrame / numTransitionFrames);
         }
     }
 
     public void MoveTo(Transform t)
     {
         targetTransform = t;
+        curTransitionFrame = 0;
     }
 }

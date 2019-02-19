@@ -11,6 +11,7 @@ public class Exit : MonoBehaviour
     void Start()
     {
         isLocked = false; // The room starts with the door unlocked.
+        OpenDoor();
     }
 
     void Update()
@@ -21,6 +22,7 @@ public class Exit : MonoBehaviour
     public void UnlockDoor()
     {
         isLocked = false;
+        OpenDoor();
         bulb.material.SetColor("_Color", Color.green);
         bulb.material.SetColor("_EmissionColor", Color.green);
     }
@@ -28,6 +30,7 @@ public class Exit : MonoBehaviour
     public void LockDoor()
     {
         isLocked = true;
+        CloseDoor();
         bulb.material.SetColor("_Color", Color.red);
         bulb.material.SetColor("_EmissionColor", Color.red);
     }
@@ -42,13 +45,26 @@ public class Exit : MonoBehaviour
 
                 // TODO: Transition animation into the next room.
                 GameManager.Instance.TransitionToNextRoom();
+
+                StartCoroutine(closeAfterDelay(2f));
             }
         }
+    }
+
+    private IEnumerator closeAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        CloseDoor();
     }
 
     private void OpenDoor()
     {
         if(!isLocked)
             GetComponentInChildren<Door>().TriggerOn();
+    }
+
+    private void CloseDoor()
+    {
+        GetComponentInChildren<Door>().TriggerOff();
     }
 }
