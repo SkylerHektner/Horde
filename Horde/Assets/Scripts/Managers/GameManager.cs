@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private CameraController cameraController;
     [SerializeField] private List<Room> rooms;
+    [SerializeField] private FadeCamera fadeCamera;
 
     private Room currentRoom;
     private Room lastCheckpoint;
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
     // Helpers to give guards shared vision during alert state. //
     private Player player;
     private bool playerIsMarked;
-	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
+    private float outOfVisionDuration; // The amount of time the current target has been out of vision.
 
     private void Awake()
     {
@@ -44,17 +45,20 @@ public class GameManager : MonoBehaviour
         Debug.Log(currentRoom.CameraSpawn.position);
         cameraController.MoveTo(currentRoom.CameraSpawn);
     }
-	
-	private void Update ()
+
+    private void Update()
     {
         OutOfVisionDuration += Time.smoothDeltaTime;
 
         // Lock the door if guards are alerted.
-        if(playerIsMarked)
+        if (playerIsMarked)
             currentRoom.Exit.LockDoor();
         else
             currentRoom.Exit.UnlockDoor();
-	}
+        if(fadeCamera.isBlack)
+            Debug.Log(fadeCamera.isBlack);
+
+    }
 
     /// <summary>
     /// Alerts all the guards in the room.
@@ -63,23 +67,23 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(currentRoom.Enemies.Count);
         Debug.Log(currentRoom.RoomName);
-        foreach(Enemy e in currentRoom.Enemies)
+        foreach (Enemy e in currentRoom.Enemies)
         {
-            if(e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol)
+            if (e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol)
                 e.ChangeState(new Alert(e));
         }
     }
 
     public void TransitionToNextRoom()
     {
+        
         Room nextRoom;
-        if(rooms[rooms.Count - 1] == currentRoom) // If it's the last room.
+        if (rooms[rooms.Count - 1] == currentRoom) // If it's the last room.
             nextRoom = currentRoom; // Just loop in same room for now.
         else
             nextRoom = rooms[rooms.IndexOf(currentRoom) + 1];
-
+        
         currentRoom = nextRoom;
-
         // The disabling of the room looks very jarring to the player. I think
         // we should leave it enabled. - Skyler
         //currentRoom.gameObject.SetActive(true); // Activate the new room.
@@ -87,6 +91,18 @@ public class GameManager : MonoBehaviour
 
         player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
         player.transform.rotation = currentRoom.Spawn.rotation;
+        
+        StartCoroutine(cameraPause(currentRoom));
+        fadeCamera.Reset();
+
+    }
+    public IEnumerator cameraPause(Room currentRoom)
+    {
+        Debug.Log(fadeCamera.isBlack);
+        yield return new WaitUntil(() => fadeCamera.isBlack);
+        fadeCamera.isBlack = false;
+        Debug.Log("passed WaitUntil");
+        Debug.Log(currentRoom.CameraSpawn);
         cameraController.MoveTo(currentRoom.CameraSpawn);
     }
 }
