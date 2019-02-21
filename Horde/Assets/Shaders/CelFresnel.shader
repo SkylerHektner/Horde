@@ -14,9 +14,8 @@
 		SubShader
 		{
 			Tags{ "RenderType" = "Opaque" }
-			Cull Back
 			CGPROGRAM
-			#pragma surface surf SimpleLambert
+			#pragma surface surf SimpleLambert fullforwardshadows 
 
 			sampler2D _LightCells;
 			float4 _Color;
@@ -26,7 +25,7 @@
 				half NdotL = dot(s.Normal, lightDir);
 				NdotL = clamp(NdotL, .2, 1);
 				half4 c;
-				c.rgb = s.Albedo * _LightColor0.rgb * (tex2D(_LightCells, half2(NdotL, 0)).g * atten);
+				c.rgb = s.Albedo * _LightColor0.rgb * tex2D(_LightCells, half2(NdotL, 0)).g * atten;
 				c.a = s.Alpha;
 				return c;
 			}
