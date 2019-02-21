@@ -55,8 +55,6 @@ public class GameManager : MonoBehaviour
             currentRoom.Exit.LockDoor();
         else
             currentRoom.Exit.UnlockDoor();
-        if(fadeCamera.isBlack)
-            Debug.Log(fadeCamera.isBlack);
 
     }
 
