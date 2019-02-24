@@ -61,6 +61,8 @@ public class VisionCone : MonoBehaviour
 
 	private void Update()
 	{
+		//FindVisibleTargets();
+
 		//Debug.Log(visibleTargets.Count);
 		if(targetMask == LayerMask.GetMask("Player")) // If the Layer Mask is for only the player.
 		{
@@ -76,8 +78,6 @@ public class VisionCone : MonoBehaviour
 				playerInVision = false;
 			}
 		}
-
-		//Debug.Log(playerInVision);
 
         if (viewRadius != targetViewRadius)
         {
@@ -255,7 +255,7 @@ public class VisionCone : MonoBehaviour
 			// Check if the target is within the view angle
 			if(Vector3.Angle(dirToTarget, transform.forward) < viewAngle / 2)
 			{
-				float distanceToTarget = Vector3.Distance(transform.position, target.position);
+				float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
 
 				if(!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask)) // No obstacles are in the way
 				{
@@ -263,6 +263,8 @@ public class VisionCone : MonoBehaviour
 				}
 			}
 		}
+
+		//Debug.Log(visibleTargets.Count);
 	}
 
 	private void DrawVisionCone()

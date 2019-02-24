@@ -19,12 +19,11 @@ public class Idle : AIState
 
 	public override void Tick()
 	{
-		Debug.Log(enemy.IsDistracted);
-		if(!enemy.IsDistracted && !visionCone.TryGetPlayer()) // Don't reset position if currently distracted or if player in vision.
-		{
-			if(enemy.DEBUG_MODE)
-				Debug.Log("1");
+		Player player = visionCone.TryGetPlayer(); // Null if the player isn't in vision.
 
+		//Debug.Log(enemy.IsDistracted);
+		if(!enemy.IsDistracted && player == null) // Don't reset position if currently distracted or if player in vision.
+		{
 			preAlertDuration = enemy.EnemySettings.PreAlertDuration; // Reset the timer if player isn't in vision.
 
 			if(!AtSpawnPosition()) 
@@ -36,15 +35,12 @@ public class Idle : AIState
 				ResetRotation();
 			}
 		}
-		else if(visionCone.TryGetPlayer()) // If the player is within vision.
+		else if(player != null) // If the player is within vision.
 		{
-			if(enemy.DEBUG_MODE)
-				Debug.Log("2");
-				
 			preAlertDuration -= Time.smoothDeltaTime; // Count down the pre-alert duration.
 
 			// Stare at the target until the pre-alert duration is over.
-			StareAtTarget();
+			StareAtTarget(player);
 			if(preAlertDuration <= 0)
 			{
 				GameManager.Instance.AlertGuards();
@@ -71,14 +67,9 @@ public class Idle : AIState
 		visionCone.ChangeTargetMask(targetMask);
 	}
 
-	private void StareAtTarget()
+	private void StareAtTarget(Player p)
 	{
-		if(enemy.DEBUG_MODE)
-			Debug.Log("Staring");
-		Vector3 direction = visionCone.TryGetPlayer().transform.position - enemy.transform.position;
-        Quaternion desiredRotation = Quaternion.LookRotation(direction);
-
-		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 5.0f * Time.deltaTime);
+		enemyMovement.LookAt(p.transform.position);
 	}
 
 	private void ResetPosition()
@@ -94,7 +85,10 @@ public class Idle : AIState
 	private bool AtSpawnPosition()
 	{
 		// We don't care if y values are different.
-		if(Vector3.Distance(enemy.transform.position, enemy.SpawnPosition) < 0.25f)
+		Vector3 enemyPosition = new Vector3(enemy.transform.position.x, 0, enemy.transform.position.z);
+		Vector3 spawnPosition = new Vector3(enemy.SpawnPosition.x, 0, enemy.SpawnPosition.z);
+
+		if(Vector3.Distance(enemyPosition, spawnPosition) < 0.25f)
 		{
 			return true;
 		}

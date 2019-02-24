@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyMovement: MonoBehaviour
 {
+    private Enemy enemy;
     private NavMeshAgent agent;
     private Animator anim;
     private Vector3 lastPos;
@@ -12,6 +13,7 @@ public class EnemyMovement: MonoBehaviour
     
     private void Awake()
     {
+        enemy = GetComponent<Enemy>();
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         lastPos = transform.position;
@@ -70,6 +72,15 @@ public class EnemyMovement: MonoBehaviour
         agent.isStopped = true;
     }
 
+    public void LookAt(Vector3 pos)
+    {
+		Vector3 direction = pos - enemy.transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+
+        //Transform head = GetComponentInChildren<VisionCone>().transform;
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 5.0f * Time.deltaTime);
+    }
+
     /// <summary>
     /// Makes the enemy rotate towards and look at the given location.
     /// Used for when there is a noise or something that catches an
@@ -77,7 +88,7 @@ public class EnemyMovement: MonoBehaviour
     /// </summary>
     public IEnumerator LookAtForDuration(Vector3 pos, float duration)
     {
-        GetComponent<Enemy>().IsDistracted = true;
+        enemy.IsDistracted = true;
 
         Vector3 direction = pos - transform.position;
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
@@ -85,7 +96,7 @@ public class EnemyMovement: MonoBehaviour
         
         while(Vector3.Angle(transform.forward, pos - transform.position) >= 1.0f)
         {
-            if(GetComponent<Enemy>().DEBUG_MODE)
+            if(enemy.DEBUG_MODE)
             {
                 Debug.Log("Rotating towards.");
                 Debug.Log(Vector3.Angle(transform.forward, pos - transform.position));
@@ -105,7 +116,7 @@ public class EnemyMovement: MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
-        GetComponent<Enemy>().IsDistracted = false;
+        enemy.IsDistracted = false;
     }
 
     public void Respawn(Vector3 pos)

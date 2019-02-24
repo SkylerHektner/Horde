@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour
     public float OutOfVisionDuration { get { return outOfVisionDuration; } set { outOfVisionDuration = value; } }
 
     [SerializeField] private CameraController cameraController;
-    [SerializeField] private List<Room> rooms;
     [SerializeField] private FadeCamera fadeCamera;
+    [SerializeField] private List<Room> rooms;
     [SerializeField] private Room startingRoom;
 
     private Room currentRoom;
