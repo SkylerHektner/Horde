@@ -9,15 +9,32 @@ using UnityEngine;
 /// </summary>
 public class Alert : AIState
 {
+	private Transform currentTarget;
+	private float currentTargetBuffer; // The amount of time the current target can be out of vision before losing it.
+	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
+
 	public Alert(Enemy enemy): base(enemy)
 	{
-		
+		GameManager.Instance.PlayerIsMarked = true;
+		GameManager.Instance.OutOfVisionDuration = 0;
 	}
 
 	public override void Tick()
 	{
 		Player player = visionCone.TryGetPlayer();
-		if(player == null || player.GetComponent<PlayerMovement>().isDead) // If the player isn't in vision or player is dead.
+
+		if(player != null)
+		{
+			GameManager.Instance.PlayerIsMarked = true; // Mark the player as the current target.
+			GameManager.Instance.OutOfVisionDuration = 0; // Reset the outOfVisionDuration counter if the player is in vision.
+		}
+
+		if(GameManager.Instance.OutOfVisionDuration >= enemy.EnemySettings.CurrentTargetBuffer) // If target has been out of vision for extended amount of time.
+		{
+			GameManager.Instance.PlayerIsMarked = false;
+		}
+			
+		if(GameManager.Instance.PlayerIsMarked == false)
 		{
 			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
 			{
@@ -29,12 +46,12 @@ public class Alert : AIState
 		}
 		else
 		{
-			enemyMovement.MoveTo(player.transform.position, enemy.EnemySettings.AlertMovementSpeed);
+			enemyMovement.MoveTo(GameManager.Instance.Player.transform.position, enemy.EnemySettings.AlertMovementSpeed);
 			
-			if(enemyAttack.IsInAttackRange(player.transform.position))
+			if(enemyAttack.IsInAttackRange(GameManager.Instance.Player.transform.position))
 			{
 				if(!enemyAttack.IsAttacking)
-					enemy.StartCoroutine(enemyAttack.Attack(player.gameObject));
+					enemy.StartCoroutine(enemyAttack.Attack(GameManager.Instance.Player.gameObject));
 			}
 		}
 	}

@@ -25,8 +25,9 @@ public class VisionConeEditor : Editor
 		{
 			if(visibleTarget == null)
 				continue;
-				
-			Handles.DrawLine(vc.transform.position, visibleTarget.position);
+
+			Vector3 targetPosition = new Vector3(visibleTarget.position.x, vc.transform.position.y, visibleTarget.position.z);	
+			Handles.DrawLine(vc.transform.position, targetPosition);
 		}
 	}
 }

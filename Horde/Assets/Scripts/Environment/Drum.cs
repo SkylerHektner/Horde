@@ -21,29 +21,24 @@ public class Drum : MonoBehaviour, IBreakable
 	{
 		meshRenderer = GetComponentInChildren<MeshRenderer>();
 
-		var tempMaterial = new Material(meshRenderer.sharedMaterial);
+		//var tempMaterial = new Material(meshRenderer.sharedMaterial);
 		
 		switch(drumType)
 		{
 			case DrumType.Anger:
-				tempMaterial.color = Color.red;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/AngerDrum");
 				break;
 			case DrumType.Fear:
-				tempMaterial.color = Color.yellow;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/FearDrum");
 				break;
 			case DrumType.Sadness:
-				tempMaterial.color = Color.blue;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/SadnessDrum");
 				break;
 			case DrumType.Joy:
-				tempMaterial.color = Color.green;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/JoyDrum");
 				break;
 			case DrumType.Explosive:
-				tempMaterial.color = Color.white;
-				meshRenderer.sharedMaterial = tempMaterial;
+				meshRenderer.material = Resources.Load<Material>("materials/ExplosiveDrum");
 				break;
 		}
 	}
@@ -67,7 +62,18 @@ public class Drum : MonoBehaviour, IBreakable
 		{
 			foreach(Collider c in objectsInRange)
 			{
-				Destroy(c.gameObject);
+				Enemy e = c.GetComponent<Enemy>();
+				e.ChangeState(new Dead(e));
+			}
+
+			Collider[] rigidbodies = Physics.OverlapSphere(transform.position, explosionRadius);
+			foreach(Collider c in rigidbodies)
+			{
+				Debug.Log("Hit");
+				Rigidbody rb = c.GetComponent<Rigidbody>();
+
+				if(rb != null)
+					rb.AddExplosionForce(50f, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
 			}
 		}
 		else

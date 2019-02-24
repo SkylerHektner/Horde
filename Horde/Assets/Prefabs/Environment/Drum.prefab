@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33144152691447870}
   - component: {fileID: 23880682249828080}
   - component: {fileID: 65648458725380250}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: OilDrum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,8 +38,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4816631694411856}
   - component: {fileID: 114433248653003746}
-  - component: {fileID: 208896981944288784}
-  m_Layer: 10
+  - component: {fileID: 208636335167091726}
+  m_Layer: 16
   m_Name: Drum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1338207511512320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.29, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4816631694411856}
@@ -66,7 +66,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1880873319361466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -41.23, y: 3.722762, z: -49.22}
+  m_LocalPosition: {x: 39.02, y: 100.31, z: -93.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4625758026769120}
@@ -88,7 +88,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: ed7f495cc07dd1840ba3b54d58b1d5ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -138,10 +138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91909f9ac21012146a443a9fa50ea021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drumType: 1
+  drumType: 0
   explosionRadius: 6
   effectDuration: 5
---- !u!208 &208896981944288784
+--- !u!208 &208636335167091726
 NavMeshObstacle:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,9 +150,9 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Extents: {x: 0.625, y: 1.375, z: 0.625}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.39, z: 0}
   m_TimeToStationary: 0.5

@@ -40,6 +40,13 @@ public class EnemySettings : ScriptableObject
     [SerializeField, Range(0, 360)] private float sadnessVisionConeViewAngle;
     [SerializeField, Range(0, 360)] private float joyVisionConeViewAngle;
 
+    [Header("Misc Settings")]
+    [Tooltip("How long the guard looks at you until he triggers the alert state.")]
+    [SerializeField] private float preAlertDuration;
+
+    [Tooltip("The amount of time the current target can be out of vision before losing it.")]
+    [SerializeField] private float currentTargetBuffer;
+
     public float AttackRange { get { return attackRange; } }
 
     public float DefaultMovementSpeed { get { return defaultMovementSpeed; } }
@@ -69,4 +76,7 @@ public class EnemySettings : ScriptableObject
     public float FearVisionConeViewAngle { get { return fearVisionConeViewAngle; } }
     public float SadnessVisionConeViewAngle { get { return sadnessVisionConeViewAngle; } }
     public float JoyVisionConeViewAngle { get { return joyVisionConeViewAngle; } } 
+
+    public float PreAlertDuration { get { return preAlertDuration; } }
+    public float CurrentTargetBuffer { get { return currentTargetBuffer; } }
 }

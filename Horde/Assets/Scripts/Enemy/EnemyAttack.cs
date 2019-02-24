@@ -30,7 +30,7 @@ public class EnemyAttack : MonoBehaviour
 		isAttacking = true;
 		animator.SetTrigger("Attack");
 
-        Debug.Log(target.tag);
+        //Debug.Log(target.tag);
 
 		if(target.tag == "Player")
         {

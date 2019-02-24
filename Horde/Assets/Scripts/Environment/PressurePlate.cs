@@ -21,7 +21,7 @@ public class PressurePlate : MonoBehaviour {
                 {
                     handler.GetComponent<ITriggerHandler>().TriggerOn();
                 }
-                Debug.Log("TRIGGERED");
+                //Debug.Log("TRIGGERED");
             }
         }
     }
@@ -37,7 +37,7 @@ public class PressurePlate : MonoBehaviour {
                 {
                     handler.GetComponent<ITriggerHandler>().TriggerOff();
                 }
-                Debug.Log("UN TRIGGERED");
+                //Debug.Log("UN TRIGGERED");
             }
         }
     }

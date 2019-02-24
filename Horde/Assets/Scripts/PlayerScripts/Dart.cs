@@ -36,6 +36,10 @@ public class Dart : MonoBehaviour
 		if(c.gameObject.tag == "Enemy")
 		{
 			Enemy enemy = c.gameObject.GetComponent<Enemy>();
+            if (enemy.IsDead)
+            {
+                return;
+            }
 			//Debug.Log(loadedEmotion);
 			switch(loadedEmotion)
 			{

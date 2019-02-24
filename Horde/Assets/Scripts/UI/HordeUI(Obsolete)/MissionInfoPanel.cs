@@ -42,8 +42,8 @@ public class MissionInfoPanel : MonoBehaviour {
     public void HideUI()
     {
         toggleAllUI(false);
-        CameraController.Instance.lockPanControls = false;
-        CameraController.Instance.setTargetZoom(30);
+        //CameraController.Instance.lockPanControls = false;
+        //CameraController.Instance.setTargetZoom(30);
     }
 
     private void toggleAllUI(bool show)

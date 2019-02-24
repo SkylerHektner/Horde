@@ -6,10 +6,12 @@ public class Patrol : AIState
 {
 	private List<Transform> patrolPointList;
 	private int destPoint = 0; // The current destination in the patrol path.
+	private float preAlertDuration;
 
 	public Patrol(Enemy enemy): base(enemy)
 	{
 		patrolPointList = new List<Transform>();
+		preAlertDuration = enemy.EnemySettings.PreAlertDuration;
 
 		SetPatrolPoints();
 		MoveToNextPatrolPoint();
@@ -17,17 +19,51 @@ public class Patrol : AIState
 
 	public override void Tick()
 	{
-		if(visionCone.TryGetPlayer())
+		if(enemy.IsDistracted)
 		{
-			//EnemyManager.instance.AlertEnemies();
-			enemy.ChangeState(new Alert(enemy));
+			if(enemy.DEBUG_MODE)
+				Debug.Log("1");
+			enemyMovement.PausePath();
 		}
-
-		//Debug.Log(agent.path.);
-		if(!agent.pathPending && agent.remainingDistance < 0.01f)
+		else if(!enemy.IsDistracted && !visionCone.TryGetPlayer())
 		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("2");
+			preAlertDuration = enemy.EnemySettings.PreAlertDuration; // Reset the timer if player isn't in vision.
+
+			enemyMovement.ResumePath();
+			if(!agent.pathPending && agent.remainingDistance < 0.01f)
+			{
+				MoveToNextPatrolPoint();
+			}
+		}
+		else if(visionCone.TryGetPlayer()) // If the player is within vision.
+		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("3");
+			preAlertDuration -= Time.smoothDeltaTime; // Count down the pre-alert duration.
+
+			enemyMovement.PausePath();
+
+			// Stare at the target until the pre-alert duration is over.
+			StareAtTarget();
+			if(preAlertDuration <= 0)
+			{
+				GameManager.Instance.AlertGuards();
+			}
+		}
+		else if(!agent.pathPending && agent.remainingDistance < 0.01f)
+		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("4");
 			MoveToNextPatrolPoint();
 		} 
+		else
+		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("5");
+			enemyMovement.ResumePath();
+		}
 	}
 
 	public override void LeaveState()
@@ -52,30 +88,61 @@ public class Patrol : AIState
 	private void MoveToNextPatrolPoint()
     {
         enemyMovement.MoveTo(patrolPointList[destPoint].position, enemy.EnemySettings.DefaultMovementSpeed);
-		//Debug.Log(patrolPointList[destPoint].position);
 
         destPoint = (destPoint + 1) % patrolPointList.Count; // Increment the index
     }
 
 	/// <summary>
-    /// Puts the patrol points in the order that the unit should traverse them in.
-    /// e.g. given patrol points A, B, C, this function change the list to A, B, C, C, B, A
+	/// Patrol Option:
+    /// Concatenates the patrol points forwards and then backwards to create a patrolling path.
+    /// e.g. given patrol points A, B, C, the patrol path will be updated to A -> B -> C -> C -> B -> A
+	///
+	/// Loop Option:
+	/// Keeps the patrol points in the same order for a looping path.
+	/// e.g. given patrol points A, B, C, the patrol path will be updated to A -> B -> C
     /// </summary>
     private void SetPatrolPoints()
     {
-        List<Transform> points = new List<Transform>(enemy.PatrolPoints);
-        List<Transform> pointsReversed = new List<Transform>(enemy.PatrolPoints);
-        pointsReversed.Reverse();
-
-        List<Transform> mergedList = new List<Transform>();
-        mergedList.AddRange(points);
-        mergedList.AddRange(pointsReversed);
-
-        patrolPointList = mergedList;
-
-		foreach(Transform t in patrolPointList)
+		// Set the points to a patrolling path.
+		if(enemy.PatrolType == PatrolType.Patrol)
 		{
-			//Debug.Log(t.position);
+			List<Transform> points = new List<Transform>(enemy.PatrolPoints);
+			List<Transform> pointsReversed = new List<Transform>(enemy.PatrolPoints);
+			pointsReversed.Reverse();
+
+			List<Transform> mergedList = new List<Transform>();
+			mergedList.AddRange(points);
+			mergedList.AddRange(pointsReversed);
+
+			patrolPointList = mergedList;
+		}
+		else if(enemy.PatrolType == PatrolType.Loop)
+		{
+			patrolPointList = enemy.PatrolPoints;
 		}
     }
+
+	private void StareAtTarget()
+	{
+		Vector3 direction = visionCone.TryGetPlayer().transform.position - enemy.transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 5.0f * Time.deltaTime);
+	}
+
+	private bool AtSpawnPosition()
+	{
+		// We don't care if y values are different.
+		if(Vector3.Distance(enemy.transform.position, enemy.SpawnPosition) < 0.25f)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	private void ResetRotation()
+	{
+		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, enemy.SpawnRotation, 5.0f * Time.deltaTime);
+	}
 }

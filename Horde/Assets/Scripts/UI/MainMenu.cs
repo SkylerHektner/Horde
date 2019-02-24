@@ -44,7 +44,7 @@ public class MainMenu : MonoBehaviour
     public void LoadSettings()
     {
         Vector3 newPos = new Vector3(cameraLocationSettings.position.x, cameraLocationSettings.position.y - 5f, cameraLocationSettings.position.z + 35f);
-        GameManager.Instance.SetCameraLocation(newPos);
+        //GameManager.Instance.SetCameraLocation(newPos);
         Menu.SetActive(false);
         Settings.SetActive(true);
 
@@ -53,7 +53,7 @@ public class MainMenu : MonoBehaviour
     public void LeaveSettings()
     {
         Vector3 newPos = new Vector3(cameraLocationMenu.position.x, cameraLocationMenu.position.y, cameraLocationMenu.position.z);
-        GameManager.Instance.SetCameraLocation(newPos);
+        //.Instance.SetCameraLocation(newPos);
         Menu.SetActive(true);
         Settings.SetActive(false);
     }
@@ -74,7 +74,7 @@ public class MainMenu : MonoBehaviour
             if (timer <= 0)
             {
                 timer = 0;
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene("Warehouse2");
             }
         }
     }

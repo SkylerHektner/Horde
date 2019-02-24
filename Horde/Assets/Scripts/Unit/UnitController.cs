@@ -24,14 +24,14 @@ public class UnitController : MonoBehaviour
     {
         HTargetingTool.OnTargeting += Pause;
         HTargetingTool.OnFinishedTargeting += Resume;
-        GameManager.OnCaptured += Reset;
+        //GameManager.OnCaptured += Reset;
     }
 
     private void OnDisable()
     {
         HTargetingTool.OnTargeting -= Pause;
         HTargetingTool.OnFinishedTargeting -= Resume;
-        GameManager.OnCaptured -= Reset;
+        //GameManager.OnCaptured -= Reset;
     }
 
     private void Start()
@@ -56,7 +56,7 @@ public class UnitController : MonoBehaviour
         {
             agent.velocity = Vector3.zero; // Make sure the unit stops fully so it doesn't still have momentum when reset to it's initial location.
             agent.ResetPath();
-            GameManager.Instance.ResetLevel();
+            //GameManager.Instance.ResetLevel();
         }
             
         // We don't want normal behavior to execute if the player is being mind controlled or if the unit is paused.

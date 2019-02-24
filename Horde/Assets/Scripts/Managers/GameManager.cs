@@ -5,24 +5,31 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // Singleton instance
 
-    public delegate void CaptureAction();
-    public static event CaptureAction OnCaptured; // When the enemy catches the player.
+    public Room CurrentRoom { get { return currentRoom; } set { currentRoom = value; } }
+    public Room StartingRoom { set { startingRoom = value;} }
+    public Player Player { get { return player; } }
+    public bool PlayerIsMarked { get { return playerIsMarked; } set { playerIsMarked = value; } }
+    public float OutOfVisionDuration { get { return outOfVisionDuration; } set { outOfVisionDuration = value; } }
 
-    private Unit[] enemies;
-    private GameObject player;
+    [SerializeField] private CameraController cameraController;
+    [SerializeField] private FadeCamera fadeCamera;
+    [SerializeField] private List<Room> rooms;
+    [SerializeField] private Room startingRoom;
+    [SerializeField] private Transform roomNamePopup;
 
-    [SerializeField]
-    private CameraController cameraController;
+    private Room currentRoom;
+    private Room lastCheckpoint;
 
-    [SerializeField]
-    //private Transform[] checkpoints;
-    private Checkpoint[] checkpoints;
-    private Checkpoint currentCheckpoint;
+    // Helpers to give guards shared vision during alert state. //
+    private Player player;
+    private bool playerIsMarked;
+    private float outOfVisionDuration; // The amount of time the current target has been out of vision.
 
     private void Awake()
     {
@@ -35,42 +42,73 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Populate the enemies array
-        enemies = GameObject.Find("Enemies").GetComponentsInChildren<Unit>();
-        player = PlayerManager.instance.Player;
+        player = FindObjectOfType<Player>();
+        currentRoom = startingRoom;
+        lastCheckpoint = startingRoom;
 
-        currentCheckpoint = checkpoints[0];
+        player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
+        player.transform.rotation = currentRoom.Spawn.rotation;
+
+        cameraController.MoveTo(currentRoom.CameraSpawn);
     }
-	
-	private void Update ()
+
+    private void Update()
     {
+        OutOfVisionDuration += Time.smoothDeltaTime;
 
-	}
+        // Lock the door if guards are alerted.
+        if (playerIsMarked)
+            currentRoom.Exit.LockDoor();
+        else
+            currentRoom.Exit.UnlockDoor();
 
-    public void ResetLevel()
-    {
-        player.GetComponent<NavMeshAgent>().Warp(currentCheckpoint.transform.position); // Telepport the player to the current checkpoint.
-
-        enemies = GameObject.Find("Enemies").GetComponentsInChildren<Unit>();
-        
-        foreach(Unit enemy in enemies)
-        {
-            Destroy(enemy.GetComponent<Heuristic>()); // Remove whatever heuristic it's executing.
-            enemy.GetComponent<NavMeshAgent>().Warp(enemy.GetComponent<Unit>().InitialPosition); // Set position to it's initial location.
-            enemy.GetComponent<Unit>().UnitController.ResetPatrolPathing(); // Make sure the unit starts at the beginning of his patrol. 
-        }
     }
 
     /// <summary>
-    /// Sets the current checkpoints to the checkpoint that is passed in.
+    /// Alerts all the guards in the room.
     /// </summary>
-    public void SetCheckpoint(Checkpoint cp)
+    public void AlertGuards()
     {
-        currentCheckpoint = cp;
+        Debug.Log(currentRoom.Enemies.Count);
+        Debug.Log(currentRoom.RoomName);
+        foreach (Enemy e in currentRoom.Enemies)
+        {
+            if (e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol)
+                e.ChangeState(new Alert(e));
+        }
     }
 
-    public void SetCameraLocation(Vector3 v)
+    public void TransitionToNextRoom()
     {
-        cameraController.SetTargetPos(v);
+        
+        Room nextRoom;
+        if (rooms[rooms.Count - 1] == currentRoom) // If it's the last room.
+            nextRoom = currentRoom; // Just loop in same room for now.
+        else
+            nextRoom = rooms[rooms.IndexOf(currentRoom) + 1];
+        
+        currentRoom = nextRoom;
+        
+        // The disabling of the room looks very jarring to the player. I think
+        // we should leave it enabled. - Skyler
+        currentRoom.gameObject.SetActive(true); // Activate the new room.
+        rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false);
+
+        player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
+        player.transform.rotation = currentRoom.Spawn.rotation;
+
+        cameraController.MoveTo(currentRoom.CameraSpawn);
+        StartCoroutine(DisplayRoomName());
+    }
+
+    private IEnumerator DisplayRoomName()
+    {
+        Transform instance = Instantiate(roomNamePopup);
+        instance.SetParent(PathosUI.instance.transform);
+        instance.GetComponent<TextMeshProUGUI>().SetText(currentRoom.RoomName);
+
+        yield return new WaitForSeconds(3.0f);
+
+        Destroy(instance.gameObject);
     }
 }

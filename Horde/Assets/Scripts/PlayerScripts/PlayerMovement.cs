@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float speed = 1f;
     private float crouchSpeed = 1f;
-    [SerializeField]
-    private CameraController cam;
 
     public GameObject Backpack;
     public GameObject North;
@@ -34,20 +32,26 @@ public class PlayerMovement : MonoBehaviour
 
     private int layerMask = 1 << 9; // Layer mask for the background.
 
-    private const float ROOT2 = 0.707f;
+    //private const float ROOT2 = 0.707f;
+
+    private Camera cam;
 
     private Vector3 lastPos;
 	void Start ()
     {
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         agent = GetComponent<NavMeshAgent>();
-        forward = new Vector3(-ROOT2 * speed, 0, ROOT2 * speed);
-        right = new Vector3(ROOT2 * speed, 0, ROOT2 * speed);
+        forward = new Vector3(cam.transform.forward.x * speed, 0, cam.transform.forward.z * speed);
+        right = new Vector3(cam.transform.right.x * speed, 0, cam.transform.right.z * speed);
         anim = GetComponent<Animator>();
         lastPos = transform.position;
     }
 	
 	void Update ()
     {
+        forward = new Vector3(cam.transform.forward.x * speed, 0, cam.transform.forward.z * speed);
+        right = new Vector3(cam.transform.right.x * speed, 0, cam.transform.right.z * speed);
+        
         if(isDead)
             return;
 
@@ -119,15 +123,13 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!lockToBack)
             {
-                Vector3 pos = new Vector3(transform.position.x, transform.position.y + 60f, transform.position.z);
-                cam.SetTargetPos(pos);
+                Vector3 pos = new Vector3(transform.position.x - 9f, transform.position.y + 50f, transform.position.z + 9f);
             }
 
 
             if (lockToBack)
             {
                 Vector3 position = new Vector3(Backpack.transform.position.x - 23f, Backpack.transform.position.y + 27f, Backpack.transform.position.z +23);
-                cam.SetTargetPos(position);
             }
         }
 
@@ -137,14 +139,12 @@ public class PlayerMovement : MonoBehaviour
             if (!lockToBack)
             {
                 Vector3 pos = CamGirl;
-                cam.SetTargetPos(pos);
             }
 
 
             if (lockToBack)
             {
                 Vector3 position = new Vector3(Backpack.transform.position.x - 23f, Backpack.transform.position.y + 27f, Backpack.transform.position.z + 23f);
-                cam.SetTargetPos(position);
             }
         }
 
@@ -152,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         {
             crouchSpeed = .5f;
             GetComponent<Animator>().SetBool("Sneaking", true);
-            GetComponent<NavMeshAgent>().height = 0.83f;
+            GetComponent<NavMeshAgent>().height = 0.63f;
             StandingHitbox.enabled = false;
             CrouchingHitbox.enabled = true;
             GetComponent<DartGun>().isCrouching = true;

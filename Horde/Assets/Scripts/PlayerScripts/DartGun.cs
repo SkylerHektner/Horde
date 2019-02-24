@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class DartGun : MonoBehaviour 
 {
+    [SerializeField] private bool infiniteAmmo = false;
 
     [SerializeField] private GameObject dart;
     [SerializeField] private Transform dartSpawnLocation;
@@ -40,7 +41,8 @@ public class DartGun : MonoBehaviour
             DartSpawn = dartSpawnLocation;
         }
 
-        if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown)
+        if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown
+            && ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion))
 		{
             GetComponent<PlayerMovement>().lockMovementControls = true;
             GetComponent<Animator>().SetBool("Aiming", true);
@@ -106,23 +108,29 @@ public class DartGun : MonoBehaviour
 
 	private IEnumerator Fire()
 	{
-        attackOnCooldown = true;
+        // if the
+        if (infiniteAmmo || ResourceManager.Instance.TrySpendEmotion(PathosUI.instance.CurrentEmotion))
+        {
+            attackOnCooldown = true;
 
-		Vector3 endpoint = DartSpawn.position + transform.forward * maxLaserDistance;
-		GameObject dartGO = Instantiate(dart, DartSpawn.position, transform.rotation);
-		dartRB = dartGO.GetComponent<Rigidbody>();
+            Vector3 endpoint = DartSpawn.position + transform.forward * maxLaserDistance;
+            GameObject dartGO = Instantiate(dart, DartSpawn.position, transform.rotation);
+            dartRB = dartGO.GetComponent<Rigidbody>();
 
-		Vector3 directionalVector = endpoint - transform.position;
-		directionalVector.y = 0;
-		dartRB.velocity = directionalVector.normalized * 125;
-		dartRB.rotation = Quaternion.LookRotation(dartRB.velocity);
+            Vector3 directionalVector = endpoint - transform.position;
+            directionalVector.y = 0;
+            dartRB.velocity = directionalVector.normalized * 125;
+            dartRB.rotation = Quaternion.LookRotation(dartRB.velocity);
 
-        ResourceManager.Instance.SpendEmotion(PathosUI.instance.CurrentEmotion);
+            dartGO.GetComponent<Dart>().LoadEmotion(PathosUI.instance.CurrentEmotion);
 
-		dartGO.GetComponent<Dart>().LoadEmotion(PathosUI.instance.CurrentEmotion);
+            yield return new WaitForSeconds(attackCooldown);
 
-        yield return new WaitForSeconds(attackCooldown);
-
-        attackOnCooldown = false;
+            attackOnCooldown = false;
+        }
+        else
+        {
+            yield return null;
+        }
 	}
 }

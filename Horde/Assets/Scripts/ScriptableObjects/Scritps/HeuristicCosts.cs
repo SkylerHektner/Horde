@@ -43,7 +43,7 @@ public class HeuristicCosts : ScriptableObject
                 return ResourceManager.ResourceType.Rage;
             case HInterface.HType.Beckon:
             case HInterface.HType.Move:
-                return ResourceManager.ResourceType.Devotion;
+                //return ResourceManager.ResourceType.Devotion;
             case HInterface.HType.Cower:
             case HInterface.HType.Scream:
                 return ResourceManager.ResourceType.Fear;
