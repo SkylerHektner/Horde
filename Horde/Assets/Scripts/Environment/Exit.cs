@@ -46,7 +46,7 @@ public class Exit : MonoBehaviour
                 // TODO: Transition animation into the next room.
                 GameManager.Instance.TransitionToNextRoom();
 
-                StartCoroutine(closeAfterDelay(2f));
+                //StartCoroutine(closeAfterDelay(2f));
             }
         }
     }
@@ -59,8 +59,7 @@ public class Exit : MonoBehaviour
 
     private void OpenDoor()
     {
-        if(!isLocked)
-            GetComponentInChildren<Door>().TriggerOn();
+        GetComponentInChildren<Door>().TriggerOn();
     }
 
     private void CloseDoor()

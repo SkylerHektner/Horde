@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private FadeCamera fadeCamera;
     [SerializeField] private List<Room> rooms;
     [SerializeField] private Room startingRoom;
+    [SerializeField] private Transform roomNamePopup;
 
     private Room currentRoom;
     private Room lastCheckpoint;
@@ -94,18 +96,18 @@ public class GameManager : MonoBehaviour
 
         player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
         player.transform.rotation = currentRoom.Spawn.rotation;
-        
-        StartCoroutine(cameraPause(currentRoom));
-        fadeCamera.Reset();
 
-    }
-    public IEnumerator cameraPause(Room currentRoom)
-    {
-        Debug.Log(fadeCamera.isBlack);
-        yield return new WaitUntil(() => fadeCamera.isBlack);
-        fadeCamera.isBlack = false;
-        Debug.Log("passed WaitUntil");
-        Debug.Log(currentRoom.CameraSpawn);
         cameraController.MoveTo(currentRoom.CameraSpawn);
+        StartCoroutine(DisplayRoomName());
+    }
+
+    private IEnumerator DisplayRoomName()
+    {
+        Transform instance = Instantiate(roomNamePopup);
+        instance.SetParent(PathosUI.instance.transform);
+
+        yield return new WaitForSeconds(3.0f);
+
+        Destroy(instance.gameObject);
     }
 }
