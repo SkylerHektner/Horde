@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 lastPos;
 	void Start ()
     {
-        cam = FindObjectOfType<Camera>();
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         agent = GetComponent<NavMeshAgent>();
         forward = new Vector3(cam.transform.forward.x * speed, 0, cam.transform.forward.z * speed);
         right = new Vector3(cam.transform.right.x * speed, 0, cam.transform.right.z * speed);

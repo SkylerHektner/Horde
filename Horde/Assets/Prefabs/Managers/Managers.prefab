@@ -275,10 +275,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4799509192382368}
+  - component: {fileID: 114969888729657238}
   - component: {fileID: 114014347560101064}
   - component: {fileID: 114745125275363984}
   - component: {fileID: 114169975474179470}
-  - component: {fileID: 114969888729657238}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -301,6 +301,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114969888729657238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832549557439656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cae9a66724a5e9548856015551729918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraController: {fileID: 0}
+  rooms: []
+  fadeCamera: {fileID: 0}
+  startingRoom: {fileID: 0}
 --- !u!114 &114014347560101064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,11 +329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 913489cd08d81e949b609a727da55d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpellCost: 20
-  baseCost: 10
   maxRage: 100
-  maxDevotion: 100
   maxJoy: 100
+  maxSadness: 10
   maxFear: 100
   greyscalePostMat: {fileID: 2100000, guid: 15023b97311d6684cb1bba59c4cc7d71, type: 2}
   resourceBarRageMat: {fileID: 2100000, guid: c96b82f02acf7b34980e14860a93e3bf, type: 2}
@@ -325,7 +339,6 @@ MonoBehaviour:
   resourceBarJoyMat: {fileID: 2100000, guid: 750b556350912a74bbac85b53293c995, type: 2}
   resourceBarDevotionMat: {fileID: 2100000, guid: 6bfb63614f27686439ae942fdb8c4d6e,
     type: 2}
-  heuristicCosts: {fileID: 11400000, guid: 51e84e38d002d1548a6b74376849504d, type: 2}
 --- !u!114 &114745125275363984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,20 +373,6 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!114 &114969888729657238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832549557439656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cae9a66724a5e9548856015551729918, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraController: {fileID: 0}
-  rooms: []
 --- !u!1 &1900111875068212
 GameObject:
   m_ObjectHideFlags: 0

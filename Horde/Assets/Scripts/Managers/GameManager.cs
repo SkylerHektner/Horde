@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
         player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
         player.transform.rotation = currentRoom.Spawn.rotation;
-        
+
         cameraController.MoveTo(currentRoom.CameraSpawn);
     }
 
@@ -86,10 +86,11 @@ public class GameManager : MonoBehaviour
             nextRoom = rooms[rooms.IndexOf(currentRoom) + 1];
         
         currentRoom = nextRoom;
+        
         // The disabling of the room looks very jarring to the player. I think
         // we should leave it enabled. - Skyler
-        //currentRoom.gameObject.SetActive(true); // Activate the new room.
-        //rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false);
+        currentRoom.gameObject.SetActive(true); // Activate the new room.
+        rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false);
 
         player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
         player.transform.rotation = currentRoom.Spawn.rotation;

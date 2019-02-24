@@ -19,8 +19,12 @@ public class Idle : AIState
 
 	public override void Tick()
 	{
+		Debug.Log(enemy.IsDistracted);
 		if(!enemy.IsDistracted && !visionCone.TryGetPlayer()) // Don't reset position if currently distracted or if player in vision.
 		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("1");
+
 			preAlertDuration = enemy.EnemySettings.PreAlertDuration; // Reset the timer if player isn't in vision.
 
 			if(!AtSpawnPosition()) 
@@ -34,6 +38,9 @@ public class Idle : AIState
 		}
 		else if(visionCone.TryGetPlayer()) // If the player is within vision.
 		{
+			if(enemy.DEBUG_MODE)
+				Debug.Log("2");
+				
 			preAlertDuration -= Time.smoothDeltaTime; // Count down the pre-alert duration.
 
 			// Stare at the target until the pre-alert duration is over.
@@ -66,6 +73,8 @@ public class Idle : AIState
 
 	private void StareAtTarget()
 	{
+		if(enemy.DEBUG_MODE)
+			Debug.Log("Staring");
 		Vector3 direction = visionCone.TryGetPlayer().transform.position - enemy.transform.position;
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
 
