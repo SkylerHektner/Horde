@@ -22,7 +22,7 @@ public class Room : MonoBehaviour
 	void Awake() 
 	{
 		InitializeVariables(); // Initialize enemies, checkpoint, etc...
-		CheckIfProperlyInitialized(); // Checks for initialization errors, mainly null values.
+		//CheckIfProperlyInitialized(); // Checks for initialization errors, mainly null values.
 	}
 	
 	

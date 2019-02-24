@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // Singleton instance
 
-    public Room CurrentRoom { get { return currentRoom; } }
+    public Room CurrentRoom { get { return currentRoom; } set { currentRoom = value; } }
+    public Room StartingRoom { set { startingRoom = value;} }
     public Player Player { get { return player; } }
     public bool PlayerIsMarked { get { return playerIsMarked; } set { playerIsMarked = value; } }
     public float OutOfVisionDuration { get { return outOfVisionDuration; } set { outOfVisionDuration = value; } }
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraController cameraController;
     [SerializeField] private List<Room> rooms;
     [SerializeField] private FadeCamera fadeCamera;
+    [SerializeField] private Room startingRoom;
 
     private Room currentRoom;
     private Room lastCheckpoint;
@@ -39,10 +41,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<Player>();
-        currentRoom = rooms[0];
-        lastCheckpoint = rooms[0];
+        currentRoom = startingRoom;
+        lastCheckpoint = startingRoom;
 
-        Debug.Log(currentRoom.CameraSpawn.position);
+        player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
+        player.transform.rotation = currentRoom.Spawn.rotation;
+        
         cameraController.MoveTo(currentRoom.CameraSpawn);
     }
 
