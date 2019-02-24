@@ -22,14 +22,14 @@ public class CreateRoom : ScriptableWizard
         // Children of root
         GameObject staticObjects = new GameObject("StaticObjects");
         GameObject breakables = new GameObject("Breakables");
-        GameObject enemies = new GameObject("Enemies");
+        GameObject guards = new GameObject("Guards");
         GameObject playerSpawn = new GameObject("Player-Spawn");
         GameObject cameraSpawn = new GameObject("Camera-Spawn");
         GameObject exit = new GameObject("Exit");
 
         staticObjects.transform.SetParent(room.transform);
         breakables.transform.SetParent(room.transform);
-        enemies.transform.SetParent(room.transform);
+        guards.transform.SetParent(room.transform);
         playerSpawn.transform.SetParent(room.transform);
         cameraSpawn.transform.SetParent(room.transform);
         exit.transform.SetParent(room.transform);
