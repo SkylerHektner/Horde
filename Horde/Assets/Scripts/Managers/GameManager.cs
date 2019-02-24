@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour
     {
         Transform instance = Instantiate(roomNamePopup);
         instance.SetParent(PathosUI.instance.transform);
+        instance.GetComponent<TextMeshProUGUI>().SetText(currentRoom.RoomName);
 
         yield return new WaitForSeconds(3.0f);
 
