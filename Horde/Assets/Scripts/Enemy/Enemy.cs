@@ -37,8 +37,8 @@ public class Enemy : MonoBehaviour
 	{
 		SetKinematic(true);
 
-		if(patrolPoints != null)
-			patrolPoints = patrolPath.GetPatrolPoints();
+		if(patrolPath != null)
+            patrolPoints = patrolPath.GetPatrolPoints();
 		
 		spawnPosition = transform.position;
 		spawnRotation = transform.rotation;
