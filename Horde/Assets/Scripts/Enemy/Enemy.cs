@@ -20,12 +20,13 @@ public class Enemy : MonoBehaviour
 
 	[SerializeField] private EnemySettings enemySettings;
 	[SerializeField] private bool hasPatrolPath;
-	[SerializeField] private List<Transform> patrolPoints;
+	[SerializeField] private PatrolPath patrolPath;
 	[SerializeField] private PatrolType patrolType;
 
 	private NavMeshAgent agent;
 	private EnemyAttack enemyAttack;
 	private EnemyMovement enemyMovement;
+	private List<Transform> patrolPoints;
 
 	private AIState currentState;
 	private Vector3 spawnPosition;
@@ -38,6 +39,8 @@ public class Enemy : MonoBehaviour
 	private void Start() 
 	{
 		SetKinematic(true);
+
+		patrolPoints = patrolPath.GetPatrolPoints();
 		
 		spawnPosition = transform.position;
 		spawnRotation = transform.rotation;

@@ -25,6 +25,7 @@ public class CreateRoom : ScriptableWizard
         GameObject guards = new GameObject("Guards");
         GameObject playerSpawn = new GameObject("Player-Spawn");
         GameObject cameraSpawn = new GameObject("Camera-Spawn");
+        GameObject patrolPaths = new GameObject("PatrolPaths");
         GameObject exit = new GameObject("Exit");
 
         staticObjects.transform.SetParent(room.transform);
@@ -32,6 +33,7 @@ public class CreateRoom : ScriptableWizard
         guards.transform.SetParent(room.transform);
         playerSpawn.transform.SetParent(room.transform);
         cameraSpawn.transform.SetParent(room.transform);
+        patrolPaths.transform.SetParent(room.transform);
         exit.transform.SetParent(room.transform);
 
         //Children of StaticObjects
