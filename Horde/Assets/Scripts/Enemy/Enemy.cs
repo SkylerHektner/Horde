@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private PatrolPath patrolPath;
 	[SerializeField] private PatrolType patrolType;
 
+    [SerializeField] private GameObject sparkingHeadParticleSystem;
+
 	private NavMeshAgent agent;
 	private EnemyAttack enemyAttack;
 	private EnemyMovement enemyMovement;
@@ -75,6 +77,9 @@ public class Enemy : MonoBehaviour
 		if(currentState.GetType() == state.GetType())
 		{
 			explosionCounter ++;
+
+            if (explosionCounter == 2 && sparkingHeadParticleSystem != null)
+                sparkingHeadParticleSystem.SetActive(true);
 
 			if(explosionCounter == 3)
 				Explode();
