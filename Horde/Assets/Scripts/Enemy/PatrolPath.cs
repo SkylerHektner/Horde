@@ -8,7 +8,7 @@ public class PatrolPath : MonoBehaviour
     {
         List<Transform> patrolPoints = new List<Transform>();
 
-        for(int i = 0; i < transform.childCount - 1; i++)
+        for(int i = 0; i < transform.childCount; i++)
         {
             patrolPoints.Add(transform.GetChild(i));
         }
