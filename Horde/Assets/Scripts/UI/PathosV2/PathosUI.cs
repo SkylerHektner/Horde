@@ -9,8 +9,8 @@ public class PathosUI : MonoBehaviour
 {
 	public static PathosUI instance;
 
-	public ResourceManager.ResourceType CurrentEmotion { get { return currentEmotion; } set { currentEmotion = value; } }
-	private ResourceManager.ResourceType currentEmotion;
+	public ResourceType CurrentEmotion { get { return currentEmotion; } set { currentEmotion = value; } }
+	private ResourceType currentEmotion;
     public EscapeMenu escMenu;
     public AbilityInfoMenu tabMenu;
     public MenuActivationEvent menuEvent;

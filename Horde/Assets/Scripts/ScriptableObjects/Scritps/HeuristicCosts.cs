@@ -34,22 +34,22 @@ public class HeuristicCosts : ScriptableObject
     private int screamCost;
 
 
-    public ResourceManager.ResourceType GetEmotion(HInterface.HType h)
+    public ResourceType GetEmotion(HInterface.HType h)
     {
         switch (h)
         {
             case HInterface.HType.Attack:
             case HInterface.HType.Explode:
-                return ResourceManager.ResourceType.Rage;
+                return ResourceType.Rage;
             case HInterface.HType.Beckon:
             case HInterface.HType.Move:
                 //return ResourceManager.ResourceType.Devotion;
             case HInterface.HType.Cower:
             case HInterface.HType.Scream:
-                return ResourceManager.ResourceType.Fear;
+                return ResourceType.Fear;
             case HInterface.HType.Hug:                                  
             case HInterface.HType.Carry:                                   
-                return ResourceManager.ResourceType.Joy;
+                return ResourceType.Joy;
         }                                                                   
         return 0;
     }

@@ -6,7 +6,7 @@ public class Dart : MonoBehaviour
 {
 	public List<HInterface.HType> Heuristics { get { return heuristics; }  set { heuristics = value; } }
 
-	private ResourceManager.ResourceType loadedEmotion;
+	private ResourceType loadedEmotion;
 	private List<HInterface.HType> heuristics;
 	private Rigidbody rb;
 	private Vector3 oldVel;
@@ -43,16 +43,16 @@ public class Dart : MonoBehaviour
 			//Debug.Log(loadedEmotion);
 			switch(loadedEmotion)
 			{
-				case ResourceManager.ResourceType.Rage:
+				case ResourceType.Rage:
 					enemy.ChangeState(new Anger(enemy, dartDuration));
 					break;
-				case ResourceManager.ResourceType.Joy:
+				case ResourceType.Joy:
 					enemy.ChangeState(new Joy(enemy, dartDuration));
 					break;
-				case ResourceManager.ResourceType.Sadness:
+				case ResourceType.Sadness:
 					enemy.ChangeState(new Sadness(enemy, dartDuration));
 					break;
-				case ResourceManager.ResourceType.Fear:
+				case ResourceType.Fear:
 					enemy.ChangeState(new Fear(enemy, dartDuration));
 					break;
 			}
@@ -72,7 +72,7 @@ public class Dart : MonoBehaviour
 		}
 	}
 
-	public void LoadEmotion(ResourceManager.ResourceType emotion)
+	public void LoadEmotion(ResourceType emotion)
 	{
 		loadedEmotion = emotion;
 	}

@@ -15,7 +15,7 @@ public class DartSelector : MonoBehaviour
 		startingTextColor = capsuleNumbers[0].color;
 
 		// By default, rage is selected.
-		PathosUI.instance.CurrentEmotion = ResourceManager.ResourceType.Rage;
+		PathosUI.instance.CurrentEmotion = ResourceType.Rage;
 
 		ClearSelectedNumberColor();
 		capsuleNumbers[0].color = Color.red;
@@ -25,28 +25,28 @@ public class DartSelector : MonoBehaviour
 	{
 		if(Input.GetKeyDown("1"))
 		{
-			PathosUI.instance.CurrentEmotion = ResourceManager.ResourceType.Rage;
+			PathosUI.instance.CurrentEmotion = ResourceType.Rage;
 
 			ClearSelectedNumberColor();
 			capsuleNumbers[0].color = Color.red;
 		}
 		else if(Input.GetKeyDown("2"))
 		{
-			PathosUI.instance.CurrentEmotion = ResourceManager.ResourceType.Joy;
+			PathosUI.instance.CurrentEmotion = ResourceType.Joy;
 
 			ClearSelectedNumberColor();
 			capsuleNumbers[1].color = Color.red;
 		}
 		else if(Input.GetKeyDown("3"))
 		{
-			PathosUI.instance.CurrentEmotion = ResourceManager.ResourceType.Sadness;
+			PathosUI.instance.CurrentEmotion = ResourceType.Sadness;
 
 			ClearSelectedNumberColor();
 			capsuleNumbers[2].color = Color.red;
 		}
 		else if(Input.GetKeyDown("4"))
 		{
-			PathosUI.instance.CurrentEmotion = ResourceManager.ResourceType.Fear;
+			PathosUI.instance.CurrentEmotion = ResourceType.Fear;
 
 			ClearSelectedNumberColor();
 			capsuleNumbers[3].color = Color.red;
