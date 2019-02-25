@@ -13,7 +13,6 @@ public class Enemy : MonoBehaviour
 	public Quaternion SpawnRotation { get { return spawnRotation; } }
 	public bool IsDistracted { get { return isDistracted; } set { isDistracted = value; } } // When looking at something. (Like at a crying guard)
 	public PatrolType PatrolType { get { return patrolType; } }
-
     public bool IsDead { get { return currentState.GetType() == typeof(Dead); } }
 
 	public bool DEBUG_MODE;
@@ -27,12 +26,10 @@ public class Enemy : MonoBehaviour
 	private EnemyAttack enemyAttack;
 	private EnemyMovement enemyMovement;
 	private List<Transform> patrolPoints;
-
 	private AIState currentState;
 	private Vector3 spawnPosition;
 	private Quaternion spawnRotation;
 	private bool isDistracted;
-
 	private int explosionCounter; // Keeps track of when the enemy should explode.
 	private LayerMask enemyMask;
 

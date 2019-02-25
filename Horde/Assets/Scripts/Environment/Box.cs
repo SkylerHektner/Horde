@@ -6,6 +6,8 @@ public class Box : MonoBehaviour, IBreakable
 {
 	public GameObject brokenVersion;
 	
+	[SerializeField] private Transform pickup; // The pickup that the box will drop. Drops nothing if null.
+
 	private float distToGround;
 	private LayerMask mask;
 	private LayerMask rayCastPlane;
@@ -37,6 +39,9 @@ public class Box : MonoBehaviour, IBreakable
 		{
 			rb.GetComponent<Rigidbody>().AddExplosionForce(1.0f, transform.position, 5.0f, 3.0f, ForceMode.Impulse);
 		}
+
+		if(pickup != null)
+			DropPickup();
 		
 		Destroy(gameObject);
 	}
@@ -60,8 +65,13 @@ public class Box : MonoBehaviour, IBreakable
 
 	private IEnumerator ChangeToKinematic()
 	{
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(0.1f); // Boxes were sinking into the ground if I didn't add a delay.
 
 		rb.isKinematic = true;
+	}
+
+	private void DropPickup()
+	{
+		Instantiate(pickup, transform.position, Quaternion.identity);
 	}
 }

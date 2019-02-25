@@ -12,6 +12,7 @@ public class Pickup : MonoBehaviour
         if(c.tag == "Player")
         {
             ResourceManager.Instance.AddEmotion(resourceType, amount);
+            Destroy(gameObject);
         }
     }
 }
