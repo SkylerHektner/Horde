@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
         // Lock the door if guards are alerted.
         if (playerIsMarked)
             currentRoom.Exit.LockDoor();
-        else
+        else if (currentRoom != null)
             currentRoom.Exit.UnlockDoor();
 
     }
