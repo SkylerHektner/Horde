@@ -16,5 +16,14 @@ public class Personality : MonoBehaviour
         {
             gameObject.GetComponent<Animator>().SetBool("Loving", false);
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            gameObject.GetComponent<Animator>().SetBool("Waving", true);
+        }
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            gameObject.GetComponent<Animator>().SetBool("Waving", false);
+        }
     }
 }
