@@ -18,6 +18,8 @@ public class Alert : AIState
 	{
 		GameManager.Instance.PlayerIsMarked = true;
 		GameManager.Instance.OutOfVisionDuration = 0;
+
+		enemy.GetComponent<Animator>().SetBool("Alerted", true);
 	}
 
 	public override void Tick()
@@ -39,17 +41,8 @@ public class Alert : AIState
 		{
 			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
 			{
-                if (enemy.HasPatrolPath)
-                {
-                    if(!isScanning)
-                        enemy.StartCoroutine(StartScanPhase(new Patrol(enemy), 4.0f));
-                }
-                    
-				else
-                {
-                    if(!isScanning)
-                        enemy.StartCoroutine(StartScanPhase(new Idle(enemy), 4.0f));
-                } 
+				if(!isScanning)
+					enemy.StartCoroutine(StartScanPhase(4.0f));
 			}
 		}
 		else
@@ -62,6 +55,11 @@ public class Alert : AIState
 					enemy.StartCoroutine(enemyAttack.Attack(GameManager.Instance.Player.gameObject));
 			}
 		}
+	}
+
+	public override void LeaveState()
+	{
+		enemy.GetComponent<Animator>().SetBool("Alerted", false);
 	}
 
 	protected override void UpdateVisionCone()
@@ -82,24 +80,34 @@ public class Alert : AIState
     /// Starts the scan phase.
     /// The guard stands still and scans the area for the player.
     /// </summary>
-    /// <param name="state">State to transition to after the scan phase.</param>
     /// <param name="duration">How long the scan phase should last.</param>
     /// <returns></returns>
-    private IEnumerator StartScanPhase(AIState state, float duration)
+    private IEnumerator StartScanPhase(float duration)
     {
         isScanning = true;
-
         enemyMovement.Stop();
+
+		// Start the scan phase animation.
+		enemy.GetComponent<Animator>().SetBool("Scanning", true);
 
         // Exit the scanning phase if player enters vision again.
         if (GameManager.Instance.PlayerIsMarked)
         {
             isScanning = false;
+			Debug.Log("REACHED");
+			// Stop the scanning animation.
+			enemy.GetComponent<Animator>().SetBool("Scanning", false);
+
             yield return null;
         }
 
         yield return new WaitForSeconds(duration);
-        Debug.Log("REACHED");
-        enemy.ChangeState(state);
+        
+		enemy.GetComponent<Animator>().SetBool("Scanning", false);
+
+		if(enemy.HasPatrolPath)
+        	enemy.ChangeState(new Patrol(enemy));
+		else
+			enemy.ChangeState(new Idle(enemy));
     }
 }

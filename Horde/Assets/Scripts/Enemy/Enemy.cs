@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour
 	
 	private void Update() 
 	{
-        Debug.Log(currentState.ToString());
+        //Debug.Log(currentState.ToString());
 		currentState.Tick();
 	}
 
