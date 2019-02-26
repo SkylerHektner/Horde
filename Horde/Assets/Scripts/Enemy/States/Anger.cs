@@ -116,7 +116,7 @@ public class Anger : AIState
         foreach (IBreakable b in breakables)
         {
 			NavMeshHit hit;
-			NavMesh.SamplePosition(new Vector3(b.GetPosition().x, 0.0f, b.GetPosition().z), out hit, 150.0f, NavMesh.AllAreas);
+			NavMesh.SamplePosition(new Vector3(b.GetPosition().x, 0.0f, b.GetPosition().z), out hit, 100.0f, NavMesh.AllAreas);
             agent.CalculatePath(hit.position, path); // Calculate the NavMesh path to the object
 
             if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)

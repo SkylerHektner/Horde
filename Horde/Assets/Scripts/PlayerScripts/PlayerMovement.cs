@@ -34,23 +34,31 @@ public class PlayerMovement : MonoBehaviour
 
     //private const float ROOT2 = 0.707f;
 
-    private Camera cam;
+    private GameObject mainCamera;
+    private GameObject cameraTransformGO;
+    private Transform cameraTransform;
 
     private Vector3 lastPos;
 	void Start ()
     {
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        cameraTransformGO = new GameObject();
+        cameraTransform = cameraTransformGO.transform;
+
         agent = GetComponent<NavMeshAgent>();
-        forward = new Vector3(cam.transform.forward.x * speed, 0, cam.transform.forward.z * speed);
-        right = new Vector3(cam.transform.right.x * speed, 0, cam.transform.right.z * speed);
         anim = GetComponent<Animator>();
         lastPos = transform.position;
     }
 	
 	void Update ()
     {
-        forward = new Vector3(cam.transform.forward.x * speed, 0, cam.transform.forward.z * speed);
-        right = new Vector3(cam.transform.right.x * speed, 0, cam.transform.right.z * speed);
+        cameraTransform.position = mainCamera.transform.position;
+        cameraTransform.rotation = Quaternion.Euler(0, 
+                                                    mainCamera.transform.rotation.eulerAngles.y, 
+                                                    mainCamera.transform.rotation.eulerAngles.z);
+
+        forward = new Vector3(cameraTransform.forward.x * speed, 0, cameraTransform.forward.z * speed);
+        right = new Vector3(cameraTransform.right.x * speed, 0, cameraTransform.right.z * speed);
         
         if(isDead)
             return;

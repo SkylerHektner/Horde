@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour
     public GameObject place;
 
     bool moving = false;
-    public float timer = 200f;
+    public float timer = 5f;
 
 
     private void Start()
@@ -58,11 +58,12 @@ public class MainMenu : MonoBehaviour
         Settings.SetActive(false);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (moving)
         {
-            timer--;
+            timer -= Time.smoothDeltaTime;
+            Debug.Log(timer);
             Menu.SetActive(false);
             MenuTexts.SetActive(false);
 
@@ -74,7 +75,7 @@ public class MainMenu : MonoBehaviour
             if (timer <= 0)
             {
                 timer = 0;
-                SceneManager.LoadScene("Warehouse2");
+                SceneManager.LoadScene("Level1SplitUp");
             }
         }
     }

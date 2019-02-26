@@ -13,31 +13,34 @@ public class Enemy : MonoBehaviour
 	public Quaternion SpawnRotation { get { return spawnRotation; } }
 	public bool IsDistracted { get { return isDistracted; } set { isDistracted = value; } } // When looking at something. (Like at a crying guard)
 	public PatrolType PatrolType { get { return patrolType; } }
-
     public bool IsDead { get { return currentState.GetType() == typeof(Dead); } }
 
 	public bool DEBUG_MODE;
 
 	[SerializeField] private EnemySettings enemySettings;
 	[SerializeField] private bool hasPatrolPath;
-	[SerializeField] private List<Transform> patrolPoints;
+	[SerializeField] private PatrolPath patrolPath;
 	[SerializeField] private PatrolType patrolType;
+
+    [SerializeField] private GameObject sparkingHeadParticleSystem;
 
 	private NavMeshAgent agent;
 	private EnemyAttack enemyAttack;
 	private EnemyMovement enemyMovement;
-
+	private List<Transform> patrolPoints;
 	private AIState currentState;
 	private Vector3 spawnPosition;
 	private Quaternion spawnRotation;
 	private bool isDistracted;
-
 	private int explosionCounter; // Keeps track of when the enemy should explode.
 	private LayerMask enemyMask;
 
 	private void Start() 
 	{
 		SetKinematic(true);
+
+		if(patrolPath != null)
+            patrolPoints = patrolPath.GetPatrolPoints();
 		
 		spawnPosition = transform.position;
 		spawnRotation = transform.rotation;
@@ -57,6 +60,7 @@ public class Enemy : MonoBehaviour
 	
 	private void Update() 
 	{
+        Debug.Log(currentState.ToString());
 		currentState.Tick();
 	}
 
@@ -74,6 +78,9 @@ public class Enemy : MonoBehaviour
 		if(currentState.GetType() == state.GetType())
 		{
 			explosionCounter ++;
+
+            if (explosionCounter == 2 && sparkingHeadParticleSystem != null)
+                sparkingHeadParticleSystem.SetActive(true);
 
 			if(explosionCounter == 3)
 				Explode();

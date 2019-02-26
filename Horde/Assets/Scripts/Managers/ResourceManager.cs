@@ -33,14 +33,6 @@ public class ResourceManager : MonoBehaviour
     [SerializeField]
     private Material resourceBarDevotionMat;
 
-    public enum ResourceType
-    {
-        Rage,
-        Joy,
-        Fear,
-        Sadness
-    }
-
     private void Awake ()
     {
         Instance = this;
@@ -175,4 +167,12 @@ public class ResourceManager : MonoBehaviour
         updateResourceBars();
         updateGreyscaleEffect();
     }
+}
+
+public enum ResourceType
+{
+    Rage,
+    Joy,
+    Fear,
+    Sadness
 }
