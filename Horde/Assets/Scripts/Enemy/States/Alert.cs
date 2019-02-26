@@ -12,6 +12,7 @@ public class Alert : AIState
 	private Transform currentTarget;
 	private float currentTargetBuffer; // The amount of time the current target can be out of vision before losing it.
 	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
+    private bool isScanning;
 
 	public Alert(Enemy enemy): base(enemy)
 	{
@@ -38,10 +39,17 @@ public class Alert : AIState
 		{
 			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
 			{
-				if(enemy.HasPatrolPath)
-					enemy.ChangeState(new Patrol(enemy));
+                if (enemy.HasPatrolPath)
+                {
+                    if(!isScanning)
+                        enemy.StartCoroutine(StartScanPhase(new Patrol(enemy), 4.0f));
+                }
+                    
 				else
-					enemy.ChangeState(new Idle(enemy));
+                {
+                    if(!isScanning)
+                        enemy.StartCoroutine(StartScanPhase(new Idle(enemy), 4.0f));
+                } 
 			}
 		}
 		else
@@ -69,4 +77,29 @@ public class Alert : AIState
 		LayerMask targetMask = 1 << LayerMask.NameToLayer("Player");
 		visionCone.ChangeTargetMask(targetMask);
 	}
+
+    /// <summary>
+    /// Starts the scan phase.
+    /// The guard stands still and scans the area for the player.
+    /// </summary>
+    /// <param name="state">State to transition to after the scan phase.</param>
+    /// <param name="duration">How long the scan phase should last.</param>
+    /// <returns></returns>
+    private IEnumerator StartScanPhase(AIState state, float duration)
+    {
+        isScanning = true;
+
+        enemyMovement.Stop();
+
+        // Exit the scanning phase if player enters vision again.
+        if (GameManager.Instance.PlayerIsMarked)
+        {
+            isScanning = false;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(duration);
+        Debug.Log("REACHED");
+        enemy.ChangeState(state);
+    }
 }

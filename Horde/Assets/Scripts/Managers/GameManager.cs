@@ -69,8 +69,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void AlertGuards()
     {
-        Debug.Log(currentRoom.Enemies.Count);
-        Debug.Log(currentRoom.RoomName);
         foreach (Enemy e in currentRoom.Enemies)
         {
             if (e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol)
