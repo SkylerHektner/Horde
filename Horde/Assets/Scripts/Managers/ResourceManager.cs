@@ -12,34 +12,29 @@ public class ResourceManager : MonoBehaviour
     public delegate void resourceEmptyListener(ResourceType t);
     public event resourceEmptyListener ResourceEmptyEvent;
 
-    [SerializeField] public int maxRage = 10;
-    [SerializeField] public int maxJoy = 10;
-    [SerializeField] public int maxSadness = 10;
-    [SerializeField] public int maxFear = 10;
     public int Rage { get; private set; }
     public int Joy { get; private set; }
     public int Sadness { get; private set; }
     public int Fear { get; private set; }
 
-    [SerializeField]
-    private Material greyscalePostMat;
+    [SerializeField] public int maxRage;
+    [SerializeField] public int maxJoy;
+    [SerializeField] public int maxSadness;
+    [SerializeField] public int maxFear;
 
-    [SerializeField]
-    private Material resourceBarRageMat;
-    [SerializeField]
-    private Material resourceBarFearMat;
-    [SerializeField]
-    private Material resourceBarJoyMat;
-    [SerializeField]
-    private Material resourceBarDevotionMat;
+    [SerializeField] private Material greyscalePostMat;
+    [SerializeField] private Material resourceBarRageMat;
+    [SerializeField] private Material resourceBarFearMat;
+    [SerializeField] private Material resourceBarJoyMat;
+    [SerializeField] private Material resourceBarDevotionMat;
 
     private void Awake ()
     {
         Instance = this;
-        Rage = maxRage;
-        Sadness = maxSadness;
-        Joy = maxJoy;
-        Fear = maxFear;
+        Rage = 0;
+        Sadness = 0;
+        Joy = 0;
+        Fear = 0;
         updateResourceBars();
         updateGreyscaleEffect();
     }
@@ -75,22 +70,22 @@ public class ResourceManager : MonoBehaviour
             case ResourceType.Rage:
                 if (Rage == 0)
                     return false;
-                Rage -= 1;
+                Rage -= 5;
                 break;
             case ResourceType.Fear:
                 if (Fear == 0)
                     return false;
-                Fear -= 1;
+                Fear -= 5;
                 break;
             case ResourceType.Sadness:
                 if (Sadness == 0)
                     return false;
-                Sadness -= 1;
+                Sadness -= 5;
                 break;
             case ResourceType.Joy:
                 if (Joy == 0)
                     return false;
-                Joy -= 1;
+                Joy -= 5;
                 break;
         }
 
