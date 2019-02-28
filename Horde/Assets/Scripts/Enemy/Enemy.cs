@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
 	private Vector3 spawnPosition;
 	private Quaternion spawnRotation;
 	private bool isDistracted;
-	private int explosionCounter; // Keeps track of when the enemy should explode.
+	private float explosionTimer = 0f; // Keeps track of when the enemy should explode.
 	private LayerMask enemyMask;
 
 	private void Start() 
@@ -62,6 +62,14 @@ public class Enemy : MonoBehaviour
 	{
         //Debug.Log(currentState.ToString());
 		currentState.Tick();
+
+        // tick down the explosion timer
+        explosionTimer -= Time.deltaTime;
+        // disable particles if below threshold
+        if (explosionTimer < 6f && sparkingHeadParticleSystem != null && sparkingHeadParticleSystem.activeInHierarchy)
+        {
+            sparkingHeadParticleSystem.SetActive(false);
+        }
 	}
 
 	/// <summary>
@@ -77,17 +85,21 @@ public class Enemy : MonoBehaviour
 		// Increase the explosion counter if hit by the same emotion.
 		if(currentState.GetType() == state.GetType())
 		{
-			explosionCounter ++;
+            // increment the explosion timer
+            explosionTimer += 6f;
 
-            if (explosionCounter == 2 && sparkingHeadParticleSystem != null)
+            // enable particle system if greater than thresh
+            if (explosionTimer > 6f && sparkingHeadParticleSystem != null)
                 sparkingHeadParticleSystem.SetActive(true);
 
-			if(explosionCounter == 3)
+            // explode if greater than thresh
+			if(explosionTimer > 12f)
 				Explode();
 		}
+        // reset the explosion timer when a guard gets a new state
 		else
 		{
-			explosionCounter = 1;
+            explosionTimer = 6f;
 		}
 			
         transform.GetComponent<Animator>().SetTrigger("StopTalking");
