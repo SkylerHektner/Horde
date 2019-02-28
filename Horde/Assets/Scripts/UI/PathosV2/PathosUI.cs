@@ -20,6 +20,10 @@ public class PathosUI : MonoBehaviour
 
 	private void Awake() 
 	{
+        if(menuEvent == null)
+        {
+            menuEvent = new MenuActivationEvent();
+        }
 		if (instance == null)
             instance = this;
         else if (instance != null)
