@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public Room CurrentRoom { get { return currentRoom; } set { currentRoom = value; } }
     public Room StartingRoom { set { startingRoom = value;} }
+
+    public bool RoomIsAlerted { get { return roomIsAlerted; } set { roomIsAlerted = value; } }
     public Player Player { get { return player; } }
     public bool PlayerIsMarked { get { return playerIsMarked; } set { playerIsMarked = value; } }
     public float OutOfVisionDuration { get { return outOfVisionDuration; } set { outOfVisionDuration = value; } }
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
     private Room lastCheckpoint;
 
     // Helpers to give guards shared vision during alert state. //
+    private bool roomIsAlerted;
     private Player player;
     private bool playerIsMarked;
     private float outOfVisionDuration; // The amount of time the current target has been out of vision.
@@ -57,7 +60,7 @@ public class GameManager : MonoBehaviour
         OutOfVisionDuration += Time.smoothDeltaTime;
 
         // Lock the door if guards are alerted.
-        if (playerIsMarked)
+        if (roomIsAlerted)
             currentRoom.Exit.LockDoor();
         else if (currentRoom != null)
             currentRoom.Exit.UnlockDoor();
@@ -78,7 +81,6 @@ public class GameManager : MonoBehaviour
 
     public void TransitionToNextRoom()
     {
-        
         Room nextRoom;
         if (rooms[rooms.Count - 1] == currentRoom) // If it's the last room.
             nextRoom = currentRoom; // Just loop in same room for now.

@@ -34,7 +34,7 @@ public abstract class AIState
 		UpdateVisionCone();
 		UpdateTargetMask();
 
-		Debug.Log("Initializing " + this.ToString());
+		//Debug.Log("Initializing " + this.ToString());
 	}
 
 	public virtual void Tick()

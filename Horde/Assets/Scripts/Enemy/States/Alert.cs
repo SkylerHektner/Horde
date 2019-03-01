@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 ///	-- Alert State --
 /// Chases the player until it loses vision. (All alerted guards share vision)
-/// If player is still out of vision, guards play a search animation.(Look around)
+/// If they lose sight of the player, guards play a scan animation.(Look around)
 /// </summary>
 public class Alert : AIState
 {
@@ -13,6 +13,7 @@ public class Alert : AIState
 	private float currentTargetBuffer; // The amount of time the current target can be out of vision before losing it.
 	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
     private bool isScanning;
+	private IEnumerator scanCoroutine;
 
 	public Alert(Enemy enemy): base(enemy)
 	{
@@ -24,12 +25,18 @@ public class Alert : AIState
 
 	public override void Tick()
 	{
+		GameManager.Instance.RoomIsAlerted = true;
 		Player player = visionCone.TryGetPlayer();
 
 		if(player != null)
 		{
 			GameManager.Instance.PlayerIsMarked = true; // Mark the player as the current target.
 			GameManager.Instance.OutOfVisionDuration = 0; // Reset the outOfVisionDuration counter if the player is in vision.
+
+			if(scanCoroutine != null)
+				enemy.StopCoroutine(scanCoroutine);
+
+			enemy.GetComponent<Animator>().SetBool("Scanning", false);
 		}
 
 		if(GameManager.Instance.OutOfVisionDuration >= enemy.EnemySettings.CurrentTargetBuffer) // If target has been out of vision for extended amount of time.
@@ -42,7 +49,10 @@ public class Alert : AIState
 			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
 			{
 				if(!isScanning)
-					enemy.StartCoroutine(StartScanPhase(4.0f));
+				{
+					scanCoroutine = StartScanPhase(4.0f);
+					enemy.StartCoroutine(scanCoroutine);
+				}
 			}
 		}
 		else
@@ -94,16 +104,20 @@ public class Alert : AIState
         if (GameManager.Instance.PlayerIsMarked)
         {
             isScanning = false;
-			Debug.Log("REACHED");
-			// Stop the scanning animation.
+			
+			// Stop the scanning animation and return back to the normal alert phase.
 			enemy.GetComponent<Animator>().SetBool("Scanning", false);
-
-            yield return null;
+            yield return null; 
         }
 
-        yield return new WaitForSeconds(duration);
-        
+		// The amount of time the scanning phase lasts.
+        yield return new WaitForSeconds(duration); 
+
+		// Return to a Patrol/Idle state.
+		GameManager.Instance.RoomIsAlerted = false;
+
 		enemy.GetComponent<Animator>().SetBool("Scanning", false);
+		enemy.GetComponent<Animator>().SetBool("Alerted", false);
 
 		if(enemy.HasPatrolPath)
         	enemy.ChangeState(new Patrol(enemy));
