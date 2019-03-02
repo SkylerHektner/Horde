@@ -24,7 +24,6 @@ public abstract class AIState
 		visionCone = enemy.GetComponentInChildren<VisionCone>();
 		agent = enemy.GetComponent<NavMeshAgent>();
 
-
 		InitializeState();
 		enemyMovement.Stop();
 	}
@@ -42,18 +41,17 @@ public abstract class AIState
 		duration -= Time.smoothDeltaTime;
 		
 		if(duration <= 0)
+		{
 			LeaveState();
-	}
-	
-	public virtual void LeaveState()
-	{
-		//enemyAttack.IsAttacking = false;
-		if(enemy.HasPatrolPath)
-			enemy.ChangeState(new Patrol(enemy));
-		else
-			enemy.ChangeState(new Idle(enemy));
+
+			if(enemy.HasPatrolPath)
+				enemy.ChangeState(new Patrol(enemy));
+			else
+				enemy.ChangeState(new Idle(enemy));
+		}
 	}
 
+	public abstract void LeaveState();
 	protected abstract void UpdateVisionCone();
 	protected abstract void UpdateTargetMask();
 }

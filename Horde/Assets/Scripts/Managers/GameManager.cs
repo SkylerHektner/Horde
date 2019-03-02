@@ -61,7 +61,18 @@ public class GameManager : MonoBehaviour
 
         // Lock the door if guards are alerted.
         if (roomIsAlerted)
+        {
             currentRoom.Exit.LockDoor();
+
+            // Edge case to handle when there is 1 guard remaining and a dart changes him out of alert state.
+            if(currentRoom.Enemies.Count == 1)
+            {
+                if(!(currentRoom.Enemies[0].GetCurrentState() is Alert)) // If the last enemy isn't in an Alert state.
+                {
+                    currentRoom.Exit.UnlockDoor();
+                }
+            }
+        }  
         else if (currentRoom != null)
             currentRoom.Exit.UnlockDoor();
 

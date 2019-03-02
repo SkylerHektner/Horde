@@ -103,6 +103,8 @@ public class Enemy : MonoBehaviour
 		}
 			
         transform.GetComponent<Animator>().SetTrigger("StopTalking");
+
+		currentState.LeaveState();
         currentState = state;
 	}
 

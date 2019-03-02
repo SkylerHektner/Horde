@@ -26,6 +26,11 @@ public class Fear : AIState
 		}
 	}
 
+	public override void LeaveState()
+    {
+        enemy.GetComponent<Animator>().SetBool("Scared", false);
+    }
+
 	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.FearColor);
@@ -55,12 +60,4 @@ public class Fear : AIState
 
 		return closestTarget;
 	}
-
-    public override void LeaveState()
-    {
-        enemy.GetComponent<Animator>().SetBool("Scared", false);
-        // TODO: Stop scared animation here.
-
-        base.LeaveState();
-    }
 }

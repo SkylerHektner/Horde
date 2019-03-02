@@ -36,17 +36,12 @@ public class Sadness : AIState
 					c.GetComponent<Enemy>().StartCoroutine(enemyMovement.LookAtForDuration(enemy.transform.position, duration));
 				}
 			}
-			
 		}
-		// TODO: Check for enemies around every tick so it doesn't
-		//       only affect the guards next to him when behavior is started.
 	}
 
 	public override void LeaveState()
 	{
         enemy.GetComponent<Animator>().SetBool("Sad", false);
-
-		base.LeaveState();
 	}
 
 	protected override void UpdateVisionCone()

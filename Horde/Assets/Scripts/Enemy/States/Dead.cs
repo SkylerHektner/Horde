@@ -11,6 +11,11 @@ public class Dead : AIState
         enemy.SetKinematic(false);
     }
 
+    public override void LeaveState()
+    {
+        // Probably nothing here because an enemy should never leave the dead state.
+    }
+
 	protected override void UpdateTargetMask()
     {
         

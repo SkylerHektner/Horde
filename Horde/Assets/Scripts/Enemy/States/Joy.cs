@@ -20,8 +20,6 @@ public class Joy : AIState
 	public override void LeaveState()
     {
         enemy.GetComponent<Animator>().SetBool("Happy", false);
-
-        base.LeaveState();
     }
 
     protected override void UpdateVisionCone()
