@@ -84,7 +84,6 @@ public class VisionCone : MonoBehaviour
         {
             viewRadius = Mathf.Lerp(viewRadius, targetViewRadius, Time.deltaTime * lerpFactor);
         }
-        targetViewAngle = viewAngle;
         if (viewAngle != targetViewAngle)
         {
             viewAngle = Mathf.Lerp(viewAngle, targetViewAngle, Time.deltaTime * lerpFactor);
