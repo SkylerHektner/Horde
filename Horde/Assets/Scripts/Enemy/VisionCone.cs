@@ -275,25 +275,29 @@ public class VisionCone : MonoBehaviour
 
 		List<Vector3> viewPoints = new List<Vector3>();
 
-        int vertexCount = stepCount * 2 + 2;
+        int vertexCount = stepCount * 2 + 3;
         Vector2[] UV = new Vector2[vertexCount];
         UV[0] = new Vector2(0, 0.5f);
         for (int i = 0; i <= stepCount; i++)
 		{
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
 			ViewCastInfo newViewCast = ViewCast(angle, coneHeight * Mathf.Sin((i * Mathf.PI)/stepCount));
-            UV[i + 1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
+            UV[(i * 2) + 1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
+            viewPoints.Add(newViewCast.point);
+
+            newViewCast = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
+            UV[(i * 2) + 2] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
             viewPoints.Add(newViewCast.point);
             //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
         }
-        for (int i = stepCount; i > 0; i--)
-        {
-            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
-            ViewCastInfo newViewCast = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
-            UV[stepCount + i + 1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
-            viewPoints.Add(newViewCast.point);
-            //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
-        }
+        //for (int i = stepCount; i > 0; i--)
+        //{
+        //    float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+        //    ViewCastInfo newViewCast = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
+        //    UV[stepCount + i + 1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
+        //    viewPoints.Add(newViewCast.point);
+        //    //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
+        //}
 
 
         Vector3[] vertices = new Vector3[vertexCount];

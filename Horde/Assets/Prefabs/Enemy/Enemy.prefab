@@ -324,10 +324,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewRadius: 0
   viewAngle: 0
+  coneHeight: 0.15
   obstacleMask:
     serializedVersion: 2
     m_Bits: 87040
-  meshResolution: 0.3
+  meshResolution: 1
   viewMeshFilter: {fileID: 4070036955837559597}
   mesh: {fileID: 4070036955837559596}
   root: {fileID: 4070036955332458353}
@@ -354,11 +355,6 @@ PrefabInstance:
       propertyPath: ShapeModule.m_MeshRenderer
       value: 
       objectReference: {fileID: 4070036956668373424}
-    - target: {fileID: 4602099248848874645, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
-        type: 3}
-      propertyPath: CollisionModule.plane0
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4602099248848874646, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
         type: 3}
       propertyPath: m_LocalPosition.x
