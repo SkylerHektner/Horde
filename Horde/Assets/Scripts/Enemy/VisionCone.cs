@@ -17,6 +17,7 @@ public class VisionCone : MonoBehaviour
 
 	[SerializeField] private float viewRadius;
 	[SerializeField, Range(0, 360)] private float viewAngle;
+    [SerializeField, Range(0, .4f)] private float coneHeight = 0.15f;
 	//[SerializeField] private List<LayerMask> targetMasks;
 	[SerializeField] private LayerMask obstacleMask;
 	[SerializeField] private float meshResolution;
@@ -83,6 +84,7 @@ public class VisionCone : MonoBehaviour
         {
             viewRadius = Mathf.Lerp(viewRadius, targetViewRadius, Time.deltaTime * lerpFactor);
         }
+        targetViewAngle = viewAngle;
         if (viewAngle != targetViewAngle)
         {
             viewAngle = Mathf.Lerp(viewAngle, targetViewAngle, Time.deltaTime * lerpFactor);
@@ -274,21 +276,29 @@ public class VisionCone : MonoBehaviour
 
 		List<Vector3> viewPoints = new List<Vector3>();
 
-        int vertexCount = stepCount + 2;
+        int vertexCount = stepCount * 2 + 2;
         Vector2[] UV = new Vector2[vertexCount];
         UV[0] = new Vector2(0, 0.5f);
         for (int i = 0; i <= stepCount; i++)
 		{
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
-			ViewCastInfo newViewCast = ViewCast(angle);
-            UV[i+1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)vertexCount);
+			ViewCastInfo newViewCast = ViewCast(angle, coneHeight * Mathf.Sin((i * Mathf.PI)/stepCount));
+            UV[i + 1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
             viewPoints.Add(newViewCast.point);
-			//Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
-		}
+            //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
+        }
+        for (int i = stepCount; i > 0; i--)
+        {
+            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+            ViewCastInfo newViewCast = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
+            UV[stepCount + i + 1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
+            viewPoints.Add(newViewCast.point);
+            //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
+        }
 
-		
-		Vector3[] vertices = new Vector3[vertexCount];
-		int[] triangles = new int[(vertexCount - 2) * 3];
+
+        Vector3[] vertices = new Vector3[vertexCount];
+		int[] triangles = new int[(vertexCount - 1) * 3];
 
 		vertices[0] = Vector3.zero;
 
@@ -302,6 +312,12 @@ public class VisionCone : MonoBehaviour
 				triangles[i * 3 + 1] = i + 1;
 				triangles[i * 3 + 2] = i + 2;
 			}
+            else
+            {
+                triangles[i * 3] = 0;
+                triangles[i * 3 + 1] = i+1;
+                triangles[i * 3 + 2] = 1;
+            }
 		}
 
 		viewMesh.Clear();
@@ -311,9 +327,10 @@ public class VisionCone : MonoBehaviour
 		viewMesh.RecalculateNormals();
 	}
 
-	public ViewCastInfo ViewCast(float globalAngle)
+	public ViewCastInfo ViewCast(float globalAngle, float ymod)
 	{
 		Vector3 dir = DirFromAngle(globalAngle, true);
+        dir.y += ymod;
 		RaycastHit hit;
 
 		if(Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
