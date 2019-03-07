@@ -10,6 +10,7 @@
 		_FrezColor("Fresnel Color", Color) = (1,1,1,1)
 		_FrezPower("Fresnel Power", Range(0,10)) = 4
 		_FrezStrength("Fresnel Strength", Range(0,4)) = 0
+		_EmitIntensity("Emission Strength", Range(0,2)) = 1
 	}
 
 		SubShader
@@ -67,6 +68,7 @@
 			sampler2D _MainTex;
 			sampler2D _NormalMap;
 			sampler2D _EmitMap;
+			half _EmitIntensity;
 			void surf(Input IN, inout SurfaceOutputCustom o)
 			{
 				WorldNormalVector(IN, o.Normal);
@@ -74,7 +76,7 @@
 
 				o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * _Color;
 
-				o.Emission = tex2D(_EmitMap, IN.uv3_EmitMap);
+				o.Emission = tex2D(_EmitMap, IN.uv3_EmitMap) * _EmitIntensity;
 
 				o.Normal = UnpackNormal(tex2D(_NormalMap, IN.uv2_NormalMap));
 			}
