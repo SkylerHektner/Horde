@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.33962262, g: 0.33161265, b: 0.33161265, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -469,6 +469,11 @@ PrefabInstance:
       propertyPath: North
       value: 
       objectReference: {fileID: 1939919722}
+    - target: {fileID: 114287899598632196, guid: 092afe50c3653a042921c3eca6c12de1,
+        type: 3}
+      propertyPath: infiniteAmmo
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 65682809591686772, guid: 092afe50c3653a042921c3eca6c12de1,
         type: 3}
       propertyPath: m_Size.y
@@ -498,11 +503,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.x
       value: 0.3127604
-      objectReference: {fileID: 0}
-    - target: {fileID: 114287899598632196, guid: 092afe50c3653a042921c3eca6c12de1,
-        type: 3}
-      propertyPath: infiniteAmmo
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 092afe50c3653a042921c3eca6c12de1, type: 3}
@@ -7412,6 +7412,7 @@ GameObject:
   - component: {fileID: 1900292699}
   - component: {fileID: 1900292698}
   - component: {fileID: 1900292697}
+  - component: {fileID: 1900292702}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -7583,6 +7584,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 16.358002, y: -45.81, z: -0.652}
+--- !u!114 &1900292702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900292696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 7e636f2a7af0d0148a949cba732a0f0d, type: 2}
 --- !u!114 &1916149904 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1369319352327886413, guid: 9e8cbd5584a3fd142a31d90845e7d1af,
