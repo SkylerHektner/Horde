@@ -160,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
         {
             crouchSpeed = .5f;
             GetComponent<Animator>().SetBool("Sneaking", true);
-            GetComponent<NavMeshAgent>().height = 0.63f;
+            GetComponent<NavMeshAgent>().height = 0.33f;
             StandingHitbox.enabled = false;
             CrouchingHitbox.enabled = true;
             GetComponent<DartGun>().isCrouching = true;

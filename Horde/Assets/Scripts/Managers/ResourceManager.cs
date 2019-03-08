@@ -70,22 +70,22 @@ public class ResourceManager : MonoBehaviour
             case ResourceType.Rage:
                 if (Rage == 0)
                     return false;
-                Rage -= 5;
+                Rage -= 1;
                 break;
             case ResourceType.Fear:
                 if (Fear == 0)
                     return false;
-                Fear -= 5;
+                Fear -= 1;
                 break;
             case ResourceType.Sadness:
                 if (Sadness == 0)
                     return false;
-                Sadness -= 5;
+                Sadness -= 1;
                 break;
             case ResourceType.Joy:
                 if (Joy == 0)
                     return false;
-                Joy -= 5;
+                Joy -= 1;
                 break;
         }
 
