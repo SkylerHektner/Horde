@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(Enemy))]
 public class EnemyAttack : MonoBehaviour 
 {
 	public float AttackRange { get { return attackRange; } }
@@ -12,6 +13,7 @@ public class EnemyAttack : MonoBehaviour
 	private bool isAttacking;
 	private Animator animator;
     GameObject Player;
+    private Enemy enemy;
 
 
 	private void Start()
@@ -19,6 +21,7 @@ public class EnemyAttack : MonoBehaviour
 		attackRange = GetComponent<Enemy>().EnemySettings.AttackRange;
 		animator = GetComponent<Animator>();
         Player = GameObject.FindGameObjectWithTag("Player");
+        enemy = GetComponent<Enemy>();
 	}
 
 	public IEnumerator Attack(GameObject target)
@@ -41,6 +44,8 @@ public class EnemyAttack : MonoBehaviour
         }
 
 		yield return new WaitForSeconds(0.75f);
+        while (enemy.Paused)
+            yield return null;
 
 		if(target.tag == "Player") // If they strike the player
         {
@@ -48,7 +53,9 @@ public class EnemyAttack : MonoBehaviour
 			// TODO: Start death animation here.
 
             yield return new WaitForSeconds(2f); // Give the death animation some time to play.
-			target.GetComponent<PlayerMovement>().isDead = false;
+            while (enemy.Paused)
+                yield return null;
+            target.GetComponent<PlayerMovement>().isDead = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else
@@ -57,8 +64,10 @@ public class EnemyAttack : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.75f);
+        while (enemy.Paused)
+            yield return null;
 
-		isAttacking = false;
+        isAttacking = false;
 	}
 
 	public IEnumerator AttackBreakable(IBreakable target)

@@ -17,19 +17,35 @@ public class DartGun : MonoBehaviour
     private Rigidbody dartRB;
 	private int maxLaserDistance = 75;
 	private Vector3 mousePosition;
-	private LineRenderer lr;
 	private RaycastHit gunRayHit;
     private bool attackOnCooldown = false;
     public bool isCrouching = false;
 
+    public bool Paused { get; private set; }
+
+    private LineRenderer lr;
+    private PlayerMovement playerMovement;
+    private Animator animator;
+
 	private void Start() 
 	{
 		InitializeLineRenderer();
+        playerMovement = GetComponent<PlayerMovement>();
+        animator = GetComponent<Animator>();
+
+        PathosUI.instance.menuEvent.AddListener(pause);
 	}
 	
 	private void Update() 
 	{
-        if(GetComponent<PlayerMovement>().isDead)
+        if (!playerMovement)
+            playerMovement = GetComponent<PlayerMovement>();
+        if (!animator)
+            animator = GetComponent<Animator>();
+        if (!lr)
+            lr = GetComponent<LineRenderer>();
+
+        if (playerMovement.isDead || Paused)
             return;
             
         if (isCrouching == true)
@@ -42,13 +58,13 @@ public class DartGun : MonoBehaviour
         }
 
         if (Input.GetMouseButton(0) && !attackOnCooldown
-            && ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion))
+            && (ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion) || infiniteAmmo))
 		{
-            GetComponent<PlayerMovement>().lockMovementControls = true;
-            GetComponent<Animator>().SetBool("Aiming", true);
+            playerMovement.lockMovementControls = true;
+            animator.SetBool("Aiming", true);
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                GetComponent<Animator>().SetBool("Sneaking", true);
+                animator.SetBool("Sneaking", true);
             }
             lr.enabled = true;
             if (Physics.Raycast(DartSpawn.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
@@ -70,19 +86,12 @@ public class DartGun : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && !Input.GetKey(KeyCode.R))
+        if (Input.GetMouseButtonUp(0))
         {
-            GetComponent<PlayerMovement>().lockMovementControls = false;
-            GetComponent<Animator>().SetBool("Aiming", false);
+            playerMovement.lockMovementControls = false;
+            animator.SetBool("Aiming", false);
             if (!attackOnCooldown)
                 StartCoroutine(Fire());
-
-            lr.enabled = false;
-        }
-
-        if (Input.GetMouseButtonUp(0) && Input.GetKey(KeyCode.R))
-        {
-            GetComponent<Animator>().SetBool("Aiming", false);
             lr.enabled = false;
         }
     }
@@ -96,9 +105,9 @@ public class DartGun : MonoBehaviour
         lr.endWidth = 0.1f;
         lr.startColor = Color.green;
         lr.endColor = Color.green;
-        lr.material = new Material(Shader.Find("Particles/Additive"));
         lr.enabled = false;
-	}
+        lr.material = new Material(Shader.Find("Particles/Additive"));
+    }
 
 	private void ChangeColor(Color c)
 	{
@@ -133,4 +142,9 @@ public class DartGun : MonoBehaviour
             yield return null;
         }
 	}
+    
+    private void pause(bool paused)
+    {
+        Paused = paused;
+    }
 }
