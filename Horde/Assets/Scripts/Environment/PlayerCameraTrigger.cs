@@ -8,7 +8,7 @@ public class PlayerCameraTrigger : MonoBehaviour
 	{
 		if (c.gameObject.tag == "Player")
 		{
-			c.gameObject.GetComponent<PlayerMovement>().lockCamToPlayer = true;
+			//c.gameObject.GetComponent<PlayerMovement>().lockCamToPlayer = true;
 		}
 	}
 }

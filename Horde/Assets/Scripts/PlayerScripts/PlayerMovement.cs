@@ -9,17 +9,12 @@ public class PlayerMovement : MonoBehaviour
     private float speed = 1f;
     private float crouchSpeed = 1f;
 
-    public GameObject Backpack;
-    public GameObject North;
-    public Vector3 CamGirl;
-
     public BoxCollider StandingHitbox;
     public BoxCollider CrouchingHitbox;
 
-    public bool lockCamToPlayer = true;
-    public bool lockToBack = false;
     public bool lockMovementControls = false;
     public bool isDead = false;
+    public bool Paused { get; private set; }
 
     private Vector3 forward;
     private Vector3 right;
@@ -48,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         lastPos = transform.position;
+
+        PathosUI.instance.menuEvent.AddListener(pause);
     }
 	
 	void Update ()
@@ -60,35 +57,28 @@ public class PlayerMovement : MonoBehaviour
         forward = new Vector3(cameraTransform.forward.x * speed, 0, cameraTransform.forward.z * speed);
         right = new Vector3(cameraTransform.right.x * speed, 0, cameraTransform.right.z * speed);
         
-        if(isDead)
+        // no movement if paused
+        if(isDead || Paused)
             return;
 
-        // if we are not being carried and our controls are not locked, try to detect movement input and move
+        // allow movement is movement is not locked
         if (!lockMovementControls)
         {
             Vector3 dest = Vector3.zero;
             if (Input.GetKey(KeyCode.W))
             {
-                //agent.Move(forward * Time.deltaTime);
-                //agent.SetDestination(transform.position + forward);
                 dest += forward * (Time.deltaTime * crouchSpeed);
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                //agent.Move(forward * -Time.deltaTime);
-                //agent.SetDestination(transform.position + -forward);
                 dest -= forward * (Time.deltaTime * crouchSpeed);
             }
             if (Input.GetKey(KeyCode.A))
             {
-                //agent.Move(right * -Time.deltaTime);
-                //agent.SetDestination(transform.position + -right);
                 dest -= right * (Time.deltaTime * crouchSpeed);
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                //agent.Move(right * Time.deltaTime);
-                //agent.SetDestination(transform.position + right);
                 dest += right * (Time.deltaTime * crouchSpeed);
             }
             agent.Move(dest);
@@ -97,25 +87,17 @@ public class PlayerMovement : MonoBehaviour
         bool moving = transform.position != lastPos;
 
         // Make the player face in the direction of the mouse position when not moving
-        if(!moving)
+        if (!moving)
         {
             cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == false)
+            if (Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask))
             {
                 Vector3 targetPosition = new Vector3(cameraRayHit.point.x, transform.position.y, cameraRayHit.point.z);
-                if (!lockToBack)
-                {
-                    transform.forward = Vector3.Lerp(transform.forward, targetPosition - transform.position, Time.deltaTime * 2f);
-                }
-            }
-            if (Physics.Raycast(cameraRay, out cameraRayHit, float.MaxValue, layerMask) && lockToBack == true)
-            {
-                Vector3 targetPosition = new Vector3(North.transform.position.x, North.transform.position.y, North.transform.position.z);
                 transform.forward = Vector3.Lerp(transform.forward, targetPosition - transform.position, Time.deltaTime * 2f);
-
             }
         }
 
+        // when they are moving make them face the direction of the movement with a smoothing lerp
         if (moving)
         {
             transform.forward = Vector3.Lerp(transform.forward, (transform.position - lastPos).normalized, Time.deltaTime * 7f).normalized;
@@ -127,40 +109,12 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Walking", false);
         }
 
-        if (lockCamToPlayer)
-        {
-            if (!lockToBack)
-            {
-                Vector3 pos = new Vector3(transform.position.x - 9f, transform.position.y + 50f, transform.position.z + 9f);
-            }
-
-
-            if (lockToBack)
-            {
-                Vector3 position = new Vector3(Backpack.transform.position.x - 23f, Backpack.transform.position.y + 27f, Backpack.transform.position.z +23);
-            }
-        }
-
-        if (!lockCamToPlayer)
-        {
-
-            if (!lockToBack)
-            {
-                Vector3 pos = CamGirl;
-            }
-
-
-            if (lockToBack)
-            {
-                Vector3 position = new Vector3(Backpack.transform.position.x - 23f, Backpack.transform.position.y + 27f, Backpack.transform.position.z + 23f);
-            }
-        }
-
+        // Controls for crouching
         if (Input.GetKey(KeyCode.LeftShift))
         {
             crouchSpeed = .5f;
-            GetComponent<Animator>().SetBool("Sneaking", true);
-            GetComponent<NavMeshAgent>().height = 0.33f;
+            anim.SetBool("Sneaking", true);
+            agent.height = 0.33f;
             StandingHitbox.enabled = false;
             CrouchingHitbox.enabled = true;
             GetComponent<DartGun>().isCrouching = true;
@@ -168,12 +122,19 @@ public class PlayerMovement : MonoBehaviour
         if (!Input.GetKey(KeyCode.LeftShift))
         {
             crouchSpeed = 1f;
-            GetComponent<Animator>().SetBool("Sneaking", false);
-            GetComponent<NavMeshAgent>().height = 1.61f;
+            anim.SetBool("Sneaking", false);
+            agent.height = 1.61f;
             StandingHitbox.enabled = true;
             CrouchingHitbox.enabled = false;
             GetComponent<DartGun>().isCrouching = false;
 
         }
+    }
+
+    private void pause(bool paused)
+    {
+        Paused = paused;
+        anim.enabled = !paused;
+        agent.isStopped = paused;
     }
 }

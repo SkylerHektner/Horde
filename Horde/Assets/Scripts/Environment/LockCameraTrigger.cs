@@ -12,7 +12,7 @@ public class LockCameraTrigger : MonoBehaviour
 	{
 		if(c.tag == "Player")
 		{
-			c.GetComponent<PlayerMovement>().lockCamToPlayer = false;
+			//c.GetComponent<PlayerMovement>().lockCamToPlayer = false;
             Vector3 newPos = new Vector3(cameraLocation.position.x, cameraLocation.position.y + 60f, cameraLocation.position.z);
             //cameraLocation.position = newPos;
            
@@ -20,7 +20,7 @@ public class LockCameraTrigger : MonoBehaviour
 
 
 
-            c.GetComponent<PlayerMovement>().CamGirl = newPos;
+            //c.GetComponent<PlayerMovement>().CamGirl = newPos;
 		}
 	}
 }

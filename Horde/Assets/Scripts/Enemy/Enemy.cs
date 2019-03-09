@@ -27,13 +27,17 @@ public class Enemy : MonoBehaviour
 	private NavMeshAgent agent;
 	private EnemyAttack enemyAttack;
 	private EnemyMovement enemyMovement;
-	private List<Transform> patrolPoints;
+    private Animator enemyAnimator;
+    private List<Transform> patrolPoints;
 	private AIState currentState;
 	private Vector3 spawnPosition;
 	private Quaternion spawnRotation;
 	private bool isDistracted;
 	private float explosionTimer = 0f; // Keeps track of when the enemy should explode.
 	private LayerMask enemyMask;
+    
+
+    public bool Paused { get; private set; }
 
 	private void Start() 
 	{
@@ -48,27 +52,33 @@ public class Enemy : MonoBehaviour
 		agent = GetComponent<NavMeshAgent>();
 		enemyAttack = GetComponent<EnemyAttack>();
 		enemyMovement = GetComponent<EnemyMovement>();
+        enemyAnimator = GetComponent<Animator>();
 
-		enemyMask = 1 << LayerMask.NameToLayer("Enemy");
+        enemyMask = 1 << LayerMask.NameToLayer("Enemy");
 
 		// Set to idle or patrol state
 		if(hasPatrolPath)
 			currentState = new Patrol(this);
 		else
 			currentState = new Idle(this);
+
+        PathosUI.instance.menuEvent.AddListener(pause);
 	}
 	
 	private void Update() 
 	{
-        //Debug.Log(currentState.ToString());
-		currentState.Tick();
-
-        // tick down the explosion timer
-        explosionTimer -= Time.deltaTime;
-        // disable particles if below threshold
-        if (explosionTimer < 6f && sparkingHeadParticleSystem != null && sparkingHeadParticleSystem.activeInHierarchy)
+        if (!Paused)
         {
-            sparkingHeadParticleSystem.SetActive(false);
+            //Debug.Log(currentState.ToString());
+            currentState.Tick();
+
+            // tick down the explosion timer
+            explosionTimer -= Time.deltaTime;
+            // disable particles if below threshold
+            if (explosionTimer < 6f && sparkingHeadParticleSystem != null && sparkingHeadParticleSystem.activeInHierarchy)
+            {
+                sparkingHeadParticleSystem.SetActive(false);
+            }
         }
 	}
 
@@ -135,6 +145,26 @@ public class Enemy : MonoBehaviour
 		enemyMovement.Stop();
 		enemyMovement.Respawn(spawnPosition);
 	}
+
+    
+    private void pause(bool paused)
+    {
+        Paused = paused;
+        enemyAnimator.enabled = !paused;
+        agent.isStopped = paused;
+    }
+
+    [ContextMenu("Pause")]
+    private void testPause()
+    {
+        pause(true);
+    }
+
+    [ContextMenu("UnPause")]
+    private void testUnPause()
+    {
+        pause(false);
+    }
 }
 
 public enum PatrolType { Patrol, Loop }; 

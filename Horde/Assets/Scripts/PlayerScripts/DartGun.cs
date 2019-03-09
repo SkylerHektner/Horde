@@ -41,7 +41,7 @@ public class DartGun : MonoBehaviour
             DartSpawn = dartSpawnLocation;
         }
 
-        if (Input.GetMouseButton(0) && GetComponent<PlayerMovement>().lockToBack == false && !attackOnCooldown
+        if (Input.GetMouseButton(0) && !attackOnCooldown
             && ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion))
 		{
             GetComponent<PlayerMovement>().lockMovementControls = true;
@@ -70,7 +70,7 @@ public class DartGun : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && GetComponent<PlayerMovement>().lockToBack == false && !Input.GetKey(KeyCode.R))
+        if (Input.GetMouseButtonUp(0) && !Input.GetKey(KeyCode.R))
         {
             GetComponent<PlayerMovement>().lockMovementControls = false;
             GetComponent<Animator>().SetBool("Aiming", false);
@@ -80,7 +80,7 @@ public class DartGun : MonoBehaviour
             lr.enabled = false;
         }
 
-        if (Input.GetMouseButtonUp(0) && GetComponent<PlayerMovement>().lockToBack == true && Input.GetKey(KeyCode.R))
+        if (Input.GetMouseButtonUp(0) && Input.GetKey(KeyCode.R))
         {
             GetComponent<Animator>().SetBool("Aiming", false);
             lr.enabled = false;
