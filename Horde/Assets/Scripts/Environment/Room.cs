@@ -6,6 +6,7 @@ public class Room : MonoBehaviour
 {
 	public List<Enemy> Enemies { get { return enemies; } }
 	public string RoomName { get { return roomName; } }
+	public bool IsCheckpoint { get { return isCheckpoint; } }
 	public Exit Exit { get { return exit; } }
 	public Transform Spawn { get { return playerSpawn; } }
 	public Transform CameraSpawn { get { return cameraSpawn; } }

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance; // Singleton instance
 
     public Room CurrentRoom { get { return currentRoom; } set { currentRoom = value; } }
-    public Room StartingRoom { set { startingRoom = value;} }
+    public List<Room> Rooms {get {return rooms; } }
 
     public bool RoomIsAlerted { get { return roomIsAlerted; } set { roomIsAlerted = value; } }
     public Player Player { get { return player; } }
@@ -22,11 +22,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraController cameraController;
     [SerializeField] private FadeCamera fadeCamera;
     [SerializeField] private List<Room> rooms;
-    [SerializeField] private Room startingRoom;
     [SerializeField] private Transform roomNamePopup;
 
     private Room currentRoom;
-    private Room lastCheckpoint;
 
     // Helpers to give guards shared vision during alert state. //
     private bool roomIsAlerted;
@@ -41,17 +39,30 @@ public class GameManager : MonoBehaviour
             Instance = this;
         else if (Instance != null)
             Destroy(gameObject);
-    }
 
-    private void Start()
-    {
+        // Deactivate all the rooms. (Optimization)
+        foreach(Room r in rooms)
+        {
+            r.gameObject.SetActive(false);
+        }
+
+        // Get a reference to the player. (Helpful for the shared vision of guards)
         player = FindObjectOfType<Player>();
-        currentRoom = startingRoom;
-        lastCheckpoint = startingRoom;
 
+        Room currentCheckpoint = rooms[PlayerPrefs.GetInt("Checkpoint")];
+
+        if(currentCheckpoint == null)
+            currentRoom = rooms[0]; // Just start in the first room is there is no current checkpoint.
+        else
+            currentRoom = currentCheckpoint;
+
+        currentRoom.gameObject.SetActive(true); // Activate the new room.
+
+        // Spawn the player in the correct position and rotation in the room.
         player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
         player.transform.rotation = currentRoom.Spawn.rotation;
 
+        // Move the camera to the correct position and rotation also.
         cameraController.MoveTo(currentRoom.CameraSpawn);
     }
 
@@ -76,6 +87,12 @@ public class GameManager : MonoBehaviour
         else if (currentRoom != null)
             currentRoom.Exit.UnlockDoor();
 
+        // -- FOR DEBUGGING -- //
+        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            
+        }
+
     }
 
     /// <summary>
@@ -99,11 +116,12 @@ public class GameManager : MonoBehaviour
             nextRoom = rooms[rooms.IndexOf(currentRoom) + 1];
         
         currentRoom = nextRoom;
-        
-        // The disabling of the room looks very jarring to the player. I think
-        // we should leave it enabled. - Skyler
+
         currentRoom.gameObject.SetActive(true); // Activate the new room.
-        rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false);
+        rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false); // Deactivate previous room.
+
+        if(currentRoom.IsCheckpoint)
+            PlayerPrefs.SetInt("Checkpoint", rooms.IndexOf(currentRoom)); // Set the room as the current checkpoint.
 
         player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
         player.transform.rotation = currentRoom.Spawn.rotation;

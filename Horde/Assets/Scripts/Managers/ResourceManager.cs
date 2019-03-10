@@ -31,10 +31,13 @@ public class ResourceManager : MonoBehaviour
     private void Awake ()
     {
         Instance = this;
+
+        // Start each episode with 0 resources.
         Rage = 0;
         Sadness = 0;
         Joy = 0;
         Fear = 0;
+        
         updateResourceBars();
         updateGreyscaleEffect();
     }

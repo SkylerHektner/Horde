@@ -13,10 +13,6 @@ public class Anger : AIState
 	public Anger(Enemy enemy, float duration): base(enemy, duration)
 	{
         enemy.GetComponent<Animator>().SetBool("Angry", true);
-        enemy.GetComponent<Animator>().SetBool("Happy", false);
-        enemy.GetComponent<Animator>().SetBool("Sad", false);
-        enemy.GetComponent<Animator>().SetBool("Scared", false);
-
     }
 
     public override void Tick()
