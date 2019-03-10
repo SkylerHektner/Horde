@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class MenuActivationEvent : UnityEvent<bool> { }
 
@@ -29,6 +30,13 @@ public class PathosUI : MonoBehaviour
         else if (instance != null)
             Destroy(gameObject);
 	}
+
+    public void ActivateButton(GameObject button)
+    {
+        button.GetComponent<Image>().enabled = true;
+        button.GetComponent<Button>().enabled = true;
+        button.GetComponentInChildren<Text>().enabled = true;
+    }
 	
 	void Update () 
 	{
