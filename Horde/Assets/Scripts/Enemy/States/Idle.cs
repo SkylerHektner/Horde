@@ -19,7 +19,11 @@ public class Idle : AIState
 
 	public override void Tick()
 	{
-		Player player = visionCone.TryGetPlayer(); // Null if the player isn't in vision.
+		// Change to Alert if the player gets too close (even if not inside of the vision cone).
+		if(Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < 2.5f) 
+			GameManager.Instance.AlertGuards();
+
+		Player player = visionCone.TryGetPlayer(); // Null if the player isn't in vision. 
 
 		//Debug.Log(enemy.IsDistracted);
 		if(!enemy.IsDistracted && player == null) // Don't reset position if currently distracted or if player in vision.
