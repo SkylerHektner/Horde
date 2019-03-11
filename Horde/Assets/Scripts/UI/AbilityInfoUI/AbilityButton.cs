@@ -28,9 +28,12 @@ public class AbilityButton : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        gameObject.GetComponent<Image>().enabled = false;
-        gameObject.GetComponent<Button>().enabled = false;
-        gameObject.GetComponentInChildren<Text>().enabled = false;
+        if(PlayerPrefs.GetInt(AbilityName) == 0)
+        {
+            gameObject.GetComponent<Image>().enabled = false;
+            gameObject.GetComponent<Button>().enabled = false;
+            gameObject.GetComponentInChildren<Text>().enabled = false;
+        }
 	}
 	
     public void SendInfo()

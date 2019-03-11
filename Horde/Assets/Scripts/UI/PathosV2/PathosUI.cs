@@ -36,6 +36,9 @@ public class PathosUI : MonoBehaviour
         button.GetComponent<Image>().enabled = true;
         button.GetComponent<Button>().enabled = true;
         button.GetComponentInChildren<Text>().enabled = true;
+
+        string prefstring = button.GetComponent<AbilityButton>().AbilityName;
+        PlayerPrefs.SetInt(prefstring, 1);
     }
 	
 	void Update () 

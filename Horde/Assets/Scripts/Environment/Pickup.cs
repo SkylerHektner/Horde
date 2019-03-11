@@ -16,10 +16,6 @@ public class Pickup : MonoBehaviour
 
     public void Start()
     {
-        if(!IsFirstPickup)
-        {
-            return;
-        }
         if (ActivateButton == null)
         {
             ActivateButton = new ActivateButtonEvent();
