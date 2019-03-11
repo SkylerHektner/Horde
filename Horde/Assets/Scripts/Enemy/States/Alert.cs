@@ -42,6 +42,7 @@ public class Alert : AIState
 				enemy.StopCoroutine(walkCoroutine);
 
 			enemy.GetComponent<Animator>().SetBool("Scanning", false);
+			enemy.GetComponent<Animator>().SetBool("AlertedWalk", false);
 		}
 
 		if(GameManager.Instance.OutOfVisionDuration >= enemy.EnemySettings.CurrentTargetBuffer) // If target has been out of vision for extended amount of time.
@@ -121,6 +122,7 @@ public class Alert : AIState
 
 		// Start the scan phase animation.
 		enemy.GetComponent<Animator>().SetBool("Scanning", true);
+		enemy.GetComponent<Animator>().SetBool("AlertedWalk", false);
 
 		// The amount of time the scanning phase lasts.
         yield return new WaitForSeconds(duration); 
@@ -139,7 +141,7 @@ public class Alert : AIState
 
 	private IEnumerator WalkToLastSeenLocation()
 	{
-		enemy.GetComponent<Animator>().SetBool("AlertWalk", true);
+		enemy.GetComponent<Animator>().SetBool("AlertedWalk", true);
 		enemyMovement.MoveTo(VisionCone.LastSeenPlayerLocation, enemy.EnemySettings.DefaultMovementSpeed);
 
 		while(true)
