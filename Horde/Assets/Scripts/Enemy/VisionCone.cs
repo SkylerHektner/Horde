@@ -286,13 +286,23 @@ public class VisionCone : MonoBehaviour
         for (int i = 0; i <= stepCount; i++)
 		{
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
-			ViewCastInfo newViewCast = ViewCast(angle, coneHeight * Mathf.Sin((i * Mathf.PI)/stepCount));
-            UV[(i * 2) + 1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
-            viewPoints.Add(newViewCast.point);
 
-            newViewCast = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
-            UV[(i * 2) + 2] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
-            viewPoints.Add(newViewCast.point);
+			ViewCastInfo newViewCastTop = ViewCast(angle, coneHeight * Mathf.Sin((i * Mathf.PI)/stepCount));
+            ViewCastInfo newViewCastBottom = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
+            if (newViewCastBottom.dst < viewRadius || newViewCastTop.dst < viewRadius)
+            {
+                float temp = viewRadius;
+                viewRadius = Mathf.Min(newViewCastTop.dst, newViewCastBottom.dst);
+                newViewCastTop = ViewCast(angle, coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
+                newViewCastBottom = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
+                viewRadius = temp;
+            }
+
+            UV[(i * 2) + 1] = new Vector2(newViewCastTop.dst / viewRadius, (float)i / (float)stepCount);
+            viewPoints.Add(newViewCastTop.point);
+
+            UV[(i * 2) + 2] = new Vector2(newViewCastBottom.dst / viewRadius, (float)i / (float)stepCount);
+            viewPoints.Add(newViewCastBottom.point);
             //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
         }
         //for (int i = stepCount; i > 0; i--)
