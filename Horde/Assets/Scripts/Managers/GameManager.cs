@@ -130,6 +130,35 @@ public class GameManager : MonoBehaviour
         StartCoroutine(DisplayRoomName());
     }
 
+    public Enemy GetClosestGuardToPlayer()
+    {
+        NavMeshPath path = new NavMeshPath();
+        Enemy closestGuard = currentRoom.Enemies[0];
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Enemy guard in currentRoom.Enemies)
+        {
+            if(guard == null) // A guard could have been destroyed.
+                continue;
+
+            // Calculate the closest guard to the last seen player location.
+            NavMesh.CalculatePath(guard.transform.position, VisionCone.LastSeenPlayerLocation, NavMesh.AllAreas, path);
+
+            if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path.
+            {
+                float distance = GetPathDistance(path.corners);
+
+                if (distance <= closestDistance)
+                {
+                    closestDistance = distance;
+                    closestGuard = guard;
+                }
+            }
+        }
+
+        return closestGuard;
+    }
+
     private IEnumerator DisplayRoomName()
     {
         Transform instance = Instantiate(roomNamePopup);
@@ -139,5 +168,23 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
 
         Destroy(instance.gameObject);
+    }
+
+    /// <summary>
+    /// Given an array of Vector3's (the corners of the path),
+    /// This function will return the total distance of the path.
+    /// </summary>
+    /// <param name="corners"></param>
+    /// <returns></returns>
+    private float GetPathDistance(Vector3[] corners)
+    {
+        float totalDistance = 0;
+
+        for(int i = 0; i < corners.Length - 1; i++)
+        {
+            totalDistance += Vector3.Distance(corners[i], corners[i + 1]);
+        }
+
+        return totalDistance;
     }
 }

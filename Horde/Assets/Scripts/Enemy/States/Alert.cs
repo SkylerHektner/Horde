@@ -13,7 +13,9 @@ public class Alert : AIState
 	private float currentTargetBuffer; // The amount of time the current target can be out of vision before losing it.
 	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
     private bool isScanning;
+	private bool doneWalking; // If the guard is done walking to the last seen location of the player.
 	private IEnumerator scanCoroutine;
+	private IEnumerator walkCoroutine;
 
 	public Alert(Enemy enemy): base(enemy)
 	{
@@ -33,8 +35,11 @@ public class Alert : AIState
 			GameManager.Instance.PlayerIsMarked = true; // Mark the player as the current target.
 			GameManager.Instance.OutOfVisionDuration = 0; // Reset the outOfVisionDuration counter if the player is in vision.
 
+			// If the player enters vision again, stop whatever you are doing and go back to normal Alert mode.
 			if(scanCoroutine != null)
 				enemy.StopCoroutine(scanCoroutine);
+			if(walkCoroutine != null)
+				enemy.StopCoroutine(walkCoroutine);
 
 			enemy.GetComponent<Animator>().SetBool("Scanning", false);
 		}
@@ -46,9 +51,26 @@ public class Alert : AIState
 			
 		if(GameManager.Instance.PlayerIsMarked == false)
 		{
-			if(!enemyAttack.IsAttacking) // And if the enemy isn't attacking.
+			// If this enemy is the closest enemy to to last seen location of the player.
+			if(GameObject.ReferenceEquals(GameManager.Instance.GetClosestGuardToPlayer(), enemy))
 			{
-				if(!isScanning)
+				if(!doneWalking) // Flag so walk corouting doesn't get called multiple times.
+				{
+					walkCoroutine = WalkToLastSeenLocation();
+					enemy.StartCoroutine(walkCoroutine);
+				}
+				else // If done walking to last seen location.
+				{
+					if(!isScanning) // Flag so scan coroutine doesn't get called multiple times.
+					{
+						scanCoroutine = StartScanPhase(4.0f);
+						enemy.StartCoroutine(scanCoroutine);
+					}
+				}
+			}
+			else
+			{
+				if(!isScanning) // Flag so scan coroutine doesn't get called multiple times.
 				{
 					scanCoroutine = StartScanPhase(4.0f);
 					enemy.StartCoroutine(scanCoroutine);
@@ -100,16 +122,6 @@ public class Alert : AIState
 		// Start the scan phase animation.
 		enemy.GetComponent<Animator>().SetBool("Scanning", true);
 
-        // Exit the scanning phase if player enters vision again.
-        if (GameManager.Instance.PlayerIsMarked)
-        {
-            isScanning = false;
-			
-			// Stop the scanning animation and return back to the normal alert phase.
-			enemy.GetComponent<Animator>().SetBool("Scanning", false);
-            yield return null; 
-        }
-
 		// The amount of time the scanning phase lasts.
         yield return new WaitForSeconds(duration); 
 
@@ -120,8 +132,31 @@ public class Alert : AIState
 		enemy.GetComponent<Animator>().SetBool("Alerted", false);
 
 		if(enemy.HasPatrolPath)
-        	enemy.ChangeState(new Patrol(enemy));
+			enemy.ChangeState(new Patrol(enemy));
 		else
 			enemy.ChangeState(new Idle(enemy));
     }
+
+	private IEnumerator WalkToLastSeenLocation()
+	{
+		enemy.GetComponent<Animator>().SetBool("AlertWalk", true);
+		enemyMovement.MoveTo(VisionCone.LastSeenPlayerLocation, enemy.EnemySettings.DefaultMovementSpeed);
+
+		while(true)
+		{
+			if (!enemyMovement.Agent.pathPending)
+			{
+				if (enemyMovement.Agent.remainingDistance <= enemyMovement.Agent.stoppingDistance)
+				{
+					if (!enemyMovement.Agent.hasPath || enemyMovement.Agent.velocity.sqrMagnitude == 0f)
+					{
+						// Enemy has reached the location of the last seen location of the player.
+						doneWalking = true;
+						yield return null;
+					}
+				}
+			}
+			yield return new WaitForSeconds(0.1f);
+		}
+	}
 }

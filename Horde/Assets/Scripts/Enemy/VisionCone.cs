@@ -14,6 +14,7 @@ public class VisionCone : MonoBehaviour
 	public float ViewRadius { get { return viewRadius; } }
 	public float ViewAngle { get { return viewAngle; } }
 	public List<Transform> VisibleTargets { get { return visibleTargets; } }
+	static public Vector3 LastSeenPlayerLocation { get { return lastSeenPlayerLocation; } }
 
 	[SerializeField] private float viewRadius;
 	[SerializeField, Range(0, 360)] private float viewAngle;
@@ -30,6 +31,7 @@ public class VisionCone : MonoBehaviour
 	private List<Transform> visibleTargets = new List<Transform>();
 	private LayerMask targetMask;
 	private bool playerInVision = false;
+	static private Vector3 lastSeenPlayerLocation;
 	private NavMeshPath path;
 
     private float bloomSpeed;
@@ -113,9 +115,12 @@ public class VisionCone : MonoBehaviour
 	{
 		foreach(Transform t in visibleTargets)
 		{
-			if(t.GetComponent<Player>() != null) 
+			Player player = t.GetComponent<Player>();
+
+			if(player != null) 
 			{
-				return t.GetComponent<Player>();
+				lastSeenPlayerLocation = player.transform.position;
+				return player;
 			}
 		}
 
