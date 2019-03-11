@@ -14,10 +14,6 @@ public class ActivateUIButton : MonoBehaviour
     public GameObject TargetButton;
     public ActivateButtonEvent ActivateButton;
 
-    private Button button;
-    private Text buttonText;
-    private Image buttonImage;
-
     public void Start()
     {
         if(ActivateButton == null)
