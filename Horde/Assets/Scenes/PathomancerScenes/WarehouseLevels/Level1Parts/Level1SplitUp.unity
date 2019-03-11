@@ -159,6 +159,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -277.767
       objectReference: {fileID: 0}
+    - target: {fileID: 1234997249755068, guid: 092afe50c3653a042921c3eca6c12de1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 33791123285971038, guid: 092afe50c3653a042921c3eca6c12de1,
         type: 3}
       propertyPath: m_Mesh
@@ -503,10 +507,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.x
       value: 0.3127604
-      objectReference: {fileID: 0}
-    - target: {fileID: 1234997249755068, guid: 092afe50c3653a042921c3eca6c12de1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 092afe50c3653a042921c3eca6c12de1, type: 3}
@@ -1972,6 +1972,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f9cd662c14b37c4ea3ab48bc15f1bea, type: 3}
+--- !u!1 &709780620 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1926266610151124, guid: dae4ed591f921a34cb344d726388c25d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1425096309}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &757501872 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3397843226360926642, guid: 6008fc7a3c61830408d9ea3e6b225593,
@@ -2078,6 +2084,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114680205761838034, guid: b4d25dfd8c4b09845b4ccced370dd11b,
+        type: 3}
+      propertyPath: roomName
+      value: End
+      objectReference: {fileID: 0}
+    - target: {fileID: 114680205761838034, guid: b4d25dfd8c4b09845b4ccced370dd11b,
+        type: 3}
+      propertyPath: isCheckpoint
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4532592910075370, guid: b4d25dfd8c4b09845b4ccced370dd11b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 95.94365
@@ -2123,16 +2139,6 @@ PrefabInstance:
     - target: {fileID: 114016124000082268, guid: b4d25dfd8c4b09845b4ccced370dd11b,
         type: 3}
       propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114680205761838034, guid: b4d25dfd8c4b09845b4ccced370dd11b,
-        type: 3}
-      propertyPath: roomName
-      value: End
-      objectReference: {fileID: 0}
-    - target: {fileID: 114680205761838034, guid: b4d25dfd8c4b09845b4ccced370dd11b,
-        type: 3}
-      propertyPath: isCheckpoint
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 144250605369336422, guid: b4d25dfd8c4b09845b4ccced370dd11b,
@@ -2339,6 +2345,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbilityInfoMenuUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1530442183356750, guid: ae035882b7ab84341b098251ba94ef44, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224250086899248494, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2437,7 +2447,7 @@ PrefabInstance:
     - target: {fileID: 224091198842754028, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 224091198842754028, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
@@ -2462,7 +2472,7 @@ PrefabInstance:
     - target: {fileID: 224293544639337774, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -330
       objectReference: {fileID: 0}
     - target: {fileID: 224293544639337774, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
@@ -2487,7 +2497,7 @@ PrefabInstance:
     - target: {fileID: 224160463568723808, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 224160463568723808, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
@@ -2512,7 +2522,7 @@ PrefabInstance:
     - target: {fileID: 224857187358186064, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -270
       objectReference: {fileID: 0}
     - target: {fileID: 224857187358186064, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
@@ -2537,7 +2547,7 @@ PrefabInstance:
     - target: {fileID: 224892829866929652, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -210
       objectReference: {fileID: 0}
     - target: {fileID: 224892829866929652, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
@@ -2562,7 +2572,7 @@ PrefabInstance:
     - target: {fileID: 224309057350415012, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 224309057350415012, guid: ae035882b7ab84341b098251ba94ef44,
         type: 3}
@@ -2662,6 +2672,12 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 5fd91cd314c449e46a5968f56c7999a2, type: 2}
+--- !u!1 &1260015552 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1993138341421410, guid: dae4ed591f921a34cb344d726388c25d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1425096309}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1297261095 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 758576754755594354, guid: 8036855adde539247b75541aa13c86f6,
@@ -4096,6 +4112,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1913253113800178, guid: dae4ed591f921a34cb344d726388c25d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dae4ed591f921a34cb344d726388c25d, type: 3}
@@ -8489,6 +8509,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4392027251926347402}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1703839268 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1471928135399042, guid: dae4ed591f921a34cb344d726388c25d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1425096309}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1709584882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9602,6 +9628,56 @@ PrefabInstance:
       propertyPath: isCheckpoint
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 426877933526676720, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 426877933526676720, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 1703839268}
+    - target: {fileID: 4080266845841590004, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080266845841590004, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 1703839268}
+    - target: {fileID: 4762474269371849306, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762474269371849306, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 1703839268}
+    - target: {fileID: 6681860850545036110, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6681860850545036110, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 1703839268}
+    - target: {fileID: 5920451342245537209, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5920451342245537209, guid: bc9499972df82af47b80f912c9b4729a,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 1703839268}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc9499972df82af47b80f912c9b4729a, type: 3}
 --- !u!4 &2088085987 stripped
@@ -13064,6 +13140,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 934247665533231959, guid: 9e8cbd5584a3fd142a31d90845e7d1af,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 934247665533231959, guid: 9e8cbd5584a3fd142a31d90845e7d1af,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 1260015552}
+    - target: {fileID: 934247665421512581, guid: 9e8cbd5584a3fd142a31d90845e7d1af,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 934247665421512581, guid: 9e8cbd5584a3fd142a31d90845e7d1af,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 1260015552}
+    - target: {fileID: 934247665811443334, guid: 9e8cbd5584a3fd142a31d90845e7d1af,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 934247665811443334, guid: 9e8cbd5584a3fd142a31d90845e7d1af,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 1260015552}
+    - target: {fileID: 934247665052708346, guid: 9e8cbd5584a3fd142a31d90845e7d1af,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 934247665052708346, guid: 9e8cbd5584a3fd142a31d90845e7d1af,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 1260015552}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e8cbd5584a3fd142a31d90845e7d1af, type: 3}
 --- !u!1001 &3385699691023820481
@@ -14787,5 +14903,75 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: 0.00000024214387
       objectReference: {fileID: 0}
+    - target: {fileID: 99755505072170817, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 99755505072170817, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 709780620}
+    - target: {fileID: 1208777117194616846, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1208777117194616846, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 709780620}
+    - target: {fileID: 1702606307246351555, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702606307246351555, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 709780620}
+    - target: {fileID: 2606792969120065809, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2606792969120065809, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 709780620}
+    - target: {fileID: 2731128925569641958, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2731128925569641958, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 709780620}
+    - target: {fileID: 6077409751024204384, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077409751024204384, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 709780620}
+    - target: {fileID: 7468658627860370385, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: IsFirstPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7468658627860370385, guid: 4b7d4b4993166234bbec7b88747d987e,
+        type: 3}
+      propertyPath: TargetButton
+      value: 
+      objectReference: {fileID: 709780620}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7d4b4993166234bbec7b88747d987e, type: 3}
