@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (Enemy e in currentRoom.Enemies)
         {
-            if (e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol)
+            if (e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol || e.GetCurrentState() is Alert)
                 e.ChangeState(new Alert(e));
         }
     }

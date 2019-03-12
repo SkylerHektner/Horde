@@ -92,6 +92,13 @@ public class Alert : AIState
 
 	public override void LeaveState()
 	{
+		if(scanCoroutine != null)
+			enemy.StopCoroutine(scanCoroutine);
+		if(walkCoroutine != null)
+			enemy.StopCoroutine(walkCoroutine);
+
+		enemy.GetComponent<Animator>().SetBool("Scanning", false);
+		enemy.GetComponent<Animator>().SetBool("AlertedWalk", false);
 		enemy.GetComponent<Animator>().SetBool("Alerted", false);
 	}
 
