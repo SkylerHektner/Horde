@@ -16,7 +16,8 @@ public class EscapeMenu : MonoBehaviour {
 
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene(1);
+        PlayerPrefs.SetInt("Checkpoint", 0);
+        SceneManager.LoadScene(0);
     }
 
     public void LoadLevelSelect()

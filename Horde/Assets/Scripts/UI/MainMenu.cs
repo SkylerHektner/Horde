@@ -28,6 +28,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadLevel1()
 	{
+        PlayerPrefs.SetInt("Checkpoint", 0);
         moving = true;
 	}
 
