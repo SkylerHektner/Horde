@@ -80,19 +80,13 @@ public class GameManager : MonoBehaviour
             {
                 if(!(currentRoom.Enemies[0].GetCurrentState() is Alert)) // If the last enemy isn't in an Alert state.
                 {
+                    roomIsAlerted = false;
                     currentRoom.Exit.UnlockDoor();
                 }
             }
         }  
         else if (currentRoom != null)
             currentRoom.Exit.UnlockDoor();
-
-        // -- FOR DEBUGGING -- //
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            
-        }
-
     }
 
     /// <summary>
