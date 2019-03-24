@@ -43,7 +43,7 @@ public class PathosUI : MonoBehaviour
 	
 	void Update () 
 	{
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetButtonDown("Start"))
         {
             escActive = !escActive;
             if (escActive && tabActive)
@@ -54,7 +54,7 @@ public class PathosUI : MonoBehaviour
             menuEvent.Invoke(escActive);
             escMenu.ActivateEscapeMenu();
         }
-	    if(Input.GetKeyDown(KeyCode.Tab) && !escActive)
+	    if(Input.GetButtonDown("Help Menu") && !escActive)
         {
             tabActive = !tabActive;
             menuEvent.Invoke(tabActive);

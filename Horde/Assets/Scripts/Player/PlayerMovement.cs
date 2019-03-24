@@ -65,22 +65,8 @@ public class PlayerMovement : MonoBehaviour
         if (!lockMovementControls)
         {
             Vector3 dest = Vector3.zero;
-            if (Input.GetKey(KeyCode.W))
-            {
-                dest += forward * (Time.deltaTime * crouchSpeed);
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                dest -= forward * (Time.deltaTime * crouchSpeed);
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                dest -= right * (Time.deltaTime * crouchSpeed);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                dest += right * (Time.deltaTime * crouchSpeed);
-            }
+            dest += forward * (Time.deltaTime * crouchSpeed) * Input.GetAxis("Vertical");
+            dest += right * (Time.deltaTime * crouchSpeed) * Input.GetAxis("Horizontal");
             agent.Move(dest);
         }
 
@@ -94,6 +80,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 Vector3 targetPosition = new Vector3(cameraRayHit.point.x, transform.position.y, cameraRayHit.point.z);
                 transform.forward = Vector3.Lerp(transform.forward, targetPosition - transform.position, Time.deltaTime * 2f);
+            }
+            if (Input.GetAxis("Aim Horizontal") != 0f || Input.GetAxis("Aim Vertical") != 0f)
+            {
+                Vector3 look = Vector3.zero;
+                look -= forward * (Time.deltaTime * crouchSpeed) * Input.GetAxis("Aim Vertical");
+                look += right * (Time.deltaTime * crouchSpeed) * Input.GetAxis("Aim Horizontal");
+                transform.forward = look;
             }
         }
 
@@ -110,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Controls for crouching
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButtonDown("Crouch"))
         {
             crouchSpeed = .5f;
             anim.SetBool("Sneaking", true);
@@ -119,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
             CrouchingHitbox.enabled = true;
             GetComponent<DartGun>().isCrouching = true;
         }
-        if (!Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButtonUp("Crouch"))
         {
             crouchSpeed = 1f;
             anim.SetBool("Sneaking", false);

@@ -8,6 +8,7 @@ public class DartGun : MonoBehaviour
     [SerializeField] private bool infiniteAmmo = false;
 
     [SerializeField] private GameObject dart;
+    [SerializeField] private Material lineRendererMat;
     [SerializeField] private Transform dartSpawnLocation;
     [SerializeField] private Transform dartSpawnLocationCrouched;
     private Transform DartSpawn;
@@ -57,12 +58,12 @@ public class DartGun : MonoBehaviour
             DartSpawn = dartSpawnLocation;
         }
 
-        if (Input.GetMouseButton(0) && !attackOnCooldown
+        if (Input.GetButton("Fire1") && !attackOnCooldown
             && (ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion) || infiniteAmmo))
 		{
             playerMovement.lockMovementControls = true;
             animator.SetBool("Aiming", true);
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetButton("Crouch"))
             {
                 animator.SetBool("Sneaking", true);
             }
@@ -86,7 +87,7 @@ public class DartGun : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetButtonUp("Fire1"))
         {
             playerMovement.lockMovementControls = false;
             animator.SetBool("Aiming", false);
@@ -106,7 +107,7 @@ public class DartGun : MonoBehaviour
         lr.startColor = Color.green;
         lr.endColor = Color.green;
         lr.enabled = false;
-        lr.material = new Material(Shader.Find("Particles/Additive"));
+        lr.material = lineRendererMat;
     }
 
 	private void ChangeColor(Color c)

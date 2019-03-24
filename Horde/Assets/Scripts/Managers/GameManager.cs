@@ -50,10 +50,7 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
 
         Room currentCheckpoint = rooms[PlayerPrefs.GetInt("Checkpoint")];
-        ResourceManager.Instance.Rage = PlayerPrefs.GetInt("Anger", 0);
-        ResourceManager.Instance.Fear = PlayerPrefs.GetInt("Fear", 0);
-        ResourceManager.Instance.Sadness = PlayerPrefs.GetInt("Sadness", 0);
-        ResourceManager.Instance.Joy = PlayerPrefs.GetInt("Joy", 0);
+        
 
         if(currentCheckpoint == null)
             currentRoom = rooms[0]; // Just start in the first room is there is no current checkpoint.
@@ -68,6 +65,14 @@ public class GameManager : MonoBehaviour
 
         // Move the camera to the correct position and rotation also.
         cameraController.MoveTo(currentRoom.CameraSpawn);
+    }
+
+    private void Start()
+    {
+        ResourceManager.Instance.Rage = PlayerPrefs.GetInt("Anger", 0);
+        ResourceManager.Instance.Fear = PlayerPrefs.GetInt("Fear", 0);
+        ResourceManager.Instance.Sadness = PlayerPrefs.GetInt("Sadness", 0);
+        ResourceManager.Instance.Joy = PlayerPrefs.GetInt("Joy", 0);
     }
 
     private void Update()
