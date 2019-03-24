@@ -49,17 +49,11 @@ public class GameManager : MonoBehaviour
         // Get a reference to the player. (Helpful for the shared vision of guards)
         player = FindObjectOfType<Player>();
 
-        Room currentCheckpoint;
-        try
-        {
-            currentCheckpoint = rooms[PlayerPrefs.GetInt("Checkpoint")];
-        }
-        // catch if index out of range
-        catch
-        {
-            currentCheckpoint = rooms[0];
-            PlayerPrefs.SetInt("Checkpoint", 0);
-        }
+        Room currentCheckpoint = rooms[PlayerPrefs.GetInt("Checkpoint")];
+        ResourceManager.Instance.Rage = PlayerPrefs.GetInt("Anger", 0);
+        ResourceManager.Instance.Fear = PlayerPrefs.GetInt("Fear", 0);
+        ResourceManager.Instance.Sadness = PlayerPrefs.GetInt("Sadness", 0);
+        ResourceManager.Instance.Joy = PlayerPrefs.GetInt("Joy", 0);
 
         if(currentCheckpoint == null)
             currentRoom = rooms[0]; // Just start in the first room is there is no current checkpoint.
@@ -74,14 +68,6 @@ public class GameManager : MonoBehaviour
 
         // Move the camera to the correct position and rotation also.
         cameraController.MoveTo(currentRoom.CameraSpawn);
-    }
-
-    private void Start()
-    {
-        ResourceManager.Instance.Rage = PlayerPrefs.GetInt("Anger", 0);
-        ResourceManager.Instance.Fear = PlayerPrefs.GetInt("Fear", 0);
-        ResourceManager.Instance.Sadness = PlayerPrefs.GetInt("Sadness", 0);
-        ResourceManager.Instance.Joy = PlayerPrefs.GetInt("Joy", 0);
     }
 
     private void Update()
