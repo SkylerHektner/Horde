@@ -50,6 +50,10 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
 
         Room currentCheckpoint = rooms[PlayerPrefs.GetInt("Checkpoint")];
+        ResourceManager.Instance.Rage = PlayerPrefs.GetInt("Anger", 0);
+        ResourceManager.Instance.Fear = PlayerPrefs.GetInt("Fear", 0);
+        ResourceManager.Instance.Sadness = PlayerPrefs.GetInt("Sadness", 0);
+        ResourceManager.Instance.Joy = PlayerPrefs.GetInt("Joy", 0);
 
         if(currentCheckpoint == null)
             currentRoom = rooms[0]; // Just start in the first room is there is no current checkpoint.
@@ -115,7 +119,16 @@ public class GameManager : MonoBehaviour
         rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false); // Deactivate previous room.
 
         if(currentRoom.IsCheckpoint)
-            PlayerPrefs.SetInt("Checkpoint", rooms.IndexOf(currentRoom)); // Set the room as the current checkpoint.
+        {
+            // Set the room as the current checkpoint.
+            PlayerPrefs.SetInt("Checkpoint", rooms.IndexOf(currentRoom)); 
+
+            // Save the resources the player has when reaching the checkpoint.
+            PlayerPrefs.SetInt("Anger", ResourceManager.Instance.Rage);
+            PlayerPrefs.SetInt("Fear", ResourceManager.Instance.Fear);
+            PlayerPrefs.SetInt("Sadness", ResourceManager.Instance.Sadness);
+            PlayerPrefs.SetInt("Joy", ResourceManager.Instance.Joy);
+        }
 
         player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
         player.transform.rotation = currentRoom.Spawn.rotation;

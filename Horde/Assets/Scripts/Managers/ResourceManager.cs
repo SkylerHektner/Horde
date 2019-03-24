@@ -12,10 +12,10 @@ public class ResourceManager : MonoBehaviour
     public delegate void resourceEmptyListener(ResourceType t);
     public event resourceEmptyListener ResourceEmptyEvent;
 
-    public int Rage { get; private set; }
-    public int Joy { get; private set; }
-    public int Sadness { get; private set; }
-    public int Fear { get; private set; }
+    public int Rage { get; set; }
+    public int Joy { get; set; }
+    public int Sadness { get; set; }
+    public int Fear { get; set; }
 
     [SerializeField] public int maxRage;
     [SerializeField] public int maxJoy;
