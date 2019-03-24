@@ -58,12 +58,12 @@ public class DartGun : MonoBehaviour
             DartSpawn = dartSpawnLocation;
         }
 
-        if (Input.GetMouseButton(0) && !attackOnCooldown
+        if (Input.GetButton("Fire1") && !attackOnCooldown
             && (ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion) || infiniteAmmo))
 		{
             playerMovement.lockMovementControls = true;
             animator.SetBool("Aiming", true);
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetButton("Crouch"))
             {
                 animator.SetBool("Sneaking", true);
             }
@@ -87,7 +87,7 @@ public class DartGun : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetButtonUp("Fire1"))
         {
             playerMovement.lockMovementControls = false;
             animator.SetBool("Aiming", false);
