@@ -8,6 +8,7 @@ public class DartGun : MonoBehaviour
     [SerializeField] private bool infiniteAmmo = false;
 
     [SerializeField] private GameObject dart;
+    [SerializeField] private Material lineRendererMat;
     [SerializeField] private Transform dartSpawnLocation;
     [SerializeField] private Transform dartSpawnLocationCrouched;
     private Transform DartSpawn;
@@ -106,7 +107,7 @@ public class DartGun : MonoBehaviour
         lr.startColor = Color.green;
         lr.endColor = Color.green;
         lr.enabled = false;
-        lr.material = new Material(Shader.Find("Particles/Additive"));
+        lr.material = lineRendererMat;
     }
 
 	private void ChangeColor(Color c)
