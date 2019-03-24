@@ -41,8 +41,7 @@ public class EnemyMovement: MonoBehaviour
     /// </summary>
     public void MoveTo(Vector3 pos, float speed)
     {
-        //Debug.Log(pos);
-        agent.ResetPath();
+        //agent.ResetPath();
         agent.isStopped = false;
         agent.speed = speed;
         agent.SetDestination(pos);

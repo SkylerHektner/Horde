@@ -37,7 +37,7 @@ public class Patrol : AIState
 				MoveToNextPatrolPoint();
 			}
 		}
-		else if(visionCone.TryGetPlayer()) // If the player is within vision.
+		else if(visionCone.TryGetPlayer()) // If the player is within vision and the guards haven't been alerted yet.
 		{
 			if(enemy.DEBUG_MODE)
 				Debug.Log("3");

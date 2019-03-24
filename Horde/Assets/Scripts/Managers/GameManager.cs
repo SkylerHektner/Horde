@@ -137,6 +137,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(DisplayRoomName());
     }
 
+    /// <summary>
+    /// Gets the closest enemy to the last seen location of the player.
+    /// </summary>
     public Enemy GetClosestGuardToPlayer()
     {
         NavMeshPath path = new NavMeshPath();
