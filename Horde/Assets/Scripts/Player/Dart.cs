@@ -11,11 +11,12 @@ public class Dart : MonoBehaviour
 	private Rigidbody rb;
 	private Vector3 oldVel;
 	private int bounces = 0;
-	private float dartDuration = 6.0f;
+	private float dartDuration;
 
 	private void Start () 
 	{
 		rb = GetComponent<Rigidbody>();
+		dartDuration = GameManager.Instance.Player.PlayerSettings.DartDuration;
 		//loadedEmotion = ResourceManager.ResourceType.Fear;
 	}
 	

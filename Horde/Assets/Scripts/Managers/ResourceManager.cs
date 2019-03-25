@@ -17,27 +17,34 @@ public class ResourceManager : MonoBehaviour
     public int Sadness { get; set; }
     public int Fear { get; set; }
 
-    [SerializeField] public int maxRage;
-    [SerializeField] public int maxJoy;
-    [SerializeField] public int maxSadness;
-    [SerializeField] public int maxFear;
-
     [SerializeField] private Material greyscalePostMat;
     [SerializeField] private Material resourceBarRageMat;
     [SerializeField] private Material resourceBarFearMat;
     [SerializeField] private Material resourceBarJoyMat;
     [SerializeField] private Material resourceBarDevotionMat;
 
+    private int maxRage;
+    private int maxJoy;
+    private int maxSadness;
+    private int maxFear;
+
     private void Awake ()
     {
         Instance = this;
 
-        // Start each episode with 0 resources.
-        Rage = 0;
-        Sadness = 0;
-        Joy = 0;
-        Fear = 0;
-        
+        Rage = PlayerPrefs.GetInt("Anger", 0);
+        Fear = PlayerPrefs.GetInt("Fear", 0);
+        Sadness = PlayerPrefs.GetInt("Sadness", 0);
+        Joy = PlayerPrefs.GetInt("Joy", 0);
+    }
+
+    private void Start()
+    {
+        maxRage = GameManager.Instance.Player.PlayerSettings.MaxJuice;
+        maxJoy = GameManager.Instance.Player.PlayerSettings.MaxJuice;
+        maxSadness = GameManager.Instance.Player.PlayerSettings.MaxJuice;
+        maxFear = GameManager.Instance.Player.PlayerSettings.MaxJuice;
+
         updateResourceBars();
         updateGreyscaleEffect();
     }
@@ -73,22 +80,22 @@ public class ResourceManager : MonoBehaviour
             case ResourceType.Rage:
                 if (Rage == 0)
                     return false;
-                Rage -= 1;
+                Rage -= GameManager.Instance.Player.PlayerSettings.CostPerShot;
                 break;
             case ResourceType.Fear:
                 if (Fear == 0)
                     return false;
-                Fear -= 1;
+                Fear -= GameManager.Instance.Player.PlayerSettings.CostPerShot;
                 break;
             case ResourceType.Sadness:
                 if (Sadness == 0)
                     return false;
-                Sadness -= 1;
+                Sadness -= GameManager.Instance.Player.PlayerSettings.CostPerShot;
                 break;
             case ResourceType.Joy:
                 if (Joy == 0)
                     return false;
-                Joy -= 1;
+                Joy -= GameManager.Instance.Player.PlayerSettings.CostPerShot;
                 break;
         }
 

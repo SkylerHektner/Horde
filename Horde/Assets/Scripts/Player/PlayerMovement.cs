@@ -5,8 +5,7 @@ using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    private float speed = 1f;
+    private float speed;
     private float crouchSpeed = 1f;
 
     public BoxCollider StandingHitbox;
@@ -36,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 lastPos;
 	void Start ()
     {
+        speed = GameManager.Instance.Player.PlayerSettings.MovementSpeed;
+        
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         cameraTransformGO = new GameObject();
         cameraTransform = cameraTransformGO.transform;

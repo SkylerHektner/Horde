@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSettings : MonoBehaviour
+[CreateAssetMenu(menuName = "Player/Settings", fileName = "PlayerData")]
+public class PlayerSettings : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private float movementSpeed;
+    [SerializeField] private float dartDuration;
+    [SerializeField] private int costPerShot;
+    [SerializeField] private int maxJuice;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public float MovementSpeed { get { return movementSpeed; } }
+    public float DartDuration { get { return dartDuration; } }
+    public int CostPerShot { get { return costPerShot; } }
+    public int MaxJuice { get { return maxJuice; } }
 }
