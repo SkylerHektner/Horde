@@ -4,8 +4,10 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
 		_SecondaryTex("Secondary Texture", 2D) = "white" {}
+		_SecondaryAlpha("Secondary Alpha", Range(0,1)) = 1
 		_SecondaryTexScroll("Scroll Speed", Range(0,100)) = 50
 		_TertiaryTex("Tertiary Texture", 2D) = "white" {}
+		_TertiaryAlpha("Tertiary Alpha", Range(0,1)) = 1
 		_TertiaryBloomSpeed("Bloom Speed", Range(0,1)) = 0.5
 		_TertiaryBloomMagnitude("Bloom Magnitude", Range(0,1)) = 0.5
     }
@@ -49,6 +51,8 @@
 			float _SecondaryTexScroll;
 			float _TertiaryBloomSpeed;
 			float _TertiaryBloomMagnitude;
+			float _SecondaryAlpha;
+			float _TertiaryAlpha;
 
             v2f vert (appdata v)
             {
@@ -63,10 +67,10 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
-				col *= tex2D(_SecondaryTex, i.uv2 + _SecondaryTexScroll * _Time.x);
+				col *= (tex2D(_SecondaryTex, i.uv2 + _SecondaryTexScroll * _Time.x) * _SecondaryAlpha) + (col * (1 - _SecondaryAlpha));
 				i.uv3.x += (i.uv3.x - 0.5) * sin(_Time.w * _TertiaryBloomSpeed) * _TertiaryBloomMagnitude;
 				i.uv3.y += (i.uv3.y - 0.5) * sin(_Time.w * _TertiaryBloomSpeed) * _TertiaryBloomMagnitude;
-				col *= tex2D(_TertiaryTex, i.uv3);
+				col *= (tex2D(_TertiaryTex, i.uv3) * _TertiaryAlpha) + (col * (1 - _TertiaryAlpha));
                 return col;
             }
             ENDCG
