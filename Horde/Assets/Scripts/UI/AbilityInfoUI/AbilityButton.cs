@@ -30,9 +30,9 @@ public class AbilityButton : MonoBehaviour {
     {
         if(PlayerPrefs.GetInt(AbilityName) == 0)
         {
-            //gameObject.GetComponent<Image>().enabled = false;
-            //gameObject.GetComponent<Button>().enabled = false;
-            //gameObject.GetComponentInChildren<Text>().enabled = false;
+            gameObject.GetComponent<Image>().enabled = false;
+            gameObject.GetComponent<Button>().enabled = false;
+            gameObject.GetComponentInChildren<Text>().enabled = false;
         }
 	}
 	
