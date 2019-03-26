@@ -5,8 +5,7 @@ using UnityEngine;
 /// <summary>
 ///	--[ Idle State ]--
 /// Guard doesn't move.
-/// If player enters vision for a duration, change 
-/// to Alert state and alert the other guards.
+/// If player enters vision for a duration, change to Alert state and alert the other guards.
 /// </summary>
 public class Idle : AIState
 {
@@ -29,13 +28,13 @@ public class Idle : AIState
 		if(!enemy.IsDistracted && player == null)
 		{
 			preAlertDuration = enemy.EnemySettings.PreAlertDuration; 	// Reset the timer if player isn't in vision.
-			ResetTransform();											// And reset back to inital transform and position.
+			ResetTransform();											// And reset back to inital position and rotation.
 		}
 		else if(player != null) // Player is in vision.
 		{
-			// Stare at the target until the pre-alert duration is over. Alert the guards if pre-alert duration ends.
-			preAlertDuration -= Time.smoothDeltaTime;
 			StareAtTarget(player);
+
+			preAlertDuration -= Time.smoothDeltaTime;
 			if(preAlertDuration <= 0)
 			{
 				GameManager.Instance.AlertGuards();
@@ -62,21 +61,17 @@ public class Idle : AIState
 		visionCone.ChangeTargetMask(targetMask);
 	}
 
+	/// <summary>
+	/// Turns the rotation of the guard towards the direction of the player.
+	/// </summary>
 	private void StareAtTarget(Player p)
 	{
 		enemyMovement.LookAt(p.transform.position);
 	}
 
-	private void ResetPosition()
-	{
-		enemyMovement.MoveTo(enemy.SpawnPosition, enemy.EnemySettings.DefaultMovementSpeed);
-	}
-
-	private void ResetRotation()
-	{
-		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, enemy.SpawnRotation, 5.0f * Time.deltaTime);
-	}
-
+	/// <summary>
+	/// Checks if the guard is at its initial spawn location of the room.
+	/// </summary>
 	private bool AtSpawnPosition()
 	{
 		// We don't care if y values are different.
@@ -91,6 +86,12 @@ public class Idle : AIState
 		return false;
 	}
 
+	/// <summary>
+	/// Checks if the player gets "too close" to the guard.
+	/// Used for when the player gets so close to a guard he almosts bumps into him.
+	/// The guard needs to know the player is touching him, even though he is not
+	/// inside of the vision cone.
+	/// </summary>
 	private bool PlayerTooClose()
 	{
 		// Just uses a hard-coded float for distance calculations right now. Should probably change.
@@ -102,6 +103,7 @@ public class Idle : AIState
 
 	/// <summary>
 	/// Resets the guard back to its initial position and rotation.
+	/// Resets the position first, and then resets the rotation.
 	/// </summary>
 	private void ResetTransform()
 	{
@@ -111,7 +113,7 @@ public class Idle : AIState
 		}
 		else if(AtSpawnPosition() && enemy.transform.rotation != enemy.SpawnRotation)
 		{
-			ResetRotation();
+			enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, enemy.SpawnRotation, 5.0f * Time.deltaTime);
 		}
 	}
 }

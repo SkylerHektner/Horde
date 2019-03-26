@@ -20,7 +20,6 @@ public class Alert : AIState
 
 	public Alert(Enemy enemy): base(enemy)
 	{
-		Debug.Log("HIT");
 		enemy.GetComponent<Animator>().SetBool("Alerted", true);
 	}
 
@@ -61,12 +60,12 @@ public class Alert : AIState
 		{
 			/*
 								-- Behavior while guard is IN vision --
-				(1) Because the player is in vision (maybe re-entering vision), stop whatever 
-				the guard is doing and go back to normal Alert mode. (2) While the player is
-				in vision, run towards him and attack him if he is in range.
+				[1] Because the player is in vision (maybe re-entering vision), stop whatever 
+					the guard is doing and go back to normal Alert mode. 
+				[2] While the player is in vision, run towards him and attack him if he is in range.
 			*/
 
-			// (1)
+			// [1]
 			if(scanCoroutine != null)
 			{
 				isScanning = false;
@@ -82,7 +81,7 @@ public class Alert : AIState
 			enemy.GetComponent<Animator>().SetBool("Scanning", false);
 			enemy.GetComponent<Animator>().SetBool("AlertedWalk", false);
 
-			// (2)
+			// [2]
 			enemyMovement.MoveTo(GameManager.Instance.Player.transform.position, enemy.EnemySettings.AlertMovementSpeed);
 			
 			if(enemyAttack.IsInAttackRange(GameManager.Instance.Player.transform.position))
@@ -162,10 +161,8 @@ public class Alert : AIState
 		enemy.GetComponent<Animator>().SetBool("Scanning", true);
 		enemy.GetComponent<Animator>().SetBool("AlertedWalk", false);
 
-		// The amount of time the scanning phase lasts.
-		yield return new WaitForSeconds(duration);
+		yield return new WaitForSeconds(duration);	// The amount of time the scanning phase lasts.
 
-		// End the scan phase by setting the animations back to normal and change back to Patrol/Idle state.
 		GameManager.Instance.RoomIsAlerted = false; 
 
 		enemy.GetComponent<Animator>().SetBool("Scanning", false);

@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// --[ Patrol State ]--
+/// Walks along a patrol route.
+/// If the player enters the guards vision for a duration, the room will be alerted.
+/// </summary>
 public class Patrol : AIState
 {
-	private List<Transform> patrolPointList;
-	private int destPoint = 0; // The current destination in the patrol path.
-	private float preAlertDuration;
+	private List<Transform> patrolPointList;	
+	private int destPoint = 0; 						// The current destination in the patrol path.
+	private float preAlertDuration;					// The amount of time the player can be in vision before Alerting the guards.
+
 
 	public Patrol(Enemy enemy): base(enemy)
 	{
@@ -19,54 +25,34 @@ public class Patrol : AIState
 
 	public override void Tick()
 	{
+		Player player = visionCone.TryGetPlayer();
+
 		// Alert the guards if the player gets too close (even if not inside of the vision cone).
 		if(PlayerTooClose())
 			GameManager.Instance.AlertGuards();
-			
-		if(enemy.IsDistracted)
-		{
-			if(enemy.DEBUG_MODE)
-				Debug.Log("1");
-			enemyMovement.PausePath();
-		}
-		else if(!enemy.IsDistracted && !visionCone.TryGetPlayer())
-		{
-			if(enemy.DEBUG_MODE)
-				Debug.Log("2");
-			preAlertDuration = enemy.EnemySettings.PreAlertDuration; // Reset the timer if player isn't in vision.
 
-			enemyMovement.ResumePath();
+		// REMINDER: A guard is "distracted" while it is staring as a sad guard.
+		if(!enemy.IsDistracted && player == null)
+		{
+			preAlertDuration = enemy.EnemySettings.PreAlertDuration; 	// Reset the timer if player isn't in vision.
+			enemyMovement.ResumePath();									// And resume its patrol path.
+
+			// Follow the normal patrol route.
 			if(!agent.pathPending && agent.remainingDistance < 0.01f)
 			{
 				MoveToNextPatrolPoint();
 			}
 		}
-		else if(visionCone.TryGetPlayer()) // If the player is within vision and the guards haven't been alerted yet.
+		else if(player != null) // Player is in vision.
 		{
-			if(enemy.DEBUG_MODE)
-				Debug.Log("3");
-			preAlertDuration -= Time.smoothDeltaTime; // Count down the pre-alert duration.
-
 			enemyMovement.PausePath();
+			StareAtTarget(player);
 
-			// Stare at the target until the pre-alert duration is over.
-			StareAtTarget();
+			preAlertDuration -= Time.smoothDeltaTime;
 			if(preAlertDuration <= 0)
 			{
 				GameManager.Instance.AlertGuards();
 			}
-		}
-		else if(!agent.pathPending && agent.remainingDistance < 0.01f)
-		{
-			if(enemy.DEBUG_MODE)
-				Debug.Log("4");
-			MoveToNextPatrolPoint();
-		} 
-		else
-		{
-			if(enemy.DEBUG_MODE)
-				Debug.Log("5");
-			enemyMovement.ResumePath();
 		}
 	}
 
@@ -126,25 +112,20 @@ public class Patrol : AIState
 		}
     }
 
-	private void StareAtTarget()
+	/// <summary>
+	/// Turns the rotation of the guard towards the direction of the player.
+	/// </summary>
+	private void StareAtTarget(Player p)
 	{
-		Vector3 direction = visionCone.TryGetPlayer().transform.position - enemy.transform.position;
-        Quaternion desiredRotation = Quaternion.LookRotation(direction);
-
-		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 5.0f * Time.deltaTime);
+		enemyMovement.LookAt(p.transform.position);
 	}
 
-	private bool AtSpawnPosition()
-	{
-		// We don't care if y values are different.
-		if(Vector3.Distance(enemy.transform.position, enemy.SpawnPosition) < 0.25f)
-		{
-			return true;
-		}
-
-		return false;
-	}
-
+	/// <summary>
+	/// Checks if the player gets "too close" to the guard.
+	/// Used for when the player gets so close to a guard he almosts bumps into him.
+	/// The guard needs to know the player is touching him, even though he is not
+	/// inside of the vision cone.
+	/// </summary>
 	private bool PlayerTooClose()
 	{
 		// Just uses a hard-coded float for distance calculations right now. Should probably change.
