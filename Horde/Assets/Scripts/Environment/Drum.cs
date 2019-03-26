@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class Drum : MonoBehaviour, IBreakable
-{
-	public Transform Transform { get { return transform; } } 
-	
+public class Drum : MonoBehaviour
+{ 
 	[SerializeField] private DrumType drumType;
 	[SerializeField] private float explosionRadius;
 	[SerializeField] private float effectDuration;
@@ -45,17 +43,7 @@ public class Drum : MonoBehaviour, IBreakable
 		}
 	}
 
-	public void Break()
-	{
-		Explode();
-	}
-
-	public Vector3 GetPosition()
-	{
-		return transform.position;
-	}
-
-	private void Explode()
+	public void Explode()
 	{
 		Collider[] objectsInRange = Physics.OverlapSphere(transform.position, explosionRadius, mask);
 
