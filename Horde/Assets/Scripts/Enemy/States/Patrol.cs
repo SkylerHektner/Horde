@@ -19,6 +19,10 @@ public class Patrol : AIState
 
 	public override void Tick()
 	{
+		// Alert the guards if the player gets too close (even if not inside of the vision cone).
+		if(PlayerTooClose())
+			GameManager.Instance.AlertGuards();
+			
 		if(enemy.IsDistracted)
 		{
 			if(enemy.DEBUG_MODE)
@@ -137,6 +141,15 @@ public class Patrol : AIState
 		{
 			return true;
 		}
+
+		return false;
+	}
+
+	private bool PlayerTooClose()
+	{
+		// Just uses a hard-coded float for distance calculations right now. Should probably change.
+		if(Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < 2.5f) 
+			return true;
 
 		return false;
 	}
