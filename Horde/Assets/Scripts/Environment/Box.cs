@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Box : MonoBehaviour, IBreakable
+public class Box : MonoBehaviour
 {
-	public GameObject brokenVersion;
-	
-	[SerializeField] private Transform pickup; // The pickup that the box will drop. Drops nothing if null.
-
 	private float distToGround;
 	private LayerMask mask;
 	private LayerMask rayCastPlane;
@@ -32,25 +28,6 @@ public class Box : MonoBehaviour, IBreakable
                                                  // before we set kinematic back to true or else it sinks into the ground.
     }
 
-    public void Break()
-	{
-		GameObject go = Instantiate(brokenVersion, transform.position, transform.rotation);
-		foreach(Rigidbody rb in go.GetComponentsInChildren<Rigidbody>())
-		{
-			rb.GetComponent<Rigidbody>().AddExplosionForce(1.0f, transform.position, 5.0f, 3.0f, ForceMode.Impulse);
-		}
-
-		if(pickup != null)
-			DropPickup();
-		
-		Destroy(gameObject);
-	}
-
-	public Vector3 GetPosition()
-	{
-		return transform.position;
-	}
-
 	private bool IsFloating()
 	{
 		RaycastHit hit;
@@ -68,10 +45,5 @@ public class Box : MonoBehaviour, IBreakable
 		yield return new WaitForSeconds(0.1f); // Boxes were sinking into the ground if I didn't add a delay.
 
 		rb.isKinematic = true;
-	}
-
-	private void DropPickup()
-	{
-		Instantiate(pickup, transform.position, Quaternion.identity);
 	}
 }

@@ -4,11 +4,24 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 
+/// <summary>
+/// --[ Anger State ]--
+/// Activated when shot with an anger dart or affected from an exploding anger drum.
+/// The guard enters a frenzy and started attacking everything.
+/// His rage follows a couple rules:
+/// 	- The player is prioritized over breakables and other guards. So if the player
+///   	  enters vision, the guard will drop whatever his current target is and
+///       run after the player.
+/// 	- Breakables and guards have the same priority.
+/// 	- Has an innate knowledge of where breakables and other guards are. Does not
+///       have any knowledge of where the player is unless he enters vision.
+/// </summary>
 public class Anger : AIState
 {
 	private Transform currentTarget;
-	private float currentTargetBuffer = 2.0f; // The amount of time the current target can be out of vision before losing it.
-	private float outOfVisionDuration; // The amount of time the current target has been out of vision.
+	private float outOfVisionBuffer = 2.0f; 	// The amount of time the current target can be out of vision before losing him.
+	private float outOfVisionDuration; 			// The amount of time the current target has been out of vision.
+	private Player player;
 
 	public Anger(Enemy enemy, float duration): base(enemy, duration)
 	{
@@ -19,35 +32,44 @@ public class Anger : AIState
 	{
 		base.Tick();
 
-		Transform closestTarget = visionCone.GetClosestTarget();
-		if(closestTarget != null && closestTarget != currentTarget)
-			currentTarget = closestTarget; // Change aggro to the closer target.
-		
+		player = visionCone.TryGetPlayer();
+
+		// Find a current target if it doesn't have one already.
 		if(currentTarget == null)
 		{
-			BreakClosestObject();
-		}
-		else if(closestTarget == null) // If there is a current target but he's out of vision.
-		{
-			outOfVisionDuration += Time.smoothDeltaTime; // Increase the out-of-vision duration counter.
-			if(outOfVisionDuration >= currentTargetBuffer)
+			if(player != null)
 			{
-				currentTarget = null; // Stop chasing the target if he's been out of vision for too long.
+				currentTarget = player.transform;
 			}
-			else 
+			else
 			{
-				enemyMovement.MoveTo(currentTarget.position, enemy.EnemySettings.AngerMovementSpeed); // Move to the target.
-				if(enemyAttack.IsInAttackRange(currentTarget.position)) // Attack if it's in range.
+				currentTarget = FindClosestTarget();
+			}
+		}
+		else // Guard has a current target.
+		{
+			enemyMovement.MoveTo(currentTarget.position, enemy.EnemySettings.AngerMovementSpeed);
+
+			Breakable breakableObject = currentTarget.GetComponent<Breakable>();
+
+			if(breakableObject != null) // Current target is a breakable object.
+			{
+				if(enemyAttack.IsInAttackRange(currentTarget.position))
+				{
+					if(!enemyAttack.IsAttacking)
+					{
+						enemy.StartCoroutine(enemyAttack.AttackBreakable(breakableObject));
+					}	
+				}
+			}
+			else // Current target is the player or another guard.
+			{
+				if(enemyAttack.IsInAttackRange(currentTarget.position))
 				{
 					if(!enemyAttack.IsAttacking)
 						enemy.StartCoroutine(enemyAttack.Attack(currentTarget.gameObject));
 				}
 			}
-		}
-		else // There is a target in vision.
-		{
-			currentTarget = closestTarget; // Aggro the closest target.
-			outOfVisionDuration = 0; // Reset the out-of-vision counter.
 		}
 	}
 
@@ -66,52 +88,81 @@ public class Anger : AIState
 
 	protected override void UpdateTargetMask()
 	{
-		// Targets in the vision cone should be the player and other guards.
+		// Targets detected by the vision cone should be the player and other guards.
 		LayerMask playerMask = 1 << LayerMask.NameToLayer("Player");
 		LayerMask enemyMask = 1 << LayerMask.NameToLayer("Enemy");
 		LayerMask targetMask = playerMask | enemyMask;
 		visionCone.ChangeTargetMask(targetMask);
 	}
 
-	private void BreakClosestObject()
+	/// <summary>
+	/// Searches through all the guards / breakables and returns the closest object.
+	/// Makes use of FindClosestBreakable() and FindClosestEnemy() functions.
+	/// </summary>
+	private Transform FindClosestTarget()
 	{
-		if(!enemyAttack.IsAttacking)
-		{
-			IBreakable target = FindClosestBreakable();
-			if(target == null)
-			{
-                //Initiate behavior when there aren't any more breakables.
-                enemy.GetComponent<Animator>().SetBool("Angry", false);
-                return;
-			}
+		NavMeshPath breakablePath = new NavMeshPath();
+		NavMeshPath enemyPath = new NavMeshPath();
+		float breakablePathDistance;
+		float enemyPathDistance;
 
-			enemyMovement.MoveTo(target.GetPosition(), enemy.EnemySettings.AngerMovementSpeed);
+		Breakable b = FindClosestBreakable();
+		Enemy e = FindClosestEnemy();
 
-			if(enemyAttack.IsInAttackRange(target.GetPosition()))
-			{
-				enemy.StartCoroutine(enemyAttack.AttackBreakable(target));
-			}
-		}
+		// If there aren't any breakables on the map, just return the closest enemy.
+		// Likewise if there aren't any enemies.
+		// If there aren't any breakables or enemies, just return nothing.
+		if (b == null && e == null)
+			return null;
+		else if(b == null)
+			return e.transform;
+		else if (e == null)
+			return b.transform;
+		
+
+		// Calulate the distance of the path to the closest breakable.
+		NavMeshHit hit;
+		Vector3 position = b.transform.position;
+		NavMesh.SamplePosition(new Vector3(position.x, 0.0f, position.z), out hit, 100.0f, NavMesh.AllAreas);
+		agent.CalculatePath(hit.position, breakablePath);
+		breakablePathDistance = GetPathDistance(breakablePath.corners);
+
+		// Calculate the distance of the path to the closest enemy.
+		agent.CalculatePath(e.transform.position, enemyPath);
+		enemyPathDistance = GetPathDistance(enemyPath.corners);
+
+		// Return whichever path is the shortest.
+		if(breakablePathDistance > enemyPathDistance)
+			return e.transform;
+		else
+			return b.transform;
 	}
 
-	private IBreakable FindClosestBreakable()
+	/// <summary>
+	/// Searches through all the breakables in the room (any object with the Breakable script on it).
+	/// Returns the closest one.
+	/// </summary>
+	private Breakable FindClosestBreakable()
 	{
         NavMeshPath path = new NavMeshPath();
 
-		var breakablesVar = Object.FindObjectsOfType<MonoBehaviour>().OfType<IBreakable>();
-		List<IBreakable> breakables = breakablesVar.ToList();
+		//var breakablesVar = Object.FindObjectsOfType<MonoBehaviour>().OfType<IBreakable>();
+		//List<IBreakable> breakables = breakablesVar.ToList();
 
-        if (breakables.ToList().Count == 0) // Just return null if there aren't any breakables.
+		List<Breakable> breakables = Object.FindObjectsOfType<Breakable>().ToList();
+
+        if (breakables.Count == 0)
             return null;
 
         float closestDistance = 10000f;
-        IBreakable closestBreakable = breakables[0];
+        Breakable closestBreakable = breakables[0];
 
-        foreach (IBreakable b in breakables)
+        foreach (Breakable b in breakables)
         {
 			NavMeshHit hit;
-			NavMesh.SamplePosition(new Vector3(b.GetPosition().x, 0.0f, b.GetPosition().z), out hit, 100.0f, NavMesh.AllAreas);
-            agent.CalculatePath(hit.position, path); // Calculate the NavMesh path to the object
+			Vector3 position = b.transform.position;
+			NavMesh.SamplePosition(new Vector3(position.x, 0.0f, position.z), out hit, 100.0f, NavMesh.AllAreas);
+            agent.CalculatePath(hit.position, path);
 
             if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
             {
@@ -126,6 +177,46 @@ public class Anger : AIState
         }
 
         return closestBreakable;
+	}
+
+	/// <summary>
+	/// Searches through all the guards in in the room.
+	/// Returns the closest one.
+	/// </summary>
+	private Enemy FindClosestEnemy()
+	{
+		NavMeshPath path = new NavMeshPath();
+
+		List<Enemy> enemies = GameManager.Instance.CurrentRoom.Enemies;
+
+		if(enemies.Count <= 1)
+		{
+			return null;
+		}
+
+		float closestDistance = 10000f;
+		Enemy closestEnemy = enemies[0];
+
+		foreach(Enemy e in enemies)
+		{
+			if(e == enemy || e == null)
+				continue;
+
+            agent.CalculatePath(e.transform.position, path);
+
+			if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path. (So it doesn't target units in unreachable areas.)
+			{
+				float distance = GetPathDistance(path.corners);
+
+				if(distance <= closestDistance)
+				{
+					closestDistance = distance;
+					closestEnemy = e;
+				}
+			}
+		}
+
+		return closestEnemy;
 	}
 
 	/// <summary>

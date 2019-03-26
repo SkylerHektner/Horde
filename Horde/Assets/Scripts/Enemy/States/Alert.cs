@@ -17,6 +17,7 @@ public class Alert : AIState
 	private bool isWalking; 				// Flag so walk coroutine doesn't get called multiple times.
 	private IEnumerator scanCoroutine;		// Coroutine that makes guards look around after losing vision of player.
 	private IEnumerator walkCoroutine;		// Coroutine for the nearest guard to search the last seen position of player.
+	private Player player;
 
 	public Alert(Enemy enemy): base(enemy)
 	{
@@ -131,10 +132,10 @@ public class Alert : AIState
 		GameManager.Instance.RoomIsAlerted = true;
 		
 		// Reset the buffer if the player is in vision of a guard.
-		Player player = visionCone.TryGetPlayer();
+		player = visionCone.TryGetPlayer();
 		if(player != null)
 		{
-			outOfVisionBuffer = enemy.EnemySettings.CurrentTargetBuffer;
+			outOfVisionBuffer = enemy.EnemySettings.OutOfVisionBuffer;
 		}
 
 		// If the buffer is greater than zero, the player is in vision of the guards.

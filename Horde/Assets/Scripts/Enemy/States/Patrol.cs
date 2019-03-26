@@ -12,6 +12,7 @@ public class Patrol : AIState
 	private List<Transform> patrolPointList;	
 	private int destPoint = 0; 						// The current destination in the patrol path.
 	private float preAlertDuration;					// The amount of time the player can be in vision before Alerting the guards.
+	private Player player;
 
 
 	public Patrol(Enemy enemy): base(enemy)
@@ -25,7 +26,7 @@ public class Patrol : AIState
 
 	public override void Tick()
 	{
-		Player player = visionCone.TryGetPlayer();
+		player = visionCone.TryGetPlayer();
 
 		// Alert the guards if the player gets too close (even if not inside of the vision cone).
 		if(PlayerTooClose())

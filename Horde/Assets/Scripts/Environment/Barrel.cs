@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Barrel : MonoBehaviour, IBreakable 
 {
+	public Transform Transform { get { return transform; } } 
+	
 	public void Break()
 	{
 		Destroy(this.gameObject); // Temporary.

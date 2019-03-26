@@ -100,9 +100,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4143748068071280}
+  - component: {fileID: 114998372077857084}
+  - component: {fileID: 2291166659448538745}
   - component: {fileID: 208151316563288392}
   - component: {fileID: 54196558716785440}
-  - component: {fileID: 114998372077857084}
   - component: {fileID: 65772164781619472}
   m_Layer: 16
   m_Name: WoodCrateTall
@@ -126,6 +127,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114998372077857084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372492298400268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 314db03a784963143afa9897ff8dc5ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2291166659448538745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372492298400268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa22c7594952c245aa1d28ad5849176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenVersion: {fileID: 1222521923821118, guid: a7bbe41c565e47b4498493d61fb8124b,
+    type: 3}
+  drop: {fileID: 0}
 --- !u!208 &208151316563288392
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -137,7 +165,7 @@ NavMeshObstacle:
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 1.9, y: 2.6, z: 1.9}
-  m_MoveThreshold: 0.1
+  m_MoveThreshold: 1.24
   m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 2.6, z: 0}
@@ -158,20 +186,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &114998372077857084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372492298400268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 314db03a784963143afa9897ff8dc5ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brokenVersion: {fileID: 1222521923821118, guid: a7bbe41c565e47b4498493d61fb8124b,
-    type: 3}
 --- !u!65 &65772164781619472
 BoxCollider:
   m_ObjectHideFlags: 0

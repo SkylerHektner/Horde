@@ -5,6 +5,8 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Drum : MonoBehaviour, IBreakable
 {
+	public Transform Transform { get { return transform; } } 
+	
 	[SerializeField] private DrumType drumType;
 	[SerializeField] private float explosionRadius;
 	[SerializeField] private float effectDuration;

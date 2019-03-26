@@ -45,7 +45,7 @@ public class EnemySettings : ScriptableObject
     [SerializeField] private float preAlertDuration;
 
     [Tooltip("The amount of time the current target can be out of vision before losing it.")]
-    [SerializeField] private float currentTargetBuffer;
+    [SerializeField] private float outOfVisionBuffer;
 
     public float AttackRange { get { return attackRange; } }
 
@@ -78,5 +78,5 @@ public class EnemySettings : ScriptableObject
     public float JoyVisionConeViewAngle { get { return joyVisionConeViewAngle; } } 
 
     public float PreAlertDuration { get { return preAlertDuration; } }
-    public float CurrentTargetBuffer { get { return currentTargetBuffer; } }
+    public float OutOfVisionBuffer { get { return outOfVisionBuffer; } }
 }
