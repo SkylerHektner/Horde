@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-///	-- Alert State --
+///	--[ Alert State ]--
 /// Chases the player until it loses vision. (All alerted guards share vision)
 /// If they lose sight of the player, guards enter a scan phase.(They look around)
 /// The nearest guard to the last scene position will walk to that location and then scan.
@@ -159,15 +159,13 @@ public class Alert : AIState
         isScanning = true;
         enemyMovement.Stop();
 
-		// Start the scan phase animation.
 		enemy.GetComponent<Animator>().SetBool("Scanning", true);
 		enemy.GetComponent<Animator>().SetBool("AlertedWalk", false);
 
 		// The amount of time the scanning phase lasts.
 		yield return new WaitForSeconds(duration);
 
-		// Scan phase is over so set animations back to normal
-		// and change back to Patrol/Idle state.
+		// End the scan phase by setting the animations back to normal and change back to Patrol/Idle state.
 		GameManager.Instance.RoomIsAlerted = false; 
 
 		enemy.GetComponent<Animator>().SetBool("Scanning", false);
@@ -196,9 +194,8 @@ public class Alert : AIState
 			{
 				if (enemyMovement.Agent.remainingDistance <= enemyMovement.Agent.stoppingDistance)
 				{
-					if (!enemyMovement.Agent.hasPath || enemyMovement.Agent.velocity.sqrMagnitude == 0f)
+					if (!enemyMovement.Agent.hasPath || enemyMovement.Agent.velocity.sqrMagnitude == 0f) // Guard reached its destination.
 					{
-						// Enemy has reached the location of the last seen location of the player.
 						if(!isScanning)
 						{
 							scanCoroutine = StartScanPhase(4.0f);
@@ -210,5 +207,10 @@ public class Alert : AIState
 			}
 			yield return new WaitForSeconds(0.1f);
 		}
+	}
+
+	private void StopRunningCoroutines()
+	{
+
 	}
 }
