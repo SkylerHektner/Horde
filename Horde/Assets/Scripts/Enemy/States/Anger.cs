@@ -155,7 +155,7 @@ public class Anger : AIState
             return null;
 
         float closestDistance = 10000f;
-        Breakable closestBreakable = breakables[0];
+        Breakable closestBreakable = null;
 
         foreach (Breakable b in breakables)
         {
@@ -195,11 +195,11 @@ public class Anger : AIState
 		}
 
 		float closestDistance = 10000f;
-		Enemy closestEnemy = enemies[0];
+		Enemy closestEnemy = null;
 
 		foreach(Enemy e in enemies)
 		{
-			if(e == enemy || e == null)
+			if(GameObject.ReferenceEquals(e, enemy) || e == null)
 				continue;
 
             agent.CalculatePath(e.transform.position, path);
