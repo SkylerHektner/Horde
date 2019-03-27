@@ -12,8 +12,8 @@ public class PathosUI : MonoBehaviour
 
 	public ResourceType CurrentEmotion { get { return currentEmotion; } set { currentEmotion = value; } }
 	private ResourceType currentEmotion;
-    public EscapeMenu escMenu;
-    public AbilityInfoMenu tabMenu;
+    // public EscapeMenu escMenu;
+    // public AbilityInfoMenu tabMenu;
     public MenuActivationEvent menuEvent;
 
     private bool escActive;
@@ -43,6 +43,7 @@ public class PathosUI : MonoBehaviour
 	
 	void Update () 
 	{
+        /*
         if(Input.GetButtonDown("Start"))
         {
             escActive = !escActive;
@@ -60,5 +61,6 @@ public class PathosUI : MonoBehaviour
             menuEvent.Invoke(tabActive);
             tabMenu.ActivateAbilityMenu();
         }
+        */
 	}
 }
