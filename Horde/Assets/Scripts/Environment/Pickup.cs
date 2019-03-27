@@ -11,7 +11,7 @@ public class Pickup : MonoBehaviour
     [SerializeField] private bool IsFirstPickup;
     [SerializeField]
     [Tooltip("The button that will be activated when the item is picked up")]
-    public GameObject TargetButton;
+    //public GameObject TargetButton;
     public ActivateButtonEvent ActivateButton;
 
     public void Start()
@@ -29,10 +29,12 @@ public class Pickup : MonoBehaviour
         if(c.tag == "Player")
         {
             ResourceManager.Instance.AddEmotion(resourceType, amount);
+            /*
             if(IsFirstPickup)
             {
                 ActivateButton.Invoke(TargetButton);
             }
+            */
             Destroy(gameObject);
         }
     }
