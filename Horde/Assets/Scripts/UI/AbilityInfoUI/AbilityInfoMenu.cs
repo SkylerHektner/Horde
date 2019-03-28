@@ -25,7 +25,7 @@ public class AbilityInfoMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        ButtonController.ButtonEvent.AddListener(activateInfoPanel);
+        //ButtonController.ButtonEvent.AddListener(activateInfoPanel);
         AbilityInfoButtonPanel.SetActive(false);
         AbilityInfoPanel.SetActive(false);
 	}

@@ -5,15 +5,28 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class AbilityButtonEvent : UnityEvent<string,string,VideoClip, bool>{}
+public class AbilityButtonEvent : UnityEvent<string,string, GameObject, bool>{}
 
 public class AbilityButtonUIController : MonoBehaviour {
 
     [SerializeField]
     [Header("BUTTON EVENT")]
-    [Tooltip("The angle in degrees that the door will change by")]
+    [Tooltip("The Event that Fires when an Ability Button is Pressed")]
     public AbilityButtonEvent ButtonEvent;
 
+    [Space(10)]
+
+    [SerializeField]
+    [Header("Default Controls")]
+    [Tooltip("The default button for the first time the UI is Open")]
+    public Button DefaultButton;
+
+
+
+
+    /*
+     * PART OF THE ORIGINAL COLOR CHANGING SCRIPT FOR THE UI
+     * 
     [SerializeField]
     [Header("COLOR CONTROL")]
     [Tooltip("The new normal color of the active button")]
@@ -26,9 +39,14 @@ public class AbilityButtonUIController : MonoBehaviour {
     private Color highlightedButtonColor;
     private string activeString = "NONE";
     private Button activeButton;
+    */
 
-    public void AbilityButtonPressed(string name, string description, VideoClip clip, Button sender)
+    public void AbilityButtonPressed(string name, string description, GameObject clip, Button sender)
     {
+
+        /*
+         * ORIGINAL COLOR CHANGING SCRIPT FOR THE UI
+         * 
         bool alreadyactive = (activeString == name);
         ButtonEvent.Invoke(name, description, clip, !alreadyactive);
 
@@ -59,10 +77,12 @@ public class AbilityButtonUIController : MonoBehaviour {
             cb.highlightedColor = highlightedButtonColor;
             sender.colors = cb;
         }
+        */
     }
 
     public void DisableActiveButton()
     {
+        /*
         if (activeString != "NONE")
         {
             activeString = "NONE";
@@ -70,7 +90,8 @@ public class AbilityButtonUIController : MonoBehaviour {
             cb.normalColor = normalButtonColor;
             cb.highlightedColor = highlightedButtonColor;
             activeButton.colors = cb;
-        }
+        
+    */
     }
 
 	// Use this for initialization
