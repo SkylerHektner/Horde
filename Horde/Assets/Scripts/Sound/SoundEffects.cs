@@ -14,7 +14,7 @@ public class SoundEffects : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlayEventSount()
+    public void PlayEventSound()
     {
         AudioClip clip = GetRandomClip();
         audioSource.PlayOneShot(clip);
