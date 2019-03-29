@@ -16,21 +16,15 @@ public class GameManager : MonoBehaviour
 
     public bool RoomIsAlerted { get { return roomIsAlerted; } set { roomIsAlerted = value; } }
     public Player Player { get { return player; } }
-    public bool PlayerIsMarked { get { return playerIsMarked; } set { playerIsMarked = value; } }
-    public float OutOfVisionDuration { get { return outOfVisionDuration; } set { outOfVisionDuration = value; } }
 
     [SerializeField] private CameraController cameraController;
     [SerializeField] private FadeCamera fadeCamera;
-    [SerializeField] private List<Room> rooms;
-    [SerializeField] private Transform roomNamePopup;
+    [SerializeField] private List<Room> rooms;              // A list of all the rooms in the current scene.
+    [SerializeField] private Transform roomNamePopup;       // A reference to the UI popup during a room transition.
 
     private Room currentRoom;
-
-    // Helpers to give guards shared vision during alert state. //
     private bool roomIsAlerted;
     private Player player;
-    private bool playerIsMarked;
-    private float outOfVisionDuration; // The amount of time the current target has been out of vision.
 
     private void Awake()
     {
@@ -49,15 +43,10 @@ public class GameManager : MonoBehaviour
         // Get a reference to the player. (Helpful for the shared vision of guards)
         player = FindObjectOfType<Player>();
 
-        Room currentCheckpoint = rooms[PlayerPrefs.GetInt("Checkpoint")];
-        
-
-        if(currentCheckpoint == null)
-            currentRoom = rooms[0]; // Just start in the first room is there is no current checkpoint.
-        else
-            currentRoom = currentCheckpoint;
-
-        currentRoom.gameObject.SetActive(true); // Activate the new room.
+        // Get the current checkpoint and activate that room.
+        Room currentCheckpoint = rooms[PlayerPrefs.GetInt("Checkpoint", 0)];
+        currentRoom = currentCheckpoint;
+        currentRoom.gameObject.SetActive(true);
 
         // Spawn the player in the correct position and rotation in the room.
         player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
@@ -77,8 +66,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        OutOfVisionDuration += Time.smoothDeltaTime;
-
         // Lock the door if guards are alerted.
         if (roomIsAlerted)
         {
@@ -110,35 +97,43 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Transitions the player into the next room after arriving at the exit of the previous room.
+    /// The next room is the subsequent room in the rooms list.
+    /// - The player gets moved to the spawn location of the next room.
+    /// - The camera pans to the next room.
+    /// - If the next room is a checkpoint, the player's current resources get saved to player prefs.
+    /// </summary>
     public void TransitionToNextRoom()
     {
         Room nextRoom;
-        if (rooms[rooms.Count - 1] == currentRoom) // If it's the last room.
-            nextRoom = currentRoom; // Just loop in same room for now.
+        if (rooms[rooms.Count - 1] == currentRoom)  // If it's the last room.
+            nextRoom = currentRoom;                 // Just loop in same room for now.
         else
             nextRoom = rooms[rooms.IndexOf(currentRoom) + 1];
         
         currentRoom = nextRoom;
 
-        currentRoom.gameObject.SetActive(true); // Activate the new room.
-        rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false); // Deactivate previous room.
+        currentRoom.gameObject.SetActive(true);                             // Activate the new room.
+        rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false);  // Deactivate previous room.
 
+        // If the next room is a checkpoint, update the current checkpoint and save the current resources (PlayerPrefs).
         if(currentRoom.IsCheckpoint)
         {
-            // Set the room as the current checkpoint.
             PlayerPrefs.SetInt("Checkpoint", rooms.IndexOf(currentRoom)); 
 
-            // Save the resources the player has when reaching the checkpoint.
             PlayerPrefs.SetInt("Anger", ResourceManager.Instance.Rage);
             PlayerPrefs.SetInt("Fear", ResourceManager.Instance.Fear);
             PlayerPrefs.SetInt("Sadness", ResourceManager.Instance.Sadness);
             PlayerPrefs.SetInt("Joy", ResourceManager.Instance.Joy);
         }
 
+        // Teleport the player into the next room and pan the camera.
         player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
         player.transform.rotation = currentRoom.Spawn.rotation;
-
         cameraController.MoveTo(currentRoom.CameraSpawn);
+
+        // TODO: Make UI popup displaying "Checkpoint" only if the next room is a checkpoint.
         StartCoroutine(DisplayRoomName());
     }
 
@@ -156,7 +151,6 @@ public class GameManager : MonoBehaviour
             if(guard == null) // A guard could have been destroyed.
                 continue;
 
-            // Calculate the closest guard to the last seen player location.
             NavMesh.CalculatePath(guard.transform.position, VisionCone.LastSeenPlayerLocation, NavMesh.AllAreas, path);
 
             if(path.status == NavMeshPathStatus.PathComplete) // Make sure it's a valid path.

@@ -113,9 +113,14 @@ public class VisionCone : MonoBehaviour
 	/// </summary>
 	public Player TryGetPlayer()
 	{
+		Player player;
+
 		foreach(Transform t in visibleTargets)
 		{
-			Player player = t.GetComponent<Player>();
+			if(t == null)
+				continue;
+
+			player = t.GetComponent<Player>();
 
 			if(player != null) 
 			{
