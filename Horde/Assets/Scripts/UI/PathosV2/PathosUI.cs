@@ -55,12 +55,19 @@ public class PathosUI : MonoBehaviour
             menuEvent.Invoke(escActive);
             escMenu.ActivateEscapeMenu();
         }
+        */
 	    if(Input.GetButtonDown("Help Menu") && !escActive)
         {
             tabActive = !tabActive;
             menuEvent.Invoke(tabActive);
-            tabMenu.ActivateAbilityMenu();
+            if(tabActive)
+            {
+                InventoryController.instance.ActivateInventory();
+            }
+            else
+            {
+                InventoryController.instance.DeactivateInventory();
+            }
         }
-        */
 	}
 }

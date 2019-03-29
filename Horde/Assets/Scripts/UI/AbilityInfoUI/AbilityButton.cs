@@ -5,7 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class GetAbilityInfoEvent : UnityEvent<string, string, string> { }
 
 public class AbilityButton : MonoBehaviour {
 
@@ -13,10 +12,14 @@ public class AbilityButton : MonoBehaviour {
     [Header("Ability Info")]
     [Tooltip("The Name of the ability")]
     public string AbilityName;
-    [Tooltip("How the ability works as well as any Lore about the ability")]
+    [Tooltip("How the ability works")]
     public string AbilityText;
-    [Tooltip("The filename of the ability")]
-    public VideoClip AbilityClip;
+    [Tooltip("The Lore text")]
+    public string LoreText;
+    [Tooltip("The filename of the image or video")]
+    public GameObject AbilityVisual;
+
+    [Space(10)]
 
     [SerializeField]
     [Header("Ability Button Scripts")]
@@ -38,7 +41,7 @@ public class AbilityButton : MonoBehaviour {
 	
     public void SendInfo()
     {
-        Controller.AbilityButtonPressed(AbilityName, AbilityText, AbilityClip, ActualButton);
+     //   Controller.AbilityButtonPressed(AbilityName, AbilityText, AbilityClip, ActualButton);
     }
 
 	// Update is called once per frame
