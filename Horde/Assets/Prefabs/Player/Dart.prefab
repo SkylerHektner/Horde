@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &6178940092343615750
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338574192090529134}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.523068, y: 0.523068, z: 3.263196}
+  m_Center: {x: 0, y: 0, z: 0.12082398}
 --- !u!1 &4577177946057438822
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +22,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1105104716660723998}
+  - component: {fileID: 734342196124155061}
+  - component: {fileID: 251052773553470531}
+  - component: {fileID: 8576518560812155779}
   m_Layer: 0
   m_Name: Dart
   m_TagString: Untagged
@@ -32,6 +48,47 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &734342196124155061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577177946057438822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 592802a123ece5e4eb637831ca941a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &251052773553470531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577177946057438822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 626cbb678adbb81499961bb65ba21b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 4
+--- !u!54 &8576518560812155779
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577177946057438822}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1001 &1338574192090430414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89,15 +146,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: a46207920f06a77439a05a79d34ad84c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.08
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: a46207920f06a77439a05a79d34ad84c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.08
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: a46207920f06a77439a05a79d34ad84c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.08
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: a46207920f06a77439a05a79d34ad84c, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -108,6 +165,12 @@ PrefabInstance:
 --- !u!4 &1338574192090030412 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: a46207920f06a77439a05a79d34ad84c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1338574192090430414}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1338574192090529134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: a46207920f06a77439a05a79d34ad84c,
     type: 3}
   m_PrefabInstance: {fileID: 1338574192090430414}
   m_PrefabAsset: {fileID: 0}
