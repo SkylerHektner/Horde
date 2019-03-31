@@ -95,6 +95,8 @@ public class Alert : AIState
 
 	public override void LeaveState()
 	{
+		base.LeaveState();
+		
 		if(scanCoroutine != null)
 			enemy.StopCoroutine(scanCoroutine);
 		if(walkCoroutine != null)

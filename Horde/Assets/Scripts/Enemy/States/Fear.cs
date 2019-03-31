@@ -28,6 +28,8 @@ public class Fear : AIState
 
 	public override void LeaveState()
     {
+		base.LeaveState();
+		
         enemy.GetComponent<Animator>().SetBool("Scared", false);
     }
 

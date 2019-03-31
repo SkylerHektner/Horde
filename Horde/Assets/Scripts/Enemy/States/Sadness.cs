@@ -41,6 +41,8 @@ public class Sadness : AIState
 
 	public override void LeaveState()
 	{
+		base.LeaveState();
+
         enemy.GetComponent<Animator>().SetBool("Sad", false);
 	}
 

@@ -75,6 +75,8 @@ public class Anger : AIState
 
 	public override void LeaveState()
     {
+		base.LeaveState();
+		
         enemy.GetComponent<Animator>().SetBool("Angry", false);
     }
 

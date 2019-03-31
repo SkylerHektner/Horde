@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 [RequireComponent(typeof(EnemyMovement), typeof(EnemyAttack))]
 public class Enemy : MonoBehaviour 
 {
-	public EnemySettings EnemySettings { get { return enemySettings; } }
-	public bool HasPatrolPath { get { return hasPatrolPath; } }
+	public EnemySettings EnemySettings 	{ get { return enemySettings; } }
+	public bool HasPatrolPath 			{ get { return hasPatrolPath; } }
 	public List<Transform> PatrolPoints { get { return patrolPoints; } }
-	public Vector3 SpawnPosition { get { return spawnPosition; } }
-	public Quaternion SpawnRotation { get { return spawnRotation; } }
-	public bool IsDistracted { get { return isDistracted; } set { isDistracted = value; } } // When looking at something. (Like at a crying guard)
-	public PatrolType PatrolType { get { return patrolType; } }
-    public bool IsDead { get { return currentState.GetType() == typeof(Dead); } }
+	public Vector3 SpawnPosition 		{ get { return spawnPosition; } }
+	public Quaternion SpawnRotation	 	{ get { return spawnRotation; } }
+	public bool IsDistracted 			{ get { return isDistracted; } set { isDistracted = value; } } // When looking at something. (Like at a crying guard)
+	public PatrolType PatrolType 		{ get { return patrolType; } }
+    public bool IsDead 					{ get { return currentState.GetType() == typeof(Dead); } }
 
 	public bool DEBUG_MODE;
 
@@ -61,6 +62,8 @@ public class Enemy : MonoBehaviour
 			currentState = new Patrol(this);
 		else
 			currentState = new Idle(this);
+
+		currentState.InitializeState();
 
         PathosUI.instance.menuEvent.AddListener(pause);
 	}
@@ -116,6 +119,7 @@ public class Enemy : MonoBehaviour
 
 		currentState.LeaveState();
         currentState = state;
+		currentState.InitializeState();
 	}
 
 	private void Explode()

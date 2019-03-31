@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public abstract class AIState
 {
+	public static event Action<string> OnEmotionStarted 	= (emotionName) => { };
+	public static event Action<string> OnEmotionEnded 	= (emotionName) => { };
+
 	protected Enemy enemy;
 	protected EnemyMovement enemyMovement;
 	protected EnemyAttack enemyAttack;
@@ -24,16 +28,16 @@ public abstract class AIState
 		visionCone = enemy.GetComponentInChildren<VisionCone>();
 		agent = enemy.GetComponent<NavMeshAgent>();
 
-		InitializeState();
-		enemyMovement.Stop();
-	}
-
-	private void InitializeState()
-	{
 		UpdateVisionCone();
 		UpdateTargetMask();
 
-		//Debug.Log("Initializing " + this.ToString());
+		enemyMovement.Stop();
+	}
+
+	public virtual void InitializeState()
+	{
+		if(enemy.GetCurrentState() != null)
+			OnEmotionStarted(enemy.GetCurrentState().ToString());
 	}
 
 	public virtual void Tick()
@@ -42,8 +46,6 @@ public abstract class AIState
 		
 		if(duration <= 0)
 		{
-			LeaveState();
-
 			if(enemy.HasPatrolPath)
 				enemy.ChangeState(new Patrol(enemy));
 			else
@@ -51,7 +53,11 @@ public abstract class AIState
 		}
 	}
 
-	public abstract void LeaveState();
+	public virtual void LeaveState()
+	{
+		OnEmotionEnded(enemy.GetCurrentState().ToString());
+	}
+
 	protected abstract void UpdateVisionCone();
 	protected abstract void UpdateTargetMask();
 }
