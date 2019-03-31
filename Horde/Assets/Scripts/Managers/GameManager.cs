@@ -133,8 +133,9 @@ public class GameManager : MonoBehaviour
         player.transform.rotation = currentRoom.Spawn.rotation;
         cameraController.MoveTo(currentRoom.CameraSpawn);
 
-        // TODO: Make UI popup displaying "Checkpoint" only if the next room is a checkpoint.
-        StartCoroutine(DisplayRoomName());
+        // Make UI popup displaying "Checkpoint Reached" only if the next room is a checkpoint.
+        if(currentRoom.IsCheckpoint)
+            StartCoroutine(DisplayCheckpointPopup());
     }
 
     /// <summary>
@@ -168,11 +169,14 @@ public class GameManager : MonoBehaviour
         return closestGuard;
     }
 
-    private IEnumerator DisplayRoomName()
+    /// <summary>
+    /// Displays the UI popup that shows if the room is a checkpoint or not.
+    /// </summary>
+    private IEnumerator DisplayCheckpointPopup()
     {
         Transform instance = Instantiate(roomNamePopup);
         instance.SetParent(PathosUI.instance.transform);
-        instance.GetComponent<TextMeshProUGUI>().SetText(currentRoom.RoomName);
+        //instance.GetComponent<TextMeshProUGUI>().SetText(currentRoom.RoomName);
 
         yield return new WaitForSeconds(3.0f);
 

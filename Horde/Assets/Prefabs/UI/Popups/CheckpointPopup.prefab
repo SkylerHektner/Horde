@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2128888375046332798}
   - component: {fileID: 339417237105786236}
   m_Layer: 0
-  m_Name: RoomNamePopup
+  m_Name: CheckpointPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,11 +33,11 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.9}
-  m_AnchorMax: {x: 0, y: 0.9}
-  m_AnchoredPosition: {x: 444, y: 90.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 869, y: 142.80005}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &3563085455198272284
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Room 0-0
+  m_text: Checkpoint Reached
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7a3a260971f53954dbc831f2b8509a42, type: 2}
   m_sharedMaterial: {fileID: 21925136350052174, guid: 7a3a260971f53954dbc831f2b8509a42,
@@ -94,14 +94,14 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 129.2
-  m_fontSizeBase: 129.2
+  m_fontSize: 105.26
+  m_fontSizeBase: 105.26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_textAlignment: 513
+  m_textAlignment: 1026
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -638.7449, w: 0}
   m_textInfo:
     textComponent: {fileID: 2128888375046332798}
-    characterCount: 8
+    characterCount: 18
     spriteCount: 0
     spaceCount: 1
     wordCount: 2
