@@ -73,13 +73,13 @@ public class InventoryController : MonoBehaviour
     {
         if(canView)
         {
-            Boot.active = true;
-            Inventory.active = true;
+            Boot.SetActive(true);
+            Inventory.SetActive(true);
         }
     }
     public void DeactivateInventory()
     {
-        Boot.active = false;
-        Inventory.active = false;
+        Boot.SetActive(false);
+        Inventory.SetActive(false);
     }
 }
