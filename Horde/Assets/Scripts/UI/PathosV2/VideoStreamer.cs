@@ -6,14 +6,15 @@ using UnityEngine.Video;
 
 public class VideoStreamer : MonoBehaviour {
 
-    public RawImage rawImage;
-    public VideoPlayer videoPlayer;
+    private RawImage rawImage;
+    private VideoPlayer videoPlayer;
 
     private bool isPlaying = false;
 
 	// Use this for initialization
 	void Start () {
-        
+        rawImage = GetComponent<RawImage>();
+        videoPlayer = GetComponent<VideoPlayer>();
 	}
 	
     public void beginPlaying()
@@ -32,6 +33,11 @@ public class VideoStreamer : MonoBehaviour {
             Debug.Log("Stop Video");
             videoPlayer.Stop();
         }
+    }
+
+    public void SetVideo(VideoClip texture)
+    {
+        videoPlayer.clip = texture;
     }
 
     private IEnumerator PlayVideo()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class InventoryController : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class InventoryController : MonoBehaviour
     public Text DescriptionText;
     [Tooltip("The text object where the lore of the current item is displayed")]
     public Text LoreText;
+    [Tooltip("The Image pain that the image will appear on")]
+    public RawImage VisualCanvas;
+    [Tooltip("The Streamer that will play the video")]
+    public VideoStreamer streamer;
 
     private Button activeButton;
     private bool canView = true;
@@ -47,8 +52,8 @@ public class InventoryController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Boot.active = false;
-        Inventory.active = false;
+        Boot.SetActive(false);
+        Inventory.SetActive(false);
     }
 
     // Update is called once per frame
@@ -66,6 +71,28 @@ public class InventoryController : MonoBehaviour
             TitleText.text = info.TitleText;
             DescriptionText.text = info.DescriptionText;
             LoreText.text = info.LoreText;
+
+            if(info.Visual is VideoClip)
+            {
+                Debug.Log("VIDEO");
+                if(streamer == null)
+                {
+                    Debug.Log("NO STREAMER");
+                }
+                streamer.endPlaying();
+                streamer.SetVideo(info.Visual as VideoClip);
+                streamer.beginPlaying();
+            }
+            else if(info.Visual is Texture2D)
+            {
+                Debug.Log("Image");
+                VisualCanvas.texture = info.Visual as Texture2D;
+            }
+            else
+            {
+                Debug.Log("Visual is of type: ");
+                Debug.Log(info.Visual.GetType().ToString());
+            }
         }
     }
 

@@ -40,11 +40,8 @@ public class AbilityInfoMenu : MonoBehaviour {
             AbilityInfo.DescriptionText.text = description;
             if(streamer != null)
             {
-                if(streamer.videoPlayer.isPlaying)
-                {
-                    streamer.endPlaying();
-                }
-                streamer.videoPlayer.clip = videoclip;
+                streamer.endPlaying();
+                streamer.SetVideo(videoclip);
                 Debug.Log("CALL PLAY FUNCTION");
                 streamer.beginPlaying();
             }

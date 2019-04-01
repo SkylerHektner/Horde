@@ -12,5 +12,5 @@ public class MenuInfo : ScriptableObject
     [Tooltip("The text that expands store or lore regarding this information")]
     public string LoreText;
     [Tooltip("The Visual representation of this information (must be of 'VideoClip' or 'Image' type)")]
-    public GameObject Visual;
+    public Object Visual;
 }
