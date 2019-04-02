@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuActivationEvent : UnityEvent<bool> { }
@@ -14,6 +15,7 @@ public class PathosUI : MonoBehaviour
 	private ResourceType currentEmotion;
     // public EscapeMenu escMenu;
     // public AbilityInfoMenu tabMenu;
+    public GameObject PauseMenu;
     public MenuActivationEvent menuEvent;
 
     private bool escActive;
@@ -31,6 +33,11 @@ public class PathosUI : MonoBehaviour
             Destroy(gameObject);
 	}
 
+    private void Start()
+    {
+        PauseMenu.SetActive(false);
+    }
+
     public void ActivateButton(GameObject button)
     {
         button.GetComponent<Image>().enabled = true;
@@ -41,21 +48,30 @@ public class PathosUI : MonoBehaviour
         PlayerPrefs.SetInt(prefstring, 1);
     }
 	
+    public void DeactivatePauseMenu()
+    {
+        PauseMenu.SetActive(false);
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void LoadSettings()
+    {
+        Debug.Log("THERE IS NO CONNECTION TO SETTINGS YET, PLEASE IMPLEMENT BEFORE RELEASE!!!!!");
+    }
+
 	void Update () 
 	{
-        /*
         if(Input.GetButtonDown("Start"))
         {
             escActive = !escActive;
-            if (escActive && tabActive)
-            {
-                tabActive = false;
-                tabMenu.ActivateAbilityMenu();
-            }
             menuEvent.Invoke(escActive);
-            escMenu.ActivateEscapeMenu();
+            PauseMenu.SetActive(true);
         }
-        */
+
 	    if(Input.GetButtonDown("Help Menu") && !escActive)
         {
             tabActive = !tabActive;
