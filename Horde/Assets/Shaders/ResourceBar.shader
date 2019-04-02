@@ -22,7 +22,7 @@
 
 		Pass
 		{
-			blend SrcAlpha OneMinusSrcAlpha
+			Blend Off
 			zWrite Off
 			Cull Off
 			CGPROGRAM

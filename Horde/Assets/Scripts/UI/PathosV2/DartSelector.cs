@@ -5,62 +5,52 @@ using UnityEngine.UI;
 
 public class DartSelector : MonoBehaviour 
 {
-	[SerializeField]
-	private List<Text> capsuleNumbers;
-
-	private Color startingTextColor;
-
+    [SerializeField] private GameObject rageScrim;
+    [SerializeField] private GameObject fearScrim;
+    [SerializeField] private GameObject sorrowScrim;
 	private void Start()
 	{
-		startingTextColor = capsuleNumbers[0].color;
-
-		// By default, rage is selected.
-		PathosUI.instance.CurrentEmotion = ResourceType.Rage;
-
-		ClearSelectedNumberColor();
-		capsuleNumbers[0].color = Color.red;
+        // By default, rage is selected.
+        rageSelected();
 	}
 
 	private void Update()
 	{
 		if(Input.GetKeyDown("1"))
 		{
-			PathosUI.instance.CurrentEmotion = ResourceType.Rage;
-
-			ClearSelectedNumberColor();
-			capsuleNumbers[0].color = Color.red;
+            rageSelected();
 		}
 		else if(Input.GetKeyDown("2"))
 		{
-			PathosUI.instance.CurrentEmotion = ResourceType.Joy;
-
-			ClearSelectedNumberColor();
-			capsuleNumbers[1].color = Color.red;
-		}
+            fearSelected();
+        }
 		else if(Input.GetKeyDown("3"))
 		{
-			PathosUI.instance.CurrentEmotion = ResourceType.Sadness;
-
-			ClearSelectedNumberColor();
-			capsuleNumbers[2].color = Color.red;
-		}
-		else if(Input.GetKeyDown("4"))
-		{
-			PathosUI.instance.CurrentEmotion = ResourceType.Fear;
-
-			ClearSelectedNumberColor();
-			capsuleNumbers[3].color = Color.red;
-		}
+            sadnessSelected();
+        }
 	}
 
-	/// <summary>
-	/// Sets all the capsule numbers back to their defaul black color.
-	/// </summary>
-	private void ClearSelectedNumberColor()
-	{
-		foreach(Text t in capsuleNumbers)
-		{
-			t.color = startingTextColor;
-		}
-	}
+    private void rageSelected()
+    {
+        PathosUI.instance.CurrentEmotion = ResourceType.Rage;
+        rageScrim.SetActive(true);
+        sorrowScrim.SetActive(false);
+        fearScrim.SetActive(false);
+    }
+
+    private void sadnessSelected()
+    {
+        PathosUI.instance.CurrentEmotion = ResourceType.Sadness;
+        rageScrim.SetActive(false);
+        sorrowScrim.SetActive(true);
+        fearScrim.SetActive(false);
+    }
+
+    private void fearSelected()
+    {
+        PathosUI.instance.CurrentEmotion = ResourceType.Fear;
+        rageScrim.SetActive(false);
+        sorrowScrim.SetActive(false);
+        fearScrim.SetActive(true);
+    }
 }
