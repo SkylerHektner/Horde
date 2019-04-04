@@ -9,6 +9,8 @@ public class MenuActivationEvent : UnityEvent<bool> { }
 
 public class PathosUI : MonoBehaviour 
 {
+    [SerializeField] private DebugWindow debugWindow;
+
 	public static PathosUI instance;
 
 	public ResourceType CurrentEmotion { get { return currentEmotion; } set { currentEmotion = value; } }
@@ -35,6 +37,7 @@ public class PathosUI : MonoBehaviour
 
     private void Start()
     {
+        debugWindow.gameObject.SetActive(false);
         PauseMenu.SetActive(false);
     }
 
@@ -84,6 +87,21 @@ public class PathosUI : MonoBehaviour
             {
                 InventoryController.instance.DeactivateInventory();
             }
+        }
+
+        // Code to toggle the debug window.
+        if(Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            if(debugWindow.gameObject.activeSelf)
+            {   
+                debugWindow.gameObject.SetActive(false);
+                GameManager.Instance.Player.GetComponent<DartGun>().debugWindowOpen = false;
+            }
+            else
+            {
+                debugWindow.gameObject.SetActive(true);
+                GameManager.Instance.Player.GetComponent<DartGun>().debugWindowOpen = true;
+            } 
         }
 	}
 }

@@ -49,7 +49,7 @@ public class ResourceManager : MonoBehaviour
         updateGreyscaleEffect();
     }
 
-    private void updateResourceBars()
+    public void updateResourceBars()
     {
         resourceBarRageMat.SetFloat("_Range", (float)Rage / maxRage);
         resourceBarFearMat.SetFloat("_Range", (float)Fear / maxFear);
@@ -57,7 +57,7 @@ public class ResourceManager : MonoBehaviour
         resourceBarDevotionMat.SetFloat("_Range", (float)Sadness / maxSadness);
     }
 
-    private void updateGreyscaleEffect()
+    public void updateGreyscaleEffect()
     {
         float sum = 0;
         sum += 1 - (float)Rage / maxRage;

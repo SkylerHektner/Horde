@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class DartGun : MonoBehaviour 
 {
+    public bool debugWindowOpen; // So player doesn't shoot when using the debug window.
+
     [SerializeField] private bool infiniteAmmo = false;
 
     [SerializeField] private GameObject dart;
@@ -61,6 +63,9 @@ public class DartGun : MonoBehaviour
         if (Input.GetButton("Fire1") && !attackOnCooldown
             && (ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion) || infiniteAmmo))
 		{
+            if(debugWindowOpen)
+                return;
+
             playerMovement.lockMovementControls = true;
             animator.SetBool("Aiming", true);
             if (Input.GetButton("Crouch"))
@@ -89,6 +94,8 @@ public class DartGun : MonoBehaviour
 
         if (Input.GetButtonUp("Fire1"))
         {
+            if(debugWindowOpen)
+                return;
             playerMovement.lockMovementControls = false;
             animator.SetBool("Aiming", false);
             if (!attackOnCooldown)

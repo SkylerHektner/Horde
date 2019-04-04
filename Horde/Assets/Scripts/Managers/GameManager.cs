@@ -108,9 +108,44 @@ public class GameManager : MonoBehaviour
     {
         Room nextRoom;
         if (rooms[rooms.Count - 1] == currentRoom)  // If it's the last room.
-            nextRoom = currentRoom;                 // Just loop in same room for now.
+            nextRoom = rooms[0];                    // Just loop to the beginning for now.
         else
             nextRoom = rooms[rooms.IndexOf(currentRoom) + 1];
+        
+        currentRoom = nextRoom;
+
+        currentRoom.gameObject.SetActive(true);                             // Activate the new room.
+        rooms[rooms.IndexOf(currentRoom) - 1].gameObject.SetActive(false);  // Deactivate previous room.
+
+        // If the next room is a checkpoint, update the current checkpoint and save the current resources (PlayerPrefs).
+        if(currentRoom.IsCheckpoint)
+        {
+            PlayerPrefs.SetInt("Checkpoint", rooms.IndexOf(currentRoom)); 
+
+            PlayerPrefs.SetInt("Anger", ResourceManager.Instance.Rage);
+            PlayerPrefs.SetInt("Fear", ResourceManager.Instance.Fear);
+            PlayerPrefs.SetInt("Sadness", ResourceManager.Instance.Sadness);
+            PlayerPrefs.SetInt("Joy", ResourceManager.Instance.Joy);
+        }
+
+        // Teleport the player into the next room and pan the camera.
+        player.GetComponent<NavMeshAgent>().Warp(currentRoom.Spawn.position);
+        player.transform.rotation = currentRoom.Spawn.rotation;
+        cameraController.MoveTo(currentRoom.CameraSpawn);
+
+        // Make UI popup displaying "Checkpoint Reached" only if the next room is a checkpoint.
+        if(currentRoom.IsCheckpoint)
+            StartCoroutine(DisplayCheckpointPopup());
+    }
+
+    // Probably only used for debugging.
+    public void TransitionToPreviousRoom()
+    {
+        Room nextRoom;
+        if (rooms[0] == currentRoom)    // If it's the first room
+            nextRoom = rooms[rooms.Count - 1];     // Just loop to the end for now.
+        else
+            nextRoom = rooms[rooms.IndexOf(currentRoom) - 1];
         
         currentRoom = nextRoom;
 
