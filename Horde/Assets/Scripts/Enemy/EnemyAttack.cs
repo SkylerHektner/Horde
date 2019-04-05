@@ -14,6 +14,7 @@ public class EnemyAttack : MonoBehaviour
 	private Animator animator;
     GameObject Player;
     private Enemy enemy;
+	private float attackCooldown;
 
 
 	private void Start()
@@ -23,10 +24,13 @@ public class EnemyAttack : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         enemy = GetComponent<Enemy>();
 		isAttacking = false;
+		attackCooldown = 1.0f;
 	}
 
 	public IEnumerator Attack(GameObject target)
 	{
+		// TODO: Add angry point animation here.
+
 		GetComponent<EnemyMovement>().Stop();
 
 		transform.LookAt(target.transform.position);
@@ -63,16 +67,18 @@ public class EnemyAttack : MonoBehaviour
 			GameManager.Instance.CurrentRoom.Enemies.Remove(target.GetComponent<Enemy>());
         }
 
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(attackCooldown);
+
         while (enemy.Paused)
             yield return null;
 
-        isAttacking = false;
-		//resetCurrentTargetBackToNull();
+		isAttacking = false;
 	}
 
 	public IEnumerator AttackBreakable(Breakable target)
 	{
+		// TODO: Add angry point animation here.
+
 		if(target == null) // If the target is already broken.
 			yield break;
 
@@ -88,7 +94,7 @@ public class EnemyAttack : MonoBehaviour
 		if(target != null)
 			target.Break();
 
-		yield return new WaitForSeconds(0.75f); // Wait a little bit longer before moving again.
+		yield return new WaitForSeconds(attackCooldown);
 
 		isAttacking = false;
 	}
