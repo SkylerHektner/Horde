@@ -13,7 +13,9 @@ public class Dart : MonoBehaviour
 	private int bounces = 0;
 	private float dartDuration;
 
-	private void Start () 
+
+
+    private void Start () 
 	{
 		rb = GetComponent<Rigidbody>();
 		dartDuration = GameManager.Instance.Player.PlayerSettings.DartDuration;
@@ -63,7 +65,7 @@ public class Dart : MonoBehaviour
 		else
 		{
 			bounces++;
-			if(bounces >= 4)
+			if(bounces >= 2)
 			{
 				Destroy(gameObject);
 			}
