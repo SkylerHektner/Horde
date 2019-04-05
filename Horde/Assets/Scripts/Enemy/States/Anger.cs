@@ -28,8 +28,16 @@ public class Anger : AIState
         enemy.GetComponent<Animator>().SetBool("Angry", true);
     }
 
+	public override void InitializeState()
+	{
+		base.InitializeState();
+
+		// TODO: Play animation depending on how he got affected (dart or drum)
+	}
+
     public override void Tick()
 	{
+		// Don't count down the duration tick until the animation has completed.
 		base.Tick();
 
 		player = visionCone.TryGetPlayer();
@@ -48,7 +56,8 @@ public class Anger : AIState
 		}
 		else // Guard has a current target.
 		{
-			enemyMovement.MoveTo(currentTarget.position, enemy.EnemySettings.AngerMovementSpeed);
+			if(!enemyAttack.IsAttacking)
+				enemyMovement.MoveTo(currentTarget.position, enemy.EnemySettings.AngerMovementSpeed);
 
 			Breakable breakableObject = currentTarget.GetComponent<Breakable>();
 
@@ -238,5 +247,4 @@ public class Anger : AIState
 
         return totalDistance;
     }
-
 }
