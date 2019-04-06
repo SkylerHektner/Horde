@@ -33,12 +33,14 @@ public class Alert : AIState
 
 		player = GameManager.Instance.Player;
 		enemy.GetComponent<Animator>().SetBool("Alerted", true);
+
+		GameManager.Instance.RoomIsAlerted = true;
 	}
 
 	public override void Tick()
 	{
 		base.Tick();
-		
+
 		playerInVision = visionCone.TryGetPlayer();
 
 		if(!playerInVision)
@@ -99,6 +101,8 @@ public class Alert : AIState
 		enemy.GetComponent<Animator>().SetBool("AlertedWalk", false);
 		enemy.GetComponent<Animator>().SetBool("Alerted", false);
 		enemy.GetComponent<Animator>().SetBool("Spinning", false);
+
+		GameManager.Instance.RoomIsAlerted = false;
 	}
 
 	protected override void UpdateVisionCone()
