@@ -67,7 +67,10 @@ public class EnemyAttack : MonoBehaviour
 			GameManager.Instance.CurrentRoom.Enemies.Remove(target.GetComponent<Enemy>());
         }
 
+		animator.SetBool("Stomping", true);
         yield return new WaitForSeconds(attackCooldown);
+		animator.SetBool("Stomping", true);
+
 
         while (enemy.Paused)
             yield return null;
@@ -94,7 +97,9 @@ public class EnemyAttack : MonoBehaviour
 		if(target != null)
 			target.Break();
 
+		animator.SetBool("Stomping", true);
 		yield return new WaitForSeconds(attackCooldown);
+		animator.SetBool("Stomping", false);
 
 		isAttacking = false;
 	}
