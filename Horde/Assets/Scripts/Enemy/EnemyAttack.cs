@@ -69,7 +69,7 @@ public class EnemyAttack : MonoBehaviour
 
 		animator.SetBool("Stomping", true);
         yield return new WaitForSeconds(attackCooldown);
-		animator.SetBool("Stomping", true);
+		animator.SetBool("Stomping", false);
 
 
         while (enemy.Paused)
