@@ -11,7 +11,9 @@ public class Idle : AIState
 {
 	private float preAlertDuration;		// The amount of time the player can be in vision before Alerting the guards.
 
-	public Idle(Enemy enemy): base(enemy)
+	public Idle(Enemy enemy): base(enemy) { }
+
+	public override void InitializeState()
 	{
 		preAlertDuration = enemy.EnemySettings.PreAlertDuration; 
 	}

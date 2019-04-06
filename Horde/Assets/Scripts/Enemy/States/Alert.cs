@@ -17,14 +17,21 @@ public class Alert : AIState
 
 	private bool playerInVision;			// If the player is in the guard's vision or not.
 	private bool isSpinningHead;			// Flag so spin head coroutine doesn't get called multiple times.
+	private bool headIsReset;
 	private float outOfVisionDuration;		// The amount of time the player has been out of vision of all the guards.
 	private Player player;
 
-	public Alert(Enemy enemy): base(enemy)
+	public Alert(Enemy enemy): base(enemy) { }
+
+	public override void InitializeState()
 	{
-		enemy.GetComponent<Animator>().SetBool("Alerted", true);
-		OnPlayerEnterVisionCone += ResetVisionCounter;
+		base.InitializeState();
+
+		// The vision duration counter should reset every time the player enters the vision cone of any guard.
+		OnPlayerEnterVisionCone += ResetVisionCounter; 
+
 		player = GameManager.Instance.Player;
+		enemy.GetComponent<Animator>().SetBool("Alerted", true);
 	}
 
 	public override void Tick()
@@ -33,6 +40,9 @@ public class Alert : AIState
 
 		if(!playerInVision)
 		{
+			if(!headIsReset)
+				ResetHeadRotation();
+
 			enemy.GetComponent<Animator>().SetBool("Spinning", true);
 			enemyMovement.Stop();
 
@@ -41,6 +51,8 @@ public class Alert : AIState
 		else // Player IS in vision of the guards.
 		{
 			OnPlayerEnterVisionCone();
+
+			headIsReset = false;
 
 			enemy.GetComponent<Animator>().SetBool("Spinning", false);
 
@@ -71,7 +83,7 @@ public class Alert : AIState
 	{
 		base.LeaveState();
 
-		enemy.CameraHead.localRotation = Quaternion.identity;
+		ResetHeadRotation();
 
 		enemy.GetComponent<Animator>().SetBool("Scanning", false);
 		enemy.GetComponent<Animator>().SetBool("AlertedWalk", false);
@@ -105,6 +117,7 @@ public class Alert : AIState
 
 	private void ResetHeadRotation()
 	{
-		enemy.CameraHead.localRotation = Quaternion.Lerp(enemy.CameraHead.localRotation, Quaternion.identity, 5.0f * Time.deltaTime);
+		enemy.CameraHead.localRotation = Quaternion.identity;
+		headIsReset = true;
 	}
 }

@@ -23,14 +23,13 @@ public class Anger : AIState
 	private float outOfVisionDuration; 			// The amount of time the current target has been out of vision.
 	private Player player;
 
-	public Anger(Enemy enemy, float duration): base(enemy, duration)
-	{
-        enemy.GetComponent<Animator>().SetBool("Angry", true);
-    }
+	public Anger(Enemy enemy, float duration): base(enemy, duration) { }
 
 	public override void InitializeState()
 	{
 		base.InitializeState();
+
+		enemy.GetComponent<Animator>().SetBool("Angry", true);
 
 		// TODO: Play animation depending on how he got affected (dart or drum)
 	}

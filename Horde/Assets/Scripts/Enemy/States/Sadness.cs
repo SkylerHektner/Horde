@@ -6,9 +6,11 @@ public class Sadness : AIState
 {
 	private LayerMask enemyMask = 1 << LayerMask.NameToLayer("Enemy");
 
-	public Sadness(Enemy enemy, float duration): base(enemy, duration)
+	public Sadness(Enemy enemy, float duration): base(enemy, duration) { }
+
+	public override void InitializeState()
 	{
-        enemy.GetComponent<Animator>().SetBool("Sad", true);
+		enemy.GetComponent<Animator>().SetBool("Sad", true);
         enemy.GetComponent<Animator>().SetBool("Happy", false);
         enemy.GetComponent<Animator>().SetBool("Scared", false);
         enemy.GetComponent<Animator>().SetBool("Angry", false); 

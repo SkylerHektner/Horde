@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Fear : AIState
 {
-	public Fear(Enemy enemy, float duration): base(enemy, duration)
+	public Fear(Enemy enemy, float duration): base(enemy, duration) { }
+
+	public override void InitializeState()
 	{
-        enemy.GetComponent<Animator>().SetBool("Scared", true);
+		enemy.GetComponent<Animator>().SetBool("Scared", true);
         enemy.GetComponent<Animator>().SetBool("Happy", false);
         enemy.GetComponent<Animator>().SetBool("Sad", false);
         enemy.GetComponent<Animator>().SetBool("Angry", false);
-
-    }
+	}
 
     public override void Tick()
 	{

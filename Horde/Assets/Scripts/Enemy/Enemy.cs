@@ -61,9 +61,9 @@ public class Enemy : MonoBehaviour
 
 		// Set to idle or patrol state
 		if(hasPatrolPath)
-			currentState = new Patrol(this);
+			ChangeState(new Patrol(this));
 		else
-			currentState = new Idle(this);
+			ChangeState(currentState = new Idle(this));
 
 		currentState.InitializeState();
 
@@ -97,6 +97,12 @@ public class Enemy : MonoBehaviour
 
 	public void ChangeState(AIState state)
 	{
+		if(currentState == null)
+		{
+			currentState = state;
+			return;
+		}
+
 		// Increase the explosion counter if hit by the same emotion.
 		if(currentState.GetType() == state.GetType())
 		{
