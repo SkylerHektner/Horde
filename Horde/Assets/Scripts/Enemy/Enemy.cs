@@ -23,7 +23,8 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private bool hasPatrolPath;
 	[SerializeField] private PatrolPath patrolPath;
 	[SerializeField] private PatrolType patrolType;
-	[SerializeField] private Transform cameraHead; // Used to rotate the camera head with code.
+	[SerializeField] private Transform cameraHead; 		// Used to rotate the camera head with code.
+	[SerializeField] private GameObject recordingIcon; 	// The icon that appears over a guards head when the player is in vision.
 
     [SerializeField] private GameObject sparkingHeadParticleSystem;
 
@@ -140,6 +141,16 @@ public class Enemy : MonoBehaviour
 			Destroy(c.gameObject);
 
 		Destroy(gameObject);
+	}
+
+	public void ActivateRecIcon()
+	{
+		recordingIcon.SetActive(true);
+	}
+
+	public void DeactivateRecIcon()
+	{
+		recordingIcon.SetActive(false);
 	}
 
 	// Used for the ragdoll rigidbodies.

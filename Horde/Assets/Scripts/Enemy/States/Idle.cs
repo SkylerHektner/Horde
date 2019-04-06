@@ -20,6 +20,8 @@ public class Idle : AIState
 
 	public override void Tick()
 	{
+		base.Tick();
+		
 		Player player = visionCone.TryGetPlayer();
 
 		// Alert the guards if the player gets too close (even if not inside of the vision cone).
