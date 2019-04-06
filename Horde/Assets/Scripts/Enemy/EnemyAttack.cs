@@ -24,7 +24,7 @@ public class EnemyAttack : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         enemy = GetComponent<Enemy>();
 		isAttacking = false;
-		attackCooldown = 1.0f;
+		attackCooldown = 3.0f;
 	}
 
 	public IEnumerator Attack(GameObject target)
