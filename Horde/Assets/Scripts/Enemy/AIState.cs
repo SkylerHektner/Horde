@@ -42,6 +42,12 @@ public abstract class AIState
 
 	public virtual void Tick()
 	{
+		if(visionCone.TryGetPlayer())
+			enemy.ActivateRecIcon();
+		else
+			enemy.DeactivateRecIcon();
+
+		
 		duration -= Time.smoothDeltaTime;
 		
 		if(duration <= 0)

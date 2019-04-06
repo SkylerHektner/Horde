@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.AI;
 
 /// <summary>
 ///	--[ Alert State ]--
@@ -32,10 +33,14 @@ public class Alert : AIState
 
 		player = GameManager.Instance.Player;
 		enemy.GetComponent<Animator>().SetBool("Alerted", true);
+
+		GameManager.Instance.RoomIsAlerted = true;
 	}
 
 	public override void Tick()
 	{
+		base.Tick();
+
 		playerInVision = visionCone.TryGetPlayer();
 
 		if(!playerInVision)
@@ -51,6 +56,13 @@ public class Alert : AIState
 		else // Player IS in vision of the guards.
 		{
 			OnPlayerEnterVisionCone();
+
+			// If the guard has no path to the player, he should stare at the player to keep him in vision.
+			if(!HasPathToTarget(player.transform))
+			{
+				enemy.CameraHead.LookAt(new Vector3(player.transform.position.x,  4, player.transform.position.z));
+				return;
+			}
 
 			headIsReset = false;
 
@@ -89,6 +101,8 @@ public class Alert : AIState
 		enemy.GetComponent<Animator>().SetBool("AlertedWalk", false);
 		enemy.GetComponent<Animator>().SetBool("Alerted", false);
 		enemy.GetComponent<Animator>().SetBool("Spinning", false);
+
+		GameManager.Instance.RoomIsAlerted = false;
 	}
 
 	protected override void UpdateVisionCone()
@@ -119,5 +133,17 @@ public class Alert : AIState
 	{
 		enemy.CameraHead.localRotation = Quaternion.identity;
 		headIsReset = true;
+	}
+
+
+	private bool HasPathToTarget(Transform t)
+	{
+		NavMeshPath path = new NavMeshPath();
+		agent.CalculatePath(t.position, path);
+
+		if(path.status == NavMeshPathStatus.PathComplete) 
+			return true;
+
+		return false;
 	}
 }
