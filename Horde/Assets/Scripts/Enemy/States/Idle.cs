@@ -104,6 +104,7 @@ public class Idle : AIState
 	/// <summary>
 	/// Resets the guard back to its initial position and rotation.
 	/// Resets the position first, and then resets the rotation.
+	/// Also resets the rotation of the head if it's not the correct rotation from spinning.
 	/// </summary>
 	private void ResetTransform()
 	{

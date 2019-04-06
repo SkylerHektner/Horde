@@ -135,9 +135,4 @@ public class Patrol : AIState
 
 		return false;
 	}
-
-	private void ResetRotation()
-	{
-		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, enemy.SpawnRotation, 5.0f * Time.deltaTime);
-	}
 }

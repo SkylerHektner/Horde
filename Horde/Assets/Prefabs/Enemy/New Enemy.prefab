@@ -84,11 +84,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220c1c41666f530448da881bc8a1ba0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DEBUG_MODE: 0
+  DEBUG_MODE: 1
   enemySettings: {fileID: 11400000, guid: 500b99769c96179419ddaf5fc9a5a086, type: 2}
   hasPatrolPath: 0
   patrolPath: {fileID: 0}
   patrolType: 0
+  cameraHead: {fileID: 5082111729963374208}
   sparkingHeadParticleSystem: {fileID: 1752787068955844393}
 --- !u!114 &175123643
 MonoBehaviour:
@@ -3754,21 +3755,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5082111729963374208}
     m_Modifications:
-    - target: {fileID: 4602099248848874667, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
-        type: 3}
-      propertyPath: m_Name
-      value: SparkingHead
-      objectReference: {fileID: 0}
-    - target: {fileID: 4602099248848874667, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4602099248848874667, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
     - target: {fileID: 4602099248848874646, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3822,6 +3808,21 @@ PrefabInstance:
     - target: {fileID: 4602099248848874646, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4602099248848874667, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
+        type: 3}
+      propertyPath: m_Name
+      value: SparkingHead
+      objectReference: {fileID: 0}
+    - target: {fileID: 4602099248848874667, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4602099248848874667, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4602099248848874645, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,

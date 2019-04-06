@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
 	public bool IsDistracted 			{ get { return isDistracted; } set { isDistracted = value; } } // When looking at something. (Like at a crying guard)
 	public PatrolType PatrolType 		{ get { return patrolType; } }
     public bool IsDead 					{ get { return currentState.GetType() == typeof(Dead); } }
+	public Transform CameraHead			{ get { return cameraHead; } }
 
 	public bool DEBUG_MODE;
 
@@ -22,6 +23,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private bool hasPatrolPath;
 	[SerializeField] private PatrolPath patrolPath;
 	[SerializeField] private PatrolType patrolType;
+	[SerializeField] private Transform cameraHead; // Used to rotate the camera head with code.
 
     [SerializeField] private GameObject sparkingHeadParticleSystem;
 
