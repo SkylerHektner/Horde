@@ -31,6 +31,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1456677203898102861
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7419798992913800740}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.018776, y: 0.925278, z: 0.97652817}
+  m_Center: {x: 0.035115257, y: 0.462639, z: -0.0000013262033}
 --- !u!1001 &7419798992913700996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,10 +51,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8669234739288920229}
     m_Modifications:
-    - target: {fileID: 100000, guid: f21e5a633a437564cb0c2b6247a38215, type: 3}
-      propertyPath: m_Name
-      value: SM_Apt_Bucket
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f21e5a633a437564cb0c2b6247a38215, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -86,8 +95,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f21e5a633a437564cb0c2b6247a38215, type: 3}
+      propertyPath: m_Name
+      value: SM_Apt_Bucket
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: f21e5a633a437564cb0c2b6247a38215, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 626b8ee3288068542b60416008c27752, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f21e5a633a437564cb0c2b6247a38215, type: 3}
+--- !u!1 &7419798992913800740 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: f21e5a633a437564cb0c2b6247a38215,
+    type: 3}
+  m_PrefabInstance: {fileID: 7419798992913700996}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7419798992913564164 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: f21e5a633a437564cb0c2b6247a38215,
