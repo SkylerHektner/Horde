@@ -21,12 +21,16 @@ public class Idle : AIState
 	public override void Tick()
 	{
 		base.Tick();
-		
+
 		Player player = visionCone.TryGetPlayer();
 
 		// Alert the guards if the player gets too close (even if not inside of the vision cone).
 		if(PlayerTooClose())
+		{
+			enemy.transform.LookAt(GameManager.Instance.Player.transform);
 			GameManager.Instance.AlertGuards();
+		}
+			
 
 		// REMINDER: A guard is "distracted" while it is staring as a sad guard.
 		if(!enemy.IsDistracted && player == null)

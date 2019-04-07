@@ -126,7 +126,7 @@ public class Alert : AIState
 
 	private void SpinHead()
 	{
-		enemy.CameraHead.Rotate(Vector3.up, 100.0f * Time.deltaTime);
+		enemy.CameraHead.Rotate(Vector3.up, enemy.EnemySettings.HeadSpinningSpeed * Time.deltaTime);
 	}
 
 	private void ResetHeadRotation()

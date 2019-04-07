@@ -98,7 +98,6 @@ public class EnemyMovement: MonoBehaviour
         {
             if(enemy.DEBUG_MODE)
             {
-                Debug.Log("Rotating towards.");
                 Debug.Log(Vector3.Angle(transform.forward, pos - transform.position));
             }
                 

@@ -44,7 +44,8 @@ public class Anger : AIState
 		// Find a current target. The player takes override any current target.
 		if(player != null)
 		{
-			currentTarget = player.transform;
+			if(HasPathToTarget(player.transform))
+				currentTarget = player.transform;
 		}
 
 		if(currentTarget == null)
@@ -53,7 +54,7 @@ public class Anger : AIState
 		}
 		else // Guard has a current target.
 		{
-			if(player != null)
+			if(player)
 			{
 				// Camera head should "lock on" to the player.
 				enemy.CameraHead.LookAt(new Vector3(currentTarget.position.x,  4, currentTarget.position.z));
@@ -256,4 +257,15 @@ public class Anger : AIState
 
         return totalDistance;
     }
+
+	private bool HasPathToTarget(Transform t)
+	{
+		NavMeshPath path = new NavMeshPath();
+		agent.CalculatePath(t.position, path);
+
+		if(path.status == NavMeshPathStatus.PathComplete) 
+			return true;
+
+		return false;
+	}
 }

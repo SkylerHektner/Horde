@@ -74,7 +74,7 @@ public class Dart : MonoBehaviour
 			}
 
 			bounces++;
-			if(bounces >= 2)
+			if(bounces >= GameManager.Instance.Player.PlayerSettings.DartBounces)
 			{
 				DestroyDart();
 			}
