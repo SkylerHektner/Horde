@@ -41,17 +41,14 @@ public class Anger : AIState
 
 		player = visionCone.TryGetPlayer();
 
-		// Find a current target if it doesn't have one already.
-		if(currentTarget == null)
+		// Find a current target. The player takes override any current target.
+		if(player != null)
 		{
-			if(player != null)
-			{
-				currentTarget = player.transform;
-			}
-			else
-			{
-				currentTarget = FindClosestTarget();
-			}
+			currentTarget = player.transform;
+		}
+		else if(currentTarget == null)
+		{
+			currentTarget = FindClosestTarget();
 		}
 		else // Guard has a current target.
 		{

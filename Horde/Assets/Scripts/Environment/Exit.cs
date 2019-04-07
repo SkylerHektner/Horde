@@ -23,16 +23,16 @@ public class Exit : MonoBehaviour
     {
         isLocked = false;
         OpenDoor();
-        bulb.material.SetColor("_Color", Color.green);
-        bulb.material.SetColor("_EmissionColor", Color.green);
+        bulb.material.SetColor("_Color", GameManager.Instance.GameSettings.ExitLightColorUnlocked);
+        bulb.material.SetColor("_EmissionColor", GameManager.Instance.GameSettings.ExitLightEmissionColorUnlocked);
     }
 
     public void LockDoor()
     {
         isLocked = true;
         CloseDoor();
-        bulb.material.SetColor("_Color", Color.red);
-        bulb.material.SetColor("_EmissionColor", Color.red);
+        bulb.material.SetColor("_Color", GameManager.Instance.GameSettings.ExitLightColorLocked);
+        bulb.material.SetColor("_EmissionColor", GameManager.Instance.GameSettings.ExitLightColorLocked);
     }
 
     private void OnTriggerEnter(Collider c)

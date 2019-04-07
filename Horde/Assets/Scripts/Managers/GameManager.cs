@@ -11,12 +11,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // Singleton instance
 
-    public Room CurrentRoom { get { return currentRoom; } set { currentRoom = value; } }
-    public List<Room> Rooms {get {return rooms; } }
+    public bool RoomIsAlerted           { get { return roomIsAlerted; } set { roomIsAlerted = value; } }
+    public Room CurrentRoom             { get { return currentRoom; } set { currentRoom = value; } }
+    public List<Room> Rooms             { get {return rooms; } }
+    public Player Player                { get { return player; } }
+    public GameSettings GameSettings    { get { return gameSettings; } }
 
-    public bool RoomIsAlerted { get { return roomIsAlerted; } set { roomIsAlerted = value; } }
-    public Player Player { get { return player; } }
-
+    [SerializeField] private GameSettings gameSettings;
     [SerializeField] private CameraController cameraController;
     [SerializeField] private FadeCamera fadeCamera;
     [SerializeField] private List<Room> rooms;              // A list of all the rooms in the current scene.
