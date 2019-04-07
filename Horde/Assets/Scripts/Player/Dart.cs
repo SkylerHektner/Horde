@@ -63,8 +63,7 @@ public class Dart : MonoBehaviour
 					break;
 			}
 				
-			dartMesh.SetActive(false);
-			Destroy(gameObject, 4.0f);
+			DestroyDart();
 		}
 		else
 		{
@@ -77,8 +76,7 @@ public class Dart : MonoBehaviour
 			bounces++;
 			if(bounces >= 2)
 			{
-				dartMesh.SetActive(false);
-				Destroy(gameObject, 4.0f);
+				DestroyDart();
 			}
 
 			ContactPoint cp = c.contacts[0];
@@ -89,5 +87,12 @@ public class Dart : MonoBehaviour
 	public void LoadEmotion(ResourceType emotion)
 	{
 		loadedEmotion = emotion;
+	}
+
+	private void DestroyDart()
+	{
+		dartMesh.SetActive(false);
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
+		Destroy(gameObject, 4.0f);
 	}
 }
