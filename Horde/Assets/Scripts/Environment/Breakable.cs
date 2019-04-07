@@ -10,8 +10,13 @@ public class Breakable : MonoBehaviour
     [Tooltip("The item that you want to drop when this object is broken. Leave it null if you want nothing to drop.")]
     [SerializeField] Transform drop;
 
+    [Tooltip("The particle effect that you want to spawn when the object gets smashed.")]
+    [SerializeField] GameObject particleEffect;
+
     public void Break()
     {
+        GetComponent<Collider>().enabled = false;
+
         Drum d = GetComponent<Drum>();
         if(d != null) // This object is a Drum
         {
@@ -30,6 +35,12 @@ public class Breakable : MonoBehaviour
 
             if(drop != null)
 			    DropItem();
+        }
+
+        if(particleEffect != null)
+        {
+            GameObject effectGO = Instantiate(particleEffect, transform.position, Quaternion.identity);
+            Object.Destroy(effectGO, 2.0f);
         }
 
 		Destroy(gameObject);
