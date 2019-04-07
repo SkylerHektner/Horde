@@ -42,10 +42,15 @@ public abstract class AIState
 
 	public virtual void Tick()
 	{
-		if(visionCone.TryGetPlayer())
-			enemy.ActivateRecIcon();
-		else
-			enemy.DeactivateRecIcon();
+		AIState state = enemy.GetCurrentState();
+		if(state is Idle || state is Patrol || state is Anger || state is Alert)
+		{
+			if(visionCone.TryGetPlayer())
+				enemy.ActivateRecIcon();
+			else
+				enemy.DeactivateRecIcon();
+		}
+		
 
 		
 		duration -= Time.smoothDeltaTime;
@@ -62,6 +67,7 @@ public abstract class AIState
 	public virtual void LeaveState()
 	{
 		OnEmotionEnded(enemy.GetCurrentState().ToString());
+		enemy.DeactivateRecIcon();
 	}
 
 	protected abstract void UpdateVisionCone();

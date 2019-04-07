@@ -91,6 +91,7 @@ public class Dart : MonoBehaviour
 
 	private void DestroyDart()
 	{
+		// We deactivate the mesh before we destroy the game object to give the particle effect a chance to finish.
 		dartMesh.SetActive(false);
 		GetComponent<Rigidbody>().velocity = Vector3.zero;
 		Destroy(gameObject, 4.0f);

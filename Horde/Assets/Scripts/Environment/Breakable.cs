@@ -15,7 +15,10 @@ public class Breakable : MonoBehaviour
 
     public void Break()
     {
-        GetComponent<Collider>().enabled = false;
+        // Removing the collider first so particles don't collide with it.
+        Collider c = GetComponent<Collider>();
+        if(c)
+            c.enabled = false;
 
         Drum d = GetComponent<Drum>();
         if(d != null) // This object is a Drum

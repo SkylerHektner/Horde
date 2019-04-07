@@ -46,12 +46,23 @@ public class Anger : AIState
 		{
 			currentTarget = player.transform;
 		}
-		else if(currentTarget == null)
+
+		if(currentTarget == null)
 		{
 			currentTarget = FindClosestTarget();
 		}
 		else // Guard has a current target.
 		{
+			if(player != null)
+			{
+				// Camera head should "lock on" to the player.
+				enemy.CameraHead.LookAt(new Vector3(currentTarget.position.x,  4, currentTarget.position.z));
+			}
+			else
+			{
+				enemy.CameraHead.localRotation = Quaternion.identity;
+			}
+
 			if(!enemyAttack.IsAttacking)
 				enemyMovement.MoveTo(currentTarget.position, enemy.EnemySettings.AngerMovementSpeed);
 
@@ -83,6 +94,8 @@ public class Anger : AIState
 		base.LeaveState();
 		
         enemy.GetComponent<Animator>().SetBool("Angry", false);
+
+		enemy.CameraHead.localRotation = Quaternion.identity;
     }
 
 	protected override void UpdateVisionCone()
