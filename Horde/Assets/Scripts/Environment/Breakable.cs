@@ -13,6 +13,9 @@ public class Breakable : MonoBehaviour
     [Tooltip("The particle effect that you want to spawn when the object gets smashed.")]
     [SerializeField] GameObject particleEffect;
 
+    [Tooltip("The sound effect that you want to play when the object gets smashed.")]
+    [SerializeField] AudioClip soundEffect;
+
     public void Break()
     {
         // Removing the collider first so particles don't collide with it.
@@ -38,6 +41,11 @@ public class Breakable : MonoBehaviour
 
             if(drop != null)
 			    DropItem();
+        }
+
+        if(soundEffect != null)
+        {
+            AudioManager.instance.PlaySoundEffect(soundEffect);
         }
 
         if(particleEffect != null)

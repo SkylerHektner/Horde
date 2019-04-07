@@ -10,6 +10,7 @@ public class DartGun : MonoBehaviour
     [SerializeField] private bool infiniteAmmo = false;
 
     [SerializeField] private GameObject dart;
+    [SerializeField] private AudioClip soundEffect;
     [SerializeField] private Material lineRendererMat;
     [SerializeField] private Transform dartSpawnLocation;
     [SerializeField] private Transform dartSpawnLocationCrouched;
@@ -125,10 +126,11 @@ public class DartGun : MonoBehaviour
 
 	private IEnumerator Fire()
 	{
-        // if the
         if (infiniteAmmo || ResourceManager.Instance.TrySpendEmotion(PathosUI.instance.CurrentEmotion))
         {
             attackOnCooldown = true;
+
+            AudioManager.instance.PlaySoundEffect(soundEffect);
 
             Vector3 endpoint = DartSpawn.position + transform.forward * maxLaserDistance;
             GameObject dartGO = Instantiate(dart, DartSpawn.position, transform.rotation);

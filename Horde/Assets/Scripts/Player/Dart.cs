@@ -7,6 +7,7 @@ public class Dart : MonoBehaviour
 	public List<HInterface.HType> Heuristics { get { return heuristics; }  set { heuristics = value; } }
 
 	[SerializeField] private GameObject particleEffect;
+	[SerializeField] private AudioClip bounceSoundEffect;
 	[SerializeField] private GameObject dartMesh; // Need this reference so we can disable the mesh.
 
 	private ResourceType loadedEmotion;
@@ -67,6 +68,8 @@ public class Dart : MonoBehaviour
 		}
 		else
 		{
+			AudioManager.instance.PlaySoundEffect(bounceSoundEffect);
+			
 			if(particleEffect != null)
 			{
 				GameObject effectGO = Instantiate(particleEffect, transform.position, Quaternion.identity);
