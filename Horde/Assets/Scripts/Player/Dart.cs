@@ -6,6 +6,9 @@ public class Dart : MonoBehaviour
 {
 	public List<HInterface.HType> Heuristics { get { return heuristics; }  set { heuristics = value; } }
 
+	[SerializeField] private GameObject particleEffect;
+	[SerializeField] private GameObject dartMesh; // Need this reference so we can disable the mesh.
+
 	private ResourceType loadedEmotion;
 	private List<HInterface.HType> heuristics;
 	private Rigidbody rb;
@@ -60,14 +63,22 @@ public class Dart : MonoBehaviour
 					break;
 			}
 				
-			Destroy(gameObject);
+			dartMesh.SetActive(false);
+			Destroy(gameObject, 4.0f);
 		}
 		else
 		{
+			if(particleEffect != null)
+			{
+				GameObject effectGO = Instantiate(particleEffect, transform.position, Quaternion.identity);
+				Object.Destroy(effectGO, 3.0f);
+			}
+
 			bounces++;
 			if(bounces >= 2)
 			{
-				Destroy(gameObject);
+				dartMesh.SetActive(false);
+				Destroy(gameObject, 4.0f);
 			}
 
 			ContactPoint cp = c.contacts[0];
