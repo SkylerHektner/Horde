@@ -29,7 +29,8 @@ public class Dart : MonoBehaviour
 	private void FixedUpdate () 
 	{ 
 		// Rotate the projectile along it's projectile path.
-		transform.rotation = Quaternion.LookRotation(rb.velocity);
+		if(rb.velocity != Vector3.zero)
+			transform.rotation = Quaternion.LookRotation(rb.velocity);
 		oldVel = rb.velocity;
 
 		//Debug.Log(loadedEmotion);
@@ -69,7 +70,7 @@ public class Dart : MonoBehaviour
 		else
 		{
 			AudioManager.instance.PlaySoundEffect(bounceSoundEffect);
-			
+
 			if(particleEffect != null)
 			{
 				GameObject effectGO = Instantiate(particleEffect, transform.position, Quaternion.identity);

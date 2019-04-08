@@ -50,11 +50,6 @@ public class Idle : AIState
 		}
 	}
 
-	public override void LeaveState()
-	{
-
-	}
-
 	protected override void UpdateVisionCone()
 	{
 		visionCone.ChangeColor(enemy.EnemySettings.DefaultColor);
