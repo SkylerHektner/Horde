@@ -22,6 +22,13 @@ public class AudioManager : MonoBehaviour
     public void PlaySoundEffect(AudioClip clip)
     {
         float randomPitch = Random.Range(lowPitchRange, highPitchRange);
+        
+        sfxSource.PlayOneShot(clip);
+    }
+
+    public void PlaySoundEffectRandomPitch(AudioClip clip)
+    {
+        float randomPitch = Random.Range(lowPitchRange, highPitchRange);
 
         sfxSource.pitch = randomPitch;
         sfxSource.PlayOneShot(clip);

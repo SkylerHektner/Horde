@@ -45,7 +45,7 @@ public class Breakable : MonoBehaviour
 
         if(soundEffect != null)
         {
-            AudioManager.instance.PlaySoundEffect(soundEffect);
+            AudioManager.instance.PlaySoundEffectRandomPitch(soundEffect);
         }
 
         if(particleEffect != null)

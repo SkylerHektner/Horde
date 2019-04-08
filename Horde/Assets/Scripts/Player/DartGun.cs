@@ -130,7 +130,7 @@ public class DartGun : MonoBehaviour
         {
             attackOnCooldown = true;
 
-            AudioManager.instance.PlaySoundEffect(soundEffect);
+            AudioManager.instance.PlaySoundEffectRandomPitch(soundEffect);
 
             Vector3 endpoint = DartSpawn.position + transform.forward * maxLaserDistance;
             GameObject dartGO = Instantiate(dart, DartSpawn.position, transform.rotation);

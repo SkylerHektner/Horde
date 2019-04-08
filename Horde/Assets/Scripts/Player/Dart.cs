@@ -8,6 +8,7 @@ public class Dart : MonoBehaviour
 
 	[SerializeField] private GameObject particleEffect;
 	[SerializeField] private AudioClip bounceSoundEffect;
+	[SerializeField] private AudioClip playerHitSoundEffect;
 	[SerializeField] private GameObject dartMesh; // Need this reference so we can disable the mesh.
 
 	private ResourceType loadedEmotion;
@@ -43,6 +44,8 @@ public class Dart : MonoBehaviour
 
 		if(c.gameObject.tag == "Enemy")
 		{
+			AudioManager.instance.PlaySoundEffectRandomPitch(playerHitSoundEffect);
+			
 			Enemy enemy = c.gameObject.GetComponent<Enemy>();
             if (enemy.IsDead)
             {
@@ -69,7 +72,7 @@ public class Dart : MonoBehaviour
 		}
 		else
 		{
-			AudioManager.instance.PlaySoundEffect(bounceSoundEffect);
+			AudioManager.instance.PlaySoundEffectRandomPitch(bounceSoundEffect);
 
 			if(particleEffect != null)
 			{
