@@ -10,6 +10,7 @@ using UnityEngine;
 public class Idle : AIState
 {
 	private float preAlertDuration;		// The amount of time the player can be in vision before Alerting the guards.
+	private bool canBeStartled;			
 
 	public Idle(Enemy enemy): base(enemy) { }
 
@@ -35,11 +36,17 @@ public class Idle : AIState
 		// REMINDER: A guard is "distracted" while it is staring as a sad guard.
 		if(!enemy.IsDistracted && player == null)
 		{
+			canBeStartled = true;
 			preAlertDuration = enemy.EnemySettings.PreAlertDuration; 	// Reset the timer if player isn't in vision.
 			ResetTransform();											// And reset back to inital position and rotation.
 		}
 		else if(player != null) // Player is in vision.
 		{
+			if(canBeStartled)
+				enemy.GetComponent<Animator>().SetTrigger("Startled");
+
+			canBeStartled = false;
+
 			StareAtTarget(player);
 
 			preAlertDuration -= Time.smoothDeltaTime;
