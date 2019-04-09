@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD.Studio;
 
 public class MusicManager : MonoBehaviour
 {
@@ -10,6 +11,19 @@ public class MusicManager : MonoBehaviour
     private int numAnger;
     private int numFear;
     private int numSorrow;
+    private int numAlert;
+    private int numTotal;
+
+    /*
+    private FMOD.Studio.System fmodSystem = FMODUnity.RuntimeManager.StudioSystem;
+    private FMOD.Studio.EventInstance bgMusic;
+    private FMOD.Studio.ParameterInstance intensity;
+    private FMOD.Studio.ParameterInstance anger;
+    private FMOD.Studio.ParameterInstance fear;
+    private FMOD.Studio.ParameterInstance sorrow;
+    */
+
+    private FMODUnity.StudioEventEmitter emitter;
 
     private void Awake()
     {
@@ -25,11 +39,21 @@ public class MusicManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //AIState.OnEmotionStarted += EmotionStart;
-        //AIState.OnEmotionEnded += EmotionEnd;
         numAnger = 0;
         numFear = 0;
         numSorrow = 0;
+        numAlert = 0;
+        numTotal = 0;
+
+        emitter = GetComponent<FMODUnity.StudioEventEmitter>();
+        
+        /*bgMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Level 1");
+        bgMusic.getParameter("Intensity", out intensity);
+        bgMusic.getParameter("Anger", out anger);
+        bgMusic.getParameter("Sadness", out sorrow);
+        bgMusic.getParameter("Fear", out fear);
+        bgMusic.start();*/
+        
     }
 
     private void OnEnable()
@@ -40,18 +64,93 @@ public class MusicManager : MonoBehaviour
 
     public void EmotionEnd(string emotion)
     {
-
+        numTotal--;
+        if (numTotal < 0)
+        {
+            numTotal = 0;
+        }
+            switch (emotion)
+        {
+            case "Anger":
+                numAnger--;
+                if (numAnger == 0)
+                {
+                   // anger.setValue(0f);
+                    emitter.SetParameter("Anger", 0f);
+                }
+                break;
+            case "Fear":
+                numFear--;
+                if(numFear == 0)
+                {
+                    //fear.setValue(0f);
+                    emitter.SetParameter("Fear", 0f);
+                }
+                break;
+            case "Sadness":
+                numSorrow--;
+                if(numSorrow == 0)
+                {
+                   // sorrow.setValue(0f);
+                    emitter.SetParameter("Sadness", 0f);
+                }
+                break;
+            case "Alert":
+                numAlert--;
+                break;
+        }
+        if(numTotal == 0)
+        {
+            //intensity.setValue(0f);
+            emitter.SetParameter("Intensity", 0f);
+        }
     }
 
-    private void EmotionStart(string s)
+    private void EmotionStart(string emotion)
     {
         //Debug.Log(s);
-        Debug.Log(s);
-    }
+        Debug.Log(emotion);
+        Debug.Log(numTotal);
+        numTotal++;
+        Debug.Log(numTotal);
+        if(numTotal == 1)
+        {
+            // intensity.setValue(100f);
+            emitter.SetParameter("Intensity", 100f);
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        switch(emotion)
+        {
+            case "Anger":
+                numAnger++;
+                if(numAnger == 1)
+                {
+                    //  anger.setValue(100f);
+                    emitter.SetParameter("Anger", 100f);
+                }
+                break;
+
+            case "Fear":
+                numFear++;
+                if(numFear == 1)
+                {
+                    //fear.setValue(100f);
+                    emitter.SetParameter("Fear", 100f);
+                }
+                break;
+
+            case "Sadness":
+                numSorrow++;
+                if(numSorrow == 1)
+                {
+                    //sorrow.setValue(100f);
+                    emitter.SetParameter("Sadness", 100f);
+                }
+                break;
+
+            case "Alert":
+                numAlert++;
+                break;
+        }
     }
 }
