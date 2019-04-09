@@ -64,10 +64,10 @@ public class MusicManager : MonoBehaviour
 
     public void EmotionEnd(string emotion)
     {
-        if(emotion == "Idle")
-        {
-            return;
-        }
+       // if(emotion == "Idle")
+        //{
+          //  return;
+        //}
         Debug.Log("EMOTION END: " + emotion);
         numTotal--;
         Debug.Log("numTotal: " + numTotal.ToString());
