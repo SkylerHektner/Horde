@@ -64,7 +64,7 @@ public class MainMenu : MonoBehaviour
         if (moving)
         {
             timer -= Time.smoothDeltaTime;
-            Debug.Log(timer);
+           // Debug.Log(timer);
             Menu.SetActive(false);
             MenuTexts.SetActive(false);
 
