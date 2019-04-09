@@ -1076,6 +1076,8 @@ GameObject:
   - component: {fileID: 680649529}
   - component: {fileID: 680649530}
   - component: {fileID: 680649534}
+  - component: {fileID: 1547847439458300738}
+  - component: {fileID: 5538764796809780446}
   m_Layer: 11
   m_Name: Biohacker
   m_TagString: Player
@@ -1366,6 +1368,119 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1547847439458300738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680649520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610f82162de60264ab45105450c483e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioClips:
+  - {fileID: 8300000, guid: 704e23cec30fcfc49b9bd758f519a11b, type: 3}
+  - {fileID: 8300000, guid: efc3abd92eca47f44ac9939cf22e6e7a, type: 3}
+  - {fileID: 8300000, guid: 5178244980644dd4b89d33c6759e10c1, type: 3}
+  - {fileID: 8300000, guid: 6a27c2cc51c730e43a43a38f441e9823, type: 3}
+--- !u!82 &5538764796809780446
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680649520}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.176
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &685092922
 GameObject:
   m_ObjectHideFlags: 0
@@ -3679,11 +3794,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1611187160}
     m_Modifications:
-    - target: {fileID: 2397223791272395625, guid: 1bc0e3564ab14c44bb424b92583810af,
-        type: 3}
-      propertyPath: m_Name
-      value: Gun
-      objectReference: {fileID: 0}
     - target: {fileID: 4692412639471436420, guid: 1bc0e3564ab14c44bb424b92583810af,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3754,6 +3864,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.36629635
       objectReference: {fileID: 0}
+    - target: {fileID: 2397223791272395625, guid: 1bc0e3564ab14c44bb424b92583810af,
+        type: 3}
+      propertyPath: m_Name
+      value: Gun
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bc0e3564ab14c44bb424b92583810af, type: 3}
 --- !u!4 &84232409096451767 stripped
@@ -3769,11 +3884,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 329947441}
     m_Modifications:
-    - target: {fileID: 2397223791272395625, guid: 1bc0e3564ab14c44bb424b92583810af,
-        type: 3}
-      propertyPath: m_Name
-      value: Gun
-      objectReference: {fileID: 0}
     - target: {fileID: 4692412639471436420, guid: 1bc0e3564ab14c44bb424b92583810af,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3843,6 +3953,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.3662963
+      objectReference: {fileID: 0}
+    - target: {fileID: 2397223791272395625, guid: 1bc0e3564ab14c44bb424b92583810af,
+        type: 3}
+      propertyPath: m_Name
+      value: Gun
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bc0e3564ab14c44bb424b92583810af, type: 3}
