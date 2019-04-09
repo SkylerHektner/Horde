@@ -64,7 +64,13 @@ public class MusicManager : MonoBehaviour
 
     public void EmotionEnd(string emotion)
     {
+        if(emotion == "Idle")
+        {
+            return;
+        }
+        Debug.Log("EMOTION END: " + emotion);
         numTotal--;
+        Debug.Log("numTotal: " + numTotal.ToString());
         if (numTotal < 0)
         {
             numTotal = 0;
@@ -73,7 +79,8 @@ public class MusicManager : MonoBehaviour
         {
             case "Anger":
                 numAnger--;
-                if (numAnger == 0)
+                Debug.Log(numAnger);
+                if (numAnger <= 0)
                 {
                    // anger.setValue(0f);
                     emitter.SetParameter("Anger", 0f);
@@ -81,7 +88,8 @@ public class MusicManager : MonoBehaviour
                 break;
             case "Fear":
                 numFear--;
-                if(numFear == 0)
+                Debug.Log(numFear);
+                if(numFear <= 0)
                 {
                     //fear.setValue(0f);
                     emitter.SetParameter("Fear", 0f);
@@ -89,7 +97,8 @@ public class MusicManager : MonoBehaviour
                 break;
             case "Sadness":
                 numSorrow--;
-                if(numSorrow == 0)
+                Debug.Log(numSorrow);
+                if(numSorrow <= 0)
                 {
                    // sorrow.setValue(0f);
                     emitter.SetParameter("Sadness", 0f);
@@ -97,9 +106,10 @@ public class MusicManager : MonoBehaviour
                 break;
             case "Alert":
                 numAlert--;
+                Debug.Log(numAlert);
                 break;
         }
-        if(numTotal == 0)
+        if(numTotal <= 0)
         {
             //intensity.setValue(0f);
             emitter.SetParameter("Intensity", 0f);
@@ -109,10 +119,9 @@ public class MusicManager : MonoBehaviour
     private void EmotionStart(string emotion)
     {
         //Debug.Log(s);
-        Debug.Log(emotion);
-        Debug.Log(numTotal);
+        Debug.Log("EMOTION START: " + emotion);
+        Debug.Log("NUM TOTAL: " + numTotal.ToString());
         numTotal++;
-        Debug.Log(numTotal);
         if(numTotal == 1)
         {
             // intensity.setValue(100f);
@@ -123,6 +132,7 @@ public class MusicManager : MonoBehaviour
         {
             case "Anger":
                 numAnger++;
+                Debug.Log(numAnger);
                 if(numAnger == 1)
                 {
                     //  anger.setValue(100f);
@@ -132,6 +142,7 @@ public class MusicManager : MonoBehaviour
 
             case "Fear":
                 numFear++;
+                Debug.Log(numFear);
                 if(numFear == 1)
                 {
                     //fear.setValue(100f);
@@ -141,6 +152,7 @@ public class MusicManager : MonoBehaviour
 
             case "Sadness":
                 numSorrow++;
+                Debug.Log(numSorrow);
                 if(numSorrow == 1)
                 {
                     //sorrow.setValue(100f);
@@ -150,6 +162,7 @@ public class MusicManager : MonoBehaviour
 
             case "Alert":
                 numAlert++;
+                Debug.Log(numAlert);
                 break;
         }
     }
