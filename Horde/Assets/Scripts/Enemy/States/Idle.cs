@@ -43,7 +43,7 @@ public class Idle : AIState
 		else if(player != null) // Player is in vision.
 		{
 			if(canBeStartled)
-				enemy.GetComponent<Animator>().SetTrigger("Startled");
+				enemy.GetComponent<Animator>().SetBool("Startled", true);
 
 			canBeStartled = false;
 
@@ -53,8 +53,10 @@ public class Idle : AIState
 			if(preAlertDuration <= 0)
 			{
 				GameManager.Instance.AlertGuards();
-			}
-		}
+                enemy.GetComponent<Animator>().SetBool("Startled", false);
+
+            }
+        }
 	}
 
 	protected override void UpdateVisionCone()

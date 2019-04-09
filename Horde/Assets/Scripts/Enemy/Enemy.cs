@@ -124,9 +124,10 @@ public class Enemy : MonoBehaviour
             explosionTimer = 6f;
 		}
 			
-        transform.GetComponent<Animator>().SetTrigger("StopTalking");
+        //transform.GetComponent<Animator>().SetTrigger("StopTalking");
+        transform.GetComponent<Animator>().SetBool("Startled", false);
 
-		currentState.LeaveState();
+        currentState.LeaveState();
         currentState = state;
 		currentState.InitializeState();
 	}
