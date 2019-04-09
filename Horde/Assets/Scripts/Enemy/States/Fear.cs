@@ -8,6 +8,8 @@ public class Fear : AIState
 
 	public override void InitializeState()
 	{
+		base.InitializeState();
+		
 		enemy.GetComponent<Animator>().SetBool("Scared", true);
         enemy.GetComponent<Animator>().SetBool("Happy", false);
         enemy.GetComponent<Animator>().SetBool("Sad", false);
