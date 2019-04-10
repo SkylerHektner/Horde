@@ -50,7 +50,7 @@ public class Breakable : MonoBehaviour
 
         if(particleEffect != null)
         {
-            GameObject effectGO = Instantiate(particleEffect, transform.position, Quaternion.identity);
+            GameObject effectGO = Instantiate(particleEffect, transform.position, Quaternion.Euler(-90, 0, 0));
             Object.Destroy(effectGO, 3.0f);
         }
 
