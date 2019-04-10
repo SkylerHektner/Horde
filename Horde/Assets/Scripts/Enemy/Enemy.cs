@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private GameObject recordingIcon; 	// The icon that appears over a guards head when the player is in vision.
 
     [SerializeField] private GameObject sparkingHeadParticleSystem;
+	[SerializeField] private GameObject bloodExplosionParticleEffect;
 
 	private NavMeshAgent agent;
 	private EnemyAttack enemyAttack;
@@ -134,7 +135,7 @@ public class Enemy : MonoBehaviour
 
 	private void Explode()
 	{
-		GameObject bloodExplosion = Instantiate(Resources.Load("BloodExplosion2"), transform.position, Quaternion.identity) as GameObject;
+		GameObject bloodExplosion = Instantiate(bloodExplosionParticleEffect, transform.position, Quaternion.identity);
 		
 		// Kill all nearby enemies.
 		Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, 6.0f, enemyMask);
