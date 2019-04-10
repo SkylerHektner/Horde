@@ -243,6 +243,8 @@ GameObject:
   - component: {fileID: 6620871946574598410}
   - component: {fileID: 2457604173167251795}
   - component: {fileID: 4030981754770116281}
+  - component: {fileID: 3754959869286664366}
+  - component: {fileID: 3755238238576023890}
   m_Layer: 16
   m_Name: AptDresser
   m_TagString: Untagged
@@ -313,6 +315,36 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &3754959869286664366
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5226024429285814134}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.0835524, y: 2.5348582, z: 2.0512633}
+  m_Center: {x: -0.0010141134, y: 1.2674289, z: -1.0256317}
+--- !u!114 &3755238238576023890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5226024429285814134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa22c7594952c245aa1d28ad5849176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenVersion: {fileID: 1555833033, guid: 91ecc461c514f4436b2d6c1ec289525c, type: 3}
+  drop: {fileID: 0}
+  particleEffect: {fileID: 5784105446330183177, guid: 1e2a6469ce1a9b941a0a1c2093a35006,
+    type: 3}
+  soundEffect: {fileID: 0}
 --- !u!1 &5514973057736081410
 GameObject:
   m_ObjectHideFlags: 0
