@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ed7f495cc07dd1840ba3b54d58b1d5ee, type: 2}
+  - {fileID: 2100000, guid: 605ee4c213d99824c8f85f17e124b9b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 9180108336331606894}
   - component: {fileID: 208636335167091726}
   m_Layer: 16
-  m_Name: Drum
+  m_Name: Drum_Sorrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91909f9ac21012146a443a9fa50ea021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drumType: 0
+  drumType: 1
   explosionRadius: 6
   effectDuration: 12
 --- !u!114 &9180108336331606894
@@ -154,8 +154,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brokenVersion: {fileID: 0}
   drop: {fileID: 0}
-  particleEffect: {fileID: 0}
-  soundEffect: {fileID: 0}
+  particleEffect: {fileID: 8338608249532224573, guid: 3775b4b130cf39343a3e82177ce1bc7f,
+    type: 3}
+  soundEffect: {fileID: 8300000, guid: f740975eb703ba840a26a58fa5aa66d2, type: 3}
 --- !u!208 &208636335167091726
 NavMeshObstacle:
   m_ObjectHideFlags: 0
