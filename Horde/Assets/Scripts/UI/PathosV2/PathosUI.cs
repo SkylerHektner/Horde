@@ -20,6 +20,8 @@ public class PathosUI : MonoBehaviour
     public GameObject PauseMenu;
     public MenuActivationEvent menuEvent;
 
+    public UnityEvent NotificationEvent;
+
     private bool escActive;
     private bool tabActive;
 
@@ -39,6 +41,10 @@ public class PathosUI : MonoBehaviour
     {
         debugWindow.gameObject.SetActive(false);
         PauseMenu.SetActive(false);
+        if(NotificationEvent == null)
+        {
+            NotificationEvent = new UnityEvent();
+        }
     }
 
     public void ActivateButton(GameObject button)

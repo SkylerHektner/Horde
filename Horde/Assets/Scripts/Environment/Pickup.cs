@@ -29,12 +29,10 @@ public class Pickup : MonoBehaviour
         if(c.tag == "Player")
         {
             ResourceManager.Instance.AddEmotion(resourceType, amount);
-            /*
             if(IsFirstPickup)
             {
-                ActivateButton.Invoke(TargetButton);
+                PathosUI.instance.NotificationEvent.Invoke();
             }
-            */
             Destroy(gameObject);
         }
     }
