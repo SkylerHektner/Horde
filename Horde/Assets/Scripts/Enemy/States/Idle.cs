@@ -16,6 +16,8 @@ public class Idle : AIState
 
 	public override void InitializeState()
 	{
+		base.InitializeState();
+		
 		preAlertDuration = enemy.EnemySettings.PreAlertDuration; 
 	}
 

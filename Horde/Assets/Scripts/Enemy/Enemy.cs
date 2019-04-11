@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour
 	private bool isDistracted;
 	private float explosionTimer = 0f; // Keeps track of when the enemy should explode.
 	private LayerMask enemyMask;
+	private bool isBarreled;
     
 
     public bool Paused { get; private set; }
@@ -74,7 +75,7 @@ public class Enemy : MonoBehaviour
 	
 	private void Update() 
 	{
-        if (!Paused)
+        if (!Paused && !isBarreled)
         {
             //Debug.Log(currentState.ToString());
             currentState.Tick();
@@ -97,7 +98,7 @@ public class Enemy : MonoBehaviour
 		return currentState;
 	}
 
-	public void ChangeState(AIState state)
+	public void ChangeState(AIState state, bool barreled = false)
 	{
 		if(currentState == null)
 		{
@@ -124,12 +125,34 @@ public class Enemy : MonoBehaviour
 		{
             explosionTimer = 6f;
 		}
-			
-        //transform.GetComponent<Animator>().SetTrigger("StopTalking");
-        transform.GetComponent<Animator>().SetBool("Startled", false);
 
-        currentState.LeaveState();
-        currentState = state;
+		
+		if(barreled)
+		{
+			StartCoroutine(UpdateCurrentStateWithDelay(state));	
+		}
+		else
+		{
+			currentState.LeaveState();
+			currentState = state;
+			currentState.InitializeState();
+		}
+			
+	}
+
+	private IEnumerator UpdateCurrentStateWithDelay(AIState state)
+	{
+		isBarreled = true;
+		GetComponent<Animator>().SetTrigger("Barreled");
+		GetComponentInChildren<VisionCone>().ChangeRadius(0);
+		enemyMovement.Stop();
+		currentState.LeaveState();
+
+		yield return new WaitForSeconds(3.0f);
+
+		isBarreled = false;
+		
+		currentState = state;
 		currentState.InitializeState();
 	}
 

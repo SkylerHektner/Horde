@@ -75,16 +75,16 @@ public class Drum : MonoBehaviour
 				switch(drumType)
 				{
 					case DrumType.Anger:
-						enemy.ChangeState(new Anger(enemy, effectDuration));
+						enemy.ChangeState(new Anger(enemy, effectDuration), true);
 						break;
 					case DrumType.Fear:
-						enemy.ChangeState(new Fear(enemy, effectDuration));
+						enemy.ChangeState(new Fear(enemy, effectDuration), true);
 						break;
 					case DrumType.Sadness:
-						enemy.ChangeState(new Sadness(enemy, effectDuration));
+						enemy.ChangeState(new Sadness(enemy, effectDuration), true);
 						break;
 					case DrumType.Joy:
-						enemy.ChangeState(new Joy(enemy, effectDuration));
+						enemy.ChangeState(new Joy(enemy, effectDuration), true);
 						break;
 				}
 			}

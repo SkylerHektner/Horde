@@ -27,15 +27,15 @@ public abstract class AIState
 		enemyAttack = enemy.GetComponent<EnemyAttack>();
 		visionCone = enemy.GetComponentInChildren<VisionCone>();
 		agent = enemy.GetComponent<NavMeshAgent>();
-
-		UpdateVisionCone();
-		UpdateTargetMask();
-
-		enemyMovement.Stop();
 	}
 
 	public virtual void InitializeState()
 	{
+		UpdateVisionCone();
+		UpdateTargetMask();
+
+		enemyMovement.Stop();
+
 		if(enemy.GetCurrentState() != null)
 			OnEmotionStarted(enemy.GetCurrentState().ToString());
 	}
@@ -68,6 +68,7 @@ public abstract class AIState
 	{
 		OnEmotionEnded(enemy.GetCurrentState().ToString());
 		enemy.DeactivateRecIcon();
+		enemyMovement.Stop();
 	}
 
 	protected abstract void UpdateVisionCone();

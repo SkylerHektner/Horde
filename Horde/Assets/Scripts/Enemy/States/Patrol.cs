@@ -19,6 +19,8 @@ public class Patrol : AIState
 
 	public override void InitializeState()
 	{
+		base.InitializeState();
+		
 		patrolPointList = new List<Transform>();
 		preAlertDuration = enemy.EnemySettings.PreAlertDuration;
 
