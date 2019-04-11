@@ -13,7 +13,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -25,17 +25,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _SecondaryTex:
         m_Texture: {fileID: 2800000, guid: 115947481dfddf0438adccfcb2f2fb0f, type: 3}
-        m_Scale: {x: 96, y: 54}
+        m_Scale: {x: 0, y: 0}
         m_Offset: {x: 0, y: 0}
     - _TertiaryTex:
         m_Texture: {fileID: 2800000, guid: b78d4990b78fe44409a695526e514eb0, type: 3}
-        m_Scale: {x: 0.6, y: 0.6}
-        m_Offset: {x: 0.15, y: 0.25}
+        m_Scale: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _SecondaryAlpha: 0.1
-    - _SecondaryTexScroll: 10
+    - _SecondaryTexScroll: 50
     - _TertiaryAlpha: 0.05
     - _TertiaryBloomMagnitude: 0.118
     - _TertiaryBloomSpeed: 0.07
     m_Colors:
     - _SecondaryTexScroll: {r: 0, g: 0, b: 0, a: 0}
+    - _SecondaryTexUV: {r: 96, g: 54, b: 0, a: 0}
+    - _TertiaryTexOffset: {r: 0.15, g: 0.25, b: 0, a: 0}
+    - _TertiaryTexUV: {r: 0.6, g: 0.6, b: 0, a: 0}
