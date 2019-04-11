@@ -31,6 +31,9 @@ public class DartGun : MonoBehaviour
     private PlayerMovement playerMovement;
     private Animator animator;
 
+    private bool shotCancelRequested = false;
+    private bool shotQueued = false;
+
 	private void Start() 
 	{
 		InitializeLineRenderer();
@@ -61,9 +64,24 @@ public class DartGun : MonoBehaviour
             DartSpawn = dartSpawnLocation;
         }
 
-        if (Input.GetButton("Fire1") && !attackOnCooldown
+        if (Input.GetAxis("Fire1") > 0.1f && !attackOnCooldown
             && (ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion) || infiniteAmmo))
 		{
+            
+            shotQueued = true;
+            if (shotCancelRequested)
+            {
+                return;
+            }
+            if (Input.GetAxis("Cancel Shot") > 0.1f)
+            {
+                shotCancelRequested = true;
+                lr.enabled = false;
+                animator.SetBool("Aiming", false);
+                playerMovement.lockMovementControls = false;
+                shotQueued = false;
+                return;
+            }
             if(debugWindowOpen)
                 return;
 
@@ -93,15 +111,23 @@ public class DartGun : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetAxis("Fire1") < 0.1f && shotQueued)
         {
-            if(debugWindowOpen)
+            Debug.Log("IN FIRE METHOD");
+            shotQueued = false;
+            if (shotCancelRequested)
+            {
+                shotCancelRequested = false;
+                return;
+            }
+            if (debugWindowOpen)
                 return;
             playerMovement.lockMovementControls = false;
             animator.SetBool("Aiming", false);
             if (!attackOnCooldown)
                 StartCoroutine(Fire());
             lr.enabled = false;
+            
         }
     }
 

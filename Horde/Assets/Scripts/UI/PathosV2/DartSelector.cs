@@ -16,15 +16,15 @@ public class DartSelector : MonoBehaviour
 
 	private void Update()
 	{
-		if(Input.GetKeyDown("1"))
+		if(Input.GetButtonDown("Select Rage"))
 		{
             rageSelected();
 		}
-		else if(Input.GetKeyDown("2"))
+		else if(Input.GetButtonDown("Select Fear"))
 		{
             fearSelected();
         }
-		else if(Input.GetKeyDown("3"))
+		else if(Input.GetButtonDown("Select Sorrow"))
 		{
             sadnessSelected();
         }
