@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 114216589002340080}
+  - {fileID: 114598760280320884}
   EditorEvents:
   - {fileID: 114241742767327506}
   - {fileID: 114348653869109008}
@@ -31,7 +31,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 114550235474159752}
   - {fileID: 114955206539603502}
-  stringsBankWriteTime: 636903469057997682
+  stringsBankWriteTime: 636903454299230925
   cacheVersion: 3
 --- !u!114 &114002567112006018
 MonoBehaviour:
@@ -160,7 +160,7 @@ MonoBehaviour:
   Path: event:/Title Screen
   guid: b25a78aa652df34ca4b9c6d43a580569
   Banks:
-  - {fileID: 114216589002340080}
+  - {fileID: 114598760280320884}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -508,15 +508,15 @@ MonoBehaviour:
   Path: event:/Level 2
   guid: 64a49c1046c1484c926904ad0eaf325b
   Banks:
-  - {fileID: 114216589002340080}
+  - {fileID: 114598760280320884}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: 114112828415103404}
-  - {fileID: 114735594135992462}
-  - {fileID: 114241536031939864}
-  - {fileID: 114459376548965488}
+  - {fileID: 114507565940083484}
+  - {fileID: 114604954357484382}
+  - {fileID: 114708298110246520}
+  - {fileID: 114842225437355900}
   MinDistance: 0
   MaxDistance: 0
   Length: 119307
@@ -572,6 +572,22 @@ MonoBehaviour:
   - Name: 
     Value: 2473344
   Exists: 0
+--- !u!114 &114310061260178666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Anger
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114317306007904120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +694,22 @@ MonoBehaviour:
   - Name: 
     Value: 2473344
   Exists: 1
+--- !u!114 &114341146450181354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114342761732104866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -725,15 +757,15 @@ MonoBehaviour:
   Path: event:/Level 1
   guid: b0880f6efb62fe4496388cbbdc9f8a64
   Banks:
-  - {fileID: 114216589002340080}
+  - {fileID: 114598760280320884}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: 114782558848401392}
-  - {fileID: 114002567112006018}
-  - {fileID: 114567664649907302}
-  - {fileID: 114327666096613996}
+  - {fileID: 114341146450181354}
+  - {fileID: 114310061260178666}
+  - {fileID: 114732712277849152}
+  - {fileID: 114948209469818752}
   MinDistance: 0
   MaxDistance: 0
   Length: 115420
@@ -1012,6 +1044,22 @@ MonoBehaviour:
   - Name: 
     Value: 2473344
   Exists: 0
+--- !u!114 &114507565940083484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Fear
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114513887656927500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,7 +1109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\StreamingAssets\Desktop\Master Bank.strings.bank
-  lastModified: 636903469057997682
+  lastModified: 636903454299230925
   LoadResult: 0
   FileSizes:
   - Name: 
@@ -1167,6 +1215,26 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114598760280320884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: C:\Users\wing0\Documents\Horde\Horde\Assets\StreamingAssets\Desktop\Master
+    Bank.bank
+  lastModified: 636904257554465752
+  LoadResult: 0
+  FileSizes:
+  - Name: 
+    Value: 4460000
+  Exists: 1
 --- !u!114 &114600229654020488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1180,6 +1248,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Anger
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114604954357484382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Sadness
   Min: 0
   Max: 1
   Default: 0
@@ -1203,6 +1287,22 @@ MonoBehaviour:
   - Name: 
     Value: 4457312
   Exists: 0
+--- !u!114 &114708298110246520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Anger
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114728769798549928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1232,6 +1332,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Fear
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114732712277849152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Sadness
   Min: 0
   Max: 1
   Default: 0
@@ -1536,6 +1652,22 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114842225437355900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114855989881052646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1688,6 +1820,22 @@ MonoBehaviour:
   - Name: 
     Value: 2473344
   Exists: 1
+--- !u!114 &114948209469818752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Fear
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114948463541076286
 MonoBehaviour:
   m_ObjectHideFlags: 0
