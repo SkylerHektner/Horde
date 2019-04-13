@@ -17,7 +17,7 @@ public class Idle : AIState
 	public override void InitializeState()
 	{
 		base.InitializeState();
-		
+
 		preAlertDuration = enemy.EnemySettings.PreAlertDuration; 
 	}
 
@@ -56,9 +56,15 @@ public class Idle : AIState
 			{
 				GameManager.Instance.AlertGuards();
                 enemy.GetComponent<Animator>().SetBool("Startled", false);
-
             }
         }
+	}
+
+	public override void LeaveState()
+	{
+		base.LeaveState();
+
+		enemy.GetComponent<Animator>().SetBool("Startled", false);
 	}
 
 	protected override void UpdateVisionCone()
