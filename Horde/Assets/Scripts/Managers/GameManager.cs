@@ -136,7 +136,8 @@ public class GameManager : MonoBehaviour
 
         // Make UI popup displaying "Checkpoint Reached" only if the next room is a checkpoint.
         if(currentRoom.IsCheckpoint)
-            StartCoroutine(DisplayCheckpointPopup());
+            PathosUI.instance.CheckpointNotif.GetComponent<Animation>().Play();
+            //StartCoroutine(DisplayCheckpointPopup());
     }
 
     // Probably only used for debugging.
@@ -171,7 +172,8 @@ public class GameManager : MonoBehaviour
 
         // Make UI popup displaying "Checkpoint Reached" only if the next room is a checkpoint.
         if(currentRoom.IsCheckpoint)
-            StartCoroutine(DisplayCheckpointPopup());
+            PathosUI.instance.CheckpointNotif.GetComponent<Animation>().Play();
+            //StartCoroutine(DisplayCheckpointPopup());
     }
 
     /// <summary>
