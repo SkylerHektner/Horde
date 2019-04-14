@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
 	public PatrolType PatrolType 		{ get { return patrolType; } }
     public bool IsDead 					{ get { return currentState.GetType() == typeof(Dead); } }
 	public Transform CameraHead			{ get { return cameraHead; } }
+	public Transform ExplosionLocation  { get { return explosionLocation; } }
 
 	public bool DEBUG_MODE;
 
@@ -23,8 +24,9 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private bool hasPatrolPath;
 	[SerializeField] private PatrolPath patrolPath;
 	[SerializeField] private PatrolType patrolType;
-	[SerializeField] private Transform cameraHead; 		// Used to rotate the camera head with code.
-	[SerializeField] private GameObject recordingIcon; 	// The icon that appears over a guards head when the player is in vision.
+	[SerializeField] private Transform cameraHead; 			// Used to rotate the camera head with code.
+	[SerializeField] private GameObject recordingIcon; 		// The icon that appears over a guards head when the player is in vision.
+	[SerializeField] private Transform explosionLocation; 	// The location where the explosion force comes off the bat.
 
     [SerializeField] private GameObject sparkingHeadParticleSystem;
 	[SerializeField] private GameObject bloodExplosionParticleEffect;

@@ -61,10 +61,14 @@ public class EnemyAttack : MonoBehaviour
             target.GetComponent<PlayerMovement>().isDead = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        else
+        else // Target is another guard.
         {
-            Destroy(target); // Just destroy other enemies for now.
+            //Destroy(target); // Just destroy other enemies for now.
 			GameManager.Instance.CurrentRoom.Enemies.Remove(target.GetComponent<Enemy>());
+			Enemy e = target.GetComponent<Enemy>();
+			e.ChangeState(new Dead(e));
+
+			AddExplosiveBatForce(10.0f);
         }
 
 		animator.SetBool("Stomping", true);
@@ -97,6 +101,8 @@ public class EnemyAttack : MonoBehaviour
 		if(target != null)
 			target.Break();
 
+		AddExplosiveBatForce(5.0f);
+
 		animator.SetBool("Stomping", true);
 		yield return new WaitForSeconds(attackCooldown);
 		animator.SetBool("Stomping", false);
@@ -111,5 +117,17 @@ public class EnemyAttack : MonoBehaviour
 			return true;
 
 		return false;
+	}
+
+	private void AddExplosiveBatForce(float force)
+	{
+		Collider[] rigidbodies = Physics.OverlapSphere(transform.position, 10.0f);
+		foreach(Collider c in rigidbodies)
+		{
+			Rigidbody rb = c.GetComponent<Rigidbody>();
+
+			if(rb != null)
+				rb.AddExplosionForce(force, enemy.ExplosionLocation.position, 10.0f, -1.0f, ForceMode.Impulse);
+		}
 	}
 }

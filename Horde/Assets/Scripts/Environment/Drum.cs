@@ -14,7 +14,7 @@ public class Drum : MonoBehaviour
 
 	void Start () 
 	{
-		mask = 1 << LayerMask.NameToLayer("Enemy"); // Only affects enemies for now.
+		mask = 1 << LayerMask.NameToLayer("Enemy");
 	}
 	
 	void Update () 
@@ -59,11 +59,10 @@ public class Drum : MonoBehaviour
 			Collider[] rigidbodies = Physics.OverlapSphere(transform.position, explosionRadius);
 			foreach(Collider c in rigidbodies)
 			{
-				Debug.Log("Hit");
 				Rigidbody rb = c.GetComponent<Rigidbody>();
 
 				if(rb != null)
-					rb.AddExplosionForce(50f, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
+					rb.AddExplosionForce(50.0f, transform.position, 25.0f, 1.0f, ForceMode.Impulse);
 			}
 		}
 		else

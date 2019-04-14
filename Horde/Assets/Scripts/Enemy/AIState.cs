@@ -68,7 +68,6 @@ public abstract class AIState
 	{
 		OnEmotionEnded(enemy.GetCurrentState().ToString());
 		enemy.DeactivateRecIcon();
-		enemyMovement.Stop();
 	}
 
 	protected abstract void UpdateVisionCone();

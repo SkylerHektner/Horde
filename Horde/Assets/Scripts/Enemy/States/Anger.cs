@@ -41,7 +41,7 @@ public class Anger : AIState
 
 		player = visionCone.TryGetPlayer();
 
-		// Find a current target. The player takes override any current target.
+		// Find a current target. The player takes priority over any current target.
 		if(player != null)
 		{
 			if(HasPathToTarget(player.transform))
@@ -74,9 +74,9 @@ public class Anger : AIState
 				if(enemyAttack.IsInAttackRange(currentTarget.position))
 				{
 					if(!enemyAttack.IsAttacking)
-					{
 						enemy.StartCoroutine(enemyAttack.AttackBreakable(breakableObject));
-					}	
+
+					currentTarget = null;
 				}
 			}
 			else // Current target is the player or another guard.
@@ -85,6 +85,8 @@ public class Anger : AIState
 				{
 					if(!enemyAttack.IsAttacking)
 						enemy.StartCoroutine(enemyAttack.Attack(currentTarget.gameObject));
+
+					currentTarget = null;
 				}
 			}
 		}
@@ -220,7 +222,7 @@ public class Anger : AIState
 
 		foreach(Enemy e in enemies)
 		{
-			if(GameObject.ReferenceEquals(e, enemy) || e == null)
+			if(GameObject.ReferenceEquals(e, enemy) || e == null || e.GetCurrentState() is Dead)
 				continue;
 
             agent.CalculatePath(e.transform.position, path);

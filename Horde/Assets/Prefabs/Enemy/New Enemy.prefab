@@ -92,6 +92,7 @@ MonoBehaviour:
   patrolType: 0
   cameraHead: {fileID: 5082111729963374208}
   recordingIcon: {fileID: 8205201345437355170}
+  explosionLocation: {fileID: 401874108}
   sparkingHeadParticleSystem: {fileID: 1752787068955844393}
   bloodExplosionParticleEffect: {fileID: 146828810421516959, guid: 6ba53e9be24b7c246a2cbd93f16e11cf,
     type: 3}
@@ -158,6 +159,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.07900183, y: 0.1600682, z: 0.06348674}
   m_Center: {x: -0.00043398232, y: 0.08018404, z: 0.00087884674}
+--- !u!1 &401874107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 401874108}
+  m_Layer: 15
+  m_Name: ExplosiveForceLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &401874108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401874107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00317, y: -0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4410274281463587328}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &109582895602008233
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6283191839193030684}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2404791350730564490}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftForeArm_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3853210428047604715}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftShoulder_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7573125465137407846}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +322,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7711467014579141678}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandMiddle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4968351604999444660}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +384,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3770389530934184139}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandRing4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -383,7 +414,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1957592337146931126}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftArm_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +445,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7088845431089048676}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Head_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +476,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 784169776746203183}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftForeArm_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +507,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3022445764428337746}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Hips_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +540,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7435904104656376454}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Neck_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -540,7 +571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3599586011824970294}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +607,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3701499397805102830}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandMiddle4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -606,7 +637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8971821196881184337}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -637,7 +668,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6888680254901342809}
-  m_Layer: 13
+  - component: {fileID: 5963485006715363134}
+  - component: {fileID: 4072124777758625236}
+  - component: {fileID: 5596443910544043121}
+  m_Layer: 15
   m_Name: GuardCharacter_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,6 +692,80 @@ Transform:
   m_Father: {fileID: 657190436156634398}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &5963485006715363134
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332882185329438214}
+  serializedVersion: 2
+  m_Mass: 1.25
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &4072124777758625236
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332882185329438214}
+  m_ConnectedBody: {fileID: 4967941952714672800}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 1.3009094e-14, y: 0.038729303, z: -0.00000010912819}
+  serializedVersion: 2
+  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -40
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 25
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 25
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
+--- !u!65 &5596443910544043121
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332882185329438214}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.03426674, y: 0.025173157, z: 0.06103059}
+  m_Center: {x: 0.0003081882, y: 0.0072071594, z: 0.00202812}
 --- !u!1 &1458523627600714052
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +775,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 930147902615426171}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,7 +806,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6451269112701190648}
-  m_Layer: 13
+  - component: {fileID: 3408294501443934764}
+  - component: {fileID: 179260165369637455}
+  - component: {fileID: 7328513845579370723}
+  m_Layer: 15
   m_Name: GuardCharacter_LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -720,6 +831,81 @@ Transform:
   m_Father: {fileID: 6693155605489775464}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &3408294501443934764
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530894675123321425}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.006764429
+  m_Height: 0.038722977
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.019361489, z: 0}
+--- !u!54 &179260165369637455
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530894675123321425}
+  serializedVersion: 2
+  m_Mass: 1.875
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &7328513845579370723
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530894675123321425}
+  m_ConnectedBody: {fileID: 4590080243664238257}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: -0.0048649246, y: -0.035409547, z: -0.0014729048}
+  serializedVersion: 2
+  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -80
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &1617659440233222361
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,7 +915,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1208436356205097715}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -760,7 +946,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8610656477743647925}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Spine1_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -791,7 +977,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6660780124584415782}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Hips_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -822,7 +1008,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2312940379824108834}
-  m_Layer: 13
+  - component: {fileID: 6139355604886710750}
+  - component: {fileID: 6775171115723042896}
+  - component: {fileID: 8227822428721697509}
+  m_Layer: 15
   m_Name: GuardCharacter_RightUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -844,6 +1033,81 @@ Transform:
   m_Father: {fileID: 3961298959051721058}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &6139355604886710750
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717792436333435647}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.007267487
+  m_Height: 0.035409547
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.017704774, z: 0}
+--- !u!54 &6775171115723042896
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717792436333435647}
+  serializedVersion: 2
+  m_Mass: 1.875
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &8227822428721697509
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717792436333435647}
+  m_ConnectedBody: {fileID: 7069042274759152469}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 0.008725453, y: -0.005356595, z: -0.00000010827562}
+  serializedVersion: 2
+  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -20
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 70
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 30
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &1843688611878886032
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,7 +1117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3233934473822581511}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightUpLeg_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +1148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3336800844648096181}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -915,7 +1179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2251191545618882205}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightArm_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -946,7 +1210,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9043845238823220746}
-  m_Layer: 13
+  - component: {fileID: 3123166937763490952}
+  - component: {fileID: 3286091946648019322}
+  - component: {fileID: 2145189114859787902}
+  m_Layer: 15
   m_Name: GuardCharacter_LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -968,6 +1235,81 @@ Transform:
   m_Father: {fileID: 299479252482257660}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &3123166937763490952
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2160270842714920676}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0049729194
+  m_Height: 0.019891677
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.009945839, z: 0}
+--- !u!54 &3286091946648019322
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2160270842714920676}
+  serializedVersion: 2
+  m_Mass: 1.25
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &2145189114859787902
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2160270842714920676}
+  m_ConnectedBody: {fileID: 4967941952714672800}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: -1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: -0.01911795, y: 0.021295732, z: -0.0010027806}
+  serializedVersion: 2
+  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -70
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 10
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 50
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &2268512560409572798
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,7 +1319,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6169058443193577911}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1008,7 +1350,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7453941609972401880}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftUpLeg_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1039,7 +1381,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3849893309175060578}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandMiddle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1070,7 +1412,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2983024534083782681}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1101,7 +1443,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6108460717475950533}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftHand_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1131,7 +1473,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9127876314561465341}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1161,7 +1503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 339462006857320399}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1192,7 +1534,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2785634204890944177}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Head_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1222,7 +1564,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5398968045743400729}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Spine2_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1253,7 +1595,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4377555676134284450}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandMiddle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1284,7 +1626,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 973120768939603308}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightLeg_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1315,7 +1657,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6232045709163575251}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1346,7 +1688,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8968377539007931533}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1377,7 +1719,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8474345946453471759}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandThumb4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1407,7 +1749,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 299479252482257660}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1438,7 +1780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3485448963880875035}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandMiddle4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1468,7 +1810,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7252887848638859418}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1499,7 +1841,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6377262857549230092}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftLeg_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1530,7 +1872,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6949007211302077918}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1561,7 +1903,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6279025467339941162}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightArm_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1592,7 +1934,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7386091928702656805}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightUpLeg_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1623,7 +1965,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2070634356405272663}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightFoot_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1654,7 +1996,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1601225150253705698}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftLeg_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1685,7 +2027,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6841684065068270337}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1716,7 +2058,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7791604304690357743}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightShoulder_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1747,7 +2089,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6320990385318107268}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftShoulder_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1778,7 +2120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3419617776557213652}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1811,7 +2153,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1579456315522554106}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftArm_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1842,7 +2184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3808526372678192894}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1873,7 +2215,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3346588059536151033}
-  m_Layer: 13
+  - component: {fileID: 2772648996522539478}
+  - component: {fileID: 5229150067913994306}
+  - component: {fileID: 7375446254172799838}
+  m_Layer: 15
   m_Name: GuardCharacter_LeftForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1895,6 +2240,81 @@ Transform:
   m_Father: {fileID: 9043845238823220746}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2772648996522539478
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939561346864118172}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.005542985
+  m_Height: 0.027714925
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.013857462, z: 0}
+--- !u!54 &5229150067913994306
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939561346864118172}
+  serializedVersion: 2
+  m_Mass: 1.25
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &7375446254172799838
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939561346864118172}
+  m_ConnectedBody: {fileID: 3286091946648019322}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 0, y: 0, z: 1}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: -0.010373233, y: -0.019891677, z: 0.0005256898}
+  serializedVersion: 2
+  m_SwingAxis: {x: -1, y: 0, z: 0}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -90
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &4970253894675809490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,7 +2324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8664023662460168281}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1935,7 +2355,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8627018444047076311}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1965,7 +2385,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2339529936573418106}
-  m_Layer: 13
+  - component: {fileID: 6466697157014387169}
+  - component: {fileID: 4628401782777019498}
+  - component: {fileID: 555749368023587837}
+  m_Layer: 15
   m_Name: GuardCharacter_RightForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1987,6 +2410,81 @@ Transform:
   m_Father: {fileID: 3658265218180953204}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &6466697157014387169
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5536314522324776493}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0075080814
+  m_Height: 0.037540406
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.018770203, z: 0}
+--- !u!54 &4628401782777019498
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5536314522324776493}
+  serializedVersion: 2
+  m_Mass: 1.25
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &555749368023587837
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5536314522324776493}
+  m_ConnectedBody: {fileID: 1981658906826367203}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 0, y: 0, z: 1}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 0.010373795, y: -0.019891385, z: 0.00052569667}
+  serializedVersion: 2
+  m_SwingAxis: {x: 1, y: 0, z: 0}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -90
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &5587225799555360603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1996,7 +2494,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8872165008928938380}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftHand_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2027,7 +2525,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3605191497991182753}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandPinky4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2057,7 +2555,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1765404219840383911}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2092,7 +2590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2950616257523840792}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftFoot_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2123,7 +2621,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9172541510404671814}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2154,7 +2652,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8264890623271593394}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightForeArm_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2185,7 +2683,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4566189338685350807}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2216,7 +2714,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 501445596092862986}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Spine_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2247,7 +2745,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6128204081528015006}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2278,7 +2776,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8996839768011396846}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightFoot_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2308,7 +2806,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5123684367548370076}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Spine2_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2341,7 +2839,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6046537556404976397}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftFoot_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2371,7 +2869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5940844986871474607}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightShoulder_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2402,7 +2900,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8289665120753068022}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2433,7 +2931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4906047883488031867}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_Reference
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2464,7 +2962,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1038906536864207318}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2514,7 +3012,8 @@ Transform:
   m_LocalRotation: {x: 0.5137744, y: 0.6639126, z: -0.3549092, w: 0.41145527}
   m_LocalPosition: {x: 0.0095, y: -0.0216, z: 0.032}
   m_LocalScale: {x: 10.588497, y: 0.78178036, z: 0.781781}
-  m_Children: []
+  m_Children:
+  - {fileID: 401874108}
   m_Father: {fileID: 3599586011824970294}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 63.386, y: 156.07701, z: 60.565002}
@@ -2572,7 +3071,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8104050709277079739}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2603,7 +3102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 657190436156634398}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2635,7 +3134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6470033294511921996}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightHand_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2665,7 +3164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1106571748335973678}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Spine1_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2696,7 +3195,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7845627739262796254}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_LeftUpLeg_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2727,7 +3226,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6693155605489775464}
-  m_Layer: 13
+  - component: {fileID: 2796486786893401492}
+  - component: {fileID: 4590080243664238257}
+  - component: {fileID: 5826332808891898672}
+  m_Layer: 15
   m_Name: GuardCharacter_LeftUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2749,6 +3251,81 @@ Transform:
   m_Father: {fileID: 3961298959051721058}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2796486786893401492
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636389781957824489}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.007112743
+  m_Height: 0.034439694
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.018189704, z: 0}
+--- !u!54 &4590080243664238257
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636389781957824489}
+  serializedVersion: 2
+  m_Mass: 1.875
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &5826332808891898672
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636389781957824489}
+  m_ConnectedBody: {fileID: 7069042274759152469}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: -0.008725453, y: -0.005356595, z: -0.00000010998075}
+  serializedVersion: 2
+  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -20
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 70
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 30
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &7654574869920788180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2758,7 +3335,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3961298959051721058}
-  m_Layer: 13
+  - component: {fileID: 1390934989339492447}
+  - component: {fileID: 7069042274759152469}
+  m_Layer: 15
   m_Name: GuardCharacter_Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2782,6 +3361,35 @@ Transform:
   m_Father: {fileID: 4906047883488031867}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1390934989339492447
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7654574869920788180}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.028634744, y: 0.014950743, z: 0.021727003}
+  m_Center: {x: 0.00048001096, y: 0.0021187756, z: -0.000501554}
+--- !u!54 &7069042274759152469
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7654574869920788180}
+  serializedVersion: 2
+  m_Mass: 3.125
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7798270244149754721
 GameObject:
   m_ObjectHideFlags: 0
@@ -2791,7 +3399,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4258437773928793451}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandRing4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2821,7 +3429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8076320403793696893}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandMiddle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2852,7 +3460,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3774520032044238754}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightHand_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2883,7 +3491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5786784214240857272}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Neck_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2914,7 +3522,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3684851877966221146}
-  m_Layer: 13
+  - component: {fileID: 6650829958456661312}
+  - component: {fileID: 4967941952714672800}
+  - component: {fileID: 4852245042377036247}
+  m_Layer: 15
   m_Name: GuardCharacter_Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2936,6 +3547,80 @@ Transform:
   m_Father: {fileID: 6232045709163575251}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6650829958456661312
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8094881117985367322}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.031761974, y: 0.024583008, z: 0.021727003}
+  m_Center: {x: -0.00075883983, y: 0.00900423, z: -0.00050155394}
+--- !u!54 &4967941952714672800
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8094881117985367322}
+  serializedVersion: 2
+  m_Mass: 3.125
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &4852245042377036247
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8094881117985367322}
+  m_ConnectedBody: {fileID: 7069042274759152469}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 1.3009094e-14, y: 0.016801693, z: -0.00000010912819}
+  serializedVersion: 2
+  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -20
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 20
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 10
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &8102640979833943608
 GameObject:
   m_ObjectHideFlags: 0
@@ -2945,7 +3630,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 314647585258511397}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2975,7 +3660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 558552820280368400}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3100,7 +3785,7 @@ GameObject:
   - component: {fileID: 5409920141864045598}
   - component: {fileID: 3916800056780643111}
   - component: {fileID: 2038346958926753577}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: VisionConeVisualization
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3175,7 +3860,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6978225138525665687}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightForeArm_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3206,7 +3891,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3273380053008630535}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3237,7 +3922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5266790266174145497}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandMiddle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3271,7 +3956,7 @@ GameObject:
   - component: {fileID: 7824948316746112822}
   - component: {fileID: 6433199551898106198}
   - component: {fileID: 4484404731617001030}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: CameraHeadFix
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3373,7 +4058,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7027190682317666093}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_RightLeg_OG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3404,7 +4089,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4150119224794626927}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandMiddle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3435,7 +4120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2915105099609641826}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardCharacter_Spine_CTL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3466,7 +4151,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 339842097637792694}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3497,7 +4182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7158328339005304922}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandPinky4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3527,7 +4212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9003275913022808439}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3558,7 +4243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4566621020002718275}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_RightHandThumb4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3588,7 +4273,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3658265218180953204}
-  m_Layer: 13
+  - component: {fileID: 9042194970436654653}
+  - component: {fileID: 1981658906826367203}
+  - component: {fileID: 6385870553450122495}
+  m_Layer: 15
   m_Name: GuardCharacter_RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3610,6 +4298,81 @@ Transform:
   m_Father: {fileID: 8664023662460168281}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &9042194970436654653
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9073302268207071980}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0049728462
+  m_Height: 0.019891385
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.0099456925, z: 0}
+--- !u!54 &1981658906826367203
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9073302268207071980}
+  serializedVersion: 2
+  m_Mass: 1.25
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &6385870553450122495
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9073302268207071980}
+  m_ConnectedBody: {fileID: 4967941952714672800}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 0.01911795, y: 0.021295732, z: -0.0010027773}
+  serializedVersion: 2
+  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -70
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 10
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 50
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &9090987225997677480
 GameObject:
   m_ObjectHideFlags: 0
@@ -3619,7 +4382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2871747533328224785}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3649,7 +4412,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5041000708436026030}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: GuardCharacter_LeftHandPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3681,7 +4444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8566460132586403110}
   - component: {fileID: 3964325208457805840}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: GuardBody:GuardBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3822,7 +4585,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 391825684424557899}
-  m_Layer: 13
+  - component: {fileID: 2119750006485832875}
+  - component: {fileID: 8059913684884587055}
+  - component: {fileID: 4652622895358142058}
+  m_Layer: 15
   m_Name: GuardCharacter_RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3844,6 +4610,81 @@ Transform:
   m_Father: {fileID: 2312940379824108834}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2119750006485832875
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9222760559881533695}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0066293734
+  m_Height: 0.038722977
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.019361489, z: 0}
+--- !u!54 &8059913684884587055
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9222760559881533695}
+  serializedVersion: 2
+  m_Mass: 1.875
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!144 &4652622895358142058
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9222760559881533695}
+  m_ConnectedBody: {fileID: 6775171115723042896}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 0.0048648696, y: -0.035409547, z: -0.0014729014}
+  serializedVersion: 2
+  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: -80
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 0
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 1
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1001 &2850451387219211138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3859,7 +4700,7 @@ PrefabInstance:
     - target: {fileID: 4602099248848874667, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
         type: 3}
       propertyPath: m_Layer
-      value: 13
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4602099248848874667, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
         type: 3}
@@ -3928,15 +4769,15 @@ PrefabInstance:
       objectReference: {fileID: 6433199551898106198}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47cfbd7ce7a68084c90f92c491a3e4fc, type: 3}
---- !u!4 &1752787068955844372 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4602099248848874646, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2850451387219211138}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1752787068955844393 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4602099248848874667, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2850451387219211138}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1752787068955844372 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4602099248848874646, guid: 47cfbd7ce7a68084c90f92c491a3e4fc,
     type: 3}
   m_PrefabInstance: {fileID: 2850451387219211138}
   m_PrefabAsset: {fileID: 0}
