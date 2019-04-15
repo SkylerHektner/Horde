@@ -1839,7 +1839,7 @@ RectTransform:
   - {fileID: 2943946176689940330}
   - {fileID: 2400583381331220533}
   m_Father: {fileID: 5589370803883081919}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05, y: 0.92}
   m_AnchorMax: {x: 0.05, y: 0.92}
@@ -1896,8 +1896,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumberOfFlashes: 3
-  FlashesPerSecond: 1
-  Smothness: 25
+  FadeIn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  FadeOut:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  FlashSpeed: 1
 --- !u!1 &3070437130781343591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2249,7 +2296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &987806558330788029
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2268,7 +2315,7 @@ RectTransform:
   - {fileID: 3986198838831874431}
   - {fileID: 398044703119621885}
   m_Father: {fileID: 5589370803883081919}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3502,6 +3549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Information: {fileID: 11400000, guid: 2b53707ca20d2c24b9ba901c017c346b, type: 2}
+  ButtonName: 
 --- !u!1 &5565120500956732942
 GameObject:
   m_ObjectHideFlags: 0
@@ -3790,10 +3838,10 @@ RectTransform:
   - {fileID: 5589295872116523201}
   - {fileID: 961998327005493295}
   - {fileID: 6700404862168916188}
+  - {fileID: 1712342166852198298}
   - {fileID: 987806558330788029}
   - {fileID: 2406257009214877840}
   - {fileID: 4470058111212700761}
-  - {fileID: 1712342166852198298}
   - {fileID: 3440218078539226942}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -3902,6 +3950,11 @@ MonoBehaviour:
   LoreText: {fileID: 6113705700408441969}
   VisualCanvas: {fileID: 1424043562897573088}
   streamer: {fileID: 1955814883298915467}
+  InventoryChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!132 &5660800603774240323
 GUIText:
   m_ObjectHideFlags: 0
@@ -5036,7 +5089,7 @@ RectTransform:
   - {fileID: 1822552679289760395}
   - {fileID: 1210579682733500230}
   m_Father: {fileID: 5589370803883081919}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -5926,6 +5979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Information: {fileID: 11400000, guid: b865216fc12531a4198d50104f86ee65, type: 2}
+  ButtonName: 
 --- !u!1 &7010339945544296263
 GameObject:
   m_ObjectHideFlags: 0
@@ -6346,6 +6400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Information: {fileID: 11400000, guid: 7482579d6efdcb84d81556fd43a6138c, type: 2}
+  ButtonName: 
 --- !u!1 &7481145092074582035
 GameObject:
   m_ObjectHideFlags: 0
@@ -6948,7 +7003,7 @@ RectTransform:
   - {fileID: 5660800604642962738}
   - {fileID: 5660800604267858321}
   m_Father: {fileID: 5589370803883081919}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

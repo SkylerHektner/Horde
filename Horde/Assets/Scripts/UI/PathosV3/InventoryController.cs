@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -31,6 +32,8 @@ public class InventoryController : MonoBehaviour
     [Tooltip("The Streamer that will play the video")]
     public VideoStreamer streamer;
 
+    public UnityEvent InventoryChangedEvent;
+
     private Button activeButton;
     private bool canView = true;
     
@@ -54,6 +57,10 @@ public class InventoryController : MonoBehaviour
     {
         Boot.SetActive(false);
         Inventory.SetActive(false);
+        if(InventoryChangedEvent == null)
+        {
+            InventoryChangedEvent = new UnityEvent();
+        }
     }
 
     // Update is called once per frame
