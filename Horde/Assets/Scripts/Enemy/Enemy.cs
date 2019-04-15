@@ -168,20 +168,18 @@ public class Enemy : MonoBehaviour
 		Collider[] objectsInRange = Physics.OverlapSphere(transform.position, 6.0f, mask);
 		foreach(Collider c in objectsInRange)
 		{
-			if(ReferenceEquals(c.gameObject, gameObject)) // Don't look at the enemy that is exploding.
+			if(ReferenceEquals(c.gameObject, gameObject)) // Skip the guard that is exploding.
 			{
-				Debug.Log("Hit here");
 				continue; 
 			} 
-				
 
 			Enemy enemy = c.GetComponent<Enemy>();
-			Breakable b = c.GetComponent<Breakable>();
+			Breakable breakable = c.GetComponent<Breakable>();
 
-			if(enemy != null)
+			if(enemy)
 				enemy.ChangeState(new Dead(enemy));
-			else if (b != null)
-				b.Break();
+			else if (breakable)
+				breakable.Break();
 		}
 
 		Collider[] rigidbodies = Physics.OverlapSphere(transform.position, 6.0f);

@@ -32,7 +32,12 @@ public class Breakable : MonoBehaviour
         {
             if(brokenVersion != null)
             {
-                GameObject go = Instantiate(brokenVersion, transform.position, transform.rotation);
+                GameObject brokenVersionGO = Instantiate(brokenVersion, transform.position, transform.rotation);
+                Transform[] brokenPieces = brokenVersionGO.GetComponentsInChildren<Transform>();
+                foreach(Transform t in brokenPieces)
+                {
+                    Object.Destroy(t.gameObject, Random.Range(4.0f, 7.0f));
+                }
             }
 
             if(drop != null)
