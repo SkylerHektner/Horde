@@ -185,6 +185,21 @@ public class DartGun : MonoBehaviour
 
             dartGO.GetComponent<Dart>().LoadEmotion(PathosUI.instance.CurrentEmotion);
 
+            ParticleSystem.MainModule main = dartGO.GetComponentInChildren<ParticleSystem>().main;
+            switch (PathosUI.instance.CurrentEmotion)
+            {
+                case ResourceType.Rage:
+                    main.startColor = Color.red;
+                    break;
+                case ResourceType.Fear:
+                    main.startColor = Color.yellow;
+                    break;
+                case ResourceType.Sadness:
+                    main.startColor = Color.blue;
+                    break;
+            }
+
+
             yield return new WaitForSeconds(attackCooldown);
 
             attackOnCooldown = false;
