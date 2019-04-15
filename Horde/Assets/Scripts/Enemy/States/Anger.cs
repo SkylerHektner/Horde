@@ -56,6 +56,7 @@ public class Anger : AIState
 			if(currentTarget == null)
 			{
 				enemyMovement.Stop();
+				enemy.GetComponent<Animator>().SetBool("Stomping", false);
 				enemy.GetComponent<Animator>().SetBool("Scanning", true);
 			}
 		}

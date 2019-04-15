@@ -38,6 +38,7 @@ public class Idle : AIState
 		// REMINDER: A guard is "distracted" while it is staring as a sad guard.
 		if(!enemy.IsDistracted && player == null)
 		{
+			enemy.GetComponent<Animator>().SetBool("Startled", false);
 			canBeStartled = true;
 			preAlertDuration = enemy.EnemySettings.PreAlertDuration; 	// Reset the timer if player isn't in vision.
 			ResetTransform();											// And reset back to inital position and rotation.
