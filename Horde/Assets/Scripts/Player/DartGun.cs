@@ -34,6 +34,8 @@ public class DartGun : MonoBehaviour
     private bool shotCancelRequested = false;
     private bool shotQueued = false;
 
+    private bool fireDownLastFrame = false;
+
 	private void Start() 
 	{
 		InitializeLineRenderer();
@@ -64,19 +66,31 @@ public class DartGun : MonoBehaviour
             DartSpawn = dartSpawnLocation;
         }
 
-        if (Input.GetAxis("Fire1") > 0.1f && !attackOnCooldown
+        bool fireDownNow = Input.GetAxis("Fire1") > 0.1f;
+        bool fireButtonCurFrame = false;
+
+        if ((!fireDownLastFrame) && fireDownNow)
+        {
+            fireButtonCurFrame = true;
+        }
+
+        fireDownLastFrame = fireDownNow;
+
+        if (fireDownNow && !attackOnCooldown
             && (ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion) || infiniteAmmo))
 		{
             
             shotQueued = true;
             if (shotCancelRequested)
             {
+                animator.SetBool("CancelShot", false);
                 return;
             }
             if (Input.GetAxis("Cancel Shot") > 0.1f)
             {
                 shotCancelRequested = true;
                 lr.enabled = false;
+                animator.SetBool("CancelShot", true);
                 animator.SetBool("Aiming", false);
                 playerMovement.lockMovementControls = false;
                 shotQueued = false;
@@ -86,7 +100,10 @@ public class DartGun : MonoBehaviour
                 return;
 
             playerMovement.lockMovementControls = true;
-            animator.SetBool("Aiming", true);
+
+            if (fireButtonCurFrame)
+                animator.SetBool("Aiming", true);
+
             if (Input.GetButton("Crouch"))
             {
                 animator.SetBool("Sneaking", true);
@@ -111,9 +128,8 @@ public class DartGun : MonoBehaviour
             }
         }
 
-        if (Input.GetAxis("Fire1") < 0.1f && shotQueued)
+        if ((!fireDownNow) && shotQueued)
         {
-            Debug.Log("IN FIRE METHOD");
             shotQueued = false;
             if (shotCancelRequested)
             {
