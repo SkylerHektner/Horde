@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class Notification : MonoBehaviour
 {
     public int NumberOfFlashes;
-    public float FlashesPerSecond;
-    public float Smothness;
+    public AnimationCurve FadeIn;
+    public AnimationCurve FadeOut;
+    public float FlashSpeed;
 
     private Text text;
     private Image imgage;
@@ -23,14 +24,10 @@ public class Notification : MonoBehaviour
         {
             NumberOfFlashes = 1;
         }
-        if(FlashesPerSecond < 1)
+        if(FlashSpeed < 1)
         {
-            FlashesPerSecond = 1;
+            FlashSpeed = 1;
         }
-
-        timePerFlash = 1 / FlashesPerSecond;
-        waitTime = timePerFlash / Smothness;
-        increment = 255 / waitTime;
 
         text = GetComponentInChildren<Text>();
         imgage = GetComponentInChildren<Image>();
@@ -65,30 +62,43 @@ public class Notification : MonoBehaviour
     private IEnumerator Play()
     {
         int currentFlash = 0;
-        int currentAlpha = 0;
+        Color text_color_inv = text.color;
+        Color text_color = text_color_inv;
+        text_color.a = 1;
+
+        Color img_color_inv = imgage.color;
+        Color img_color = img_color_inv;
+        img_color.a = 1;
+
+        Color bg_color_inv = bg.color;
+        Color bg_color = bg_color_inv;
+        bg_color.a = 1;
 
         while(currentFlash < NumberOfFlashes)
         {
-            Debug.Log("FLASHING");
-            while (currentAlpha < 255)
+            while(text.color != text_color_inv && imgage.color != img_color_inv && bg.color != bg_color_inv)
             {
-                currentAlpha += (int)increment;
-
-                SetAlphas(currentAlpha);
-
-                yield return new WaitForSeconds(waitTime);
+                text.color = Color.Lerp(text.color, text_color_inv, FadeIn.Evaluate(Time.deltaTime * FlashSpeed));
+                imgage.color = Color.Lerp(imgage.color, img_color_inv, FadeIn.Evaluate(Time.deltaTime * FlashSpeed));
+                bg.color = Color.Lerp(bg.color, bg_color_inv, FadeIn.Evaluate(Time.deltaTime * FlashSpeed));
+                yield return null;
             }
-            Debug.Log("Show");
-            while (currentAlpha > 0)
+            while(text.color != text_color && imgage.color != img_color && bg.color != bg_color)
             {
-                currentAlpha -= (int)increment;
-
-                SetAlphas(currentAlpha);
-
-                yield return new WaitForSeconds(waitTime);
+                text.color = Color.Lerp(text.color, text_color, FadeOut.Evaluate(Time.deltaTime * FlashSpeed));
+                imgage.color = Color.Lerp(imgage.color, img_color, FadeOut.Evaluate(Time.deltaTime * FlashSpeed));
+                bg.color = Color.Lerp(bg.color, bg_color, FadeOut.Evaluate(Time.deltaTime * FlashSpeed));
+                yield return null;
             }
-            Debug.Log("HIDE");
             currentFlash++;
+        }
+
+        while (text.color != text_color_inv && imgage.color != img_color_inv && bg.color != bg_color_inv)
+        {
+            text.color = Color.Lerp(text.color, text_color_inv, FadeIn.Evaluate(Time.deltaTime * FlashSpeed));
+            imgage.color = Color.Lerp(imgage.color, img_color_inv, FadeIn.Evaluate(Time.deltaTime * FlashSpeed));
+            bg.color = Color.Lerp(bg.color, bg_color_inv, FadeIn.Evaluate(Time.deltaTime * FlashSpeed));
+            yield return null;
         }
         Debug.Log("DONE WITH FLASH");
     }
