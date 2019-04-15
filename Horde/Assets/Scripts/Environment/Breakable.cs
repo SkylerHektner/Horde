@@ -33,10 +33,6 @@ public class Breakable : MonoBehaviour
             if(brokenVersion != null)
             {
                 GameObject go = Instantiate(brokenVersion, transform.position, transform.rotation);
-                foreach(Rigidbody rb in go.GetComponentsInChildren<Rigidbody>())
-                {
-                    rb.GetComponent<Rigidbody>().AddExplosionForce(1.0f, transform.position, 5.0f, 3.0f, ForceMode.Impulse);
-                }
             }
 
             if(drop != null)

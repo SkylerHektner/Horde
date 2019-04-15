@@ -14,7 +14,7 @@ public class Drum : MonoBehaviour
 
 	void Start () 
 	{
-		mask = 1 << LayerMask.NameToLayer("Enemy");
+		mask = 1 << LayerMask.NameToLayer("Enemy") | 1 << LayerMask.NameToLayer("Breakable");
 	}
 	
 	void Update () 
@@ -52,8 +52,13 @@ public class Drum : MonoBehaviour
 		{
 			foreach(Collider c in objectsInRange)
 			{
-				Enemy e = c.GetComponent<Enemy>();
-				e.ChangeState(new Dead(e));
+				Enemy enemy = c.GetComponent<Enemy>();
+				Breakable b = c.GetComponent<Breakable>();
+
+				if(enemy != null)
+					enemy.ChangeState(new Dead(enemy));
+				else if (b != null)
+					b.Break();
 			}
 
 			Collider[] rigidbodies = Physics.OverlapSphere(transform.position, explosionRadius);
@@ -71,20 +76,23 @@ public class Drum : MonoBehaviour
 			{
 				Enemy enemy = c.GetComponent<Enemy>();
 
-				switch(drumType)
+				if(enemy != null) // If the object is a guard.
 				{
-					case DrumType.Anger:
-						enemy.ChangeState(new Anger(enemy, effectDuration), true);
-						break;
-					case DrumType.Fear:
-						enemy.ChangeState(new Fear(enemy, effectDuration), true);
-						break;
-					case DrumType.Sadness:
-						enemy.ChangeState(new Sadness(enemy, effectDuration), true);
-						break;
-					case DrumType.Joy:
-						enemy.ChangeState(new Joy(enemy, effectDuration), true);
-						break;
+					switch(drumType)
+					{
+						case DrumType.Anger:
+							enemy.ChangeState(new Anger(enemy, effectDuration), true);
+							break;
+						case DrumType.Fear:
+							enemy.ChangeState(new Fear(enemy, effectDuration), true);
+							break;
+						case DrumType.Sadness:
+							enemy.ChangeState(new Sadness(enemy, effectDuration), true);
+							break;
+						case DrumType.Joy:
+							enemy.ChangeState(new Joy(enemy, effectDuration), true);
+							break;
+					}
 				}
 			}
 		}

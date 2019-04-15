@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private Transform cameraHead; 			// Used to rotate the camera head with code.
 	[SerializeField] private GameObject recordingIcon; 		// The icon that appears over a guards head when the player is in vision.
 	[SerializeField] private Transform explosionLocation; 	// The location where the explosion force comes off the bat.
+	[SerializeField] private AudioClip explosionSoundEffect;
 
     [SerializeField] private GameObject sparkingHeadParticleSystem;
 	[SerializeField] private GameObject bloodExplosionParticleEffect;
@@ -41,7 +42,7 @@ public class Enemy : MonoBehaviour
 	private Quaternion spawnRotation;
 	private bool isDistracted;
 	private float explosionTimer = 0f; // Keeps track of when the enemy should explode.
-	private LayerMask enemyMask;
+	private LayerMask mask;
 	private bool isBarreled;
     
 
@@ -62,7 +63,7 @@ public class Enemy : MonoBehaviour
 		enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimator = GetComponent<Animator>();
 
-        enemyMask = 1 << LayerMask.NameToLayer("Enemy");
+        mask = 1 << LayerMask.NameToLayer("Enemy") | 1 << LayerMask.NameToLayer("Breakable");
 
 		// Set to idle or patrol state
 		if(hasPatrolPath)
@@ -164,10 +165,35 @@ public class Enemy : MonoBehaviour
 		Destroy(bloodExplosion, 3.0f);
 		
 		// Kill all nearby enemies.
-		Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, 6.0f, enemyMask);
-		foreach(Collider c in enemiesInRange)
-			Destroy(c.gameObject);
+		Collider[] objectsInRange = Physics.OverlapSphere(transform.position, 6.0f, mask);
+		foreach(Collider c in objectsInRange)
+		{
+			if(ReferenceEquals(c.gameObject, gameObject)) // Don't look at the enemy that is exploding.
+			{
+				Debug.Log("Hit here");
+				continue; 
+			} 
+				
 
+			Enemy enemy = c.GetComponent<Enemy>();
+			Breakable b = c.GetComponent<Breakable>();
+
+			if(enemy != null)
+				enemy.ChangeState(new Dead(enemy));
+			else if (b != null)
+				b.Break();
+		}
+
+		Collider[] rigidbodies = Physics.OverlapSphere(transform.position, 6.0f);
+		foreach(Collider c in rigidbodies)
+		{
+			Rigidbody rb = c.GetComponent<Rigidbody>();
+
+			if(rb != null)
+				rb.AddExplosionForce(50.0f, transform.position, 25.0f, 1.0f, ForceMode.Impulse);
+		}
+
+		AudioManager.instance.PlaySoundEffectRandomPitch(explosionSoundEffect);
 		Destroy(gameObject);
 	}
 
