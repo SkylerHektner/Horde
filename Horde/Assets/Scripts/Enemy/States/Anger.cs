@@ -51,9 +51,17 @@ public class Anger : AIState
 		if(currentTarget == null)
 		{
 			currentTarget = FindClosestTarget();
+
+			// If there are not more targets...
+			if(currentTarget == null)
+			{
+				enemyMovement.Stop();
+				enemy.GetComponent<Animator>().SetBool("Scanning", true);
+			}
 		}
 		else // Guard has a current target.
 		{
+			enemy.GetComponent<Animator>().SetBool("Scanning", false);
 			if(player)
 			{
 				// Camera head should "lock on" to the player.
@@ -97,6 +105,7 @@ public class Anger : AIState
 		base.LeaveState();
 		
         enemy.GetComponent<Animator>().SetBool("Angry", false);
+		enemy.GetComponent<Animator>().SetBool("Scanning", false);
 
 		enemy.CameraHead.localRotation = Quaternion.identity;
     }
