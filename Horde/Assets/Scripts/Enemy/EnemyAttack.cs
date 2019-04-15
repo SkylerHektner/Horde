@@ -9,6 +9,8 @@ public class EnemyAttack : MonoBehaviour
 	public float AttackRange { get { return attackRange; } }
 	public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
 
+	[SerializeField] private GameObject bloodSplatterParticles;
+
 	private float attackRange;
 	private bool isAttacking;
 	private Animator animator;
@@ -48,6 +50,9 @@ public class EnemyAttack : MonoBehaviour
 
 		yield return new WaitForSeconds(0.75f); // Create a delay here to wait for the contact of the bat.
 
+		GameObject bloodParticles = Instantiate(bloodSplatterParticles, enemy.ExplosionLocation.position, Quaternion.Euler(-90, 0, 0));
+		Object.Destroy(bloodParticles, 3.0f);
+
         while (enemy.Paused)
             yield return null;
 
@@ -68,7 +73,7 @@ public class EnemyAttack : MonoBehaviour
 			Enemy e = target.GetComponent<Enemy>();
 			e.ChangeState(new Dead(e));
 
-			AddExplosiveBatForce(10.0f);
+			AddExplosiveBatForce(15f, 20f);
         }
 
 		animator.SetBool("Stomping", true);
@@ -101,7 +106,7 @@ public class EnemyAttack : MonoBehaviour
 		if(target != null)
 			target.Break();
 
-		AddExplosiveBatForce(5.0f);
+		AddExplosiveBatForce(5f, 10f);
 
 		animator.SetBool("Stomping", true);
 		yield return new WaitForSeconds(attackCooldown);
@@ -119,15 +124,15 @@ public class EnemyAttack : MonoBehaviour
 		return false;
 	}
 
-	private void AddExplosiveBatForce(float force)
+	private void AddExplosiveBatForce(float force, float radius)
 	{
-		Collider[] rigidbodies = Physics.OverlapSphere(transform.position, 10.0f);
+		Collider[] rigidbodies = Physics.OverlapSphere(transform.position, radius);
 		foreach(Collider c in rigidbodies)
 		{
 			Rigidbody rb = c.GetComponent<Rigidbody>();
 
 			if(rb != null)
-				rb.AddExplosionForce(force, enemy.ExplosionLocation.position, 10.0f, -1.0f, ForceMode.Impulse);
+				rb.AddExplosionForce(force, enemy.ExplosionLocation.position, radius, -1.0f, ForceMode.Impulse);
 		}
 	}
 }
