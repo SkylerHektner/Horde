@@ -9,6 +9,8 @@ public class Dead : AIState
 
     public override void InitializeState()
     {
+        base.InitializeState();
+
         enemy.GetComponent<Collider>().enabled = false;
         enemy.GetComponent<Animator>().enabled = false;
         enemy.GetComponent<NavMeshAgent>().enabled = false;
@@ -27,6 +29,6 @@ public class Dead : AIState
 
     protected override void UpdateVisionCone()
     {
-        visionCone.ChangeRadius(0.0f);
+        visionCone.ChangeRadius(0.1f);
     }
 }

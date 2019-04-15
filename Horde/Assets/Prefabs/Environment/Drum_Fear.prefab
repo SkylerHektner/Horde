@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4625758026769120}
   - component: {fileID: 33144152691447870}
   - component: {fileID: 23880682249828080}
-  - component: {fileID: 65648458725380250}
   m_Layer: 16
   m_Name: OilDrum
   m_TagString: Untagged
@@ -78,19 +77,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &65648458725380250
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1338207511512320}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.0717616, y: 3.0662174, z: 2.0717616}
-  m_Center: {x: 0, y: 0.49108702, z: 0}
 --- !u!1 &1880873319361466
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,6 +89,7 @@ GameObject:
   - component: {fileID: 114433248653003746}
   - component: {fileID: 9180108336331606894}
   - component: {fileID: 208636335167091726}
+  - component: {fileID: 3052675691403608237}
   m_Layer: 16
   m_Name: Drum_Fear
   m_TagString: Untagged
@@ -173,3 +160,16 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.39, z: 0}
   m_TimeToStationary: 0.5
+--- !u!65 &3052675691403608237
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880873319361466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0717616, y: 3.0662174, z: 2.0717616}
+  m_Center: {x: 0, y: 0.49108702, z: 0}
