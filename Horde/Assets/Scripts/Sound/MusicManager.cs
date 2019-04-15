@@ -14,15 +14,6 @@ public class MusicManager : MonoBehaviour
     private int numAlert;
     private int numTotal;
 
-    /*
-    private FMOD.Studio.System fmodSystem = FMODUnity.RuntimeManager.StudioSystem;
-    private FMOD.Studio.EventInstance bgMusic;
-    private FMOD.Studio.ParameterInstance intensity;
-    private FMOD.Studio.ParameterInstance anger;
-    private FMOD.Studio.ParameterInstance fear;
-    private FMOD.Studio.ParameterInstance sorrow;
-    */
-
     private FMODUnity.StudioEventEmitter emitter;
 
     private void Awake()
@@ -46,14 +37,22 @@ public class MusicManager : MonoBehaviour
         numTotal = 0;
 
         emitter = GetComponent<FMODUnity.StudioEventEmitter>();
+        GameManager.Instance.ChangeRoomEvent.AddListener(ResetMusic);
         
-        /*bgMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Level 1");
-        bgMusic.getParameter("Intensity", out intensity);
-        bgMusic.getParameter("Anger", out anger);
-        bgMusic.getParameter("Sadness", out sorrow);
-        bgMusic.getParameter("Fear", out fear);
-        bgMusic.start();*/
-        
+    }
+
+    private void ResetMusic()
+    {
+        emitter.SetParameter("Anger", 0f);
+        emitter.SetParameter("Fear", 0f);
+        emitter.SetParameter("Sadness", 0f);
+        emitter.SetParameter("Intensity", 0f);
+
+        numAlert = 0;
+        numAnger = 0;
+        numFear = 0;
+        numSorrow = 0;
+        numTotal = 0;
     }
 
     private void OnEnable()
@@ -64,26 +63,20 @@ public class MusicManager : MonoBehaviour
 
     public void EmotionEnd(string emotion)
     {
-       // if(emotion == "Idle")
-        //{
-          //  return;
-        //}
-        Debug.Log("EMOTION END: " + emotion);
-        numTotal--;
-        Debug.Log("numTotal: " + numTotal.ToString());
-        if (numTotal < 0)
-        {
-            numTotal = 0;
-        }
-            switch (emotion)
+
+        switch (emotion)
         {
             case "Anger":
                 numAnger--;
                 Debug.Log(numAnger);
                 if (numAnger <= 0)
                 {
-                   // anger.setValue(0f);
                     emitter.SetParameter("Anger", 0f);
+                }
+                numTotal--;
+                if (numTotal < 0)
+                {
+                    numTotal = 0;
                 }
                 break;
             case "Fear":
@@ -91,8 +84,12 @@ public class MusicManager : MonoBehaviour
                 Debug.Log(numFear);
                 if(numFear <= 0)
                 {
-                    //fear.setValue(0f);
                     emitter.SetParameter("Fear", 0f);
+                }
+                numTotal--;
+                if (numTotal < 0)
+                {
+                    numTotal = 0;
                 }
                 break;
             case "Sadness":
@@ -100,68 +97,83 @@ public class MusicManager : MonoBehaviour
                 Debug.Log(numSorrow);
                 if(numSorrow <= 0)
                 {
-                   // sorrow.setValue(0f);
                     emitter.SetParameter("Sadness", 0f);
+                }
+                numTotal--;
+                if (numTotal < 0)
+                {
+                    numTotal = 0;
                 }
                 break;
             case "Alert":
                 numAlert--;
+                numTotal--;
+                if (numTotal < 0)
+                {
+                    numTotal = 0;
+                }
                 Debug.Log(numAlert);
                 break;
         }
         if(numTotal <= 0)
         {
-            //intensity.setValue(0f);
             emitter.SetParameter("Intensity", 0f);
         }
     }
 
     private void EmotionStart(string emotion)
     {
-        //Debug.Log(s);
-        Debug.Log("EMOTION START: " + emotion);
-        Debug.Log("NUM TOTAL: " + numTotal.ToString());
-        numTotal++;
-        if(numTotal == 1)
-        {
-            // intensity.setValue(100f);
-            emitter.SetParameter("Intensity", 100f);
-        }
-
         switch(emotion)
         {
             case "Anger":
+                numTotal++;
+                if (numTotal == 1)
+                {
+                    emitter.SetParameter("Intensity", 100f);
+                }
                 numAnger++;
                 Debug.Log(numAnger);
                 if(numAnger == 1)
                 {
-                    //  anger.setValue(100f);
                     emitter.SetParameter("Anger", 100f);
                 }
                 break;
 
             case "Fear":
+                numTotal++;
+                if (numTotal == 1)
+                {
+                    emitter.SetParameter("Intensity", 100f);
+                }
                 numFear++;
                 Debug.Log(numFear);
                 if(numFear == 1)
                 {
-                    //fear.setValue(100f);
                     emitter.SetParameter("Fear", 100f);
                 }
                 break;
 
             case "Sadness":
+                numTotal++;
+                if (numTotal == 1)
+                {
+                    emitter.SetParameter("Intensity", 100f);
+                }
                 numSorrow++;
                 Debug.Log(numSorrow);
                 if(numSorrow == 1)
                 {
-                    //sorrow.setValue(100f);
                     emitter.SetParameter("Sadness", 100f);
                 }
                 break;
 
             case "Alert":
                 numAlert++;
+                numTotal++;
+                if (numTotal == 1)
+                {
+                    emitter.SetParameter("Intensity", 100f);
+                }
                 Debug.Log(numAlert);
                 break;
         }

@@ -6,10 +6,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 using TMPro;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // Singleton instance
+
+    public UnityEvent ChangeRoomEvent;
 
     public bool RoomIsAlerted           { get { return roomIsAlerted; } set { roomIsAlerted = value; } }
     public Room CurrentRoom             { get { return currentRoom; } set { currentRoom = value; } }
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour
         ResourceManager.Instance.Fear = PlayerPrefs.GetInt("Fear", 0);
         ResourceManager.Instance.Sadness = PlayerPrefs.GetInt("Sadness", 0);
         ResourceManager.Instance.Joy = PlayerPrefs.GetInt("Joy", 0);
+        ChangeRoomEvent = new UnityEvent();
     }
 
     private void Update()
@@ -137,7 +141,9 @@ public class GameManager : MonoBehaviour
         // Make UI popup displaying "Checkpoint Reached" only if the next room is a checkpoint.
         if(currentRoom.IsCheckpoint)
             PathosUI.instance.CheckpointNotif.GetComponent<Animation>().Play();
-            //StartCoroutine(DisplayCheckpointPopup());
+        //StartCoroutine(DisplayCheckpointPopup());
+
+        ChangeRoomEvent.Invoke();
     }
 
     // Probably only used for debugging.
