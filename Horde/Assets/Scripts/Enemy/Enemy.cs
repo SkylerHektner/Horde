@@ -161,6 +161,7 @@ public class Enemy : MonoBehaviour
 	private void Explode()
 	{
 		GameObject bloodExplosion = Instantiate(bloodExplosionParticleEffect, transform.position, Quaternion.Euler(-90, 0, 0));
+		Destroy(bloodExplosion, 3.0f);
 		
 		// Kill all nearby enemies.
 		Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, 6.0f, enemyMask);
