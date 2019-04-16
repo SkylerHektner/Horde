@@ -24,8 +24,16 @@ public class Player : MonoBehaviour
 		GetComponent<PlayerMovement>().lockMovementControls = false;
 	}
 
+	public void Die()
+	{
+		GetComponent<Animator>().SetTrigger("Die");
+		SetKinematic(false);
+		GetComponent<Animator>().enabled = false;
+		GetComponent<Collider>().enabled = false;
+	}
+
 	// Used for the ragdoll rigidbodies.
-	public void SetKinematic(bool value)
+	private void SetKinematic(bool value)
 	{
 		Rigidbody[] bodies = GetComponentsInChildren<Rigidbody>();
 		foreach (Rigidbody rb in bodies)

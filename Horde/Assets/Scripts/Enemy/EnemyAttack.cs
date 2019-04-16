@@ -58,10 +58,7 @@ public class EnemyAttack : MonoBehaviour
 
 		if(target.tag == "Player") // If they strike the player
         {
-            target.GetComponent<Animator>().SetTrigger("Die");
-			GameManager.Instance.Player.SetKinematic(false);
-			GameManager.Instance.Player.GetComponent<Animator>().enabled = false;
-			GameManager.Instance.Player.GetComponent<Collider>().enabled = false;
+            GameManager.Instance.Player.Die();
 
             yield return new WaitForSeconds(2f); // Give the death animation some time to play.
 
