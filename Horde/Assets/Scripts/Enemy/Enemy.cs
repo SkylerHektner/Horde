@@ -164,7 +164,7 @@ public class Enemy : MonoBehaviour
 		GameObject bloodExplosion = Instantiate(bloodExplosionParticleEffect, transform.position, Quaternion.Euler(-90, 0, 0));
 		Destroy(bloodExplosion, 3.0f);
 		
-		// Kill all nearby enemies.
+		// Break nearby breakables or kill nearby guards
 		Collider[] objectsInRange = Physics.OverlapSphere(transform.position, 6.0f, mask);
 		foreach(Collider c in objectsInRange)
 		{
@@ -182,6 +182,7 @@ public class Enemy : MonoBehaviour
 				breakable.Break();
 		}
 
+		// Add an explosive force to all the rigidbodies.
 		Collider[] rigidbodies = Physics.OverlapSphere(transform.position, 6.0f);
 		foreach(Collider c in rigidbodies)
 		{

@@ -1066,7 +1066,6 @@ GameObject:
   - component: {fileID: 680649522}
   - component: {fileID: 680649521}
   - component: {fileID: 680649533}
-  - component: {fileID: 680649527}
   - component: {fileID: 680649531}
   - component: {fileID: 680649532}
   - component: {fileID: 680649523}
@@ -1099,8 +1098,6 @@ Transform:
   - {fileID: 276344211}
   - {fileID: 1122839862}
   - {fileID: 1052584269}
-  - {fileID: 6951679877423997570}
-  - {fileID: 7480835804868180045}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
@@ -1139,19 +1136,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!65 &680649527
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 680649520}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.3127604, y: 0.6427115, z: 0.38239232}
-  m_Center: {x: 0.035271384, y: 0.34878534, z: 0.022491064}
 --- !u!65 &680649531
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1313,8 +1297,7 @@ MonoBehaviour:
   dart: {fileID: 4577177946057438822, guid: ec4ac276693b5c44ab94b0203d24d4d6, type: 3}
   soundEffect: {fileID: 8300000, guid: 7696e6182728acd449596a07b1ac4a33, type: 3}
   lineRendererMat: {fileID: 2100000, guid: 9239a198e8486ae40b9190ce4c8f7df0, type: 2}
-  dartSpawnLocation: {fileID: 6951679877423997570}
-  dartSpawnLocationCrouched: {fileID: 7480835804868180045}
+  dartSpawn: {fileID: 2979467260415888294}
   attackCooldown: 0.3
   isCrouching: 0
 --- !u!114 &680649529
@@ -1330,7 +1313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StandingHitbox: {fileID: 680649531}
-  CrouchingHitbox: {fileID: 680649527}
+  CrouchingHitbox: {fileID: 0}
   lockMovementControls: 0
   isDead: 0
 --- !u!114 &680649530
@@ -3699,7 +3682,7 @@ Transform:
   m_Father: {fileID: 1222827502}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4269106289887600723
+--- !u!1 &6734798603899476725
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3707,86 +3690,28 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7480835804868180045}
-  - component: {fileID: 588534460476745513}
-  m_Layer: 11
-  m_Name: DartSpawnLocationCrouched
+  - component: {fileID: 2979467260415888294}
+  m_Layer: 0
+  m_Name: gun_barrel_position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7480835804868180045
+--- !u!4 &2979467260415888294
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4269106289887600723}
-  m_LocalRotation: {x: -0, y: -0.9997853, z: -0, w: -0.020724148}
-  m_LocalPosition: {x: -0, y: 0.398, z: 0.715}
-  m_LocalScale: {x: 1.035033, y: 1.0350323, z: 1.035033}
+  m_GameObject: {fileID: 6734798603899476725}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.152, z: 1.133}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 680649522}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &588534460476745513
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4269106289887600723}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.2, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &8584789741173247197
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6951679877423997570}
-  - component: {fileID: 3442428339267965863}
-  m_Layer: 11
-  m_Name: DartSpawnLocation
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6951679877423997570
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8584789741173247197}
-  m_LocalRotation: {x: -0, y: -0.9997853, z: -0, w: -0.020724148}
-  m_LocalPosition: {x: -0, y: 1.281, z: 0.635}
-  m_LocalScale: {x: 1.035033, y: 1.0350323, z: 1.035033}
-  m_Children: []
-  m_Father: {fileID: 680649522}
+  m_Father: {fileID: 3073531866463582649}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3442428339267965863
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8584789741173247197}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.2, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4626758678508958771
 PrefabInstance:
   m_ObjectHideFlags: 0
