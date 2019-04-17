@@ -21,9 +21,19 @@ public class EpisodeTransition : MonoBehaviour
         if(c.tag == "Player")
         {
             c.GetComponent<PlayerMovement>().lockMovementControls = true;
-            c.GetComponent<PlayerMovement>().LookAt(transform.position);
+            c.GetComponent<DartGun>().raycastPlane.GetComponent<Collider>().enabled = false;
             c.GetComponent<Animator>().SetTrigger("Hacking");
+            StartCoroutine(LookAtComputer(c.gameObject));
             StartCoroutine(TransitionWithDelay());
+        }
+    }
+
+    private IEnumerator LookAtComputer(GameObject go)
+    {
+        while(true)
+        {
+            go.GetComponent<PlayerMovement>().LookAt(transform.position);
+            yield return new WaitForEndOfFrame();
         }
     }
 

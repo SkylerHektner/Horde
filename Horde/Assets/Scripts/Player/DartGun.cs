@@ -7,6 +7,8 @@ public class DartGun : MonoBehaviour
 {
     public bool debugWindowOpen; // So player doesn't shoot when using the debug window.
 
+    public GameObject raycastPlane;
+
     [SerializeField] private bool infiniteAmmo = false;
 
     [SerializeField] private GameObject dart;
