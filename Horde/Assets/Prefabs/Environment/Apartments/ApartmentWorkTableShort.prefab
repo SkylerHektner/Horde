@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6163078743309172192}
   - component: {fileID: 4254385294627327713}
+  - component: {fileID: 5350129963238682924}
   m_Layer: 10
   m_Name: ApartmentWorkTableShort
   m_TagString: Untagged
@@ -45,6 +46,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.27, y: 2.9, z: 3}
   m_Center: {x: 0, y: 1.3, z: 0}
+--- !u!208 &5350129963238682924
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4453988592486431793}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &7930127106769178465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52,6 +69,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6163078743309172192}
     m_Modifications:
+    - target: {fileID: 100000, guid: 0a247bb527b0b6d41b3e47d5bc2ba296, type: 3}
+      propertyPath: m_Name
+      value: WorkTableShort
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 0a247bb527b0b6d41b3e47d5bc2ba296, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0a247bb527b0b6d41b3e47d5bc2ba296, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -107,14 +132,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 0a247bb527b0b6d41b3e47d5bc2ba296, type: 3}
       propertyPath: m_LocalScale.z
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 0a247bb527b0b6d41b3e47d5bc2ba296, type: 3}
-      propertyPath: m_Name
-      value: WorkTableShort
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 0a247bb527b0b6d41b3e47d5bc2ba296, type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 0a247bb527b0b6d41b3e47d5bc2ba296, type: 3}
       propertyPath: m_Materials.Array.data[1]

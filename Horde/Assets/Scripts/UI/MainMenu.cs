@@ -76,7 +76,7 @@ public class MainMenu : MonoBehaviour
             if (timer <= 0)
             {
                 timer = 0;
-                SceneManager.LoadScene("Level2");
+                SceneManager.LoadScene("Level1");
             }
         }
     }
