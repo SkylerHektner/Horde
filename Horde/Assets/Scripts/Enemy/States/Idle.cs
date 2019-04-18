@@ -16,6 +16,8 @@ public class Idle : AIState
 
 	public override void InitializeState()
 	{
+		base.InitializeState();
+
 		preAlertDuration = enemy.EnemySettings.PreAlertDuration; 
 	}
 
@@ -36,6 +38,7 @@ public class Idle : AIState
 		// REMINDER: A guard is "distracted" while it is staring as a sad guard.
 		if(!enemy.IsDistracted && player == null)
 		{
+			enemy.GetComponent<Animator>().SetBool("Startled", false);
 			canBeStartled = true;
 			preAlertDuration = enemy.EnemySettings.PreAlertDuration; 	// Reset the timer if player isn't in vision.
 			ResetTransform();											// And reset back to inital position and rotation.
@@ -43,7 +46,7 @@ public class Idle : AIState
 		else if(player != null) // Player is in vision.
 		{
 			if(canBeStartled)
-				enemy.GetComponent<Animator>().SetTrigger("Startled");
+				enemy.GetComponent<Animator>().SetBool("Startled", true);
 
 			canBeStartled = false;
 
@@ -53,8 +56,16 @@ public class Idle : AIState
 			if(preAlertDuration <= 0)
 			{
 				GameManager.Instance.AlertGuards();
-			}
-		}
+                enemy.GetComponent<Animator>().SetBool("Startled", false);
+            }
+        }
+	}
+
+	public override void LeaveState()
+	{
+		base.LeaveState();
+
+		enemy.GetComponent<Animator>().SetBool("Startled", false);
 	}
 
 	protected override void UpdateVisionCone()

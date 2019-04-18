@@ -13,6 +13,8 @@ public class Pickup : MonoBehaviour
     [Tooltip("The button that will be activated when the item is picked up")]
     //public GameObject TargetButton;
     public ActivateButtonEvent ActivateButton;
+    [SerializeField] private bool NonResourcePickup;
+    [SerializeField] private string ButtonName;
 
     public void Start()
     {
@@ -28,13 +30,16 @@ public class Pickup : MonoBehaviour
     {
         if(c.tag == "Player")
         {
-            ResourceManager.Instance.AddEmotion(resourceType, amount);
-            /*
+            if (!NonResourcePickup)
+            {
+                ResourceManager.Instance.AddEmotion(resourceType, amount);
+            }
             if(IsFirstPickup)
             {
-                ActivateButton.Invoke(TargetButton);
+                PathosUI.instance.NotificationEvent.Invoke();
+                PlayerPrefs.SetInt(ButtonName + "button", 1);
+                InventoryController.instance.InventoryChangedEvent.Invoke();
             }
-            */
             Destroy(gameObject);
         }
     }

@@ -6,10 +6,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 using TMPro;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // Singleton instance
+
+    public UnityEvent ChangeRoomEvent;
 
     public bool RoomIsAlerted           { get { return roomIsAlerted; } set { roomIsAlerted = value; } }
     public Room CurrentRoom             { get { return currentRoom; } set { currentRoom = value; } }
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform roomNamePopup;       // A reference to the UI popup during a room transition.
 
     private Room currentRoom;
+    private Room currentCheckpoint;
     private bool roomIsAlerted;
     private Player player;
 
@@ -41,11 +45,16 @@ public class GameManager : MonoBehaviour
             r.gameObject.SetActive(false);
         }
 
-        // Get a reference to the player. (Helpful for the shared vision of guards)
+        // Get a reference to the player.
         player = FindObjectOfType<Player>();
 
         // Get the current checkpoint and activate that room.
-        Room currentCheckpoint = rooms[PlayerPrefs.GetInt("Checkpoint", 0)];
+        int roomIndex = PlayerPrefs.GetInt("Checkpoint", 0);
+        if(roomIndex >= rooms.Count)
+            currentCheckpoint = rooms[0];
+        else
+            currentCheckpoint = rooms[roomIndex];
+            
         currentRoom = currentCheckpoint;
         currentRoom.gameObject.SetActive(true);
 
@@ -63,6 +72,7 @@ public class GameManager : MonoBehaviour
         ResourceManager.Instance.Fear = PlayerPrefs.GetInt("Fear", 0);
         ResourceManager.Instance.Sadness = PlayerPrefs.GetInt("Sadness", 0);
         ResourceManager.Instance.Joy = PlayerPrefs.GetInt("Joy", 0);
+        ChangeRoomEvent = new UnityEvent();
     }
 
     private void Update()
@@ -82,7 +92,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }  
-        else if (currentRoom != null)
+        else if (currentRoom != null && currentRoom != rooms[rooms.Count - 1])
             currentRoom.Exit.UnlockDoor();
     }
 
@@ -96,6 +106,12 @@ public class GameManager : MonoBehaviour
             if (e.GetCurrentState() is Idle || e.GetCurrentState() is Patrol || e.GetCurrentState() is Alert)
                 e.ChangeState(new Alert(e));
         }
+    }
+
+    public void TransitionToNextEpisode()
+    {
+        PlayerPrefs.SetInt("Checkpoint", 0); // Set the checkpoint to 0 so player spawns in first room of next episode.
+        SceneManager.LoadScene("Level2");
     }
 
     /// <summary>
@@ -136,7 +152,10 @@ public class GameManager : MonoBehaviour
 
         // Make UI popup displaying "Checkpoint Reached" only if the next room is a checkpoint.
         if(currentRoom.IsCheckpoint)
-            StartCoroutine(DisplayCheckpointPopup());
+            PathosUI.instance.CheckpointNotif.GetComponent<Animation>().Play();
+        //StartCoroutine(DisplayCheckpointPopup());
+
+        ChangeRoomEvent.Invoke();
     }
 
     // Probably only used for debugging.
@@ -171,7 +190,8 @@ public class GameManager : MonoBehaviour
 
         // Make UI popup displaying "Checkpoint Reached" only if the next room is a checkpoint.
         if(currentRoom.IsCheckpoint)
-            StartCoroutine(DisplayCheckpointPopup());
+            PathosUI.instance.CheckpointNotif.GetComponent<Animation>().Play();
+            //StartCoroutine(DisplayCheckpointPopup());
     }
 
     /// <summary>

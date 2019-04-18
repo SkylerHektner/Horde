@@ -64,7 +64,7 @@ public class MainMenu : MonoBehaviour
         if (moving)
         {
             timer -= Time.smoothDeltaTime;
-            Debug.Log(timer);
+           // Debug.Log(timer);
             Menu.SetActive(false);
             MenuTexts.SetActive(false);
 
@@ -76,7 +76,7 @@ public class MainMenu : MonoBehaviour
             if (timer <= 0)
             {
                 timer = 0;
-                SceneManager.LoadScene("Level1");
+                SceneManager.LoadScene("Level2");
             }
         }
     }

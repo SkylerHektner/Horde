@@ -7,14 +7,14 @@ public class DartGun : MonoBehaviour
 {
     public bool debugWindowOpen; // So player doesn't shoot when using the debug window.
 
+    public GameObject raycastPlane;
+
     [SerializeField] private bool infiniteAmmo = false;
 
     [SerializeField] private GameObject dart;
     [SerializeField] private AudioClip soundEffect;
     [SerializeField] private Material lineRendererMat;
-    [SerializeField] private Transform dartSpawnLocation;
-    [SerializeField] private Transform dartSpawnLocationCrouched;
-    private Transform DartSpawn;
+    [SerializeField] private Transform dartSpawn;
 
     [SerializeField] private float attackCooldown = 1;
     
@@ -30,6 +30,11 @@ public class DartGun : MonoBehaviour
     private LineRenderer lr;
     private PlayerMovement playerMovement;
     private Animator animator;
+
+    private bool shotCancelRequested = false;
+    private bool shotQueued = false;
+
+    private bool fireDownLastFrame = false;
 
 	private void Start() 
 	{
@@ -51,57 +56,85 @@ public class DartGun : MonoBehaviour
 
         if (playerMovement.isDead || Paused)
             return;
-            
-        if (isCrouching == true)
+
+        bool fireDownNow = Input.GetAxis("Fire1") > 0.1f;
+        bool fireButtonCurFrame = false;
+
+        if ((!fireDownLastFrame) && fireDownNow)
         {
-            DartSpawn = dartSpawnLocationCrouched;
-        }
-        if (isCrouching == false)
-        {
-            DartSpawn = dartSpawnLocation;
+            fireButtonCurFrame = true;
         }
 
-        if (Input.GetButton("Fire1") && !attackOnCooldown
+        fireDownLastFrame = fireDownNow;
+
+        if (fireDownNow && !attackOnCooldown
             && (ResourceManager.Instance.CanSpendEmotion(PathosUI.instance.CurrentEmotion) || infiniteAmmo))
 		{
+            
+            shotQueued = true;
+            if (shotCancelRequested)
+            {
+                animator.SetBool("CancelShot", false);
+                return;
+            }
+            if (Input.GetAxis("Cancel Shot") > 0.1f)
+            {
+                shotCancelRequested = true;
+                lr.enabled = false;
+                animator.SetBool("CancelShot", true);
+                animator.SetBool("Aiming", false);
+                playerMovement.lockMovementControls = false;
+                shotQueued = false;
+                return;
+            }
             if(debugWindowOpen)
                 return;
 
             playerMovement.lockMovementControls = true;
-            animator.SetBool("Aiming", true);
+
+            if (fireButtonCurFrame)
+                animator.SetBool("Aiming", true);
+
             if (Input.GetButton("Crouch"))
             {
                 animator.SetBool("Sneaking", true);
             }
             lr.enabled = true;
-            if (Physics.Raycast(DartSpawn.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
+            if (Physics.Raycast(dartSpawn.position, transform.forward, out gunRayHit, maxLaserDistance)) // If the ray hits something.
             {
                 if (gunRayHit.collider.gameObject.tag == "Enemy")
                     ChangeColor(Color.red);
                 else
                     ChangeColor(Color.green);
 
-                lr.SetPosition(0, DartSpawn.position);
+                lr.SetPosition(0, dartSpawn.position);
                 lr.SetPosition(1, gunRayHit.point);
             }
             else // If the ray doesn't hit anything, just render it's max distance.
             {
                 ChangeColor(Color.green);
 
-                lr.SetPosition(0, DartSpawn.position);
-                lr.SetPosition(1, DartSpawn.position + transform.forward * maxLaserDistance);
+                lr.SetPosition(0, dartSpawn.position);
+                lr.SetPosition(1, dartSpawn.position + transform.forward * maxLaserDistance);
             }
         }
 
-        if (Input.GetButtonUp("Fire1"))
+        if ((!fireDownNow) && shotQueued)
         {
-            if(debugWindowOpen)
+            shotQueued = false;
+            if (shotCancelRequested)
+            {
+                shotCancelRequested = false;
+                return;
+            }
+            if (debugWindowOpen)
                 return;
             playerMovement.lockMovementControls = false;
             animator.SetBool("Aiming", false);
             if (!attackOnCooldown)
                 StartCoroutine(Fire());
             lr.enabled = false;
+            
         }
     }
 
@@ -132,8 +165,8 @@ public class DartGun : MonoBehaviour
 
             AudioManager.instance.PlaySoundEffectRandomPitch(soundEffect);
 
-            Vector3 endpoint = DartSpawn.position + transform.forward * maxLaserDistance;
-            GameObject dartGO = Instantiate(dart, DartSpawn.position, transform.rotation);
+            Vector3 endpoint = dartSpawn.position + transform.forward * maxLaserDistance;
+            GameObject dartGO = Instantiate(dart, dartSpawn.position, transform.rotation);
             dartRB = dartGO.GetComponent<Rigidbody>();
 
             Vector3 directionalVector = endpoint - transform.position;
@@ -142,6 +175,21 @@ public class DartGun : MonoBehaviour
             dartRB.rotation = Quaternion.LookRotation(dartRB.velocity);
 
             dartGO.GetComponent<Dart>().LoadEmotion(PathosUI.instance.CurrentEmotion);
+
+            ParticleSystem.MainModule main = dartGO.GetComponentInChildren<ParticleSystem>().main;
+            switch (PathosUI.instance.CurrentEmotion)
+            {
+                case ResourceType.Rage:
+                    main.startColor = Color.red;
+                    break;
+                case ResourceType.Fear:
+                    main.startColor = Color.yellow;
+                    break;
+                case ResourceType.Sadness:
+                    main.startColor = Color.blue;
+                    break;
+            }
+
 
             yield return new WaitForSeconds(attackCooldown);
 

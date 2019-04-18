@@ -1,13 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Dead : AIState 
 {
-    public Dead(Enemy enemy) : base(enemy)
+    public Dead(Enemy enemy) : base(enemy) { }
+
+    public override void InitializeState()
     {
-		enemyMovement.Stop();
+        base.InitializeState();
+
+        enemy.GetComponent<Collider>().enabled = false;
         enemy.GetComponent<Animator>().enabled = false;
+        enemy.GetComponent<NavMeshAgent>().enabled = false;
         enemy.SetKinematic(false);
     }
 
@@ -23,6 +29,6 @@ public class Dead : AIState
 
     protected override void UpdateVisionCone()
     {
-        visionCone.ChangeRadius(0.0f);
+        visionCone.ChangeRadius(0.1f);
     }
 }

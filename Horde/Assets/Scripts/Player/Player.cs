@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
 	
 	void Start () 
 	{
+		SetKinematic(true);
 		spawnLocation = transform.position;
 	}
 	
@@ -21,5 +22,23 @@ public class Player : MonoBehaviour
 	{
 		GetComponent<NavMeshAgent>().Warp(spawnLocation);
 		GetComponent<PlayerMovement>().lockMovementControls = false;
+	}
+
+	public void Die()
+	{
+		GetComponent<Animator>().SetTrigger("Die");
+		SetKinematic(false);
+		GetComponent<Animator>().enabled = false;
+		GetComponent<Collider>().enabled = false;
+	}
+
+	// Used for the ragdoll rigidbodies.
+	private void SetKinematic(bool value)
+	{
+		Rigidbody[] bodies = GetComponentsInChildren<Rigidbody>();
+		foreach (Rigidbody rb in bodies)
+		{
+			rb.isKinematic = value;
+		}
 	}
 }

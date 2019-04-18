@@ -10,15 +10,19 @@ public class MenuActivationEvent : UnityEvent<bool> { }
 public class PathosUI : MonoBehaviour 
 {
     [SerializeField] private DebugWindow debugWindow;
+    [SerializeField] private GameObject checkpointNotif;
 
 	public static PathosUI instance;
 
+    public GameObject CheckpointNotif { get { return checkpointNotif; } }
 	public ResourceType CurrentEmotion { get { return currentEmotion; } set { currentEmotion = value; } }
 	private ResourceType currentEmotion;
     // public EscapeMenu escMenu;
     // public AbilityInfoMenu tabMenu;
     public GameObject PauseMenu;
     public MenuActivationEvent menuEvent;
+
+    public UnityEvent NotificationEvent;
 
     private bool escActive;
     private bool tabActive;
@@ -39,6 +43,10 @@ public class PathosUI : MonoBehaviour
     {
         debugWindow.gameObject.SetActive(false);
         PauseMenu.SetActive(false);
+        if(NotificationEvent == null)
+        {
+            NotificationEvent = new UnityEvent();
+        }
     }
 
     public void ActivateButton(GameObject button)

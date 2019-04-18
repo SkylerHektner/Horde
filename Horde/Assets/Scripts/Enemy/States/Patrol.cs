@@ -19,6 +19,8 @@ public class Patrol : AIState
 
 	public override void InitializeState()
 	{
+		base.InitializeState();
+		
 		patrolPointList = new List<Transform>();
 		preAlertDuration = enemy.EnemySettings.PreAlertDuration;
 
@@ -43,10 +45,11 @@ public class Patrol : AIState
 		if(!enemy.IsDistracted && player == null)
 		{
 			preAlertDuration = enemy.EnemySettings.PreAlertDuration; 	// Reset the timer if player isn't in vision.
-			enemyMovement.ResumePath();									// And resume its patrol path.
+			enemyMovement.ResumePath();                                 // And resume its patrol path.
+            enemy.GetComponent<Animator>().SetBool("Startled", false); // ay, you ain't startled no more
 
-			// Follow the normal patrol route.
-			if(!agent.pathPending && agent.remainingDistance < 0.01f)
+            // Follow the normal patrol route.
+            if (!agent.pathPending && agent.remainingDistance < 0.01f)
 			{
 				MoveToNextPatrolPoint();
 			}
@@ -54,14 +57,16 @@ public class Patrol : AIState
 		else if(player != null) // Player is in vision.
 		{
 			enemyMovement.PausePath();
-			StareAtTarget(player);
+            enemy.GetComponent<Animator>().SetBool("Startled", true);
+            StareAtTarget(player);
 
 			preAlertDuration -= Time.smoothDeltaTime;
 			if(preAlertDuration <= 0)
 			{
 				GameManager.Instance.AlertGuards();
-			}
-		}
+                enemy.GetComponent<Animator>().SetBool("Startled", false);
+            }
+        }
 	}
 
 	protected override void UpdateVisionCone()

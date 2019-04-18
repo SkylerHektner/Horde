@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
 	public PatrolType PatrolType 		{ get { return patrolType; } }
     public bool IsDead 					{ get { return currentState.GetType() == typeof(Dead); } }
 	public Transform CameraHead			{ get { return cameraHead; } }
+	public Transform ExplosionLocation  { get { return explosionLocation; } }
 
 	public bool DEBUG_MODE;
 
@@ -23,10 +24,13 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private bool hasPatrolPath;
 	[SerializeField] private PatrolPath patrolPath;
 	[SerializeField] private PatrolType patrolType;
-	[SerializeField] private Transform cameraHead; 		// Used to rotate the camera head with code.
-	[SerializeField] private GameObject recordingIcon; 	// The icon that appears over a guards head when the player is in vision.
+	[SerializeField] private Transform cameraHead; 			// Used to rotate the camera head with code.
+	[SerializeField] private GameObject recordingIcon; 		// The icon that appears over a guards head when the player is in vision.
+	[SerializeField] private Transform explosionLocation; 	// The location where the explosion force comes off the bat.
+	[SerializeField] private AudioClip explosionSoundEffect;
 
     [SerializeField] private GameObject sparkingHeadParticleSystem;
+	[SerializeField] private GameObject bloodExplosionParticleEffect;
 
 	private NavMeshAgent agent;
 	private EnemyAttack enemyAttack;
@@ -38,7 +42,8 @@ public class Enemy : MonoBehaviour
 	private Quaternion spawnRotation;
 	private bool isDistracted;
 	private float explosionTimer = 0f; // Keeps track of when the enemy should explode.
-	private LayerMask enemyMask;
+	private LayerMask mask;
+	private bool isBarreled;
     
 
     public bool Paused { get; private set; }
@@ -58,7 +63,7 @@ public class Enemy : MonoBehaviour
 		enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimator = GetComponent<Animator>();
 
-        enemyMask = 1 << LayerMask.NameToLayer("Enemy");
+        mask = 1 << LayerMask.NameToLayer("Enemy") | 1 << LayerMask.NameToLayer("Breakable");
 
 		// Set to idle or patrol state
 		if(hasPatrolPath)
@@ -73,7 +78,7 @@ public class Enemy : MonoBehaviour
 	
 	private void Update() 
 	{
-        if (!Paused)
+        if (!Paused && !isBarreled)
         {
             //Debug.Log(currentState.ToString());
             currentState.Tick();
@@ -96,7 +101,7 @@ public class Enemy : MonoBehaviour
 		return currentState;
 	}
 
-	public void ChangeState(AIState state)
+	public void ChangeState(AIState state, bool barreled = false)
 	{
 		if(currentState == null)
 		{
@@ -123,23 +128,71 @@ public class Enemy : MonoBehaviour
 		{
             explosionTimer = 6f;
 		}
-			
-        transform.GetComponent<Animator>().SetTrigger("StopTalking");
 
+		
+		if(barreled)
+		{
+			StartCoroutine(UpdateCurrentStateWithDelay(state));	
+		}
+		else
+		{
+			currentState.LeaveState();
+			currentState = state;
+			currentState.InitializeState();
+		}
+			
+	}
+
+	private IEnumerator UpdateCurrentStateWithDelay(AIState state)
+	{
+		isBarreled = true;
+		GetComponent<Animator>().SetTrigger("Barreled");
+		GetComponentInChildren<VisionCone>().ChangeRadius(0);
+		enemyMovement.Stop();
 		currentState.LeaveState();
-        currentState = state;
+
+		yield return new WaitForSeconds(3.0f);
+
+		isBarreled = false;
+		
+		currentState = state;
 		currentState.InitializeState();
 	}
 
 	private void Explode()
 	{
-		GameObject bloodExplosion = Instantiate(Resources.Load("BloodExplosion2"), transform.position, Quaternion.identity) as GameObject;
+		GameObject bloodExplosion = Instantiate(bloodExplosionParticleEffect, transform.position, Quaternion.Euler(-90, 0, 0));
+		Destroy(bloodExplosion, 3.0f);
 		
-		// Kill all nearby enemies.
-		Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, 6.0f, enemyMask);
-		foreach(Collider c in enemiesInRange)
-			Destroy(c.gameObject);
+		// Break nearby breakables or kill nearby guards
+		Collider[] objectsInRange = Physics.OverlapSphere(transform.position, 6.0f, mask);
+		foreach(Collider c in objectsInRange)
+		{
+			if(ReferenceEquals(c.gameObject, gameObject)) // Skip the guard that is exploding.
+			{
+				continue; 
+			} 
 
+			Enemy enemy = c.GetComponent<Enemy>();
+			Breakable breakable = c.GetComponent<Breakable>();
+
+			if(enemy)
+				enemy.ChangeState(new Dead(enemy));
+			else if (breakable)
+				breakable.Break();
+		}
+
+		// Add an explosive force to all the rigidbodies.
+		Collider[] rigidbodies = Physics.OverlapSphere(transform.position, 6.0f);
+		foreach(Collider c in rigidbodies)
+		{
+			Rigidbody rb = c.GetComponent<Rigidbody>();
+
+			if(rb != null)
+				rb.AddExplosionForce(50.0f, transform.position, 25.0f, 1.0f, ForceMode.Impulse);
+		}
+
+		AudioManager.instance.PlaySoundEffectRandomPitch(explosionSoundEffect);
 		Destroy(gameObject);
 	}
 

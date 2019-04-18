@@ -32,10 +32,11 @@ public class Breakable : MonoBehaviour
         {
             if(brokenVersion != null)
             {
-                GameObject go = Instantiate(brokenVersion, transform.position, transform.rotation);
-                foreach(Rigidbody rb in go.GetComponentsInChildren<Rigidbody>())
+                GameObject brokenVersionGO = Instantiate(brokenVersion, transform.position, transform.rotation);
+                Transform[] brokenPieces = brokenVersionGO.GetComponentsInChildren<Transform>();
+                foreach(Transform t in brokenPieces)
                 {
-                    rb.GetComponent<Rigidbody>().AddExplosionForce(1.0f, transform.position, 5.0f, 3.0f, ForceMode.Impulse);
+                    Object.Destroy(t.gameObject, Random.Range(4.0f, 7.0f));
                 }
             }
 
@@ -50,7 +51,7 @@ public class Breakable : MonoBehaviour
 
         if(particleEffect != null)
         {
-            GameObject effectGO = Instantiate(particleEffect, transform.position, Quaternion.identity);
+            GameObject effectGO = Instantiate(particleEffect, transform.position, Quaternion.Euler(-90, 0, 0));
             Object.Destroy(effectGO, 3.0f);
         }
 

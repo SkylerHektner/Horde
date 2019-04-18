@@ -131,4 +131,13 @@ public class PlayerMovement : MonoBehaviour
         anim.enabled = !paused;
         agent.isStopped = paused;
     }
+
+    public void LookAt(Vector3 pos)
+    {
+		Vector3 direction = pos - transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+
+        //Transform head = GetComponentInChildren<VisionCone>().transform;
+		transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 5.0f * Time.deltaTime);
+    }
 }
