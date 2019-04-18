@@ -42,6 +42,8 @@ public class VisionCone : MonoBehaviour
     private Color targetColor;
     private float targetBloomSpeed;
 
+    private Material cameraHeadLightMaterial;
+
     private void Awake()
     {
         color = mesh.material.color;
@@ -51,6 +53,8 @@ public class VisionCone : MonoBehaviour
         targetViewAngle = viewAngle;
         targetColor = color;
         targetBloomSpeed = bloomSpeed;
+
+        cameraHeadLightMaterial = GetComponent<MeshRenderer>().materials[2];
     }
 
     private void Start()
@@ -94,6 +98,8 @@ public class VisionCone : MonoBehaviour
         {
             color = Color.Lerp(color, targetColor, Time.deltaTime * lerpFactor);
             mesh.material.color = color;
+            cameraHeadLightMaterial.color = color;
+            cameraHeadLightMaterial.SetColor("_EmissionColor", color);
         }
         if (bloomSpeed != targetBloomSpeed)
         {
