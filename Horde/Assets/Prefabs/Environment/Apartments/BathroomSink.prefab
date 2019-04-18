@@ -13,6 +13,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.068195, y: 2.096057, z: 2.5902863}
   m_Center: {x: -0.00000023841858, y: 1.0480285, z: 1.4553242}
+--- !u!208 &141082348676138713
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464470717441700771}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.641, y: 1.248, z: 1.506}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.248, z: 1.506}
+  m_TimeToStationary: 0.5
 --- !u!1 &7486800939321383711
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,6 +120,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: eb123fef9a7a6dd478167cb1b2fd73d3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5910f2d4f718f1c49b0c79eca5e145ad, type: 2}
+    - target: {fileID: 2300000, guid: eb123fef9a7a6dd478167cb1b2fd73d3, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 09df5da4836e6c549ac7c8cb40dbc134, type: 2}
@@ -111,10 +131,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: 09df5da4836e6c549ac7c8cb40dbc134, type: 2}
-    - target: {fileID: 2300000, guid: eb123fef9a7a6dd478167cb1b2fd73d3, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 5910f2d4f718f1c49b0c79eca5e145ad, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb123fef9a7a6dd478167cb1b2fd73d3, type: 3}
 --- !u!1 &3464470717441700771 stripped
