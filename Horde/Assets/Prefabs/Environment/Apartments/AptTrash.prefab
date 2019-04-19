@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 366504750662635981}
+  - component: {fileID: 4221141252306078195}
+  - component: {fileID: 7827711122527981046}
   m_Layer: 0
   m_Name: AptTrash
   m_TagString: Untagged
@@ -31,13 +33,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &897651040615776488
+--- !u!65 &4221141252306078195
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5392846745817123234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8349513, y: 1.0277734, z: 0.59032655}
+  m_Center: {x: -0.008179784, y: 0.49942648, z: 0.01668179}
+--- !u!54 &7827711122527981046
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7571645599075258377}
+  m_GameObject: {fileID: 5392846745817123234}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -47,19 +62,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &2682847796085484936
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7571645599075258377}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.83223313, y: 1.0052601, z: 0.598245}
-  m_Center: {x: 0, y: 0.50263005, z: 0}
 --- !u!1001 &7571645599075161769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121,12 +123,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f6897b96360724a42b058c4eb1235cfb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b517af4f5f3584155ac7bb8256ba44a3, type: 3}
---- !u!1 &7571645599075258377 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: b517af4f5f3584155ac7bb8256ba44a3,
-    type: 3}
-  m_PrefabInstance: {fileID: 7571645599075161769}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7571645599074765865 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: b517af4f5f3584155ac7bb8256ba44a3,

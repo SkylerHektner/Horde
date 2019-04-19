@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7360475576852654092}
   - component: {fileID: 8477042857551324263}
+  - component: {fileID: 7983165992673548973}
   m_Layer: 16
   m_Name: Toilet
   m_TagString: Untagged
@@ -49,19 +50,22 @@ MonoBehaviour:
   drop: {fileID: 0}
   particleEffect: {fileID: 0}
   soundEffect: {fileID: 0}
---- !u!65 &4928141022187713567
-BoxCollider:
+--- !u!208 &7983165992673548973
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4928141021993008517}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_GameObject: {fileID: 4810953757514342332}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.4408226, y: 1.3857193, z: 1.9551134}
-  m_Center: {x: 0.018367767, y: 0.68878365, z: 1.3592}
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.72, y: 0.68, z: 1.155}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.76, z: 1.14}
+  m_TimeToStationary: 0.5
 --- !u!65 &4928141022187713566
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75,6 +79,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5142937, y: 1.4338675, z: 0.5591793}
   m_Center: {x: 0.018367767, y: 1.6565585, z: 0.29388142}
+--- !u!65 &4928141022187713567
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4928141021993008517}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4408226, y: 1.3857193, z: 1.9551134}
+  m_Center: {x: 0.018367767, y: 0.68878365, z: 1.3592}
 --- !u!1001 &4928141021993106211
 PrefabInstance:
   m_ObjectHideFlags: 0
