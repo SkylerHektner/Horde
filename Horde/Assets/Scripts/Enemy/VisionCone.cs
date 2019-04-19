@@ -284,91 +284,62 @@ public class VisionCone : MonoBehaviour
 		//Debug.Log(visibleTargets.Count);
 	}
 
-	private void DrawVisionCone()
-	{
-		int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
-		float stepAngleSize = viewAngle / stepCount;
+    private void DrawVisionCone()
+    {
+        int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
+        float stepAngleSize = viewAngle / stepCount;
 
-		List<Vector3> viewPoints = new List<Vector3>();
+        List<Vector3> viewPoints = new List<Vector3>();
 
-        int vertexCount = stepCount * 2 + 3;
+        int vertexCount = stepCount + 2;
         Vector2[] UV = new Vector2[vertexCount];
         UV[0] = new Vector2(0, 0.5f);
         for (int i = 0; i <= stepCount; i++)
-		{
+        {
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
-
-			ViewCastInfo newViewCastTop = ViewCast(angle, coneHeight * Mathf.Sin((i * Mathf.PI)/stepCount));
-            ViewCastInfo newViewCastBottom = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
-            if (newViewCastBottom.dst < viewRadius || newViewCastTop.dst < viewRadius)
-            {
-                float temp = viewRadius;
-                viewRadius = Mathf.Min(newViewCastTop.dst, newViewCastBottom.dst);
-                newViewCastTop = ViewCast(angle, coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
-                newViewCastBottom = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
-                viewRadius = temp;
-            }
-
-            UV[(i * 2) + 1] = new Vector2(newViewCastTop.dst / viewRadius, (float)i / (float)stepCount);
-            viewPoints.Add(newViewCastTop.point);
-
-            UV[(i * 2) + 2] = new Vector2(newViewCastBottom.dst / viewRadius, (float)i / (float)stepCount);
-            viewPoints.Add(newViewCastBottom.point);
+            ViewCastInfo newViewCast = ViewCast(angle);
+            UV[i + 1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)vertexCount);
+            viewPoints.Add(newViewCast.point);
             //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
         }
-        //for (int i = stepCount; i > 0; i--)
-        //{
-        //    float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
-        //    ViewCastInfo newViewCast = ViewCast(angle, -coneHeight * Mathf.Sin((i * Mathf.PI) / stepCount));
-        //    UV[stepCount + i + 1] = new Vector2(newViewCast.dst / viewRadius, (float)i / (float)stepCount);
-        //    viewPoints.Add(newViewCast.point);
-        //    //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
-        //}
 
 
         Vector3[] vertices = new Vector3[vertexCount];
-		int[] triangles = new int[(vertexCount - 1) * 3];
+        int[] triangles = new int[(vertexCount - 2) * 3];
 
-		vertices[0] = Vector3.zero;
+        vertices[0] = Vector3.zero;
 
-		for(int i = 0; i < vertexCount - 1; i++)
-		{
-			vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
+        for (int i = 0; i < vertexCount - 1; i++)
+        {
+            vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
 
-			if(i < vertexCount - 2)
-			{
-				triangles[i * 3] = 0;
-				triangles[i * 3 + 1] = i + 1;
-				triangles[i * 3 + 2] = i + 2;
-			}
-            else
+            if (i < vertexCount - 2)
             {
                 triangles[i * 3] = 0;
-                triangles[i * 3 + 1] = i+1;
-                triangles[i * 3 + 2] = 1;
+                triangles[i * 3 + 1] = i + 1;
+                triangles[i * 3 + 2] = i + 2;
             }
-		}
+        }
 
-		viewMesh.Clear();
-		viewMesh.vertices = vertices;
-		viewMesh.triangles = triangles;
+        viewMesh.Clear();
+        viewMesh.vertices = vertices;
+        viewMesh.triangles = triangles;
         viewMesh.uv = UV;
-		viewMesh.RecalculateNormals();
-	}
+        viewMesh.RecalculateNormals();
+    }
 
-	public ViewCastInfo ViewCast(float globalAngle, float ymod)
-	{
-		Vector3 dir = DirFromAngle(globalAngle, true);
-        dir.y += ymod;
-		RaycastHit hit;
+    public ViewCastInfo ViewCast(float globalAngle)
+    {
+        Vector3 dir = DirFromAngle(globalAngle, true);
+        RaycastHit hit;
 
-		if(Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
-			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
-		else
-			return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
-	}
+        if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
+            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+        else
+            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
+    }
 
-	public struct ViewCastInfo
+    public struct ViewCastInfo
 	{
 		public bool hit;
 		public Vector3 point;
