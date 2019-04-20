@@ -67,7 +67,6 @@ public class InventoryController : MonoBehaviour
         {
             InventoryChangedEvent = new UnityEvent();
         }
-        StartUpButton.SendInfo();
     }
 
     // Update is called once per frame
@@ -117,7 +116,7 @@ public class InventoryController : MonoBehaviour
         {
             Boot.SetActive(true);
             Inventory.SetActive(true);
-            StartUpButton.SendInfo();
+            SetUpInformation(StartUpButton.Information, StartUpButton.GetComponent<Button>());
         }
     }
     public void DeactivateInventory()
