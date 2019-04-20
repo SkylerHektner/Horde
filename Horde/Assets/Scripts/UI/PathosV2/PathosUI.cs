@@ -69,9 +69,9 @@ public class PathosUI : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void LoadSettings()
+    public void ExitGame()
     {
-        Debug.Log("THERE IS NO CONNECTION TO SETTINGS YET, PLEASE IMPLEMENT BEFORE RELEASE!!!!!");
+        Application.Quit();
     }
 
 	void Update () 
@@ -80,7 +80,7 @@ public class PathosUI : MonoBehaviour
         {
             escActive = !escActive;
             menuEvent.Invoke(escActive);
-            PauseMenu.SetActive(true);
+            PauseMenu.SetActive(escActive);
         }
 
 	    if(Input.GetButtonDown("Help Menu") && !escActive)

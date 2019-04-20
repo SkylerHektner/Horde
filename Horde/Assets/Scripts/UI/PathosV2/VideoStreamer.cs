@@ -15,6 +15,7 @@ public class VideoStreamer : MonoBehaviour {
 	void Start () {
         rawImage = GetComponent<RawImage>();
         videoPlayer = GetComponent<VideoPlayer>();
+
 	}
 	
     public void beginPlaying()
@@ -44,7 +45,7 @@ public class VideoStreamer : MonoBehaviour {
     {
         Debug.Log("PREPARING VIDEO");
         videoPlayer.Prepare();
-        WaitForSeconds waitTime = new WaitForSeconds(1);
+        WaitForSeconds waitTime = new WaitForSeconds(.5f);
         Debug.Log("Loop");
         while(!videoPlayer.isPrepared)
         {

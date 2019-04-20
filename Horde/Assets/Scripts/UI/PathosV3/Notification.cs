@@ -83,6 +83,9 @@ public class Notification : MonoBehaviour
                 bg.color = Color.Lerp(bg.color, bg_color_inv, FadeIn.Evaluate(Time.deltaTime * FlashSpeed));
                 yield return null;
             }
+            text.color = text_color_inv;
+            imgage.color = img_color_inv;
+            bg.color = bg_color_inv;
             while(text.color != text_color && imgage.color != img_color && bg.color != bg_color)
             {
                 text.color = Color.Lerp(text.color, text_color, FadeOut.Evaluate(Time.deltaTime * FlashSpeed));
@@ -90,6 +93,9 @@ public class Notification : MonoBehaviour
                 bg.color = Color.Lerp(bg.color, bg_color, FadeOut.Evaluate(Time.deltaTime * FlashSpeed));
                 yield return null;
             }
+            text.color = text_color;
+            imgage.color = img_color;
+            bg.color = bg_color;
             currentFlash++;
         }
 
@@ -100,6 +106,9 @@ public class Notification : MonoBehaviour
             bg.color = Color.Lerp(bg.color, bg_color_inv, FadeIn.Evaluate(Time.deltaTime * FlashSpeed));
             yield return null;
         }
+        text.color = text_color_inv;
+        imgage.color = img_color_inv;
+        bg.color = bg_color_inv;
         Debug.Log("DONE WITH FLASH");
     }
 }
