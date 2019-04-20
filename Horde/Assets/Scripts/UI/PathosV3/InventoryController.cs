@@ -32,6 +32,12 @@ public class InventoryController : MonoBehaviour
     [Tooltip("The Streamer that will play the video")]
     public VideoStreamer streamer;
 
+    [Space(10)]
+
+    [Header("START UP")]
+    [Tooltip("The Button whose information will be displayed by default")]
+    public InventoryButton StartUpButton;
+
     public UnityEvent InventoryChangedEvent;
 
     private Button activeButton;
@@ -61,6 +67,7 @@ public class InventoryController : MonoBehaviour
         {
             InventoryChangedEvent = new UnityEvent();
         }
+        StartUpButton.SendInfo();
     }
 
     // Update is called once per frame
@@ -78,7 +85,7 @@ public class InventoryController : MonoBehaviour
             TitleText.text = info.TitleText;
             DescriptionText.text = info.DescriptionText;
             LoreText.text = info.LoreText;
-
+            Debug.Log("TYPE IS: " + info.Visual.GetType().ToString());
             if(info.Visual is VideoClip)
             {
                 Debug.Log("VIDEO");
@@ -90,10 +97,11 @@ public class InventoryController : MonoBehaviour
                 streamer.SetVideo(info.Visual as VideoClip);
                 streamer.beginPlaying();
             }
-            else if(info.Visual is Texture2D)
+            else if(info.Visual is Sprite)
             {
                 Debug.Log("Image");
-                VisualCanvas.texture = info.Visual as Texture2D;
+                Sprite spr = info.Visual as Sprite;
+                VisualCanvas.texture = (info.Visual as Sprite).texture;
             }
             else
             {
@@ -109,6 +117,7 @@ public class InventoryController : MonoBehaviour
         {
             Boot.SetActive(true);
             Inventory.SetActive(true);
+            StartUpButton.SendInfo();
         }
     }
     public void DeactivateInventory()

@@ -29,10 +29,6 @@ public class InventoryButton : MonoBehaviour
     */
     void Start()
     {
-        if(Reset)
-        {
-            PlayerPrefs.DeleteKey(ButtonName);
-        }
         _HasStarted = true;
         inventoryController = InventoryController.instance;
         if(buttonPressedEvent == null)
@@ -42,31 +38,6 @@ public class InventoryButton : MonoBehaviour
         buttonPressedEvent.AddListener(inventoryController.SetUpInformation);
         button = GetComponent<Button>();
         button.onClick.AddListener(SendInfo);
-        if(PlayerPrefs.GetInt(ButtonName+ "button") == 1)
-        {
-            _Active = true;
-        }
-    }
-
-    private void OnEnable()
-    {
-        if(!_HasStarted)
-        {
-            return;
-        }
-        if(_Active)
-        {
-            button.enabled = true;
-            button.GetComponent<Image>().enabled = true;
-            button.GetComponentInChildren<Text>().enabled = true;
-            return;
-        }
-        else if(PlayerPrefs.GetInt(ButtonName+"button") == 0)
-        {
-            button.enabled = false;
-            button.GetComponent<Image>().enabled = false;
-            button.GetComponentInChildren<Text>().enabled = false;
-        }   
     }
 
     /*
