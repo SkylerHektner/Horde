@@ -94,13 +94,8 @@ public class EnemyMovement: MonoBehaviour
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
         Quaternion startingRotation = transform.rotation;
         
-        while(Vector3.Angle(transform.forward, pos - transform.position) >= 1.0f)
-        {
-            if(enemy.DEBUG_MODE)
-            {
-                Debug.Log(Vector3.Angle(transform.forward, pos - transform.position));
-            }
-                
+        while(Vector3.Angle(transform.forward, pos - transform.position) >= 3.0f)
+        {       
             transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 3.0f * Time.deltaTime);
 
             yield return new WaitForSeconds(0.01f);

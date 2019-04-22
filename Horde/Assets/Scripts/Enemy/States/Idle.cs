@@ -59,6 +59,10 @@ public class Idle : AIState
                 enemy.GetComponent<Animator>().SetBool("Startled", false);
             }
         }
+		else if(enemy.IsDistracted)
+		{
+			enemy.GetComponent<Animator>().SetBool("Startled", false);
+		}
 	}
 
 	public override void LeaveState()

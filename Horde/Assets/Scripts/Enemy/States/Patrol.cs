@@ -39,7 +39,7 @@ public class Patrol : AIState
 		{
 			enemy.transform.LookAt(GameManager.Instance.Player.transform);
 			GameManager.Instance.AlertGuards();
-		}
+		} 
 
 		// REMINDER: A guard is "distracted" while it is staring as a sad guard.
 		if(!enemy.IsDistracted && player == null)
@@ -67,6 +67,18 @@ public class Patrol : AIState
                 enemy.GetComponent<Animator>().SetBool("Startled", false);
             }
         }
+		else if(enemy.IsDistracted)
+		{
+			enemyMovement.PausePath();
+			enemy.GetComponent<Animator>().SetBool("Startled", false);
+		}
+	}
+
+	public override void LeaveState()
+	{
+		base.LeaveState();
+
+		enemy.GetComponent<Animator>().SetBool("Startled", false);
 	}
 
 	protected override void UpdateVisionCone()
