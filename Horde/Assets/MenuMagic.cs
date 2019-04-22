@@ -30,11 +30,17 @@ public class MenuMagic : MonoBehaviour
 
     public void BeginNewGame()
     {
+        PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("Level1");
     }
 
     public void ContinueGame()
     {
-        SceneManager.LoadScene("Level2");
+        int episode = PlayerPrefs.GetInt("Episode", 1);
+
+        if(episode == 1)
+            SceneManager.LoadScene("Level1");
+        else if(episode == 2)
+            SceneManager.LoadScene("Level2");
     }
 }

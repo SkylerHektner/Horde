@@ -121,6 +121,7 @@ public class GameManager : MonoBehaviour
     public void TransitionToNextEpisode()
     {
         PlayerPrefs.SetInt("Checkpoint", 0); // Set the checkpoint to 0 so player spawns in first room of next episode.
+        PlayerPrefs.SetInt("Episode", 2);
         SceneManager.LoadScene("Level2");
     }
 
