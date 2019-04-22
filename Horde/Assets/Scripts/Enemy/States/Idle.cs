@@ -91,7 +91,7 @@ public class Idle : AIState
 	/// </summary>
 	private void StareAtTarget(Player p)
 	{
-		enemyMovement.LookAt(p.transform.position);
+		enemyMovement.LookAtWithHead(p.transform.position);
 	}
 
 	/// <summary>

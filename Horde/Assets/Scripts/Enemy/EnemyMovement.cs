@@ -78,7 +78,16 @@ public class EnemyMovement: MonoBehaviour
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
 
         //Transform head = GetComponentInChildren<VisionCone>().transform;
-		enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, desiredRotation, 5.0f * Time.deltaTime);
+		 enemy.CameraHead.transform.rotation = Quaternion.RotateTowards(enemy.CameraHead.transform.rotation, desiredRotation, Time.deltaTime * 350.0f);
+    }
+
+    public void LookAtWithHead(Vector3 pos)
+    {
+		Vector3 direction = pos - enemy.transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+
+        //Transform head = GetComponentInChildren<VisionCone>().transform;
+		enemy.CameraHead.transform.rotation = Quaternion.Lerp(enemy.CameraHead.transform.rotation, desiredRotation, 5.0f * Time.deltaTime);
     }
 
     /// <summary>
@@ -94,20 +103,52 @@ public class EnemyMovement: MonoBehaviour
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
         Quaternion startingRotation = transform.rotation;
         
-        while(Vector3.Angle(transform.forward, pos - transform.position) >= 3.0f)
+        while(Vector3.Angle(transform.forward, pos - transform.position) >= 1.0f)
         {       
-            transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 3.0f * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, Time.time * 1.0f);
 
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForEndOfFrame();
         }
 
         yield return new WaitForSeconds(duration); // How long he should stare at the position.
 
         while(transform.rotation != startingRotation)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, startingRotation, 3.0f * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, Time.time * 1.0f);
 
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForEndOfFrame();
+        }
+
+        enemy.IsDistracted = false;
+    }
+
+    /// <summary>
+    /// Makes the enemy rotate towards and look at the given location.
+    /// Used for when there is a noise or something that catches an
+    /// enemies attention.
+    /// </summary>
+    public IEnumerator LookAtWithHeadForDuration(Vector3 pos, float duration)
+    {
+        enemy.IsDistracted = true;
+
+        Vector3 direction = pos - transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+        Quaternion startingRotation = enemy.CameraHead.transform.rotation;
+        
+        while(Vector3.Angle(enemy.CameraHead.transform.forward, direction) >= 1.0f)
+        {
+            enemy.CameraHead.transform.rotation = Quaternion.RotateTowards(enemy.CameraHead.transform.rotation, desiredRotation, Time.deltaTime * 350.0f);
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForSeconds(duration); // How long he should stare at the position.
+
+        while(enemy.CameraHead.transform.rotation != startingRotation)
+        {
+            enemy.CameraHead.transform.rotation = Quaternion.RotateTowards(enemy.CameraHead.transform.rotation, startingRotation, Time.deltaTime * 350.0f);
+
+            yield return new WaitForEndOfFrame();
         }
 
         enemy.IsDistracted = false;

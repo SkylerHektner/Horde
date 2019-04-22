@@ -37,7 +37,7 @@ public class Sadness : AIState
 				{
 					// Distract an enemy for the remaining duration of sadness.
 					EnemyMovement enemyMovement = c.GetComponent<EnemyMovement>();
-					c.GetComponent<Enemy>().StartCoroutine(enemyMovement.LookAtForDuration(enemy.transform.position, duration));
+					c.GetComponent<Enemy>().StartCoroutine(enemyMovement.LookAtWithHeadForDuration(enemy.transform.position, duration));
 				}
 			}
 		}
