@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool lockMovementControls = false;
     public bool isDead = false;
-    public bool Paused { get; private set; }
+    public bool Paused { get; set; }
 
     private Vector3 forward;
     private Vector3 right;

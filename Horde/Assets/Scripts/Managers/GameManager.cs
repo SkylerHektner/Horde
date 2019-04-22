@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private Room currentCheckpoint;
     private bool roomIsAlerted;
     private Player player;
+    private int currentEpisode;
 
     private void Awake()
     {
@@ -54,6 +55,15 @@ public class GameManager : MonoBehaviour
             currentCheckpoint = rooms[0];
         else
             currentCheckpoint = rooms[roomIndex];
+
+        // If it's the first room of level 1, pause the game for 10 seconds to allow an animation to play.
+        currentEpisode = PlayerPrefs.GetInt("Episode", 1);
+        if(currentEpisode == 1 && roomIndex == 0)
+        {
+            player.GetComponent<Animator>().SetTrigger("StartMission");
+            StartCoroutine(PausePlayerForSeconds(8.5f));
+        }
+
             
         currentRoom = currentCheckpoint;
         currentRoom.gameObject.SetActive(true);
@@ -255,5 +265,14 @@ public class GameManager : MonoBehaviour
         }
 
         return totalDistance;
+    }
+
+    private IEnumerator PausePlayerForSeconds(float duration)
+    {
+        player.GetComponent<PlayerMovement>().Paused = true;
+
+        yield return new WaitForSeconds(duration);
+
+        player.GetComponent<PlayerMovement>().Paused = false;
     }
 }
