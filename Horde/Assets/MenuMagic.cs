@@ -43,4 +43,9 @@ public class MenuMagic : MonoBehaviour
         else if(episode == 2)
             SceneManager.LoadScene("Level2");
     }
+
+    public void InvokeQuit()
+    {
+        Application.Quit();
+    }
 }
