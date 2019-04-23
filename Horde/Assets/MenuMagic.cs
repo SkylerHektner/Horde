@@ -8,7 +8,6 @@ public class MenuMagic : MonoBehaviour
     public GameObject PlayGameCanvas;
     public GameObject ProgressCanvas;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +41,8 @@ public class MenuMagic : MonoBehaviour
             SceneManager.LoadScene("Level1");
         else if(episode == 2)
             SceneManager.LoadScene("Level2");
+        else if(episode == 3)
+            SceneManager.LoadScene("Level3");
     }
 
     public void InvokeQuit()
