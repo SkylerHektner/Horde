@@ -44,6 +44,18 @@ public class VisionCone : MonoBehaviour
 
     private Material cameraHeadLightMaterial;
 
+    // show the vision cone mesh
+    public void showMesh()
+    {
+        mesh.enabled = true;
+    }
+
+    // hide the vision cone mesh
+    public void hideMesh()
+    {
+        mesh.enabled = false;
+    }
+
     private void Awake()
     {
         color = mesh.material.color;

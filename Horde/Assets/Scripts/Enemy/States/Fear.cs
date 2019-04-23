@@ -9,7 +9,7 @@ public class Fear : AIState
 	public override void InitializeState()
 	{
 		base.InitializeState();
-		
+        visionCone.hideMesh();
 		enemy.GetComponent<Animator>().SetBool("Scared", true);
         enemy.GetComponent<Animator>().SetBool("Happy", false);
         enemy.GetComponent<Animator>().SetBool("Sad", false);
@@ -32,7 +32,7 @@ public class Fear : AIState
 	public override void LeaveState()
     {
 		base.LeaveState();
-		
+        visionCone.showMesh();
         enemy.GetComponent<Animator>().SetBool("Scared", false);
     }
 

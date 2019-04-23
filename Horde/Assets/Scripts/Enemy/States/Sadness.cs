@@ -11,7 +11,7 @@ public class Sadness : AIState
 	public override void InitializeState()
 	{
 		base.InitializeState();
-		
+        visionCone.hideMesh();
 		enemy.GetComponent<Animator>().SetBool("Sad", true);
         enemy.GetComponent<Animator>().SetBool("Happy", false);
         enemy.GetComponent<Animator>().SetBool("Scared", false);
@@ -23,9 +23,9 @@ public class Sadness : AIState
 		base.Tick();
 
 		Collider[] enemies = Physics.OverlapSphere(enemy.transform.position, 15f, enemyMask);
-
-		// Make enemies look at the crying guard.
-		foreach(Collider c in enemies)
+        
+        // Make enemies look at the crying guard.
+        foreach (Collider c in enemies)
 		{
 			if(c.transform == enemy.transform) // Don't count itself.
 				continue;
@@ -46,7 +46,7 @@ public class Sadness : AIState
 	public override void LeaveState()
 	{
 		base.LeaveState();
-
+        visionCone.showMesh();
         enemy.GetComponent<Animator>().SetBool("Sad", false);
 	}
 
