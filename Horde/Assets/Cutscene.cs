@@ -14,7 +14,7 @@ public class Cutscene : MonoBehaviour
     GameObject Camera;
 
     float CutsceneDuration = 40f;
-    float CreditsDuration = 50f;
+    float CreditsDuration = 60.23f;
 
     bool isPlayingCutscene;
     bool isPlayingCredits;
