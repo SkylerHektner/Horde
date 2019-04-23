@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
 	private float explosionTimer = 0f; // Keeps track of when the enemy should explode.
 	private LayerMask mask;
 	private bool isBarreled;
+    private bool isExploding;
     
 
     public bool Paused { get; private set; }
@@ -78,7 +79,7 @@ public class Enemy : MonoBehaviour
 	
 	private void Update() 
 	{
-        if (!Paused && !isBarreled)
+        if (!Paused && !isBarreled && !isExploding)
         {
             //Debug.Log(currentState.ToString());
             currentState.Tick();
@@ -103,6 +104,12 @@ public class Enemy : MonoBehaviour
 
 	public void ChangeState(AIState state, bool barreled = false)
 	{
+        // no changing state while you going boom boom
+        if (isExploding)
+        {
+            return;
+        }
+
 		if(currentState == null)
 		{
 			currentState = state;
@@ -121,7 +128,7 @@ public class Enemy : MonoBehaviour
 
             // explode if greater than thresh
 			if(explosionTimer > 12f)
-				Explode();
+				StartCoroutine(explodeWithAnim());
 		}
         // reset the explosion timer when a guard gets a new state
 		else
@@ -240,6 +247,15 @@ public class Enemy : MonoBehaviour
     private void testUnPause()
     {
         pause(false);
+    }
+
+    private IEnumerator explodeWithAnim()
+    {
+        isExploding = true;
+        agent.isStopped = true;
+        enemyAnimator.SetTrigger("Explode");
+        yield return new WaitForSeconds(2.5f);
+        Explode();
     }
 }
 
