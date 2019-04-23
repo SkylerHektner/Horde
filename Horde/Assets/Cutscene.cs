@@ -62,7 +62,7 @@ public class Cutscene : MonoBehaviour
     private void OnTriggerEnter(Collider playa)
     {
         Player.SetActive(false);
-        Camera.SetActive(false);
+        //Camera.SetActive(false);
         FinalScene.SetActive(true);
         isPlayingCutscene = true;
     }
