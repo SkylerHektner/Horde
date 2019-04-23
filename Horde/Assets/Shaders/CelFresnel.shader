@@ -11,13 +11,14 @@
 		_FrezPower("Fresnel Power", Range(0,10)) = 4
 		_FrezStrength("Fresnel Strength", Range(0,4)) = 0
 		_EmitIntensity("Emission Strength", Range(0,2)) = 1
+		_Extrusion("Extrusion", Range(0, 0.02)) = 0
 	}
 
 		SubShader
 		{
 			Tags{ "RenderType" = "Opaque" }
 			CGPROGRAM
-			#pragma surface surf SimpleLambert fullforwardshadows finalcolor:fresnel
+			#pragma surface surf SimpleLambert fullforwardshadows finalcolor:fresnel vertex:vert
 
 			struct Input
 			{
@@ -38,6 +39,12 @@
 				fixed Alpha;    // alpha for transparencies
 				fixed3 worldNormal;
 			};
+
+			float _Extrusion;
+			void vert(inout appdata_full v) 
+			{
+				v.vertex.xyz += v.normal * _Extrusion;
+			}
 
 			sampler2D _LightCells;
 			float4 _Color;

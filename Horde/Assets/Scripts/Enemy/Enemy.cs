@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private GameObject recordingIcon; 		// The icon that appears over a guards head when the player is in vision.
 	[SerializeField] private Transform explosionLocation; 	// The location where the explosion force comes off the bat.
 	[SerializeField] private AudioClip explosionSoundEffect;
+    [SerializeField] private SkinnedMeshRenderer meshRenderer;
 
     [SerializeField] private GameObject sparkingHeadParticleSystem;
 	[SerializeField] private GameObject bloodExplosionParticleEffect;
@@ -254,7 +255,15 @@ public class Enemy : MonoBehaviour
         isExploding = true;
         agent.isStopped = true;
         enemyAnimator.SetTrigger("Explode");
-        yield return new WaitForSeconds(2.5f);
+        int steps = 10;
+        float explosionDelay = 2.5f;
+        float step = explosionDelay / steps;
+        float maxExtrusion = 0.01f;
+        for (int i = 0; i < steps; i++)
+        {
+            yield return new WaitForSeconds(step);
+            meshRenderer.material.SetFloat("_Extrusion", (i / (float)steps) * maxExtrusion);
+        }
         Explode();
     }
 }
