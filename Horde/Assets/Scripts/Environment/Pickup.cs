@@ -37,7 +37,7 @@ public class Pickup : MonoBehaviour
             if(IsFirstPickup)
             {
                 PathosUI.instance.NotificationEvent.Invoke();
-                PlayerPrefs.SetInt(ButtonName + "button", 1);
+                PlayerPrefs.SetInt(ButtonName + "Button", 1);
                 InventoryController.instance.InventoryChangedEvent.Invoke();
             }
             Destroy(gameObject);

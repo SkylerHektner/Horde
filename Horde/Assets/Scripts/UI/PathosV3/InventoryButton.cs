@@ -14,7 +14,7 @@ public class InventoryButton : MonoBehaviour
     public string ButtonName;
 
     [Space(10)]
-    public bool Reset;
+    public bool AlwaysViewable;
 
     private InventoryController inventoryController;
     private InventoryButtonPressedEvent buttonPressedEvent;
@@ -23,6 +23,8 @@ public class InventoryButton : MonoBehaviour
 
     // The button that is clicked. This information is sent to the Inventory Controller to hilight the correct active button
     private Button button;
+    private Text text;
+    private Image img;
 
     /*
      * get the inventoryController and set up the event
@@ -38,6 +40,30 @@ public class InventoryButton : MonoBehaviour
         buttonPressedEvent.AddListener(inventoryController.SetUpInformation);
         button = GetComponent<Button>();
         button.onClick.AddListener(SendInfo);
+        text = GetComponentInChildren<Text>();
+        img = GetComponent<Image>();
+
+        if (!AlwaysViewable)
+        {
+            inventoryController.InventoryChangedEvent.AddListener(CheckActive);
+            CheckActive();
+        }
+    }
+
+    public void CheckActive()
+    {
+        if(PlayerPrefs.GetInt(ButtonName+"Button") == 1)
+        {
+            button.enabled = true;
+            text.enabled = true;
+            img.enabled = true;
+        }
+        else
+        {
+            button.enabled = false;
+            text.enabled = false;
+            img.enabled = false;
+        }
     }
 
     /*
