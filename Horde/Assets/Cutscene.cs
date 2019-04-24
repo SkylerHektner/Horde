@@ -9,6 +9,7 @@ public class Cutscene : MonoBehaviour
     public GameObject FinalScene;
     public GameObject CreditsMenu;
     public GameObject UI;
+    public GameObject song;
 
     GameObject Player;
     GameObject Camera;
@@ -65,5 +66,6 @@ public class Cutscene : MonoBehaviour
         //Camera.SetActive(false);
         FinalScene.SetActive(true);
         isPlayingCutscene = true;
+        song.SetActive(false);
     }
 }
