@@ -98,7 +98,7 @@ public class PathosUI : MonoBehaviour
         }
 
         // Code to toggle the debug window.
-        if(Input.GetKeyDown(KeyCode.LeftAlt))
+        if(Input.GetKeyDown(KeyCode.LeftAlt) && Application.isEditor)
         {
             if(debugWindow.gameObject.activeSelf)
             {   
